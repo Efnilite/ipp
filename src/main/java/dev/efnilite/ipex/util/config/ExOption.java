@@ -12,8 +12,6 @@ public class ExOption {
     public static void init() {
         FileConfiguration config = IPEx.getConfiguration().getFile("config");
 
-        CUBOID_MODE = new ConfigOption<>(config, "cuboid-mode");
         SEND_BACK_AFTER_MULTIPLAYER = new ConfigOption<>(config, "send-back-after-multiplayer");
     }
-
 }

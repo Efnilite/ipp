@@ -1,9 +1,9 @@
 package dev.efnilite.ipex.util.config;
 
-import dev.efnilite.fycore.config.ConfigUpdater;
-import dev.efnilite.fycore.item.Item;
+import com.tchristofferson.configupdater.ConfigUpdater;
+import dev.efnilite.fycore.chat.Message;
+import dev.efnilite.fycore.inventory.item.Item;
 import dev.efnilite.fycore.util.Logging;
-import dev.efnilite.fycore.util.colour.Colours;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,6 +18,7 @@ import java.util.*;
 /**
  * An utilities class for the Configuration
  */
+// todo update
 public class ExConfiguration {
 
     private final Plugin plugin;
@@ -90,7 +91,7 @@ public class ExConfiguration {
         if (string == null) {
             return null;
         }
-        return Colours.colour(string);
+        return Message.parseFormatting(string);
     }
 
     /**

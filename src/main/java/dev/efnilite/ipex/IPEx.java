@@ -2,49 +2,43 @@ package dev.efnilite.ipex;
 
 import dev.efnilite.fycore.FyPlugin;
 import dev.efnilite.fycore.util.Logging;
-import dev.efnilite.fycore.util.Timer;
+import dev.efnilite.fycore.util.Time;
 import dev.efnilite.ipex.gamemode.*;
-import dev.efnilite.ipex.util.CuboidArea;
+import dev.efnilite.ipex.mode.LobbyArea;
 import dev.efnilite.ipex.util.config.ExConfiguration;
-import dev.efnilite.ipex.util.config.ExOption;
-import dev.efnilite.witp.api.WITPAPI;
+import dev.efnilite.witp.api.ParkourAPI;
 
 import java.io.File;
 
 public final class IPEx extends FyPlugin {
 
-    private static CuboidArea cuboidArea;
+    private static LobbyArea cuboidArea;
     private static IPEx instance;
     private static ExConfiguration configuration;
 
     @Override
     public void enable() {
         instance = this;
-        Timer.start("enable");
-
+        Time.timerStart("enable");
 
         configuration = new ExConfiguration(this);
 
         // Events
         registerListener(new ExHandler());
-        registerCommand("ipex", IPExCommand.class);
+        registerCommand("ipex", new ExCommand());
 
         // Gamemode register
-        WITPAPI.getRegistry().register(new PracticeGamemode());
-        WITPAPI.getRegistry().register(new TeamSurvivalGamemode());
-        WITPAPI.getRegistry().register(new SpeedGamemode());
-        WITPAPI.getRegistry().register(new SpeedJumpGamemode());
-        WITPAPI.getRegistry().register(new HourglassGamemode());
-        WITPAPI.getRegistry().register(new TimeTrialGamemode());
-        WITPAPI.getRegistry().register(new DuelGamemode());
+        ParkourAPI.getRegistry().register(new PracticeGamemode());
+        ParkourAPI.getRegistry().register(new TeamSurvivalGamemode());
+        ParkourAPI.getRegistry().register(new SpeedGamemode());
+        ParkourAPI.getRegistry().register(new SpeedJumpGamemode());
+        ParkourAPI.getRegistry().register(new HourglassGamemode());
+        ParkourAPI.getRegistry().register(new TimeTrialGamemode());
+        ParkourAPI.getRegistry().register(new DuelGamemode());
 
+        cuboidArea = new LobbyArea();
 
-        File file = new File(IPEx.getInstance().getDataFolder() + "/data/", "cuboid.json");
-        if (file.exists() && ExOption.CUBOID_MODE.get()) {
-            cuboidArea = new CuboidArea();
-        }
-
-        Logging.info("Loaded WITPEx in " + Timer.end("enable") + "ms!");
+        Logging.info("Loaded WITPEx in " + Time.timerEnd("enable") + "ms!");
     }
 
     @Override
@@ -52,11 +46,11 @@ public final class IPEx extends FyPlugin {
 
     }
 
-    public static void setCuboidArea(CuboidArea cuboidArea) {
+    public static void setCuboidArea(LobbyArea cuboidArea) {
         IPEx.cuboidArea = cuboidArea;
     }
 
-    public static CuboidArea getCuboidArea() {
+    public static LobbyArea getCuboidArea() {
         return cuboidArea;
     }
 

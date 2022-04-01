@@ -1,9 +1,9 @@
 package dev.efnilite.ipex.generator;
 
+import dev.efnilite.fycore.chat.Message;
 import dev.efnilite.witp.generator.DefaultGenerator;
 import dev.efnilite.witp.generator.base.GeneratorOption;
 import dev.efnilite.witp.player.ParkourPlayer;
-import dev.efnilite.witp.util.Util;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
@@ -58,7 +58,7 @@ public final class HourglassGenerator extends DefaultGenerator {
             bar.append("|||");
         }
 
-        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Util.color(bar.toString())));
+        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Message.parseFormatting(bar.toString())));
 
         if (delta.getSeconds() < 1) {
             return;

@@ -1,141 +1,167 @@
 package dev.efnilite.ipex.generator;
 
-import dev.efnilite.fycore.item.Item;
+import dev.efnilite.witp.ParkourMenu;
+import dev.efnilite.witp.ParkourOption;
 import dev.efnilite.witp.WITP;
+import dev.efnilite.witp.fycore.inventory.Menu;
+import dev.efnilite.witp.fycore.inventory.item.Item;
+import dev.efnilite.witp.fycore.inventory.item.SliderItem;
 import dev.efnilite.witp.generator.DefaultGenerator;
 import dev.efnilite.witp.generator.base.GeneratorOption;
 import dev.efnilite.witp.player.ParkourPlayer;
-import dev.efnilite.witp.util.Util;
-import dev.efnilite.witp.util.inventory.InventoryBuilder;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * Class for multiplayer
  */
 public final class PracticeGenerator extends DefaultGenerator {
 
-    public PracticeType type;
-    private final Set<String> enabledOptions;
-
     public PracticeGenerator(ParkourPlayer player) {
         super(player, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE);
 
-        enabledOptions = new LinkedHashSet<>();
-    }
-
-    private void update() {
         defaultChances.clear();
         distanceChances.clear();
         specialChances.clear();
-
-//        calculateDefault();
-//        calculateDistance();
-//        calculateSpecial();
-
-        for (String option : enabledOptions) {
-            switch (option) {
-                case "ICE":
-                    calculateDistance();
-
-                    defaultChances.put(0, 2);
-                    specialChances.put(0, 0);
-                    break;
-                case "SLAB":
-                    calculateDistance();
-
-                    defaultChances.put(0, 2);
-                    specialChances.put(1, 1);
-                    break;
-                case "GLASS_PANE":
-                    calculateDistance();
-
-                    defaultChances.put(0, 2);
-                    specialChances.put(2, 2);
-                    break;
-                case "FENCE":
-                    calculateDistance();
-
-                    defaultChances.put(0, 2);
-                    specialChances.put(3, 3);
-                    break;
-                case "ONE":
-                    calculateDefault();
-                    calculateSpecial();
-
-                    distanceChances.put(0, 1);
-                    distanceChances.put(1, 2);
-                    break;
-                case "TWO":
-                    calculateDefault();
-                    calculateSpecial();
-
-                    distanceChances.put(2, 2);
-                    distanceChances.put(3, 3);
-                    break;
-                case "THREE":
-                    calculateDefault();
-                    calculateSpecial();
-
-                    distanceChances.put(4, 3);
-                    distanceChances.put(5, 4);
-                    break;
-                case "FOUR":
-                    calculateDefault();
-                    calculateSpecial();
-
-                    distanceChances.put(6, 4);
-                    break;
-            }
-        }
     }
 
-    @Override
-    public boolean hasAltMenu() {
-        return true;
-    }
-
-    @Override
     public void altMenu() {
-        InventoryBuilder builder = new InventoryBuilder(player, 3, "Practice").open();
-        PracticeType[] types = PracticeType.values();
-        InventoryBuilder.DynamicInventory dynamic = new InventoryBuilder.DynamicInventory(types.length, 1);
-        for (PracticeType type : types) {
-            String typeName = type.name();
-            boolean isEnabled = enabledOptions.contains(typeName);
-            Material material = isEnabled ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
+        Menu menu = new Menu(3, "Practice");
 
-            Item item = new Item(material,  getColour(isEnabled) + Util.capitalizeFirst(typeName.toLowerCase().replace("_", " ")));
-            if (isEnabled) {
-                item.glowing().lore("&#757575Currently enabled");
-            }
+        menu
+                // each jump type uses their own specific key to prevent collision
+                .item(9, new SliderItem()
+                        .add(0, new Item(Material.LIME_STAINED_GLASS_PANE, "<green><bold>One-block")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            distanceChances.put(0, 1); // keys 0-1
+                            distanceChances.put(1, 2);
 
-            builder.setItem(dynamic.next(), item.build(), (event, it) -> {
-                String name = ChatColor.stripColor(it.getItemMeta().getDisplayName().toUpperCase().replace(" ", "_"));
+                            return true;
+                        })
+                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>One-block")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            distanceChances.remove(0);
+                            distanceChances.remove(1);
 
-                if (enabledOptions.contains(name)) {
-                    enabledOptions.remove(name);
-                } else {
-                    enabledOptions.add(name);
-                }
+                            return true;
+                        }))
 
-                update();
-                altMenu();
-            });
-        }
-        ItemStack close = WITP.getConfiguration().getFromItemData(player.locale, "general.close");
-        builder.setItem(26, close, (t2, e2) -> player.getPlayer().closeInventory());
-        builder.build();
+                .item(10, new SliderItem()
+                        .add(0, new Item(Material.LIME_STAINED_GLASS_PANE, "<green><bold>Two-block")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            distanceChances.put(2, 2); // keys 2-3
+                            distanceChances.put(3, 3);
+
+                            return true;
+                        })
+                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Two-block")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            distanceChances.remove(2);
+                            distanceChances.remove(3);
+
+                            return true;
+                        }))
+
+                .item(11, new SliderItem()
+                        .add(0, new Item(Material.LIME_STAINED_GLASS_PANE, "<green><bold>Three-block")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            distanceChances.put(4, 3); // keys 4-5
+                            distanceChances.put(5, 4);
+
+                            return true;
+                        })
+                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Three-block")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            distanceChances.remove(4);
+                            distanceChances.remove(5);
+
+                            return true;
+                        }))
+
+                .item(12, new SliderItem()
+                        .add(0, new Item(Material.LIME_STAINED_GLASS_PANE, "<green><bold>Four-block")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            distanceChances.put(6, 4); // key 6
+
+                            return true;
+                        })
+                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Four-block")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            distanceChances.remove(6);
+
+                            return true;
+                        }))
+
+
+                .item(13, new SliderItem()
+                        .add(0, new Item(Material.ICE, "<green><bold>Ice")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            defaultChances.put(0, 2); // key 0 for type
+                            specialChances.put(0, 0); // key 0 for special
+
+                            return true;
+                        })
+                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Ice")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            defaultChances.remove(0);
+                            specialChances.remove(0);
+
+                            return true;
+                        }))
+
+                .item(14, new SliderItem()
+                        .add(0, new Item(Material.SMOOTH_QUARTZ_SLAB, "<green><bold>Slabs")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            defaultChances.put(1, 2); // key 1 for type
+                            specialChances.put(1, 1); // key 1 for special
+
+                            return true;
+                        })
+                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Slabs")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            defaultChances.remove(1);
+                            specialChances.remove(1);
+
+                            return true;
+                        }))
+
+                .item(15, new SliderItem()
+                        .add(0, new Item(Material.GLASS_PANE, "<green><bold>Glass Panes")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            defaultChances.put(2, 2); // key 2 for default
+                            specialChances.put(2, 2); // key 2 for special
+
+                            return true;
+                        })
+                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Glass Panes")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            defaultChances.remove(2);
+                            specialChances.remove(2);
+
+                            return true;
+                        }))
+
+                .item(16, new SliderItem()
+                        .add(0, new Item(Material.OAK_FENCE, "<green><bold>Fences")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            defaultChances.put(3, 2); // key 3 for default
+                            specialChances.put(3, 3); // key 3 for special
+
+                            return true;
+                        })
+                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Fences")
+                                .lore("&7Click to change this setting."), (event) -> {
+                            defaultChances.remove(3);
+                            specialChances.remove(3);
+
+                            return true;
+                        }))
+
+                .item(26, WITP.getConfiguration().getFromItemData(player.getLocale(), "general.close")
+                        .click((event) -> player.getPlayer().closeInventory()))
+
+                .distributeRowEvenly(1)
+                .open(player.getPlayer());
     }
-
-    private String getColour(boolean enabled)  {
-        return enabled ? "&a&l" : "&c&l";
-    }
-
 
     @Override
     public void score() {
@@ -145,17 +171,6 @@ public final class PracticeGenerator extends DefaultGenerator {
 
     @Override
     public void menu() {
-        super.handler.menu("structure", "difficulty", "special");
-    }
-
-    private enum PracticeType {
-        ONE,
-        TWO,
-        THREE,
-        FOUR,
-        ICE,
-        FENCE,
-        SLAB,
-        GLASS_PANE,
+        ParkourMenu.openMainMenu(player, ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }

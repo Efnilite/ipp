@@ -1,6 +1,8 @@
 package dev.efnilite.ipex.generator;
 
-import dev.efnilite.fycore.util.colour.Colours;
+import dev.efnilite.fycore.chat.Message;
+import dev.efnilite.witp.ParkourMenu;
+import dev.efnilite.witp.ParkourOption;
 import dev.efnilite.witp.generator.DefaultGenerator;
 import dev.efnilite.witp.generator.base.GeneratorOption;
 import dev.efnilite.witp.player.ParkourPlayer;
@@ -35,7 +37,7 @@ public final class TimeTrialGenerator extends DefaultGenerator {
                 bar.append("|");
             }
         }
-        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Colours.colour(bar + " &4&l| &8" + time)));
+        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Message.parseFormatting(bar + " &4&l| &8" + time)));
     }
 
     @Override
@@ -51,6 +53,6 @@ public final class TimeTrialGenerator extends DefaultGenerator {
 
     @Override
     public void menu() {
-        super.handler.menu("structure", "difficulty", "special");
+        ParkourMenu.openMainMenu(player, ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }

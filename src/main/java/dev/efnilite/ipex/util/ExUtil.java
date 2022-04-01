@@ -1,8 +1,5 @@
 package dev.efnilite.ipex.util;
 
-import dev.efnilite.witp.generator.subarea.Direction;
-import dev.efnilite.witp.schematic.Vector3D;
-import dev.efnilite.witp.util.Logging;
 import dev.efnilite.witp.util.Util;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -33,20 +30,5 @@ public class ExUtil {
             blocks.add(world.getBlockAt(x, baseY, z));
         }
         return blocks;
-    }
-    public static Vector3D getDirectionVector(Direction direction) {
-        switch (direction) {
-            case NORTH:
-                return new Vector3D(0, 0, -1);
-            case SOUTH:
-                return new Vector3D(0, 0, 1);
-            case EAST:
-                return new Vector3D(1, 0, 0);
-            case WEST:
-                return new Vector3D(-1, 0, 0);
-            default:
-                Logging.error("Invalid direction (direction used: " + direction.name() + ")");
-                return new Vector3D(1, 0, 0);
-        }
     }
 }

@@ -1,10 +1,9 @@
 package dev.efnilite.ipex.style;
 
-
 import dev.efnilite.witp.WITP;
-import dev.efnilite.witp.api.style.StyleType;
+import dev.efnilite.witp.api.StyleType;
+import dev.efnilite.witp.fycore.inventory.item.Item;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class CumulativeStyle extends StyleType {
     }
 
     @Override
-    public @NotNull ItemStack getItem(String locale) {
+    public @NotNull Item getItem(String locale) {
         return WITP.getConfiguration().getFromItemData(locale, "styles.default");
     }
 

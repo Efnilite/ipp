@@ -5,7 +5,7 @@ api-version: 1.16
 description: "Premium expansion for Infinite Parkour featuring more gamemodes and features. Thanks for purchasing! :)"
 depend: ['WITP']
 main: dev.efnilite.ipex.IPEx
-command:
+commands:
     ipex:
         description: "The main command for Infinite Parkour Expanded"
         aliases: [parkourex, pkex, pkx]

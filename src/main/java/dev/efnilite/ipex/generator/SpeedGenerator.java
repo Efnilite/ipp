@@ -1,5 +1,7 @@
 package dev.efnilite.ipex.generator;
 
+import dev.efnilite.witp.ParkourMenu;
+import dev.efnilite.witp.ParkourOption;
 import dev.efnilite.witp.generator.DefaultGenerator;
 import dev.efnilite.witp.generator.base.GeneratorOption;
 import dev.efnilite.witp.player.ParkourPlayer;
@@ -34,11 +36,6 @@ public final class SpeedGenerator extends DefaultGenerator {
     }
 
     @Override
-    public boolean hasAltMenu() {
-        return false;
-    }
-
-    @Override
     public void score() {
         this.score++;
         this.totalScore++;
@@ -46,6 +43,6 @@ public final class SpeedGenerator extends DefaultGenerator {
 
     @Override
     public void menu() {
-        super.handler.menu("structure", "difficulty", "special");
+        ParkourMenu.openMainMenu(player, ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }

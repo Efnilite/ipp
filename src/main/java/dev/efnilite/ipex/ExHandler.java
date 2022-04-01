@@ -1,7 +1,7 @@
 package dev.efnilite.ipex;
 
-import dev.efnilite.fycore.util.Timer;
-import dev.efnilite.fycore.util.colour.Colours;
+import dev.efnilite.fycore.chat.Message;
+import dev.efnilite.fycore.util.Time;
 import dev.efnilite.ipex.generator.DuelGenerator;
 import dev.efnilite.ipex.generator.SingleDuelGenerator;
 import dev.efnilite.ipex.util.config.ExOption;
@@ -33,7 +33,7 @@ public class ExHandler implements Listener {
                 if (dp.contains("Gamemode Menu")) {
                     if (pp.getGenerator() instanceof DefaultGenerator) {
                         DefaultGenerator generator = (DefaultGenerator) pp.getGenerator();
-                        generator.altMenu();
+//                        generator.altMenu();
                     }
                 } else if (dp.contains("Click to start")) {
                     if (pp.getGenerator() instanceof SingleDuelGenerator) {
@@ -57,9 +57,9 @@ public class ExHandler implements Listener {
         String message = event.getMessage().replaceAll("(witp|witp:witp)", "parkour");
         if (message.contains("parkour reload") && Option.PERMISSIONS.get() && player.hasPermission("witp.reload")) {
             event.setCancelled(true);
-            Timer.start("exreload");
+            Time.timerStart("exreload");
             ExOption.init();
-            player.sendMessage(Colours.colour("&a&l(!) &7Reloaded all WITPEx config files in " + Timer.end("exreload") + "ms!"));
+            player.sendMessage(Message.parseFormatting("&a&l(!) &7Reloaded all WITPEx config files in " + Time.timerEnd("exreload") + "ms!"));
         } else if (message.contains("parkour create") && Option.PERMISSIONS.get() && player.hasPermission("witpex.create")) {
             event.setCancelled(true);
             Bukkit.dispatchCommand(player, "/pkx create");

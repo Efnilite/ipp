@@ -2,15 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <artifactId>IPEx</artifactId>
+    <groupId>dev.efnilite</groupId>
+    <version>3.0.3</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.efnilite</groupId>
-    <artifactId>IPEx</artifactId>
-    <version>1.0</version>
-
     <properties>
-        <java.version>16</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <build>
@@ -43,6 +42,16 @@
                                     <pattern>dev.efnilite.fycore</pattern>
                                     <shadedPattern>dev.efnilite.ipex.fycore</shadedPattern>
                                 </relocation>
+
+                                <relocation>
+                                    <pattern>fr.mrmicky.fastboard</pattern>
+                                    <shadedPattern>dev.efnilite.ipex.util.fastboard</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>dev.efnilite.ipex.util.bstats</shadedPattern>
+                                </relocation>
                             </relocations>
                             <filters>
                                 <filter>
@@ -61,41 +70,69 @@
 
     <repositories>
         <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>maven-central</id>
+            <url>https://oss.sonatype.org/content/groups/public</url>
         </repository>
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>dev.efnilite</groupId>
-            <artifactId>IP</artifactId>
-            <version>2.9.5</version>
-            <systemPath>${project.basedir}/libs/IP-2.9.5.jar</systemPath>
-            <scope>system</scope>
-        </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.18.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>22.0.0</version>
+            <version>23.0.0</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Custom -->
+        <dependency>
+            <groupId>dev.efnilite</groupId>
+            <artifactId>WITP</artifactId>
+            <version>3.1.1</version>
+            <systemPath>${project.basedir}/libs/WITP-3.1.1.jar</systemPath>
+            <scope>system</scope>
+        </dependency>
+
+        <!-- Dependencies that will be compiled with the jar -->
+
         <dependency>
             <groupId>com.github.Efnilite</groupId>
             <artifactId>fyCore</artifactId>
-            <version>90ab2a342a</version>
+            <version>3141af985f</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tchristofferson</groupId>
+            <artifactId>ConfigUpdater</artifactId>
+            <version>2.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>fr.mrmicky</groupId>
+            <artifactId>fastboard</artifactId>
+            <version>1.2.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -1,6 +1,8 @@
 package dev.efnilite.ipex.generator;
 
 import dev.efnilite.ipex.util.ExUtil;
+import dev.efnilite.witp.ParkourMenu;
+import dev.efnilite.witp.ParkourOption;
 import dev.efnilite.witp.events.PlayerScoreEvent;
 import dev.efnilite.witp.generator.DefaultGenerator;
 import dev.efnilite.witp.generator.base.GeneratorOption;
@@ -20,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * Class for multiplayer
+ * Class for speed jump gamemode
  */
 public final class SpeedJumpGenerator extends DefaultGenerator {
 
@@ -42,12 +44,7 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
 
     @Override
     public BlockData selectBlockData() {
-        return player.randomMaterial().createBlockData();
-    }
-
-    @Override
-    public boolean hasAltMenu() {
-        return false;
+        return player.getRandomMaterial().createBlockData();
     }
 
     // update jump distance
@@ -96,7 +93,7 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
     @Override
     public void tick() {
         updateTime();
-        updateSpectators();
+        player.getSession().updateSpectators();
         player.updateScoreboard();
         player.getPlayer().setSaturation(20);
 
@@ -210,6 +207,7 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
 
     @Override
     public void menu() {
-        super.handler.menu("lead", "structure", "difficulty", "special");
+        ParkourMenu.openMainMenu(player, ParkourOption.LEADS, ParkourOption.SCHEMATICS,
+                ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }
