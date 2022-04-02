@@ -20,7 +20,7 @@ public final class HourglassGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String s) {
-        return new Item(Material.SAND, "&#CFB410&lHourglass").lore("&7You can only stand on blocks for 1 second.");
+        return new Item(Material.SAND, "<#CFB410><bold>Hourglass").lore("<gray>You can only stand on blocks for 1 second.");
     }
 
     @Override

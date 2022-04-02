@@ -99,7 +99,7 @@ public class ExMenu {
                         openSessions(player, sort)))
 
                 .item(31, new Item(Material.BOOKSHELF, "<#2FBC11><bold>Sort")
-                        .lore("&7The way everything is sorted")
+                        .lore("<gray>The way everything is sorted")
                         .click((event) -> {
                             if (sort ==  MenuSort.LEAST_OPEN_FIRST) {
                                 openSessions(player, MenuSort.LEAST_OPEN_LAST);
@@ -146,7 +146,7 @@ public class ExMenu {
                 .item(31, new Item(Material.ARROW, "<red><bold>Close").click((event) ->
                         event.getEvent().getWhoClicked().closeInventory()))
 
-                .fillBackground(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                .fillBackground(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                 .animation(new WaveWestAnimation())
                 .open(player);
     }
@@ -155,9 +155,9 @@ public class ExMenu {
         PagedMenu playerMenu = new PagedMenu(4, "<white>Click to invite");
         List<MenuItem> items = new ArrayList<>();
         ParkourUser user = ParkourUser.getUser(player);
-        String sessionId = user == null ? "" : user.getSession().getSessionId();
+        String sessionId = user == null ? "" : user.getSessionId();
 
-        if (sessionId.isEmpty()) { // no session found
+        if (sessionId == null || sessionId.isEmpty()) { // no session found
             return;
         }
 

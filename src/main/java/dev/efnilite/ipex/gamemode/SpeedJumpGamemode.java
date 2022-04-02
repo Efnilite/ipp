@@ -20,7 +20,8 @@ public final class SpeedJumpGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String s) {
-        return new Item(Material.RABBIT_FOOT, "&#08508E&lSpeed Jump").lore("&7Jump from platform to platform while you become faster and faster!", "&cThis is very hard!");
+        return new Item(Material.RABBIT_FOOT, "<#08508E><bold>Speed Jump")
+                .lore("<gray>Jump from platform to platform while you become faster and faster!", "&cThis is very hard!");
     }
 
     @Override

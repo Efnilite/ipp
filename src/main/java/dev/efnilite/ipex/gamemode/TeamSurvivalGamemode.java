@@ -20,8 +20,8 @@ public final class TeamSurvivalGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String s) {
-        return new Item(Material.POPPY, "&#C91212&lTeam Survival")
-                .lore("&7Live as long as you can with your entire team", "&7If someone falls, everyone's back to start");
+        return new Item(Material.POPPY, "<#C91212><bold>Team Survival")
+                .lore("<gray>Live as long as you can with your entire team", "<gray>If someone falls, everyone's back to start");
     }
 
     @Override
@@ -30,7 +30,5 @@ public final class TeamSurvivalGamemode implements Gamemode {
         ParkourPlayer pp = ParkourPlayer.register(player);
         TeamSurvivalGenerator generator = new TeamSurvivalGenerator(pp);
         WITP.getDivider().generate(pp, generator, true);
-
-        ((TeamSurvivalGenerator) pp.getGenerator()).setOwner(pp);
     }
 }

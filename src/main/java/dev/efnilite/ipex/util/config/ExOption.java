@@ -6,7 +6,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class ExOption {
 
-    public static ConfigOption<Boolean> CUBOID_MODE;
     public static ConfigOption<Boolean> SEND_BACK_AFTER_MULTIPLAYER;
 
     public static void init() {

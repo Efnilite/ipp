@@ -46,14 +46,14 @@ public final class HourglassGenerator extends DefaultGenerator {
 
         Duration delta = Duration.between(instant, Instant.now());
         StringBuilder bar = new StringBuilder(); // build bar with time remaining
-        bar.append("&1&l");
+        bar.append("&1<bold>");
         int time = (int) (delta.toMillis() / 100) - 1;
         if (current.getType() == Material.AIR) {
             time = 0;
         }
         for (int i = 0; i < 10; i++) {
             if (i == time) {
-                bar.append("&8&l");
+                bar.append("&8<bold>");
             }
             bar.append("|||");
         }

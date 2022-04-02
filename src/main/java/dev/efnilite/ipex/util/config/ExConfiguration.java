@@ -1,6 +1,5 @@
 package dev.efnilite.ipex.util.config;
 
-import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.efnilite.fycore.chat.Message;
 import dev.efnilite.fycore.inventory.item.Item;
 import dev.efnilite.fycore.util.Logging;
@@ -12,8 +11,10 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * An utilities class for the Configuration
@@ -31,11 +32,11 @@ public class ExConfiguration {
         this.plugin = plugin;
         files = new HashMap<>();
 
-        String[] defaultFiles = new String[] {"config.yml", "lang.yml", "items.yml", "data.yml"};
+        String[] defaultFiles = new String[] {"config.yml", "lang.yml", "items.yml"};
 
         File folder = plugin.getDataFolder();
         if (!new File(folder, defaultFiles[0]).exists() || !new File(folder, defaultFiles[1]).exists()
-                || !new File(folder, defaultFiles[2]).exists() || !new File(folder, defaultFiles[3]).exists()) {
+                || !new File(folder, defaultFiles[2]).exists()) {
             plugin.getDataFolder().mkdirs();
 
             for (String file : defaultFiles) {
@@ -43,23 +44,14 @@ public class ExConfiguration {
             }
             Logging.info("Downloaded all config files");
         }
-        for (String file : defaultFiles) {
-            try {
-                ConfigUpdater.update(plugin, file, new File(plugin.getDataFolder(), file), Collections.singletonList("styles.list"));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                Logging.error("Error while trying to update config");
-            }
-            FileConfiguration configuration = this.getFile(folder + "/" + file);
-            files.put(file.replaceAll("(.+/|.yml)", ""), configuration);
-        }
+
+        reload();
     }
 
     public void reload() {
         files.put("lang", YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/lang.yml")));
         files.put("config", YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/config.yml")));
         files.put("items", YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/items.yml")));
-        files.put("data", YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/data.yml")));
     }
 
     /**

@@ -20,7 +20,7 @@ public final class PracticeGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String s) {
-        return new Item(Material.WHITE_WOOL, "&f&lPractice").lore("&7Practice a specific type of jump!");
+        return new Item(Material.WHITE_WOOL, "<white><bold>Practice").lore("<gray>Practice a specific type of jump!");
     }
 
     @Override

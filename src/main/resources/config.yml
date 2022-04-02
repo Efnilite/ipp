@@ -25,25 +25,30 @@
 # If this is set to false, they will join a regular singleplayer WITP game.
 send-back-after-multiplayer: false
 
-# Options for other style types
+# Options for other extra style types
 styles:
 
-  # Provided by IcePancake <3
+  # This style will set the specified blocks one after another.
   cumulative:
 
-    medieval: [spruce_planks, cobblestone, spruce_wood, stone_bricks, mossy_stone_bricks]
-    christmas: [snow_block, sea_lantern, spruce_leaves, red_wool]
-    fall: [brown_mushroom_block, red_mushroom_block, mushroom_stem, carved_pumpkin, pumpkin]
-    city: [smooth_stone, bricks, stone_brick, cyan_terracotta]
-    fairy: [smooth_sandstone, white_terracotta, pink_concrete_powder, pink_stained_glass, pink_stained_terracotta]
-    rainbow: [red_concrete, orange_concrete, yellow_concrete, lime_concrete, light_blue_concrete, blue_concrete, purple_concrete, magenta_concrete]
-    steampunk: [waxed_copper_block, waxed_cut_copper, spruce_log, stripped_dark_oak_log, stone_bricks]
-    team bees: [honeycomb_block, beehive, bee_nest, flowering_azalea_leaves]
-    lights out: [deepslate_bricks, deepslate_tiles, polished_blackstone_bricks, chiseled_polished_blackstone, netherite_block]
-    cubes n beats: [note_block, jukebox, redstone_block, iron_block]
-    overgrown cave: [moss_block, green_concrete_powder, andesite, polished_andesite, stone, cobblestone, mossy_cobblestone, gravel]
-    greece: [smooth_quartz, chiseled_quartz_block, quartz_bricks, light_blue_terracotta, spruce_leaves]
-    gameboy: [green_terracotta, lime_terracotta, green_wool, lime_concrete]
-    glow in the dark: [deepslate_tiles, deepslate_tiles, deepslate_tiles, deepslate_tiles, sea_lantern, deepslate_tiles]
-    warmth: [yellow_concrete_powder, yellow_wool, yellow_concrete, yellow_terracotta, orange_concrete_powder, orange_wool, orange_concrete, smooth_red_sandstone, orange_terracotta, red_terracotta, red_concrete_powder, red_concrete, red_concrete_powder, red_terracotta, orange_terracotta, smooth_red_sandstone, orange_concrete, orange_wool, orange_concrete_powder, yellow_terracotta, yellow_concrete, yellow_wool, yellow_concrete_powder]
-    light switch: [snow_block, smooth_quartz, bone_block, white_concrete, polished_diorite, clay, smooth_stone, light_gray_concrete_powder, dead_fire_coral_block, gravel, stone_bricks, cobblestone, polished_andesite, light_gray_concrete, acacia_wood, gray_glazed_terracotta, smooth_basalt, deepslate, gray_wool, gray_concrete, deepslate_tiles, black_concrete_powder, black_wool, coal_block, black_concrete, coal_block, black_wool, black_concrete_powder, deepslate_tiles, gray_concrete, gray_wool, deepslate, smooth_basalt, gray_glazed_terracotta, acacia_wood, light_gray_concrete, polished_andesite, cobblestone, stone_bricks, gravel, dead_fire_coral_block, light_gray_concrete_powder, smooth_stone, clay, polished_diorite, white_concrete, bone_block, smooth_quartz, snow_block]
+    # Is this style enabled?
+    enabled: true
+
+    # Provided by IcePancake <3
+    list:
+
+      medieval: [spruce_planks, cobblestone, spruce_wood, stone_bricks, mossy_stone_bricks]
+      christmas: [snow_block, sea_lantern, spruce_leaves, red_wool]
+      fall: [brown_mushroom_block, red_mushroom_block, mushroom_stem, carved_pumpkin, pumpkin]
+      city: [smooth_stone, bricks, stone_brick, cyan_terracotta]
+      fairy: [smooth_sandstone, white_terracotta, pink_concrete_powder, pink_stained_glass, pink_stained_terracotta]
+      rainbow: [red_concrete, orange_concrete, yellow_concrete, lime_concrete, light_blue_concrete, blue_concrete, purple_concrete, magenta_concrete]
+      steampunk: [waxed_copper_block, waxed_cut_copper, spruce_log, stripped_dark_oak_log, stone_bricks]
+      bees: [honeycomb_block, beehive, bee_nest, flowering_azalea_leaves]
+      lights out: [deepslate_bricks, deepslate_tiles, polished_blackstone_bricks, chiseled_polished_blackstone, netherite_block]
+      cave: [moss_block, green_concrete_powder, andesite, polished_andesite, stone, cobblestone, mossy_cobblestone, gravel]
+      greece: [smooth_quartz, chiseled_quartz_block, quartz_bricks, light_blue_terracotta, spruce_leaves]
+      gameboy: [green_terracotta, lime_terracotta, green_wool, lime_concrete]
+      dark: [deepslate_tiles, deepslate_tiles, deepslate_tiles, deepslate_tiles, sea_lantern, deepslate_tiles]
+      warmth: [yellow_concrete_powder, yellow_wool, yellow_concrete, yellow_terracotta, orange_concrete_powder, orange_wool, orange_concrete, smooth_red_sandstone, orange_terracotta, red_terracotta, red_concrete_powder, red_concrete, red_concrete_powder, red_terracotta, orange_terracotta, smooth_red_sandstone, orange_concrete, orange_wool, orange_concrete_powder, yellow_terracotta, yellow_concrete, yellow_wool, yellow_concrete_powder]
+      light switch: [snow_block, smooth_quartz, bone_block, white_concrete, polished_diorite, clay, smooth_stone, light_gray_concrete_powder, dead_fire_coral_block, gravel, stone_bricks, cobblestone, polished_andesite, light_gray_concrete, acacia_wood, gray_glazed_terracotta, smooth_basalt, deepslate, gray_wool, gray_concrete, deepslate_tiles, black_concrete_powder, black_wool, coal_block, black_concrete, coal_block, black_wool, black_concrete_powder, deepslate_tiles, gray_concrete, gray_wool, deepslate, smooth_basalt, gray_glazed_terracotta, acacia_wood, light_gray_concrete, polished_andesite, cobblestone, stone_bricks, gravel, dead_fire_coral_block, light_gray_concrete_powder, smooth_stone, clay, polished_diorite, white_concrete, bone_block, smooth_quartz, snow_block]

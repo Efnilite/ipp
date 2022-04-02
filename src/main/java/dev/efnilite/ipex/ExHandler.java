@@ -42,7 +42,7 @@ public class ExHandler implements Listener {
                         if (superGen.getPlayerGenerators().keySet().size() > 1) {
                             superGen.initCountdown();
                         } else {
-                            pp.send("&4&l> &7You can't duel yourself! :(");
+                            pp.send("&4<bold>> <gray>You can't duel yourself! :(");
                         }
                     }
                 }
@@ -59,7 +59,7 @@ public class ExHandler implements Listener {
             event.setCancelled(true);
             Time.timerStart("exreload");
             ExOption.init();
-            player.sendMessage(Message.parseFormatting("&a&l(!) &7Reloaded all WITPEx config files in " + Time.timerEnd("exreload") + "ms!"));
+            player.sendMessage(Message.parseFormatting("&a<bold>(!) <gray>Reloaded all WITPEx config files in " + Time.timerEnd("exreload") + "ms!"));
         } else if (message.contains("parkour create") && Option.PERMISSIONS.get() && player.hasPermission("witpex.create")) {
             event.setCancelled(true);
             Bukkit.dispatchCommand(player, "/pkx create");

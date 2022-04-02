@@ -30,7 +30,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DuelGenerator extends DefaultGenerator {
 
-    private static final Schematic multiSpawnIsland = new Schematic().file("duel-island.witp");
+    private static final Schematic schematic = new Schematic()
+            .file("duel-island.witp");
     private final Map<ParkourPlayer, SingleDuelGenerator> playerGenerators = new HashMap<>();
     private MultiSession session;
 
@@ -47,7 +48,7 @@ public class DuelGenerator extends DefaultGenerator {
         }
 
         playerSpawn = divider.getEstimatedCenter(point, Option.BORDER_SIZE.getAsDouble()).toLocation(player.getPlayer().getWorld()).clone();
-        multiSpawnIsland.read();
+        schematic.read();
 
         addPlayer(player);
 
@@ -65,7 +66,7 @@ public class DuelGenerator extends DefaultGenerator {
         generator.setOwningGenerator(this);
 
         Location spawn = playerSpawn.clone().add(playerGenerators.keySet().size() * 10, 0, 0);
-        List<Block> blocks = multiSpawnIsland.paste(spawn, RotationAngle.ANGLE_0);
+        List<Block> blocks = schematic.paste(spawn, RotationAngle.ANGLE_0);
         for (Block block : blocks) {
             switch (block.getType()) {
                 case EMERALD_BLOCK:
@@ -94,6 +95,7 @@ public class DuelGenerator extends DefaultGenerator {
         for (Chunk spawnChunk : data.spawnChunks) {
             spawnChunk.setForceLoaded(false);
         }
+
         for (Block block : data.blocks) {
             block.setType(Material.AIR, false);
         }
@@ -111,7 +113,7 @@ public class DuelGenerator extends DefaultGenerator {
                         switch (countdown.get()) {
                             case 0:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    player.getPlayer().sendTitle("<#1BE3DD><bold>Go!", "&7First to 100 wins!", 0, 21, 5);
+                                    player.getPlayer().sendTitle("<#1BE3DD><bold>Go!", "<gray>First to 100 wins!", 0, 21, 5);
                                     for (Block block : player.getGenerator().getData().blocks) {
                                         if (block.getType() == Material.GLASS) {
                                             block.setType(Material.AIR);
@@ -177,13 +179,13 @@ public class DuelGenerator extends DefaultGenerator {
 
         for (ParkourPlayer player : playerGenerators.keySet()) {
             player.send("");
-            player.send("&4<bold>> &7Player &4&u" + winner.getPlayer().getName() + "&7 has won the game!");
-            player.send("&4<bold>> &7You will be sent back in 10 seconds.");
+            player.send("&4<bold>> <gray>Player &4&u" + winner.getPlayer().getName() + "<gray> has won the game!");
+            player.send("&4<bold>> <gray>You will be sent back in 10 seconds.");
 
             if (player == winner) {
-                player.getPlayer().sendTitle("&6<bold>Victory", "&7You won in " + winningTime + "!", 1, 2 * 4, 10);
+                player.getPlayer().sendTitle("&6<bold>Victory", "<gray>You won in " + winningTime + "!", 1, 2 * 4, 10);
             } else {
-                player.getPlayer().sendTitle("&c<bold>Defeat", "&7You lost to " + winner.getPlayer().getName() + "!", 1, 2 * 4, 10);
+                player.getPlayer().sendTitle("&c<bold>Defeat", "<gray>You lost to " + winner.getPlayer().getName() + "!", 1, 2 * 4, 10);
             }
         }
 
@@ -200,13 +202,6 @@ public class DuelGenerator extends DefaultGenerator {
                 .run();
 
         this.stopped = true;
-    }
-
-
-    @Override
-    public void score() {
-        this.score++;
-        this.totalScore++;
     }
 
     public Map<ParkourPlayer, SingleDuelGenerator> getPlayerGenerators() {

@@ -28,16 +28,16 @@ public final class TimeTrialGenerator extends DefaultGenerator {
 
         // Display score to player
         StringBuilder bar = new StringBuilder(); // build bar with score remaining
-        bar.append("&2&l");
+        bar.append("&2<bold>");
         for (int i = 0; i < goal; i++) {
             if (i == score) {
-                bar.append("&8&l");
+                bar.append("&8<bold>");
             }
             if (i % 2 == 0) { // !! made for 100 score
                 bar.append("|");
             }
         }
-        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Message.parseFormatting(bar + " &4&l| &8" + time)));
+        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Message.parseFormatting(bar + " &4<bold>| &8" + time)));
     }
 
     @Override

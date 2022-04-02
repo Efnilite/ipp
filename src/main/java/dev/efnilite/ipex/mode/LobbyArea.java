@@ -53,6 +53,7 @@ public class LobbyArea {
     public boolean save() {
         try {
             File file = new File(WITP.getInstance().getDataFolder() + "/data", "lobby-area.json");
+
             if (!file.exists()) {
                 File folder = new File(IPEx.getInstance().getDataFolder(), "data");
                 if (!folder.exists()) {
@@ -60,6 +61,7 @@ public class LobbyArea {
                 }
                 file.createNewFile();
             }
+
             FileWriter writer = new FileWriter(file);
             IPEx.getGson().toJson(this, writer);
             writer.flush();
@@ -78,6 +80,11 @@ public class LobbyArea {
     public @Nullable LobbyArea read() {
         try {
             File file = new File(WITP.getInstance().getDataFolder() + "/data", "lobby-area.json");
+
+            if (!file.exists()) {
+                return null;
+            }
+
             FileReader reader = new FileReader(file);
             LobbyArea area = IPEx.getGson().fromJson(reader, LobbyArea.class);
             reader.close();

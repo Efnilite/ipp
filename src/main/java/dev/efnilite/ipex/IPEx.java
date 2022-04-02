@@ -5,6 +5,7 @@ import dev.efnilite.fycore.util.Logging;
 import dev.efnilite.fycore.util.Time;
 import dev.efnilite.ipex.gamemode.*;
 import dev.efnilite.ipex.mode.LobbyArea;
+import dev.efnilite.ipex.style.CumulativeStyle;
 import dev.efnilite.ipex.util.config.ExConfiguration;
 import dev.efnilite.witp.api.ParkourAPI;
 
@@ -35,6 +36,9 @@ public final class IPEx extends FyPlugin {
         ParkourAPI.getRegistry().register(new HourglassGamemode());
         ParkourAPI.getRegistry().register(new TimeTrialGamemode());
         ParkourAPI.getRegistry().register(new DuelGamemode());
+
+        ParkourAPI.getRegistry().registerType(new CumulativeStyle());
+        ParkourAPI.getRegistry().getStyleType("cumulative").addConfigStyles("styles.cumulative.list", configuration.getFile("config"));
 
         cuboidArea = new LobbyArea();
 

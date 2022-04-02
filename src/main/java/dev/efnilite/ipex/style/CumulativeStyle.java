@@ -1,6 +1,5 @@
 package dev.efnilite.ipex.style;
 
-import dev.efnilite.witp.WITP;
 import dev.efnilite.witp.api.StyleType;
 import dev.efnilite.witp.fycore.inventory.item.Item;
 import org.bukkit.Material;
@@ -19,7 +18,7 @@ public class CumulativeStyle extends StyleType {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return WITP.getConfiguration().getFromItemData(locale, "styles.default");
+        return new Item(Material.SCAFFOLDING, "Cumulative");
     }
 
     @Override

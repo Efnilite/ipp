@@ -21,8 +21,8 @@ public final class DuelGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String s) {
-        return new Item(Material.RED_CONCRETE, "&#C91212&lDuel")
-                .lore("&7Race opponents to 100 points!", "&7If someone falls, they'll be reset to the start.");
+        return new Item(Material.RED_CONCRETE, "<#C91212><bold>Duel")
+                .lore("<gray>Race opponents to 100 points!", "<gray>If someone falls, they'll be reset to the start.");
     }
 
     @Override
@@ -33,7 +33,7 @@ public final class DuelGamemode implements Gamemode {
         WITP.getDivider().generate(pp, generator, false);
         generator.initPoint();
 
-        Message.send(player, "&4&l> &7You have to invite another player!");
-        Message.send(player, "&4&l> &7Please use &4&n/pkx invite <player>&7.");
+        Message.send(player, "&4<bold>> <gray>You have to invite another player!");
+        Message.send(player, "&4<bold>> <gray>Please use &4&n/pkx invite <player><gray>.");
     }
 }

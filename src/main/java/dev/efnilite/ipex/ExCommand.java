@@ -12,6 +12,7 @@ import dev.efnilite.ipex.session.MultiSession;
 import dev.efnilite.witp.player.ParkourPlayer;
 import dev.efnilite.witp.player.ParkourUser;
 import dev.efnilite.witp.schematic.selection.Selection;
+import dev.efnilite.witp.session.Session;
 import dev.efnilite.witp.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -38,19 +39,29 @@ public class ExCommand extends FyCommand {
 
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("sessions")) {
-                if (sender instanceof Player) {
-                    ExMenu.openSessions((Player) sender, ExMenu.MenuSort.LEAST_OPEN_FIRST);
+                if (sender instanceof Player && sender.hasPermission("witp.sessions.view")) {
+                    ExMenu.openSessions(player, ExMenu.MenuSort.LEAST_OPEN_FIRST);
+                }
+            } else if (args[0].equalsIgnoreCase("create")) {
+                if (sender instanceof Player && sender.hasPermission("witp.sessions.create")) {
+                    ExMenu.openMultiplayerMenu(player);
+                }
+            } else if (args[0].equalsIgnoreCase("invite")) {
+                if (sender instanceof Player && sender.hasPermission("witp.sessions.invite")) {
+                    ExMenu.openPlayerSelectionMenu(player);
                 }
             } else if (args[0].equalsIgnoreCase("createsesh")) {
-                ParkourPlayer pp = ParkourPlayer.getPlayer(player); // todo remove
-                MultiSession session = new MultiSession();
+
+                ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+
+                Session session = new MultiSession();
                 session.addPlayers(pp);
                 session.register();
+                pp.setSessionId(session.getSessionId());
 
-                pp.send("Registered!");
             }
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("cuboid") && player != null && player.hasPermission("witpex.cuboid")) {
+            if (args[0].equalsIgnoreCase("lobby") && player != null && player.hasPermission("witpex.lobby")) {
                 Selection selection = selections.get(player);
                 switch (args[1]) {
                     case "pos1":
@@ -62,7 +73,7 @@ public class ExCommand extends FyCommand {
                             selections.put(player, new Selection(pos1, pos2, player.getWorld()));
                             Particles.box(BoundingBox.of(pos1, pos2), player.getWorld(), new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                         }
-                        send(player, "&b&l> &7Position 1 was set to " + Util.toString(player.getLocation(), true));
+                        send(player, "<blue><bold>> <gray>Position 1 was set to " + Util.toString(player.getLocation(), true));
                         return true;
                     case "pos2":
                         if (selections.get(player) == null) {
@@ -73,29 +84,29 @@ public class ExCommand extends FyCommand {
                             selections.put(player, new Selection(pos1, pos2, player.getWorld()));
                             Particles.box(BoundingBox.of(pos1, pos2), player.getWorld(), new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                         }
-                        send(player, "&b&l> &7Position 2 was set to " + Util.toString(player.getLocation(), true));
+                        send(player, "<blue><bold>> <gray>Position 2 was set to " + Util.toString(player.getLocation(), true));
                         return true;
                     case "save":
                         if (selection == null || !selection.isComplete()) {
-                            send(player, "&8----------- &b&lCuboid &8-----------");
-                            send(player, "&7Your cuboid isn't complete yet.");
-                            send(player, "&7Be sure to set the first and second position!");
+                            send(player, "&8----------- <blue><bold>Lobby area &8-----------");
+                            send(player, "<gray>Your lobby area isn't complete yet.");
+                            send(player, "<gray>Be sure to set the first and second position!");
                             return true;
                         }
 
-                        send(player, "&8----------- &b&lCuboid &8-----------");
-                        send(player, "&7Your cuboid selection is being saved..");
+                        send(player, "&8----------- <blue><bold>Lobby area &8-----------");
+                        send(player, "<gray>Your lobby area selection is being saved..");
 
                         LobbyArea area = new LobbyArea(player.getWorld().getName(),
                                 Vector3D.fromBukkit(selection.getPos1().toVector()),
                                 Vector3D.fromBukkit(selection.getPos2().toVector()));
                         if (!area.save()) {
-                            send(player, "&cThere was an error while saving your cuboid!");
-                            send(player, "&7Please try again.");
+                            send(player, "&cThere was an error while saving your lobby area!");
+                            send(player, "<gray>Please try again.");
                             return true;
                         }
 
-                        send(player, "&7Successfully saved your cuboid. Every active player will be kicked in order to prevent any transition issues.");
+                        send(player, "<gray>Successfully saved your lobby area. Every active player will be kicked in order to prevent any transition issues.");
 
                         for (ParkourPlayer pp : ParkourUser.getActivePlayers()) {
                             ParkourUser.leave(pp);
@@ -108,7 +119,7 @@ public class ExCommand extends FyCommand {
         } else if (args[0].equalsIgnoreCase("invite")) {
             Player other = Bukkit.getPlayer(args[1]);
             if (other == null) {
-                send(sender, "&4&l> &7That player isn't online in this server!");
+                send(sender, "&4<bold>> <gray>That player isn't online in this server!");
                 return true;
             } else if (!(sender instanceof Player)) {
                 return true;
@@ -122,16 +133,16 @@ public class ExCommand extends FyCommand {
             if (pp.getGenerator() instanceof DuelGenerator) {
                 DuelGenerator gen = (DuelGenerator) pp.getGenerator();
                 try {
-                    gen.addPlayer(ParkourPlayer.register(other));
+                    gen.addPlayer(ParkourUser.register(other));
                 } catch (Throwable throwable) {
                     Logging.stack("Error while registering " + other.getName(), "Please report this error to the developer!", throwable);
                 }
             }
 
-            send(other, "&4&l> &4&n" + pSender.getName() + "&7 has invited you to play ");
-            send(other, "&4&l> &4&nClick here&7 to join. ");
+            send(other, "&4<bold>> &4&n" + pSender.getName() + "<gray> has invited you to play ");
+            send(other, "&4<bold>> &4&nClick here<gray> to join. ");
 
-            // todo accept and player handling
+            
         }
         return true;
     }

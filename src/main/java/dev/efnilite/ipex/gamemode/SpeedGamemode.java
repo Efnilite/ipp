@@ -20,7 +20,7 @@ public final class SpeedGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String s) {
-        return new Item(Material.LINGERING_POTION, "&#1882DE&lSpeed").lore("&7Speed is key!");
+        return new Item(Material.LINGERING_POTION, "<#1882DE><bold>Speed").lore("<gray>Speed is key!");
     }
 
     @Override
