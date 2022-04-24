@@ -18,7 +18,7 @@ public class IncrementalStyle extends StyleType {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return new Item(Material.SCAFFOLDING, "Incremental");
+        return new Item(Material.SCAFFOLDING, "<#348EDB><bold>Incremental");
     }
 
     @Override
@@ -26,7 +26,7 @@ public class IncrementalStyle extends StyleType {
         List<Material> materials = styles.get(style);
 
         count++;
-        if (count == styles.size() - 1) {
+        if (count >= styles.size() - 1) {
             count = 0;
         }
         return materials.get(count);

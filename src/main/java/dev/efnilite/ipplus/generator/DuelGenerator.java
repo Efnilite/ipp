@@ -69,16 +69,15 @@ public class DuelGenerator extends DefaultGenerator {
         List<Block> blocks = schematic.paste(spawn, RotationAngle.ANGLE_0);
         for (Block block : blocks) {
             switch (block.getType()) {
-                case EMERALD_BLOCK:
+                case EMERALD_BLOCK -> {
                     generator.setBlockSpawn(block.getLocation().add(0.5, 0, 0.5));
                     block.setType(Material.AIR);
-                    continue;
-                case DIAMOND_BLOCK:
+                }
+                case DIAMOND_BLOCK -> {
                     generator.setPlayerSpawn(block.getLocation().add(0.5, 0, 0.5));
                     block.setType(Material.AIR);
-                    continue;
-                default:
-                    break;
+                }
+                default -> {}
             }
         }
         generator.setData(new AreaData(blocks, Collections.singletonList(player.getPlayer().getLocation().getChunk())));

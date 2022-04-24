@@ -31,17 +31,13 @@ public class SingleDuelGenerator extends DefaultGenerator {
 
     @Override
     public BlockData selectBlockData() {
-        switch (playerIndex) {
-            case 1:
-                return Material.BLUE_CONCRETE.createBlockData();
-            case 2:
-                return Material.RED_CONCRETE.createBlockData();
-            case 3:
-                return Material.GREEN_CONCRETE.createBlockData();
-            case 4:
-                return Material.YELLOW_CONCRETE.createBlockData();
-        }
-        return Material.STONE.createBlockData();
+        return switch (playerIndex) {
+            case 1 -> Material.BLUE_CONCRETE.createBlockData();
+            case 2 -> Material.RED_CONCRETE.createBlockData();
+            case 3 -> Material.GREEN_CONCRETE.createBlockData();
+            case 4 -> Material.YELLOW_CONCRETE.createBlockData();
+            default -> Material.STONE.createBlockData();
+        };
     }
 
     public void stopGenerator() {

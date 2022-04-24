@@ -64,7 +64,7 @@ public class PlusCommand extends ViCommand {
             if (args[0].equalsIgnoreCase("lobby") && player != null && player.hasPermission("IPex.lobby")) {
                 Selection selection = selections.get(player);
                 switch (args[1]) {
-                    case "pos1":
+                    case "pos1" -> {
                         if (selections.get(player) == null) {
                             selections.put(player, new Selection(player.getLocation(), null, player.getWorld()));
                         } else {
@@ -75,7 +75,8 @@ public class PlusCommand extends ViCommand {
                         }
                         send(player, "<blue><bold>> <gray>Position 1 was set to " + Util.toString(player.getLocation(), true));
                         return true;
-                    case "pos2":
+                    }
+                    case "pos2" -> {
                         if (selections.get(player) == null) {
                             selections.put(player, new Selection(null, player.getLocation(), player.getWorld()));
                         } else {
@@ -86,7 +87,8 @@ public class PlusCommand extends ViCommand {
                         }
                         send(player, "<blue><bold>> <gray>Position 2 was set to " + Util.toString(player.getLocation(), true));
                         return true;
-                    case "save":
+                    }
+                    case "save" -> {
                         if (selection == null || !selection.isComplete()) {
                             send(player, "&8----------- <blue><bold>Lobby area &8-----------");
                             send(player, "<gray>Your lobby area isn't complete yet.");
@@ -105,7 +107,8 @@ public class PlusCommand extends ViCommand {
                         for (ParkourPlayer pp : ParkourUser.getActivePlayers()) {
                             ParkourUser.leave(pp);
                         }
-                        //                        IPPlus.setCuboidArea(area);
+                    }
+                    //                        IPPlus.setCuboidArea(area);
                 }
             }
             return true;
@@ -123,8 +126,7 @@ public class PlusCommand extends ViCommand {
             if (pp == null) {
                 return true;
             }
-            if (pp.getGenerator() instanceof DuelGenerator) {
-                DuelGenerator gen = (DuelGenerator) pp.getGenerator();
+            if (pp.getGenerator() instanceof DuelGenerator gen) {
                 try {
                     gen.addPlayer(ParkourUser.register(other));
                 } catch (Throwable throwable) {

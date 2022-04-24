@@ -31,13 +31,11 @@ public class PlusHandler implements Listener {
                 }
                 String dp = item.getItemMeta().getDisplayName();
                 if (dp.contains("Gamemode Menu")) {
-                    if (pp.getGenerator() instanceof DefaultGenerator) {
-                        DefaultGenerator generator = (DefaultGenerator) pp.getGenerator();
-//                        generator.altMenu();
+                    if (pp.getGenerator() instanceof DefaultGenerator generator) {
+                        //                        generator.altMenu();
                     }
                 } else if (dp.contains("Click to start")) {
-                    if (pp.getGenerator() instanceof SingleDuelGenerator) {
-                        SingleDuelGenerator singleGen = (SingleDuelGenerator) pp.getGenerator();
+                    if (pp.getGenerator() instanceof SingleDuelGenerator singleGen) {
                         DuelGenerator superGen = singleGen.getOwningGenerator();
                         if (superGen.getPlayerGenerators().keySet().size() > 1) {
                             superGen.initCountdown();
