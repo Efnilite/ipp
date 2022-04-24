@@ -6,14 +6,14 @@ import dev.efnilite.ip.schematic.selection.Selection;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipplus.generator.DuelGenerator;
-import dev.efnilite.ipplus.mode.LobbyArea;
+import dev.efnilite.ipplus.menu.CreationMenu;
+import dev.efnilite.ipplus.menu.SessionMenu;
 import dev.efnilite.ipplus.session.MultiSession;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.command.ViCommand;
 import dev.efnilite.vilib.particle.ParticleData;
 import dev.efnilite.vilib.particle.Particles;
 import dev.efnilite.vilib.util.Logging;
-import dev.efnilite.vilib.vector.Vector3D;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -40,15 +40,15 @@ public class PlusCommand extends ViCommand {
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("sessions")) {
                 if (sender instanceof Player && sender.hasPermission("IP.sessions.view")) {
-                    PlusMenu.openSessions(player, PlusMenu.MenuSort.LEAST_OPEN_FIRST);
+                    SessionMenu.open(player, SessionMenu.MenuSort.LEAST_OPEN_FIRST);
                 }
             } else if (args[0].equalsIgnoreCase("create")) {
                 if (sender instanceof Player && sender.hasPermission("IP.sessions.create")) {
-                    PlusMenu.openMultiplayerMenu(player);
+                    CreationMenu.open(player);
                 }
             } else if (args[0].equalsIgnoreCase("invite")) {
                 if (sender instanceof Player && sender.hasPermission("IP.sessions.invite")) {
-                    PlusMenu.openPlayerSelectionMenu(player);
+                    CreationMenu.openSelection(player);
                 }
             } else if (args[0].equalsIgnoreCase("createsesh")) {
 
@@ -93,29 +93,22 @@ public class PlusCommand extends ViCommand {
                             send(player, "<gray>Be sure to set the first and second position!");
                             return true;
                         }
-
                         send(player, "&8----------- <blue><bold>Lobby area &8-----------");
                         send(player, "<gray>Your lobby area selection is being saved..");
-
-                        LobbyArea area = new LobbyArea(player.getWorld().getName(),
-                                Vector3D.fromBukkit(selection.getPos1().toVector()),
-                                Vector3D.fromBukkit(selection.getPos2().toVector()));
-                        if (!area.save()) {
-                            send(player, "&cThere was an error while saving your lobby area!");
-                            send(player, "<gray>Please try again.");
-                            return true;
-                        }
-
+                        //                        LobbyArea area = new LobbyArea(player.getWorld().getName(), Vector3D.fromBukkit(selection.getPos1().toVector()), Vector3D.fromBukkit(selection.getPos2().toVector()));
+                        //                        if (!area.save()) {
+                        //                            send(player, "&cThere was an error while saving your lobby area!");
+                        //                            send(player, "<gray>Please try again.");
+                        //                            return true;
+                        //                        }
                         send(player, "<gray>Successfully saved your lobby area. Every active player will be kicked in order to prevent any transition issues.");
-
                         for (ParkourPlayer pp : ParkourUser.getActivePlayers()) {
                             ParkourUser.leave(pp);
                         }
-
-                        IPPlus.setCuboidArea(area);
+                        //                        IPPlus.setCuboidArea(area);
                 }
-                return true;
             }
+            return true;
         } else if (args[0].equalsIgnoreCase("invite")) {
             Player other = Bukkit.getPlayer(args[1]);
             if (other == null) {

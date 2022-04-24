@@ -1,10 +1,10 @@
 package dev.efnilite.ipplus.generator;
 
-import dev.efnilite.ip.ParkourMenu;
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.events.PlayerScoreEvent;
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ipplus.util.ExUtil;
 import org.bukkit.Location;
@@ -207,7 +207,7 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
 
     @Override
     public void menu() {
-        ParkourMenu.openMainMenu(player, ParkourOption.LEADS, ParkourOption.SCHEMATICS,
+        SettingsMenu.open(player, ParkourOption.LEADS, ParkourOption.SCHEMATICS,
                 ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }

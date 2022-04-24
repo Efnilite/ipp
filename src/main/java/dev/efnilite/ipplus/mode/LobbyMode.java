@@ -1,13 +1,11 @@
 package dev.efnilite.ipplus.mode;
 
-import com.google.gson.Gson;
 import dev.efnilite.ip.IP;
 import dev.efnilite.vilib.util.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import java.io.FileReader;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

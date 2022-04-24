@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>IPEx</artifactId>
+    <artifactId>IPPlus</artifactId>
     <groupId>dev.efnilite</groupId>
     <version>1.0.0</version>
     <modelVersion>4.0.0</modelVersion>
@@ -39,8 +39,8 @@
                             <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
-                                    <pattern>dev.efnilite.fycore</pattern>
-                                    <shadedPattern>dev.efnilite.ipplus.fycore</shadedPattern>
+                                    <pattern>dev.efnilite.vilib</pattern>
+                                    <shadedPattern>dev.efnilite.ipplus.vilib</shadedPattern>
                                 </relocation>
 
                                 <relocation>
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>com.github.ViStudios</groupId>
             <artifactId>vilib</artifactId>
-            <version>a4d626e879</version>
+            <version>b5e3db1628</version>
             <scope>compile</scope>
         </dependency>
 
