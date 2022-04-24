@@ -29,7 +29,7 @@ send-back-after-multiplayer: false
 styles:
 
   # This style will set the specified blocks one after another.
-  cumulative:
+  incremental:
 
     # Is this style enabled?
     enabled: true

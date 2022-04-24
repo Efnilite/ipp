@@ -1,11 +1,11 @@
-name: 'IPEx'
+name: 'IPPlus'
 author: Efnilite
 version: 1.0
 api-version: 1.16
-description: "Premium expansion for Infinite Parkour featuring more gamemodes and features. Thanks for purchasing! :)"
+description: "The premium addon for Infinite Parkour."
 depend: ['WITP']
-main: dev.efnilite.ipex.IPEx
+main: dev.efnilite.ipplus.IPPlus
 commands:
-    ipex:
-        description: "The main command for Infinite Parkour Expanded"
-        aliases: [parkourex, pkex, pkx]
+    ipp:
+        description: "The main command for Infinite Parkour Plus"
+        aliases: [ipplus, ]
