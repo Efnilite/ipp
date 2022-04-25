@@ -3,9 +3,9 @@ author: Efnilite
 version: 1.0
 api-version: 1.16
 description: "The premium addon for Infinite Parkour."
-depend: ['WITP']
+depend: ['vilib', 'WITP']
 main: dev.efnilite.ipplus.IPPlus
 commands:
     ipp:
         description: "The main command for Infinite Parkour Plus"
-        aliases: [ipplus, ]
+        aliases: [ipplus]

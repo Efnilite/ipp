@@ -1,11 +1,14 @@
 package dev.efnilite.ipplus.menu;
 
+import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;
+import dev.efnilite.ip.vilib.inventory.Menu;
 import dev.efnilite.ip.vilib.inventory.PagedMenu;
 import dev.efnilite.ip.vilib.inventory.animation.RandomAnimation;
+import dev.efnilite.ip.vilib.inventory.animation.WaveWestAnimation;
 import dev.efnilite.ip.vilib.inventory.item.Item;
 import dev.efnilite.ip.vilib.inventory.item.MenuItem;
 import dev.efnilite.ipplus.session.MultiSession;
@@ -22,7 +25,27 @@ import java.util.stream.Collectors;
  */
 public class SessionMenu {
 
-    public static void open(Player player, MenuSort sort) {
+    public static void open(Player player) {
+        Menu menu = new Menu(4, "<white>Lobbies")
+                .animation(new WaveWestAnimation())
+                .fillBackground(Material.GRAY_STAINED_GLASS_PANE);
+
+        menu
+                .distributeRowEvenly(1, 3)
+
+                .item(9, new Item(Material.OAK_SAPLING, "<#76EC3E><bold>Create a lobby").click(
+                        event -> CreationMenu.open(player)))
+
+                .item(10, new Item(Material.CHEST, "<#EA9926><bold>View current lobbies")
+                        .click(event -> openSessions(player, MenuSort.LEAST_OPEN_FIRST)))
+
+                .item(27, new Item(Material.ARROW, "<red><bold>Go back").click(
+                        event -> MainMenu.open(player)))
+
+                .open(player);
+    }
+
+    public static void openSessions(Player player, MenuSort sort) {
         PagedMenu sessionsMenu = new PagedMenu(4, "<white>Lobbies");
 
         List<MultiSession> sessions = new ArrayList<>(); // get all public sessions
@@ -76,27 +99,31 @@ public class SessionMenu {
             items.add(item);
         }
 
-        sessionsMenu.displayRows(0, 1).addToDisplay(items)
+        sessionsMenu
+                .displayRows(0, 1)
+                .addToDisplay(items)
 
                 .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click( // next page
                         event -> sessionsMenu.page(1)))
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click( // previous page
                         event -> sessionsMenu.page(-1)))
 
+                .distributeRowEvenly(3)
+
                 .item(30, new Item(Material.BLAZE_POWDER, "<#2FBC11><bold>Refresh").click(
-                        event -> open(player, sort)))
+                        event -> openSessions(player, sort)))
 
                 .item(31, new Item(Material.BOOKSHELF, "<#2FBC11><bold>Sort").lore("<gray>The way everything is sorted").click(
                         event -> {
                     if (sort == MenuSort.LEAST_OPEN_FIRST) {
-                        open(player, MenuSort.LEAST_OPEN_LAST);
+                        openSessions(player, MenuSort.LEAST_OPEN_LAST);
                     } else {
-                        open(player, MenuSort.LEAST_OPEN_FIRST);
+                        openSessions(player, MenuSort.LEAST_OPEN_FIRST);
                     }
                 }))
 
-                .item(32, new Item(Material.ARROW, "<red><bold>Close").click(
-                        event -> event.getEvent().getWhoClicked().closeInventory()))
+                .item(32, new Item(Material.ARROW, "<red><bold>Go back").click(
+                        event -> SessionMenu.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
                 .animation(new RandomAnimation())

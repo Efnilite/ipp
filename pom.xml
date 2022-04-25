@@ -39,11 +39,6 @@
                             <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
-                                    <pattern>dev.efnilite.vilib</pattern>
-                                    <shadedPattern>dev.efnilite.ipplus.vilib</shadedPattern>
-                                </relocation>
-
-                                <relocation>
                                     <pattern>fr.mrmicky.fastboard</pattern>
                                     <shadedPattern>dev.efnilite.ipplus.util.fastboard</shadedPattern>
                                 </relocation>
@@ -99,6 +94,13 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.ViStudios</groupId>
+            <artifactId>vilib</artifactId>
+            <version>beb0a992d6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>dev.efnilite</groupId>
             <artifactId>WITP</artifactId>
             <version>3.3.0</version>
@@ -107,13 +109,6 @@
         </dependency>
 
         <!-- Dependencies that will be compiled with the jar -->
-
-        <dependency>
-            <groupId>com.github.ViStudios</groupId>
-            <artifactId>vilib</artifactId>
-            <version>b5e3db1628</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.tchristofferson</groupId>

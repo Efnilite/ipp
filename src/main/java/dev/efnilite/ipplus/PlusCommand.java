@@ -40,7 +40,7 @@ public class PlusCommand extends ViCommand {
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("sessions")) {
                 if (sender instanceof Player && sender.hasPermission("IP.sessions.view")) {
-                    SessionMenu.open(player, SessionMenu.MenuSort.LEAST_OPEN_FIRST);
+                    SessionMenu.open(player);
                 }
             } else if (args[0].equalsIgnoreCase("create")) {
                 if (sender instanceof Player && sender.hasPermission("IP.sessions.create")) {

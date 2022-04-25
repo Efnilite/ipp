@@ -26,7 +26,7 @@ public class IncrementalStyle extends StyleType {
         List<Material> materials = styles.get(style);
 
         count++;
-        if (count >= styles.size() - 1) {
+        if (count >= materials.size() - 1) {
             count = 0;
         }
         return materials.get(count);

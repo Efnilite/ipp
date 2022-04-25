@@ -42,7 +42,7 @@ public class CreationMenu {
                         .click(event -> gameMenu.page(-1)))
 
                 .item(31, new Item(Material.ARROW, "<red><bold>Close").click(event ->
-                        event.getEvent().getWhoClicked().closeInventory()))
+                        SessionMenu.open(event.getPlayer())))
 
                 .fillBackground(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                 .animation(new WaveWestAnimation())
