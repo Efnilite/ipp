@@ -3,22 +3,22 @@ package dev.efnilite.ipplus;
 import dev.efnilite.ip.api.ParkourAPI;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.vilib.inventory.item.Item;
 import dev.efnilite.ipplus.gamemode.*;
 import dev.efnilite.ipplus.menu.MultiplayerMenu;
 import dev.efnilite.ipplus.mode.LobbyMode;
 import dev.efnilite.ipplus.style.IncrementalStyle;
 import dev.efnilite.ipplus.util.config.ExConfiguration;
 import dev.efnilite.vilib.ViPlugin;
+import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Logging;
 import dev.efnilite.vilib.util.Time;
 import org.bukkit.Material;
 
 import java.io.File;
 
-public final class IPPlus extends ViPlugin {
+public final class IPP extends ViPlugin {
 
-    private static IPPlus instance;
+    private static IPP instance;
     private static ExConfiguration configuration;
 
     @Override
@@ -55,7 +55,7 @@ public final class IPPlus extends ViPlugin {
                 event -> MultiplayerMenu.open(event.getPlayer())),
                 player -> !ParkourPlayer.isActive(player) && PlusOption.MULTIPLAYER.check(player));
 
-        Logging.info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");
+        logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");
     }
 
     @Override
@@ -63,7 +63,21 @@ public final class IPPlus extends ViPlugin {
 
     }
 
-    public static IPPlus getInstance() {
+    /**
+     * Returns the {@link Logging} belonging to this plugin.
+     *
+     * @return this plugin's {@link Logging} instance.
+     */
+    public static Logging logging() {
+        return getPlugin().logging;
+    }
+
+    /**
+     * Returns this plugin instance.
+     *
+     * @return the plugin instance.
+     */
+    public static IPP getPlugin() {
         return instance;
     }
 

@@ -130,7 +130,7 @@ public class PlusCommand extends ViCommand {
                 try {
                     gen.addPlayer(ParkourUser.register(other));
                 } catch (Throwable throwable) {
-                    Logging.stack("Error while registering " + other.getName(), "Please report this error to the developer!", throwable);
+                    IPP.logging().stack("Error while registering " + other.getName(), throwable);
                 }
             }
 

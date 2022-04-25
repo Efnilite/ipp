@@ -9,7 +9,8 @@ import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.RotationAngle;
 import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.util.config.Option;
-import dev.efnilite.ip.vilib.vector.Vector2D;
+import dev.efnilite.ipplus.IPP;
+import dev.efnilite.vilib.vector.Vector2D;
 import dev.efnilite.ip.world.WorldDivider;
 import dev.efnilite.ipplus.session.MultiSession;
 import dev.efnilite.ipplus.util.config.ExOption;
@@ -91,11 +92,11 @@ public class DuelGenerator extends DefaultGenerator {
         generator.reset(false);
 
         AreaData data = generator.getData();
-        for (Chunk spawnChunk : data.spawnChunks) {
+        for (Chunk spawnChunk : data.spawnChunks()) {
             spawnChunk.setForceLoaded(false);
         }
 
-        for (Block block : data.blocks) {
+        for (Block block : data.blocks()) {
             block.setType(Material.AIR, false);
         }
 
@@ -104,7 +105,7 @@ public class DuelGenerator extends DefaultGenerator {
 
     public void initCountdown() {
         AtomicInteger countdown = new AtomicInteger(10);
-        new Task()
+        Task.create(IPP.getPlugin())
                 .repeat(20)
                 .execute(new BukkitRunnable() {
                     @Override
@@ -113,7 +114,7 @@ public class DuelGenerator extends DefaultGenerator {
                             case 0:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
                                     player.getPlayer().sendTitle("<#1BE3DD><bold>Go!", "<gray>First to 100 wins!", 0, 21, 5);
-                                    for (Block block : ((DefaultGenerator) player.getGenerator()).getData().blocks) {
+                                    for (Block block : ((DefaultGenerator) player.getGenerator()).getData().blocks()) {
                                         if (block.getType() == Material.GLASS) {
                                             block.setType(Material.AIR);
                                         }
@@ -188,7 +189,7 @@ public class DuelGenerator extends DefaultGenerator {
             }
         }
 
-        new Task()
+        Task.create(IPP.getPlugin())
                 .delay(10 * 20)
                 .execute(() -> {
                     for (ParkourPlayer parkourPlayer : playerGenerators.keySet()) {

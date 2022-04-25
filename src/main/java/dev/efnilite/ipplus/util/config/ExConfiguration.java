@@ -1,5 +1,6 @@
 package dev.efnilite.ipplus.util.config;
 
+import dev.efnilite.ipplus.IPP;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Logging;
@@ -42,7 +43,7 @@ public class ExConfiguration {
             for (String file : defaultFiles) {
                 plugin.saveResource(file, false);
             }
-            Logging.info("Downloaded all config files");
+            IPP.logging().info("Downloaded all config files");
         }
 
         reload();

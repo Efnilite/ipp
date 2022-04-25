@@ -6,9 +6,9 @@ import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.vilib.inventory.Menu;
-import dev.efnilite.ip.vilib.inventory.item.Item;
-import dev.efnilite.ip.vilib.inventory.item.SliderItem;
+import dev.efnilite.vilib.inventory.Menu;
+import dev.efnilite.vilib.inventory.item.Item;
+import dev.efnilite.vilib.inventory.item.SliderItem;
 import org.bukkit.Material;
 
 /**

@@ -1,13 +1,18 @@
 package dev.efnilite.ipplus.mode;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.selection.Selection;
-import dev.efnilite.vilib.util.Logging;
+import dev.efnilite.ipplus.IPP;
+import dev.efnilite.ipplus.generator.LobbyGenerator;
+import dev.efnilite.vilib.util.Numbers;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -23,15 +28,23 @@ import java.util.Map;
  */
 public class LobbyMode {
 
-    private static final Path FOLDER = Paths.get(IP.getInstance().getDataFolder().getName(), "lobbies");
+    /**
+     * The range from the edge of the selection, in order to ensure a safe spawn.
+     */
+    private static final int LOBBY_SAFE_RANGE = 10;
 
+    /**
+     * The minimum size of any of the axes of a selection.
+     */
+    private static final int MINIMUM_SIZE = 5 * LOBBY_SAFE_RANGE; // 30
     private static final Map<World, LobbySelection> selections = new HashMap<>();
+    private static final Path FOLDER = Paths.get(IP.getPlugin().getDataFolder().getName(), "lobbies");
 
     /**
      * Read all lobby mode files in the IP/lobbies
      */
     public static void read() {
-        new Task()
+        Task.create(IPP.getPlugin())
                 .async()
                 .execute(() -> {
                     try {
@@ -62,8 +75,8 @@ public class LobbyMode {
                             reader.close();
                         }
                     } catch (Throwable throwable) {
-                        Logging.stack("Could not read lobbies folder",
-                                "Please delete the lobbies folder and restart. If the problem persists, contact the developer!", throwable);
+                        IPP.logging().stack("Could not read files in lobbies folder",
+                                "delete the lobbies folder and restart", throwable);
                     }
                 })
                 .run();
@@ -83,7 +96,7 @@ public class LobbyMode {
         LobbySelection lsel = new LobbySelection(selection);
         selections.put(world, lsel);
 
-        new Task()
+        Task.create(IPP.getPlugin())
                 .async()
                 .execute(() -> {
                     try {
@@ -96,8 +109,7 @@ public class LobbyMode {
                         writer.flush();
                         writer.close();
                     } catch (Throwable throwable) {
-                        Logging.stack("Error while trying to save lobby mode settings for world " + world.getName(),
-                                "Please report this error to the developer!", throwable);
+                        IPP.logging().stack("Error while trying to save lobby mode settings for world " + world.getName(), throwable);
                     }
                 })
                 .run();
@@ -109,16 +121,52 @@ public class LobbyMode {
      * @param   player
      *          The player
      */
-    public static void join(@NotNull Player player) {
-        World world = player.getWorld();
-        LobbySelection lsel = selections.get(world);
+    public static void join(@NotNull ParkourPlayer player) {
+        LobbyGenerator generator = new LobbyGenerator(player);
+        World world = player.getPlayer().getWorld();
 
-        if (lsel == null) {
+        // set spawn block
+        Location location = generateSpawn(world);
+
+        if (location == null) {
             return;
         }
 
-        Selection selection = lsel.selection();
+        // the player spawn
+        Location spawn = location.clone().add(0, 1, 0);
+        Location block = location.clone().add(1, 0, 0);
 
+        generator.generateFirst(spawn, block);
+    }
 
+    /**
+     * Generates a random spawn in the lobby selection in a specific world.
+     * Sets the spawn block as well.
+     *
+     * @param   world
+     *          The world.
+     *
+     * @return the Location of the spawn block.
+     */
+    public static @Nullable Location generateSpawn(@NotNull World world) {
+        LobbySelection sel = selections.get(world);
+
+        if (sel == null) {
+            return null;
+        }
+
+        Selection selection = sel.selection();
+        Location min = selection.getMinimumPoint();
+        Location max = selection.getMaximumPoint();
+
+        // get random block in selection
+        int x = Numbers.random(min.getBlockX() + LOBBY_SAFE_RANGE, max.getBlockX() - LOBBY_SAFE_RANGE);
+        int y = Numbers.random(min.getBlockY() + LOBBY_SAFE_RANGE, max.getBlockY() - LOBBY_SAFE_RANGE);
+        int z = Numbers.random(min.getBlockZ() + LOBBY_SAFE_RANGE, max.getBlockZ() - LOBBY_SAFE_RANGE);
+
+        Location location = new Location(world, x, y, z);
+        location.getBlock().setType(Material.SMOOTH_QUARTZ, false);
+
+        return location;
     }
 }
