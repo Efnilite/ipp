@@ -7,16 +7,6 @@ import dev.efnilite.ip.schematic.selection.Selection;
  * Class for Lobby selections.
  * Used as wrapper for Gson serialization support.
  */
-public class LobbySelection {
+public record LobbySelection(@Expose Selection selection) {
 
-    @Expose
-    private Selection selection;
-
-    public LobbySelection(Selection selection) {
-        this.selection = selection;
-    }
-
-    public Selection getSelection() {
-        return selection;
-    }
 }

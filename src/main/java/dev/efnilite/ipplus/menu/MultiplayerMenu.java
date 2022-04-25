@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Opens the Session menu
  */
-public class SessionMenu {
+public class MultiplayerMenu {
 
     public static void open(Player player) {
         Menu menu = new Menu(4, "<white>Lobbies")
@@ -123,7 +123,7 @@ public class SessionMenu {
                 }))
 
                 .item(32, new Item(Material.ARROW, "<red><bold>Go back").click(
-                        event -> SessionMenu.open(event.getPlayer())))
+                        event -> MultiplayerMenu.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
                 .animation(new RandomAnimation())

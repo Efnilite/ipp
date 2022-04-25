@@ -28,7 +28,7 @@ public final class DuelGamemode implements Gamemode {
     @Override
     public void handleItemClick(Player player, ParkourUser user, Menu menu) {
         player.closeInventory();
-        ParkourPlayer pp = ParkourPlayer.register(player);
+        ParkourPlayer pp = ParkourUser.register(player);
         DuelGenerator generator = new DuelGenerator(pp);
         IP.getDivider().generate(pp, generator, false);
         generator.initPoint();

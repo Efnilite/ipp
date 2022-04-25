@@ -27,7 +27,7 @@ public final class TimeTrialGamemode implements Gamemode {
     @Override
     public void handleItemClick(Player player, ParkourUser user, Menu menu) {
         player.closeInventory();
-        ParkourPlayer pp = ParkourPlayer.register(player);
+        ParkourPlayer pp = ParkourUser.register(player);
         TimeTrialGenerator generator = new TimeTrialGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
     }

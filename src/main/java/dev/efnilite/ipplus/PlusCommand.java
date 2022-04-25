@@ -7,7 +7,7 @@ import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipplus.generator.DuelGenerator;
 import dev.efnilite.ipplus.menu.CreationMenu;
-import dev.efnilite.ipplus.menu.SessionMenu;
+import dev.efnilite.ipplus.menu.MultiplayerMenu;
 import dev.efnilite.ipplus.session.MultiSession;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.command.ViCommand;
@@ -40,7 +40,7 @@ public class PlusCommand extends ViCommand {
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("sessions")) {
                 if (sender instanceof Player && sender.hasPermission("IP.sessions.view")) {
-                    SessionMenu.open(player);
+                    MultiplayerMenu.open(player);
                 }
             } else if (args[0].equalsIgnoreCase("create")) {
                 if (sender instanceof Player && sender.hasPermission("IP.sessions.create")) {

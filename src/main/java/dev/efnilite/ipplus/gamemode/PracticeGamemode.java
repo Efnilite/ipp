@@ -26,7 +26,7 @@ public final class PracticeGamemode implements Gamemode {
     @Override
     public void handleItemClick(Player player, ParkourUser user, Menu inventoryBuilder) {
         player.closeInventory();
-        ParkourPlayer pp = ParkourPlayer.register(player);
+        ParkourPlayer pp = ParkourUser.register(player);
         PracticeGenerator generator = new PracticeGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
     }

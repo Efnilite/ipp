@@ -26,7 +26,7 @@ public final class SpeedGamemode implements Gamemode {
     @Override
     public void handleItemClick(Player player, ParkourUser user, Menu menu) {
         player.closeInventory();
-        ParkourPlayer pp = ParkourPlayer.register(player);
+        ParkourPlayer pp = ParkourUser.register(player);
         SpeedGenerator generator = new SpeedGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
     }
