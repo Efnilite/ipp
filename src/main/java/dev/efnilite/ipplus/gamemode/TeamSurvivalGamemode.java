@@ -15,7 +15,7 @@ public final class TeamSurvivalGamemode implements Gamemode {
 
     @Override
     public @NotNull String getName() {
-        return "m-teamsurvival";
+        return "teamsurvival";
     }
 
     @Override
@@ -30,5 +30,10 @@ public final class TeamSurvivalGamemode implements Gamemode {
         ParkourPlayer pp = ParkourUser.register(player);
         TeamSurvivalGenerator generator = new TeamSurvivalGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
+    }
+
+    @Override
+    public boolean isMultiplayer() {
+        return true;
     }
 }

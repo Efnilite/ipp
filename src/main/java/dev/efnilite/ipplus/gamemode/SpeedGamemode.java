@@ -30,4 +30,9 @@ public final class SpeedGamemode implements Gamemode {
         SpeedGenerator generator = new SpeedGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
     }
+
+    @Override
+    public boolean isMultiplayer() {
+        return false;
+    }
 }

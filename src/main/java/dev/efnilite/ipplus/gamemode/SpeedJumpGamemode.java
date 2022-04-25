@@ -31,4 +31,9 @@ public final class SpeedJumpGamemode implements Gamemode {
         SpeedJumpGenerator generator = new SpeedJumpGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
     }
+
+    @Override
+    public boolean isMultiplayer() {
+        return false;
+    }
 }

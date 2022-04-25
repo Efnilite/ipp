@@ -30,4 +30,9 @@ public final class PracticeGamemode implements Gamemode {
         PracticeGenerator generator = new PracticeGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
     }
+
+    @Override
+    public boolean isMultiplayer() {
+        return false;
+    }
 }

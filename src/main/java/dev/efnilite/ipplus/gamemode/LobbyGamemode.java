@@ -29,4 +29,9 @@ public final class LobbyGamemode implements Gamemode {
         ParkourPlayer pp = ParkourUser.register(player);
         LobbyMode.join(pp);
     }
+
+    @Override
+    public boolean isMultiplayer() {
+        return false;
+    }
 }

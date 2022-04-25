@@ -31,4 +31,9 @@ public final class TimeTrialGamemode implements Gamemode {
         TimeTrialGenerator generator = new TimeTrialGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
     }
+
+    @Override
+    public boolean isMultiplayer() {
+        return false;
+    }
 }

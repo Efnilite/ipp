@@ -16,7 +16,7 @@ public final class DuelGamemode implements Gamemode {
 
     @Override
     public @NotNull String getName() {
-        return "m-duel";
+        return "duel";
     }
 
     @Override
@@ -35,5 +35,10 @@ public final class DuelGamemode implements Gamemode {
 
         Message.send(player, "<dark_red><bold>> <gray>You have to invite another player!");
         Message.send(player, "<dark_red><bold>> <gray>Please use <dark_red>&n/pkx invite <player><gray>.");
+    }
+
+    @Override
+    public boolean isMultiplayer() {
+        return true;
     }
 }

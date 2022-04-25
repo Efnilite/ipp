@@ -30,11 +30,12 @@ public final class IPP extends ViPlugin {
 
         // Events
         registerListener(new PlusHandler());
-        registerCommand("ipex", new PlusCommand());
+        registerCommand("ipp", new PlusCommand());
 
         // Gamemode register
         ParkourAPI.getRegistry().register(new PracticeGamemode());
         ParkourAPI.getRegistry().register(new TeamSurvivalGamemode());
+        ParkourAPI.getRegistry().register(new LobbyGamemode());
         ParkourAPI.getRegistry().register(new SpeedGamemode());
         ParkourAPI.getRegistry().register(new SpeedJumpGamemode());
         ParkourAPI.getRegistry().register(new HourglassGamemode());

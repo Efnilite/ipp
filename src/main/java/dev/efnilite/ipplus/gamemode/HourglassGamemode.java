@@ -30,4 +30,9 @@ public final class HourglassGamemode implements Gamemode {
         HourglassGenerator generator = new HourglassGenerator(pp);
         IP.getDivider().generate(pp, generator, true);
     }
+
+    @Override
+    public boolean isMultiplayer() {
+        return false;
+    }
 }

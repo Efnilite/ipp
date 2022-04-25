@@ -29,7 +29,7 @@ public class CreationMenu {
      *          The player
      */
     public static void open(Player player) {
-        List<Gamemode> gamemodes = IP.getRegistry().getGamemodes().stream().filter(t -> t.getName().contains("m-")).toList();
+        List<Gamemode> gamemodes = IP.getRegistry().getGamemodes().stream().filter(Gamemode::isMultiplayer).toList();
         PagedMenu gameMenu = new PagedMenu(4, "<white>Create a multiplayer game");
 
         List<MenuItem> items = new ArrayList<>();

@@ -1,10 +1,12 @@
 package dev.efnilite.ipplus.mode;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.generator.base.ParkourGenerator;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.selection.Selection;
 import dev.efnilite.ipplus.IPP;
 import dev.efnilite.ipplus.generator.LobbyGenerator;
+import dev.efnilite.vilib.serialization.ObjectSerializer;
 import dev.efnilite.vilib.util.Numbers;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Bukkit;
@@ -14,6 +16,7 @@ import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
@@ -34,11 +37,11 @@ public class LobbyMode {
     private static final int LOBBY_SAFE_RANGE = 10;
 
     /**
-     * The minimum size of any of the axes of a selection.
+     * The minimum size of the axes of a selection.
      */
-    private static final int MINIMUM_SIZE = 5 * LOBBY_SAFE_RANGE; // 30
+    private static final int MINIMUM_SIZE = 5 * LOBBY_SAFE_RANGE; // 50x50x50
     private static final Map<World, LobbySelection> selections = new HashMap<>();
-    private static final Path FOLDER = Paths.get(IP.getPlugin().getDataFolder().getName(), "lobbies");
+    private static final Path FOLDER = Paths.get(IP.getPlugin().getDataFolder().toString(), "lobbies");
 
     /**
      * Read all lobby mode files in the IP/lobbies
@@ -68,7 +71,7 @@ public class LobbyMode {
                             FileReader reader = new FileReader(file.toFile());
 
                             LobbySelection readInstance = IP.getGson().fromJson(reader, LobbySelection.class);
-                            LobbySelection selection = new LobbySelection(readInstance.selection()); // prevent ghost instances
+                            LobbySelection selection = LobbySelection.from(world, readInstance.pos1, readInstance.pos2); // prevent ghost instances
 
                             selections.put(world, selection);
 
@@ -100,9 +103,11 @@ public class LobbyMode {
                 .async()
                 .execute(() -> {
                     try {
-                        Path file = Paths.get(FOLDER.toString(), world.getName() + ".json");
+                        Path path = Paths.get(FOLDER.toString(), world.getName() + ".json");
+                        File file = path.toFile();
+                        file.createNewFile();
 
-                        FileWriter writer = new FileWriter(file.toFile());
+                        FileWriter writer = new FileWriter(file);
 
                         IP.getGson().toJson(lsel, writer);
 
@@ -126,7 +131,7 @@ public class LobbyMode {
         World world = player.getPlayer().getWorld();
 
         // set spawn block
-        Location location = generateSpawn(world);
+        Location location = generateSpawn(world, generator);
 
         if (location == null) {
             return;
@@ -137,6 +142,7 @@ public class LobbyMode {
         Location block = location.clone().add(1, 0, 0);
 
         generator.generateFirst(spawn, block);
+        IP.getDivider().setup(spawn, player);
     }
 
     /**
@@ -146,18 +152,23 @@ public class LobbyMode {
      * @param   world
      *          The world.
      *
+     * @param   generator
+     *          The player's generator
+     *
      * @return the Location of the spawn block.
      */
-    public static @Nullable Location generateSpawn(@NotNull World world) {
+    public static @Nullable Location generateSpawn(@NotNull World world, @NotNull ParkourGenerator generator) {
         LobbySelection sel = selections.get(world);
 
         if (sel == null) {
             return null;
         }
 
-        Selection selection = sel.selection();
+        Selection selection = sel.getSelection();
         Location min = selection.getMinimumPoint();
         Location max = selection.getMaximumPoint();
+
+        generator.setZone(selection);
 
         // get random block in selection
         int x = Numbers.random(min.getBlockX() + LOBBY_SAFE_RANGE, max.getBlockX() - LOBBY_SAFE_RANGE);

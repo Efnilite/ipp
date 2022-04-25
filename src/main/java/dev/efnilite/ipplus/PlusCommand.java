@@ -8,6 +8,7 @@ import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipplus.generator.DuelGenerator;
 import dev.efnilite.ipplus.menu.CreationMenu;
 import dev.efnilite.ipplus.menu.MultiplayerMenu;
+import dev.efnilite.ipplus.mode.LobbyMode;
 import dev.efnilite.ipplus.session.MultiSession;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.command.ViCommand;
@@ -36,32 +37,31 @@ public class PlusCommand extends ViCommand {
             player = (Player) sender;
         }
         if (args.length == 0) {
-
+            sender.sendMessage("Sup"); // todo
+            return true;
         } else if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("sessions")) {
-                if (sender instanceof Player && sender.hasPermission("IP.sessions.view")) {
-                    MultiplayerMenu.open(player);
+            switch (args[0].toLowerCase()) {
+                case "sessions" -> {
+                    if (sender instanceof Player && sender.hasPermission("IP.sessions.view")) {
+                        MultiplayerMenu.open(player);
+                    }
+                    return true;
                 }
-            } else if (args[0].equalsIgnoreCase("create")) {
-                if (sender instanceof Player && sender.hasPermission("IP.sessions.create")) {
-                    CreationMenu.open(player);
+                case "create" -> {
+                    if (sender instanceof Player && sender.hasPermission("IP.sessions.create")) {
+                        CreationMenu.open(player);
+                    }
+                    return true;
                 }
-            } else if (args[0].equalsIgnoreCase("invite")) {
-                if (sender instanceof Player && sender.hasPermission("IP.sessions.invite")) {
-                    CreationMenu.openSelection(player);
+                case "invite" -> {
+                    if (sender instanceof Player && sender.hasPermission("IP.sessions.invite")) {
+                        CreationMenu.openSelection(player);
+                    }
+                    return true;
                 }
-            } else if (args[0].equalsIgnoreCase("createsesh")) {
-
-                ParkourPlayer pp = ParkourPlayer.getPlayer(player);
-
-                Session session = new MultiSession();
-                session.addPlayers(pp);
-                session.register();
-                pp.setSessionId(session.getSessionId());
-
             }
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("lobby") && player != null && player.hasPermission("IPex.lobby")) {
+            if (args[0].equalsIgnoreCase("lobby") && player != null && player.hasPermission("witp.reload")) {
                 Selection selection = selections.get(player);
                 switch (args[1]) {
                     case "pos1" -> {
@@ -97,18 +97,8 @@ public class PlusCommand extends ViCommand {
                         }
                         send(player, "&8----------- <blue><bold>Lobby area &8-----------");
                         send(player, "<gray>Your lobby area selection is being saved..");
-                        //                        LobbyArea area = new LobbyArea(player.getWorld().getName(), Vector3D.fromBukkit(selection.getPos1().toVector()), Vector3D.fromBukkit(selection.getPos2().toVector()));
-                        //                        if (!area.save()) {
-                        //                            send(player, "&cThere was an error while saving your lobby area!");
-                        //                            send(player, "<gray>Please try again.");
-                        //                            return true;
-                        //                        }
-                        send(player, "<gray>Successfully saved your lobby area. Every active player will be kicked in order to prevent any transition issues.");
-                        for (ParkourPlayer pp : ParkourUser.getActivePlayers()) {
-                            ParkourUser.leave(pp);
-                        }
+                        LobbyMode.save(player.getWorld(), selection);
                     }
-                    //                        IPPlus.setCuboidArea(area);
                 }
             }
             return true;
