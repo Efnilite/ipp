@@ -7,7 +7,7 @@ import dev.efnilite.ipp.gamemode.*;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.ipp.style.IncrementalStyle;
-import dev.efnilite.ipp.util.config.ExConfiguration;
+import dev.efnilite.ipp.util.config.PlusConfiguration;
 import dev.efnilite.vilib.ViPlugin;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Logging;
@@ -19,14 +19,14 @@ import java.io.File;
 public final class IPP extends ViPlugin {
 
     private static IPP instance;
-    private static ExConfiguration configuration;
+    private static PlusConfiguration configuration;
 
     @Override
     public void enable() {
         instance = this;
         Time.timerStart("enable");
 
-        configuration = new ExConfiguration(this);
+        configuration = new PlusConfiguration(this);
 
         // Events
         registerListener(new PlusHandler());
@@ -82,7 +82,7 @@ public final class IPP extends ViPlugin {
         return instance;
     }
 
-    public static ExConfiguration getConfiguration() {
+    public static PlusConfiguration getConfiguration() {
         return configuration;
     }
 

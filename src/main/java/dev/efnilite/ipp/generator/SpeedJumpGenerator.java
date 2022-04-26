@@ -6,7 +6,7 @@ import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ipp.util.ExUtil;
+import dev.efnilite.ipp.util.PlusUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -81,7 +81,7 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
 
         Block block = possible.get(random.nextInt(possible.size())).getLocation().add(0, 10000, 0).getBlock();
 
-        List<Block> blocks = ExUtil.getBlocksAround(block, 1);
+        List<Block> blocks = PlusUtil.getBlocksAround(block, 1);
         mostRecentBlock = block.getLocation();
 
         return blocks;

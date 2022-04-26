@@ -93,13 +93,15 @@ public class PlusCommand extends ViCommand {
                             return true;
                         } else {
                             Dimensions dimensions = selection.getDimensions();
-                            if (dimensions.getVolume() < LobbyMode.MINIMUM_SIZE * LobbyMode.MINIMUM_SIZE * LobbyMode.MINIMUM_SIZE) {
+                            if (dimensions.getWidth() < LobbyMode.MINIMUM_SIZE ||
+                                    dimensions.getHeight() < LobbyMode.MINIMUM_SIZE ||
+                                    dimensions.getLength() < LobbyMode.MINIMUM_SIZE) {
                                 send(player, "<gray>You haven't made the area big enough!");
                                 send(player, "<gray>It needs to be at least " + LobbyMode.MINIMUM_SIZE + " blocks in all directions.");
                                 return true;
                             }
                         }
-                        send(player, "<gray>Your lobby area selection is being saved..");
+                        send(player, "<gray>Your lobby area selection is being saved.");
                         LobbyMode.save(player.getWorld(), selection);
                     }
                 }

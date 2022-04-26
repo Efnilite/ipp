@@ -2,7 +2,6 @@ package dev.efnilite.ipp.session;
 
 import com.google.common.annotations.Beta;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,9 +15,9 @@ public class MultiSession extends SingleSession {
 
     private int maxPlayers;
 
-    public static Session create(@NotNull ParkourPlayer player) {
+    public static MultiSession create(@NotNull ParkourPlayer player) {
         // create session
-        Session session = new MultiSession();
+        MultiSession session = new MultiSession();
         session.addPlayers(player);
         session.register();
 

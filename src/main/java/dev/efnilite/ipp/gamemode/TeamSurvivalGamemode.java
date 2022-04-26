@@ -4,9 +4,8 @@ import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ipp.generator.TeamSurvivalGenerator;
+import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
@@ -30,7 +29,7 @@ public final class TeamSurvivalGamemode implements Gamemode {
     public void handleItemClick(Player player, ParkourUser user, Menu menu) {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
-        Session session = SingleSession.create(pp);
+        MultiSession session = MultiSession.create(pp);
         TeamSurvivalGenerator generator = new TeamSurvivalGenerator(session);
         IP.getDivider().generate(pp, generator, true);
     }

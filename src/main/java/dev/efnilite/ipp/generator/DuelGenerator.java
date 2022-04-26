@@ -8,11 +8,11 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.RotationAngle;
 import dev.efnilite.ip.schematic.Schematic;
-import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ip.world.WorldDivider;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.ipp.util.config.ExOption;
+import dev.efnilite.ipp.session.MultiSession;
+import dev.efnilite.ipp.util.config.PlusOption;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Task;
 import dev.efnilite.vilib.vector.Vector2D;
@@ -26,13 +26,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DuelGenerator extends DefaultGenerator {
+public class DuelGenerator extends MultiplayerGenerator {
 
     private static final Schematic schematic = new Schematic()
             .file("duel-island");
     private final Map<ParkourPlayer, SingleDuelGenerator> playerGenerators = new HashMap<>();
 
-    public DuelGenerator(@NotNull Session session) {
+    public DuelGenerator(@NotNull MultiSession session) {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
     }
 
@@ -53,9 +53,9 @@ public class DuelGenerator extends DefaultGenerator {
         //                .setPersistentData("IPex", "true").buildPersistent(InfiniteEx.getInstance())); todo
     }
 
-    public boolean addPlayer(ParkourPlayer player) {
+    public void addPlayer(ParkourPlayer player) {
         if (playerGenerators.keySet().size() == 4) {
-            return false;
+            return;
         }
 
         SingleDuelGenerator generator = new SingleDuelGenerator(player);
@@ -80,7 +80,6 @@ public class DuelGenerator extends DefaultGenerator {
         generator.setData(new AreaData(blocks, Collections.singletonList(player.getPlayer().getLocation().getChunk())));
 
         this.playerGenerators.put(player, generator);
-        return true;
     }
 
     public void removePlayer(ParkourPlayer player) {
@@ -190,7 +189,7 @@ public class DuelGenerator extends DefaultGenerator {
                 .execute(() -> {
                     for (ParkourPlayer parkourPlayer : playerGenerators.keySet()) {
                         ParkourUser.unregister(parkourPlayer, true, true, true);
-                        if (!ExOption.SEND_BACK_AFTER_MULTIPLAYER.get()) {
+                        if (!PlusOption.SEND_BACK_AFTER_MULTIPLAYER.get()) {
                             IP.getDivider().generate(ParkourPlayer.register(parkourPlayer.getPlayer()));
                         }
                     }

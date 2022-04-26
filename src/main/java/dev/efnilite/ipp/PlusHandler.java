@@ -5,7 +5,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.generator.DuelGenerator;
 import dev.efnilite.ipp.generator.SingleDuelGenerator;
-import dev.efnilite.ipp.util.config.ExOption;
+import dev.efnilite.ipp.util.config.PlusOption;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.util.Time;
 import org.bukkit.Bukkit;
@@ -56,7 +56,7 @@ public class PlusHandler implements Listener {
         if (message.contains("parkour reload") && Option.PERMISSIONS.get() && player.hasPermission("IP.reload")) {
             event.setCancelled(true);
             Time.timerStart("exreload");
-            ExOption.init();
+            PlusOption.init();
             player.sendMessage(Message.parseFormatting("&a<bold>(!) <gray>Reloaded all IPEx config files in " + Time.timerEnd("exreload") + "ms!"));
         } else if (message.contains("parkour create") && Option.PERMISSIONS.get() && player.hasPermission("IPex.create")) {
             event.setCancelled(true);

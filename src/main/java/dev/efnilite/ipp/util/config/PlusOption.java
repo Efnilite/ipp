@@ -4,7 +4,7 @@ import dev.efnilite.ipp.IPP;
 import dev.efnilite.vilib.config.ConfigOption;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class ExOption {
+public class PlusOption {
 
     public static ConfigOption<Boolean> SEND_BACK_AFTER_MULTIPLAYER;
 

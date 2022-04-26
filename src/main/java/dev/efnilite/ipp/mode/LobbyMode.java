@@ -96,8 +96,8 @@ public class LobbyMode {
      *          The selection
      */
     public static void save(@NotNull World world, @NotNull Selection selection) {
-        LobbySelection lsel = new LobbySelection(selection);
-        selections.put(world, lsel);
+        LobbySelection sel = new LobbySelection(selection);
+        selections.put(world, sel);
 
         Task.create(IPP.getPlugin())
                 .async()
@@ -109,7 +109,7 @@ public class LobbyMode {
 
                         FileWriter writer = new FileWriter(file);
 
-                        IP.getGson().toJson(lsel, writer);
+                        IP.getGson().toJson(sel, writer);
 
                         writer.flush();
                         writer.close();

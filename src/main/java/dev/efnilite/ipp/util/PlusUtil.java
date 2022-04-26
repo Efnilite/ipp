@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExUtil {
+public class PlusUtil {
 
     // includes base
     public static List<Block> getBlocksAround(Block base, int radius) {
