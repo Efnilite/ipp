@@ -40,12 +40,12 @@
                             <relocations>
                                 <relocation>
                                     <pattern>fr.mrmicky.fastboard</pattern>
-                                    <shadedPattern>dev.efnilite.ipplus.util.fastboard</shadedPattern>
+                                    <shadedPattern>dev.efnilite.ipp.util.fastboard</shadedPattern>
                                 </relocation>
 
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>dev.efnilite.ipplus.util.bstats</shadedPattern>
+                                    <shadedPattern>dev.efnilite.ipp.util.bstats</shadedPattern>
                                 </relocation>
                             </relocations>
                             <filters>

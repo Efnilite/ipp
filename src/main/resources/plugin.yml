@@ -4,7 +4,7 @@ version: 1.0
 api-version: 1.16
 description: "The premium addon for Infinite Parkour."
 depend: ['vilib', 'WITP']
-main: dev.efnilite.ipplus.IPP
+main: dev.efnilite.ipp.IPP
 commands:
     ipp:
         description: "The main command for Infinite Parkour Plus"
