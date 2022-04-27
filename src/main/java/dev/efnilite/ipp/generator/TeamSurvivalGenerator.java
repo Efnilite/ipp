@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +36,8 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
                 return;
             }
 
-            if (lastPlayerBlockMap.get(pp).getY() - location.getY() > 10 && playerSpawn.distance(location) > 5) { // Fall check
+            Block last = lastPlayerBlockMap.get(pp);
+            if (last != null && last.getY() - location.getY() > 10 && playerSpawn.distance(location) > 5) { // Fall check
                 fall();
                 return;
             }

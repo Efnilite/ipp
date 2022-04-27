@@ -6,7 +6,6 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ipp.generator.DuelGenerator;
 import dev.efnilite.ipp.session.MultiSession;
-import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
