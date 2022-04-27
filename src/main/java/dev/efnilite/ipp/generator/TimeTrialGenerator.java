@@ -47,7 +47,7 @@ public final class TimeTrialGenerator extends DefaultGenerator {
 
         if (score >= goal) {
             score = goal;
-            reset(true);
+            player.teleport(player.getLocation().subtract(0, 15, 0));
         }
     }
 

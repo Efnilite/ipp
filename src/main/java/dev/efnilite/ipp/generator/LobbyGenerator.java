@@ -1,7 +1,9 @@
 package dev.efnilite.ipp.generator;
 
+import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
 import org.bukkit.Location;
 
@@ -18,5 +20,10 @@ public class LobbyGenerator extends DefaultGenerator {
     public boolean isNearingEdge(Location location) {
         double[] distances = zone.distanceToAxes(location);
         return distances[0] < 10 || distances[2] < 10;
+    }
+
+    @Override
+    public void menu() {
+        SettingsMenu.open(player, ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
     }
 }

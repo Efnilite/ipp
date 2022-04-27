@@ -21,9 +21,6 @@ public class MultiSession extends SingleSession {
         session.addPlayers(player);
         session.register();
 
-        // set session id for player
-        player.setSessionId(session.getSessionId());
-
         return session;
     }
 

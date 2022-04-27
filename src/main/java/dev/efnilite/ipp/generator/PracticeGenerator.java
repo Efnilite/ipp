@@ -169,7 +169,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         }))
 
                 .item(19, new SliderItem()
-                        .initial(defaultChances.containsKey(0) ? 0 : 1)
+                        .initial(specialChances.containsKey(0) ? 0 : 1)
                         .add(0, new Item(Material.ICE, "<green><bold>Ice")
                                 .lore("<gray>Click to change this setting."), event -> {
                             defaultChances.put(1, 2); // key 1 for type
@@ -179,7 +179,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         })
                         .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Ice")
                                 .lore("<gray>Click to change this setting."), event -> {
-                            if (defaultChances.size() > 1 && specialChances.size() > 1) {
+                            if (defaultChances.size() > 1) {
                                 defaultChances.remove(1);
                                 specialChances.remove(0);
 
@@ -190,7 +190,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         }))
 
                 .item(20, new SliderItem()
-                        .initial(defaultChances.containsKey(1) ? 0 : 1)
+                        .initial(specialChances.containsKey(1) ? 0 : 1)
                         .add(0, new Item(Material.SMOOTH_QUARTZ_SLAB, "<green><bold>Slabs")
                                 .lore("<gray>Click to change this setting."), event -> {
                             defaultChances.put(2, 2); // key 2 for type
@@ -200,7 +200,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         })
                         .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Slabs")
                                 .lore("<gray>Click to change this setting."), event -> {
-                            if (defaultChances.size() > 1 && specialChances.size() > 1) {
+                            if (defaultChances.size() > 1) {
                                 defaultChances.remove(2);
                                 specialChances.remove(1);
 
@@ -211,7 +211,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         }))
 
                 .item(21, new SliderItem()
-                        .initial(defaultChances.containsKey(2) ? 0 : 1)
+                        .initial(specialChances.containsKey(2) ? 0 : 1)
                         .add(0, new Item(Material.GLASS_PANE, "<green><bold>Glass Panes")
                                 .lore("<gray>Click to change this setting."), event -> {
                             defaultChances.put(3, 2); // key 3 for type
@@ -221,7 +221,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         })
                         .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Glass Panes")
                                 .lore("<gray>Click to change this setting."), event -> {
-                            if (defaultChances.size() > 1 && specialChances.size() > 1) {
+                            if (defaultChances.size() > 1) {
                                 defaultChances.remove(3);
                                 specialChances.remove(2);
 
@@ -232,7 +232,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         }))
 
                 .item(22, new SliderItem()
-                        .initial(defaultChances.containsKey(3) ? 0 : 1)
+                        .initial(specialChances.containsKey(3) ? 0 : 1)
                         .add(0, new Item(Material.OAK_FENCE, "<green><bold>Fences")
                                 .lore("<gray>Click to change this setting."), event -> {
                             defaultChances.put(4, 2); // key 4 for type
@@ -242,7 +242,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         })
                         .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>Fences")
                                 .lore("<gray>Click to change this setting."), event -> {
-                            if (defaultChances.size() > 1 && specialChances.size() > 1) {
+                            if (defaultChances.size() > 1) {
                                 defaultChances.remove(4);
                                 specialChances.remove(3);
 
