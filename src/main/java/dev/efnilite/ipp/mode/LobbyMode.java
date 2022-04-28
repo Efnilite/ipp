@@ -34,7 +34,7 @@ public class LobbyMode {
     /**
      * The range from the edge of the selection, in order to ensure a safe spawn.
      */
-    public static final int LOBBY_SAFE_RANGE = 10;
+    public static final int LOBBY_SAFE_RANGE = 15;
 
     /**
      * The minimum size of the axes of a selection.

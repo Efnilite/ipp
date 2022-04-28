@@ -5,6 +5,7 @@ import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.mode.LobbyMode;
 import org.bukkit.Location;
 
 /**
@@ -18,8 +19,8 @@ public class LobbyGenerator extends DefaultGenerator {
 
     @Override
     public boolean isNearingEdge(Location location) {
-        double[] distances = zone.distanceToAxes(location);
-        return distances[0] < 10 || distances[2] < 10;
+        double[] distances = zone.distanceToBoundaries(location);
+        return distances[0] < LobbyMode.LOBBY_SAFE_RANGE || distances[2] < LobbyMode.LOBBY_SAFE_RANGE;
     }
 
     @Override

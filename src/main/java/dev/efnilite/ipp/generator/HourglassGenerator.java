@@ -5,7 +5,6 @@ import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.vilib.chat.ChatColour;
 import dev.efnilite.vilib.chat.Message;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
