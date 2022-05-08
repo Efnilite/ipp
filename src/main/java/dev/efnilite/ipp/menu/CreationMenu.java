@@ -3,6 +3,7 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.player.ParkourUser;
+import dev.efnilite.ip.session.Session;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
@@ -34,8 +35,7 @@ public class CreationMenu {
 
         List<MenuItem> items = new ArrayList<>();
         for (Gamemode gamemode : gamemodes) {
-            items.add(gamemode.getItem("en")
-                    .click(event -> gamemode.handleItemClick(player, null, event.getMenu())));
+            items.add(gamemode.getItem("en").click(event -> gamemode.join(player)));
         }
 
         gameMenu
@@ -65,6 +65,8 @@ public class CreationMenu {
             return;
         }
 
+        Session session = user.getSession();
+
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.getUniqueId().equals(player.getUniqueId())) {
                 continue;
@@ -82,10 +84,13 @@ public class CreationMenu {
             item.meta(meta);
 
             items.add(item.click(event -> {
-                Message.send(p, "");
-                Message.send(p, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + " Parkour game.");
-                Message.send(p, "<dark_gray>Use <#3BC2C2><underlined>/parkour join " + sessionId + "</underlined><dark_gray> to join.");
-                Message.send(p, "");
+                Player to = event.getPlayer();
+                Message.send(to, "");
+                Message.send(to, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + session.getGamemode().getName() + " game.");
+                Message.send(to, "<dark_gray>Use <#3BC2C2><underlined>/parkour join " + sessionId + "</underlined><dark_gray> to join.");
+                Message.send(to, "");
+
+                session.getGamemode().join(to);
             }));
         }
 

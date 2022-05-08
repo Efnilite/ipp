@@ -26,7 +26,7 @@ public final class TeamSurvivalGamemode implements Gamemode {
     }
 
     @Override
-    public void handleItemClick(Player player, ParkourUser user, Menu menu) {
+    public void join(Player player) {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
         MultiSession session = MultiSession.create(pp);

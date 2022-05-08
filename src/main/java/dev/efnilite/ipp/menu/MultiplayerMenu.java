@@ -5,6 +5,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;
+import dev.efnilite.ip.session.Tournament;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.PagedMenu;
@@ -56,7 +57,9 @@ public class MultiplayerMenu {
             sessions.add((MultiSession) session);
         }
 
-        sessions = sessions.stream().sorted((session1, session2) -> {
+        // sort all sessions by available player count
+        List<MultiSession> list = new ArrayList<>(sessions);
+        list.sort((session1, session2) -> {
             int open1 = session1.getMaxPlayers() - session1.getPlayers().size();
             int open2 = session2.getMaxPlayers() - session2.getPlayers().size();
             if (sort == MenuSort.LEAST_OPEN_FIRST) {
@@ -64,9 +67,15 @@ public class MultiplayerMenu {
             } else {
                 return open2 - open1;
             }
-        }).collect(Collectors.toList()); // sort sessions
+        });
+        sessions = list; // sort sessions
 
+        // put tournaments first
         List<MenuItem> items = new ArrayList<>();
+//        if (Tournament.isActive()) {
+//            items.add(new Item(Material.BLUE_STAINED_GLASS_PANE, "<#198EF0><bold>Tournament")); // todo finish
+//        }
+
         for (MultiSession session : sessions) { // turn sessions into items
             Item item = new Item(Material.LIME_STAINED_GLASS_PANE, "<#59DB3E><bold>Lobby " + session.getSessionId());
             item.click(event -> session.join(player));
@@ -110,10 +119,12 @@ public class MultiplayerMenu {
 
                 .distributeRowEvenly(3)
 
-                .item(30, new Item(Material.BLAZE_POWDER, "<#2FBC11><bold>Refresh").click(
+                .item(30, new Item(Material.BLAZE_POWDER, "<#2FBC11><bold>Refresh")
+                        .lore(MainMenu.formatSynonyms("Erneuern %s 刷新 %s Rafraîchir %s リフレッシュ %s Vernieuwen")).click(
                         event -> openSessions(player, sort)))
 
-                .item(31, new Item(Material.BOOKSHELF, "<#2FBC11><bold>Sort").lore("<gray>The way everything is sorted").click(
+                .item(31, new Item(Material.BOOKSHELF, "<#2FBC11><bold>Sort")
+                        .lore(MainMenu.formatSynonyms("Sortieren %s 种类 %s Trier %s 選別 %s Sorteren")).click(
                         event -> {
                     if (sort == MenuSort.LEAST_OPEN_FIRST) {
                         openSessions(player, MenuSort.LEAST_OPEN_LAST);

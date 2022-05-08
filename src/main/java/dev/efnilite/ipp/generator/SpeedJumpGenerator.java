@@ -64,6 +64,8 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
         double level = 3.93 * jumpDistance - 31;
         if (level < 4) {
             level = 1.5 * jumpDistance; // in the beginning
+        } else if (level > 255) {
+            level = 255;
         }
 
         if (level < 255) { // player has potion and new level will be under 255

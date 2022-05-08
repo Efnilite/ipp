@@ -96,15 +96,15 @@
         <dependency>
             <groupId>com.github.ViStudios</groupId>
             <artifactId>vilib</artifactId>
-            <version>c8a5d0918c</version>
+            <version>v1.0.4</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>dev.efnilite</groupId>
-            <artifactId>WITP</artifactId>
+            <artifactId>IP</artifactId>
             <version>3.3.0</version>
-            <systemPath>${project.basedir}/libs/WITP-3.3.0.jar</systemPath>
+            <systemPath>${project.basedir}/libs/IP.jar</systemPath>
             <scope>system</scope>
         </dependency>
 

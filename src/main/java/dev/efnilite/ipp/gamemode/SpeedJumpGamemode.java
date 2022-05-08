@@ -7,7 +7,6 @@ import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ipp.generator.SpeedJumpGenerator;
-import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,7 +26,7 @@ public final class SpeedJumpGamemode implements Gamemode {
     }
 
     @Override
-    public void handleItemClick(Player player, ParkourUser user, Menu menu) {
+    public void join(Player player) {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
         Session session = SingleSession.create(pp);

@@ -25,7 +25,7 @@ public final class LobbyGamemode implements Gamemode {
     }
 
     @Override
-    public void handleItemClick(Player player, ParkourUser user, Menu menu) {
+    public void join(Player player) {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
         SingleSession session = (SingleSession) SingleSession.create(pp);

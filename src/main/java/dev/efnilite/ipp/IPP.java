@@ -1,11 +1,15 @@
 package dev.efnilite.ipp;
 
+import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.ParkourAPI;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ip.player.ParkourUser;
+import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ipp.gamemode.*;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
+import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.ipp.style.IncrementalStyle;
 import dev.efnilite.ipp.util.config.PlusConfiguration;
 import dev.efnilite.vilib.ViPlugin;
@@ -52,9 +56,14 @@ public final class IPP extends ViPlugin {
         // Register stuff for main menu
         // Multiplayer if player is not found
         MainMenu.registerMainItem(1, 1, new Item(Material.OAK_BOAT, "<#0088CB><bold>Multiplayer")
-                .lore("<gray>Play with other players.").click(
+                .lore(MainMenu.formatSynonyms("多人遊戲 %s マルチプレイヤー")).click(
                 event -> MultiplayerMenu.open(event.getPlayer())),
-                player -> !ParkourPlayer.isActive(player) && PlusOption.MULTIPLAYER.check(player));
+                player -> {
+                    ParkourUser user = ParkourUser.getUser(player);
+                    // if user is null display item or if the player isn't already playing single player
+                    return user == null || !(user instanceof ParkourPlayer) && PlusOption.MULTIPLAYER.check(player)
+                            && !(user.getSession() instanceof MultiSession);
+                });
 
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");
     }
