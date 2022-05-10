@@ -7,7 +7,6 @@ import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ipp.generator.HourglassGenerator;
-import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,16 +25,21 @@ public final class HourglassGamemode implements Gamemode {
     }
 
     @Override
-    public void join(Player player) {
+    public void create(Player player) {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
-        Session session = SingleSession.create(pp);
+        Session session = SingleSession.create(pp, this);
         HourglassGenerator generator = new HourglassGenerator(session);
         IP.getDivider().generate(pp, generator, true);
     }
 
     @Override
-    public boolean isMultiplayer() {
-        return false;
+    public void click(Player player) {
+        create(player);
+    }
+
+    @Override
+    public boolean isVisible() {
+        return true;
     }
 }

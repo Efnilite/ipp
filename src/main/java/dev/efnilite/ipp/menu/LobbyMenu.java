@@ -5,7 +5,6 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;
-import dev.efnilite.ip.session.Tournament;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.PagedMenu;
@@ -19,12 +18,11 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Opens the Session menu
  */
-public class MultiplayerMenu {
+public class LobbyMenu {
 
     public static void open(Player player) {
         Menu menu = new Menu(4, "<white>Lobbies")
@@ -34,13 +32,20 @@ public class MultiplayerMenu {
         menu
                 .distributeRowEvenly(1, 3)
 
-                .item(9, new Item(Material.OAK_SAPLING, "<#76EC3E><bold>Create a lobby").click(
+                .item(9, new Item(Material.OAK_SAPLING, "<#76EC3E><bold>Create a lobby")
+                        .lore("<dark_gray>Eine Lobby erstellen • 创建大厅",
+                                "<dark_gray>• 創建大廳 • Créer un lobby",
+                                "<dark_gray>• ロビーを作成する • Een lobby aanmaken").click(
                         event -> CreationMenu.open(player)))
 
                 .item(10, new Item(Material.CHEST, "<#EA9926><bold>View current lobbies")
+                        .lore("<dark_gray>Aktuelle Lobbys ansehen • 查看当前大厅" ,
+                                "<dark_gray>• 查看當前大廳 • Voir les lobbys actuels",
+                                "<dark_gray>• 現在のロビーを表示 • Actuele lobby's bekijken")
                         .click(event -> openSessions(player, MenuSort.LEAST_OPEN_FIRST)))
 
-                .item(27, new Item(Material.ARROW, "<red><bold>Go back").click(
+                .item(27, new Item(Material.ARROW, "<#F5A3A3><bold>Go back")
+                        .lore("<dark_gray>Zurückgehen • 回去", "<dark_gray>• Retourner • 戻る", "<dark_gray>• Teruggaan").click(
                         event -> MainMenu.open(player)))
 
                 .open(player);
@@ -134,7 +139,7 @@ public class MultiplayerMenu {
                 }))
 
                 .item(32, new Item(Material.ARROW, "<red><bold>Go back").click(
-                        event -> MultiplayerMenu.open(event.getPlayer())))
+                        event -> LobbyMenu.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
                 .animation(new RandomAnimation())

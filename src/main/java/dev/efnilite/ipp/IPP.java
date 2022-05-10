@@ -1,13 +1,11 @@
 package dev.efnilite.ipp;
 
-import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.ParkourAPI;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ipp.gamemode.*;
-import dev.efnilite.ipp.menu.MultiplayerMenu;
+import dev.efnilite.ipp.menu.LobbyMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.ipp.style.IncrementalStyle;
@@ -31,6 +29,7 @@ public final class IPP extends ViPlugin {
         Time.timerStart("enable");
 
         configuration = new PlusConfiguration(this);
+        dev.efnilite.ipp.util.config.PlusOption.init();
 
         // Events
         registerListener(new PlusHandler());
@@ -57,12 +56,22 @@ public final class IPP extends ViPlugin {
         // Multiplayer if player is not found
         MainMenu.registerMainItem(1, 1, new Item(Material.OAK_BOAT, "<#0088CB><bold>Multiplayer")
                 .lore(MainMenu.formatSynonyms("多人遊戲 %s マルチプレイヤー")).click(
-                event -> MultiplayerMenu.open(event.getPlayer())),
+                event -> LobbyMenu.open(event.getPlayer())),
                 player -> {
                     ParkourUser user = ParkourUser.getUser(player);
-                    // if user is null display item or if the player isn't already playing single player
+                    // if user is null display item or if the player isn't already playing multi player
                     return user == null || !(user instanceof ParkourPlayer) && PlusOption.MULTIPLAYER.check(player)
                             && !(user.getSession() instanceof MultiSession);
+                });
+
+        MainMenu.registerMainItem(1, 8, new Item(Material.WRITTEN_BOOK, "<#ECE228><bold>Lobby Settings").click(
+                event -> {
+//                    CreationMenu.open(player); todo open settings
+                }),
+                player -> {
+                    ParkourUser user = ParkourUser.getUser(player);
+                    // only show is user is parkourplayer and first player in session (the owner)
+                    return user instanceof ParkourPlayer && user.getSession().getPlayers().get(0) == user;
                 });
 
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");

@@ -26,16 +26,21 @@ public final class SpeedJumpGamemode implements Gamemode {
     }
 
     @Override
-    public void join(Player player) {
+    public void create(Player player) {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
-        Session session = SingleSession.create(pp);
+        Session session = SingleSession.create(pp, this);
         SpeedJumpGenerator generator = new SpeedJumpGenerator(session);
         IP.getDivider().generate(pp, generator, true);
     }
 
     @Override
-    public boolean isMultiplayer() {
-        return false;
+    public void click(Player player) {
+        create(player);
+    }
+
+    @Override
+    public boolean isVisible() {
+        return true;
     }
 }

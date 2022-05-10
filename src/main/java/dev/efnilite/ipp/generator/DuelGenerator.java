@@ -62,7 +62,7 @@ public class DuelGenerator extends MultiplayerGenerator {
         generator.setPlayerIndex(playerGenerators.keySet().size());
         generator.setOwningGenerator(this);
 
-        Location spawn = playerSpawn.clone().add(playerGenerators.keySet().size() * 10, 0, 0);
+        Location spawn = playerSpawn.clone().add(session.getPlayers().size() * 10, 0, 0);
         List<Block> blocks = schematic.paste(spawn, RotationAngle.ANGLE_0);
         for (Block block : blocks) {
             switch (block.getType()) {

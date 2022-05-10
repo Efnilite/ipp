@@ -5,6 +5,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.generator.DuelGenerator;
 import dev.efnilite.ipp.generator.SingleDuelGenerator;
+import dev.efnilite.ipp.menu.CreationMenu;
 import dev.efnilite.ipp.util.config.PlusOption;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.util.Time;
@@ -51,16 +52,14 @@ public class PlusHandler implements Listener {
     @EventHandler
     public void command(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
+        String message = event.getMessage().toLowerCase();
 
-        String message = event.getMessage().replaceAll("(IP|IP:IP)", "parkour");
-        if (message.contains("parkour reload") && Option.PERMISSIONS.get() && player.hasPermission("IP.reload")) {
-            event.setCancelled(true);
-            Time.timerStart("exreload");
-            PlusOption.init();
-            player.sendMessage(Message.parseFormatting("&a<bold>(!) <gray>Reloaded all IPEx config files in " + Time.timerEnd("exreload") + "ms!"));
-        } else if (message.contains("parkour create") && Option.PERMISSIONS.get() && player.hasPermission("IPex.create")) {
-            event.setCancelled(true);
-            Bukkit.dispatchCommand(player, "/pkx create");
+        if (message.contains("parkour create")) {
+            event.setMessage("ipp create");
+        } else if (message.contains("parkour lobbies")) {
+            event.setMessage("ipp lobbies");
+        } else if (message.contains("parkour invite")) {
+            event.setMessage("ipp invite");
         }
     }
 }

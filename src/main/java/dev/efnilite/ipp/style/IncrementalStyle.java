@@ -18,7 +18,8 @@ public class IncrementalStyle extends StyleType {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return new Item(Material.SCAFFOLDING, "<#348EDB><bold>Incremental");
+        return new Item(Material.SCAFFOLDING, "<#348EDB><bold>Incremental")
+                .lore("<dark_gray>Inkrementell • 增加的", "<dark_gray>• Incrémentale • 増分 • Incrementeel");
     }
 
     @Override

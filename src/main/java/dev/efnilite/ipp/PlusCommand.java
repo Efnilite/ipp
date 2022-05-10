@@ -7,7 +7,8 @@ import dev.efnilite.ip.schematic.selection.Selection;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.generator.DuelGenerator;
 import dev.efnilite.ipp.menu.CreationMenu;
-import dev.efnilite.ipp.menu.MultiplayerMenu;
+import dev.efnilite.ipp.menu.InviteMenu;
+import dev.efnilite.ipp.menu.LobbyMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.command.ViCommand;
@@ -39,21 +40,21 @@ public class PlusCommand extends ViCommand {
             return true;
         } else if (args.length == 1) {
             switch (args[0].toLowerCase()) {
-                case "sessions" -> {
-                    if (sender instanceof Player && sender.hasPermission("IP.sessions.view")) {
-                        MultiplayerMenu.open(player);
+                case "lobbies" -> {
+                    if (sender instanceof Player && sender.hasPermission("ip.lobbies.view")) {
+                        LobbyMenu.open(player);
                     }
                     return true;
                 }
                 case "create" -> {
-                    if (sender instanceof Player && sender.hasPermission("IP.sessions.create")) {
+                    if (sender instanceof Player && sender.hasPermission("ip.sessions.create")) {
                         CreationMenu.open(player);
                     }
                     return true;
                 }
                 case "invite" -> {
-                    if (sender instanceof Player && sender.hasPermission("IP.sessions.invite")) {
-                        CreationMenu.openSelection(player);
+                    if (sender instanceof Player && sender.hasPermission("ip.sessions.invite")) {
+                        InviteMenu.open(player);
                     }
                     return true;
                 }
