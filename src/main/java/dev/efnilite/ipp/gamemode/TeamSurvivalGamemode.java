@@ -43,7 +43,6 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public void join(Player player, Session session) {
-        session.join(player);
         if (session.getPlayers().get(0).getGenerator() instanceof TeamSurvivalGenerator generator) {
 
         }

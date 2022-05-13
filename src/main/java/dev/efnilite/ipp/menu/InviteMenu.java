@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.vilib.chat.Message;
@@ -55,7 +56,7 @@ public class InviteMenu {
                 Message.send(p, "<dark_gray>Use <#3BC2C2><underline>/parkour join " + sessionId + "</underline><dark_gray> to join.");
                 Message.send(p, "");
 
-                session.join(p);
+                session.join(player);
             }));
         }
 

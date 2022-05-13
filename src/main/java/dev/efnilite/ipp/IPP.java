@@ -3,6 +3,7 @@ package dev.efnilite.ipp;
 import dev.efnilite.ip.api.ParkourAPI;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ipp.gamemode.*;
 import dev.efnilite.ipp.menu.LobbyMenu;
@@ -60,8 +61,8 @@ public final class IPP extends ViPlugin {
                 player -> {
                     ParkourUser user = ParkourUser.getUser(player);
                     // if user is null display item or if the player isn't already playing multi player
-                    return user == null || !(user instanceof ParkourPlayer) && PlusOption.MULTIPLAYER.check(player)
-                            && !(user.getSession() instanceof MultiSession);
+                    return user == null || user instanceof ParkourSpectator || !(user instanceof ParkourPlayer)
+                            && PlusOption.MULTIPLAYER.check(player) && !(user.getSession() instanceof MultiSession);
                 });
 
         MainMenu.registerMainItem(1, 8, new Item(Material.WRITTEN_BOOK, "<#ECE228><bold>Lobby Settings").click(
@@ -71,7 +72,8 @@ public final class IPP extends ViPlugin {
                 player -> {
                     ParkourUser user = ParkourUser.getUser(player);
                     // only show is user is parkourplayer and first player in session (the owner)
-                    return user instanceof ParkourPlayer && user.getSession().getPlayers().get(0) == user;
+                    return user instanceof ParkourPlayer && user.getSession() instanceof MultiSession
+                            && user.getSession().getPlayers().get(0) == user;
                 });
 
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");

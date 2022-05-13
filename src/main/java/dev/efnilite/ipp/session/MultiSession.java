@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.session;
 
 import com.google.common.annotations.Beta;
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.player.ParkourPlayer;
@@ -34,7 +35,8 @@ public class MultiSession extends SingleSession {
     @Override
     public void join(Player player) {
         if (isAcceptingPlayers()) {
-            getGamemode().join(player); // make player join
+            MultiGamemode gamemode = (MultiGamemode) getGamemode();
+            gamemode.join(player, this);
             addPlayers(ParkourPlayer.getPlayer(player));
         } else if (isAcceptingSpectators()) {
             Gamemodes.SPECTATOR.create(player, this);

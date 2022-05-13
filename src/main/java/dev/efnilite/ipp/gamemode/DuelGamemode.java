@@ -45,7 +45,6 @@ public final class DuelGamemode implements MultiGamemode {
 
     @Override
     public void join(Player player, Session session) {
-        session.join(player);
         if (session.isAcceptingPlayers() && session.getPlayers().get(0).getGenerator() instanceof DuelGenerator generator) {
             generator.addPlayer(ParkourPlayer.getPlayer(player));
         }
