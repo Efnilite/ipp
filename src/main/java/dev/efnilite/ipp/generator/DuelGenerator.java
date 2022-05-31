@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DuelGenerator extends MultiplayerGenerator {
+public final class DuelGenerator extends MultiplayerGenerator {
 
     private static final Schematic schematic = new Schematic()
             .file("duel-island");

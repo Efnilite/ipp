@@ -125,11 +125,11 @@ public class LobbyMenu {
                 .distributeRowEvenly(3)
 
                 .item(30, new Item(Material.BLAZE_POWDER, "<#2FBC11><bold>Refresh")
-                        .lore(MainMenu.formatSynonyms("Erneuern %s 刷新 %s Rafraîchir %s リフレッシュ %s Vernieuwen")).click(
+                        .lore("<dark_gray>Erneuern • 刷新 • Rafraîchir", "<dark_gray>リフレッシュ • Vernieuwen").click(
                         event -> openSessions(player, sort)))
 
                 .item(31, new Item(Material.BOOKSHELF, "<#2FBC11><bold>Sort")
-                        .lore(MainMenu.formatSynonyms("Sortieren %s 种类 %s Trier %s 選別 %s Sorteren")).click(
+                        .lore("<dark_gray>Sortieren • 种类", "<dark_gray>Trier • 選別 • Sorteren").click(
                         event -> {
                     if (sort == MenuSort.LEAST_OPEN_FIRST) {
                         openSessions(player, MenuSort.LEAST_OPEN_LAST);

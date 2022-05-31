@@ -11,7 +11,7 @@ import org.bukkit.Location;
 /**
  * Generator for Lobby mode
  */
-public class LobbyGenerator extends DefaultGenerator {
+public final class LobbyGenerator extends DefaultGenerator {
 
     public LobbyGenerator(Session session) {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);

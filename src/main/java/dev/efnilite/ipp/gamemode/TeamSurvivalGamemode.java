@@ -1,13 +1,11 @@
 package dev.efnilite.ipp.gamemode;
 
 import dev.efnilite.ip.IP;
-import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.generator.TeamSurvivalGenerator;
-import dev.efnilite.ipp.menu.CreationMenu;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
@@ -31,7 +29,10 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
     public void create(Player player) {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
+
         MultiSession session = MultiSession.create(pp, this);
+        session.setMaxPlayers(8);
+
         TeamSurvivalGenerator generator = new TeamSurvivalGenerator(session);
         IP.getDivider().generate(pp, generator, true);
     }
@@ -44,13 +45,18 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
     @Override
     public void join(Player player, Session session) {
         if (session.getPlayers().get(0).getGenerator() instanceof TeamSurvivalGenerator generator) {
+            player.closeInventory();
+            ParkourPlayer pp = ParkourUser.register(player);
 
+            generator.getSession().addPlayers(pp);
         }
     }
 
     @Override
     public void leave(Player player, Session session) {
-        session.join(player);
+        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+        session.removePlayers(pp);
+        ParkourUser.unregister(pp, true, true, true);
     }
 
     @Override

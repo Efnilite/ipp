@@ -2,14 +2,8 @@ package dev.efnilite.ipp;
 
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.generator.DuelGenerator;
 import dev.efnilite.ipp.generator.SingleDuelGenerator;
-import dev.efnilite.ipp.menu.CreationMenu;
-import dev.efnilite.ipp.util.config.PlusOption;
-import dev.efnilite.vilib.chat.Message;
-import dev.efnilite.vilib.util.Time;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

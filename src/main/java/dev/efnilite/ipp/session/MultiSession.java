@@ -1,7 +1,6 @@
 package dev.efnilite.ipp.session;
 
 import com.google.common.annotations.Beta;
-import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.player.ParkourPlayer;
@@ -42,12 +41,11 @@ public class MultiSession extends SingleSession {
             Gamemodes.SPECTATOR.create(player, this);
             addSpectators((ParkourSpectator) ParkourUser.getUser(player));
         }
-
     }
 
     @Override
     public boolean isAcceptingPlayers() {
-        return true;
+        return getPlayers().size() < maxPlayers;
     }
 
     public void setMaxPlayers(int maxPlayers) {

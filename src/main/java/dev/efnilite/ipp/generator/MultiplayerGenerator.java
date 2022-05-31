@@ -15,4 +15,9 @@ public abstract class MultiplayerGenerator extends DefaultGenerator {
         super(session, options);
         this.session = session;
     }
+
+    @Override
+    public MultiSession getSession() {
+        return session;
+    }
 }

@@ -21,7 +21,8 @@ public final class PracticeGenerator extends DefaultGenerator {
 
     static {
         // practice settings only if player's generator is of this instance
-        MainMenu.registerMainItem(1, 3, new Item(Material.COMPARATOR, "<#E74FA1><bold>Practice Settings").click(
+        MainMenu.registerMainItem(1, 3,
+                user -> new Item(Material.COMPARATOR, "<#E74FA1><bold>Practice Settings").click(
                 event -> {
                     ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
                     if (pp != null && pp.getGenerator() instanceof PracticeGenerator generator) {

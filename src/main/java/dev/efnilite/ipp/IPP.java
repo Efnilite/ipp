@@ -55,8 +55,8 @@ public final class IPP extends ViPlugin {
 
         // Register stuff for main menu
         // Multiplayer if player is not found
-        MainMenu.registerMainItem(1, 1, new Item(Material.OAK_BOAT, "<#0088CB><bold>Multiplayer")
-                .lore(MainMenu.formatSynonyms("多人遊戲 %s マルチプレイヤー")).click(
+        MainMenu.registerMainItem(1, 1,
+                user -> new Item(Material.OAK_BOAT, "<#0088CB><bold>Multiplayer").lore("<dark_gray>多人遊戲 • マルチプレイヤー").click(
                 event -> LobbyMenu.open(event.getPlayer())),
                 player -> {
                     ParkourUser user = ParkourUser.getUser(player);
@@ -65,7 +65,8 @@ public final class IPP extends ViPlugin {
                             && PlusOption.MULTIPLAYER.check(player) && !(user.getSession() instanceof MultiSession);
                 });
 
-        MainMenu.registerMainItem(1, 8, new Item(Material.WRITTEN_BOOK, "<#ECE228><bold>Lobby Settings").click(
+        MainMenu.registerMainItem(1, 8,
+                user -> new Item(Material.CRYING_OBSIDIAN, "<#ECE228><bold>Lobby Settings").click(
                 event -> {
 //                    CreationMenu.open(player); todo open settings
                 }),
