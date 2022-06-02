@@ -54,8 +54,6 @@ public class InviteMenu {
                 Message.send(p, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + session.getGamemode().getName() + " game.");
                 Message.send(p, "<dark_gray>Use <#3BC2C2><underline>/parkour join " + sessionId + "</underline><dark_gray> to join.");
                 Message.send(p, "");
-
-                session.join(player);
             }));
         }
 

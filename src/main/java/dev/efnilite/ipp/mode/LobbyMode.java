@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.mode;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.generator.AreaData;
 import dev.efnilite.ip.generator.base.ParkourGenerator;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.selection.Selection;
@@ -22,9 +23,7 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class for lobby modes
@@ -41,7 +40,7 @@ public class LobbyMode {
      */
     public static final int MINIMUM_SIZE = 5 * LOBBY_SAFE_RANGE; // 50x50x50
     private static final Map<World, LobbySelection> selections = new HashMap<>();
-    private static final Path FOLDER = Paths.get(IP.getPlugin().getDataFolder().toString(), "lobbies");
+    private static final Path FOLDER = Paths.get(IPP.getPlugin().getDataFolder().toString(), "worlds");
 
     /**
      * Read all lobby mode files in the IP/lobbies
@@ -56,12 +55,12 @@ public class LobbyMode {
                         }
 
                         // get all worlds in which lobbies are active
-                        List<Path> files = Files.list(FOLDER)
-                                .filter(path -> path.endsWith(".json")) // only json files
+                        List<Path> files = Files.list(FOLDER) // only json files
                                 .toList();
 
                         for (Path file : files) {
-                            String fileName = file.getFileName().toString();
+                            String fileName = file.getFileName().toString().split("\\.")[0];
+                            System.out.println(fileName);
                             World world = Bukkit.getWorld(fileName);
 
                             if (world == null) {
@@ -69,6 +68,7 @@ public class LobbyMode {
                             }
 
                             FileReader reader = new FileReader(file.toFile());
+                            System.out.println(file.toFile());
 
                             LobbySelection readInstance = IP.getGson().fromJson(reader, LobbySelection.class);
                             LobbySelection selection = LobbySelection.from(world, readInstance.pos1, readInstance.pos2); // prevent ghost instances
@@ -103,6 +103,10 @@ public class LobbyMode {
                 .async()
                 .execute(() -> {
                     try {
+                        if (!FOLDER.toFile().exists()) {
+                            FOLDER.toFile().mkdirs();
+                        }
+
                         Path path = Paths.get(FOLDER.toString(), world.getName() + ".json");
                         File file = path.toFile();
                         file.createNewFile();
@@ -137,6 +141,8 @@ public class LobbyMode {
         if (location == null) {
             return;
         }
+
+        generator.setData(new AreaData(Collections.singletonList(location.getBlock()), new ArrayList<>()));
 
         // the player spawn
         Location spawn = location.clone().add(0.5, 1, 0.5);

@@ -27,6 +27,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public void create(Player player) {
+        System.out.println("TSG created");
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
 
@@ -44,11 +45,11 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public void join(Player player, Session session) {
-        if (session.getPlayers().get(0).getGenerator() instanceof TeamSurvivalGenerator generator) {
+        if (session.getPlayers().get(0).getGenerator() instanceof TeamSurvivalGenerator) {
             player.closeInventory();
             ParkourPlayer pp = ParkourUser.register(player);
 
-            generator.getSession().addPlayers(pp);
+            session.addPlayers(pp);
         }
     }
 

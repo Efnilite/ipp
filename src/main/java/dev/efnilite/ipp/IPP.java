@@ -50,7 +50,6 @@ public final class IPP extends ViPlugin {
         ParkourAPI.getRegistry().registerType(new IncrementalStyle());
         ParkourAPI.getRegistry().getStyleType("incremental").addConfigStyles("styles.incremental.list", configuration.getFile("config"));
 
-
         LobbyMode.read();
 
         // Register stuff for main menu
