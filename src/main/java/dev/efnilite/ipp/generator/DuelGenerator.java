@@ -77,7 +77,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
                 default -> {}
             }
         }
-        generator.setData(new AreaData(blocks, Collections.singletonList(player.getPlayer().getLocation().getChunk())));
+        generator.setData(new AreaData(blocks));
 
         this.playerGenerators.put(player, generator);
     }
@@ -87,9 +87,6 @@ public final class DuelGenerator extends MultiplayerGenerator {
         generator.reset(false);
 
         AreaData data = generator.getData();
-        for (Chunk spawnChunk : data.spawnChunks()) {
-            spawnChunk.setForceLoaded(false);
-        }
 
         for (Block block : data.blocks()) {
             block.setType(Material.AIR, false);

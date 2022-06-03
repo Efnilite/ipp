@@ -60,7 +60,6 @@ public class LobbyMode {
 
                         for (Path file : files) {
                             String fileName = file.getFileName().toString().split("\\.")[0];
-                            System.out.println(fileName);
                             World world = Bukkit.getWorld(fileName);
 
                             if (world == null) {
@@ -68,7 +67,6 @@ public class LobbyMode {
                             }
 
                             FileReader reader = new FileReader(file.toFile());
-                            System.out.println(file.toFile());
 
                             LobbySelection readInstance = IP.getGson().fromJson(reader, LobbySelection.class);
                             LobbySelection selection = LobbySelection.from(world, readInstance.pos1, readInstance.pos2); // prevent ghost instances
@@ -142,7 +140,7 @@ public class LobbyMode {
             return;
         }
 
-        generator.setData(new AreaData(Collections.singletonList(location.getBlock()), new ArrayList<>()));
+        generator.setData(new AreaData(Collections.singletonList(location.getBlock())));
 
         // the player spawn
         Location spawn = location.clone().add(0.5, 1, 0.5);

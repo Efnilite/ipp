@@ -6,6 +6,7 @@ import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.util.PlusUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -168,7 +169,7 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
         List<Block> blocks = selectBlocks();
 
         if (isNearingEdge(mostRecentBlock.clone()) && score > 0) {
-            heading = heading.turnRight(); // reverse heading if close to border
+            heading = Util.opposite(mostRecentBlock, zone);
         }
 
         positionIndexMap.put(blocks, positionIndexTotal);

@@ -1,5 +1,6 @@
 package dev.efnilite.ipp.menu;
 
+import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
@@ -89,7 +90,7 @@ public class LobbyMenu {
             if (openSpaces == 1) {
                 item.material(Material.ORANGE_STAINED_GLASS_PANE);
             } else if (openSpaces == 0) {
-                item.material(Material.RED_STAINED_GLASS_PANE).click(event -> ParkourSpectator.spectateSession(player, session));
+                item.material(Material.RED_STAINED_GLASS_PANE).click(event -> Gamemodes.SPECTATOR.create(player, session));
             }
 
             List<String> lore = new ArrayList<>();
