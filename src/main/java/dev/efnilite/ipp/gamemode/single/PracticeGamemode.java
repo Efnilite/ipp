@@ -1,4 +1,4 @@
-package dev.efnilite.ipp.gamemode;
+package dev.efnilite.ipp.gamemode.single;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
@@ -6,22 +6,22 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
-import dev.efnilite.ipp.generator.HourglassGenerator;
+import dev.efnilite.ipp.generator.single.PracticeGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public final class HourglassGamemode implements Gamemode {
+public final class PracticeGamemode implements Gamemode {
 
     @Override
     public @NotNull String getName() {
-        return "hourglass";
+        return "practice";
     }
 
     @Override
     public @NotNull Item getItem(String s) {
-        return new Item(Material.SAND, "<#CFB410><bold>Hourglass").lore("<gray>You can only stand on blocks for 1 second.");
+        return new Item(Material.WHITE_WOOL, "<white><bold>Practice").lore("<gray>Practice a specific type of jump!");
     }
 
     @Override
@@ -29,7 +29,7 @@ public final class HourglassGamemode implements Gamemode {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
         Session session = SingleSession.create(pp, this);
-        HourglassGenerator generator = new HourglassGenerator(session);
+        PracticeGenerator generator = new PracticeGenerator(session);
         IP.getDivider().generate(pp, generator, true);
     }
 

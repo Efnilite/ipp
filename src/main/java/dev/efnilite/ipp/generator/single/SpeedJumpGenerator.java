@@ -1,8 +1,7 @@
-package dev.efnilite.ipp.generator;
+package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.events.PlayerScoreEvent;
-import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
@@ -25,14 +24,19 @@ import java.util.List;
 /**
  * Class for speed jump gamemode
  */
-public final class SpeedJumpGenerator extends DefaultGenerator {
+public final class SpeedJumpGenerator extends PlusGenerator {
 
     private final int blockLead;
     private double jumpDistance = 3;
     private final LinkedHashMap<List<Block>, Integer> positionIndexMap = new LinkedHashMap<>();
 
     public SpeedJumpGenerator(Session session) {
+        // setup settings
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
+
+        // setup menu
+        menu = new SettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATICS,
+                ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
         updateJumpDistance();
 
@@ -40,7 +44,7 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
         heightChances.put(0, 0);
 
         blockLead = 1;
-        player.getPlayer().setMaximumAir(100000);
+        player.getPlayer().setMaximumAir(100_000_000);
     }
 
     @Override
@@ -76,16 +80,14 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
 
     @Override
     public List<Block> selectBlocks() {
-        List<Block> possible = getPossiblePositions(jumpDistance, -10000); // !! height doesnt matter
+        Block next = selectNext(mostRecentBlock, (int) jumpDistance, 0);// no difference in height
 
-        if (possible.isEmpty()) {
+        if (next == null) {
             return Collections.emptyList();
         }
 
-        Block block = possible.get(random.nextInt(possible.size())).getLocation().add(0, 10000, 0).getBlock();
-
-        List<Block> blocks = PlusUtil.getBlocksAround(block, 1);
-        mostRecentBlock = block.getLocation();
+        List<Block> blocks = PlusUtil.getBlocksAround(next, 1);
+        mostRecentBlock = next.getLocation();
 
         return blocks;
     }
@@ -206,11 +208,5 @@ public final class SpeedJumpGenerator extends DefaultGenerator {
         this.totalScore++;
 
         updateJumpDistance();
-    }
-
-    @Override
-    public void menu() {
-        SettingsMenu.open(player, ParkourOption.LEADS, ParkourOption.SCHEMATICS,
-                ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }

@@ -1,7 +1,6 @@
-package dev.efnilite.ipp.generator;
+package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
@@ -13,8 +12,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 /**
  * Fastest to  100 score
  */
-public final class TimeTrialGenerator extends DefaultGenerator {
+public final class TimeTrialGenerator extends PlusGenerator {
 
+    // the colour gradients used
     private final static String[] COLOUR_GRADIENTS = new String[] {
             "#03a600", "#06a300", "#0a9f00", "#0d9c00", "#119800", "#149500", "#179200", "#1b8e00", "#1e8b00", "#218700",
             "#258400", "#288100", "#2c7d00", "#2f7a00", "#327600", "#367300", "#397000", "#3d6c00", "#406900", "#436500",
@@ -23,10 +23,15 @@ public final class TimeTrialGenerator extends DefaultGenerator {
             "#8b1e00", "#8e1b00", "#921700", "#951400", "#991000", "#9c0d00", "#9f0a00", "#a30600", "#a60300", "#aa0000"
     };
 
+    // the time trial goal todo customizable
     private final static int goal = 100;
 
     public TimeTrialGenerator(Session session) {
+        // setup settings for generation
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE);
+
+        // setup menu
+        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
         player.getPlayer().resetTitle();
     }
@@ -60,10 +65,5 @@ public final class TimeTrialGenerator extends DefaultGenerator {
             score = goal;
             player.teleport(player.getLocation().subtract(0, 15, 0));
         }
-    }
-
-    @Override
-    public void menu() {
-        SettingsMenu.open(player, ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }

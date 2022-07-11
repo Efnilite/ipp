@@ -1,10 +1,9 @@
-package dev.efnilite.ipp.generator;
+package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
-import dev.efnilite.ip.menu.MainMenu;
+import dev.efnilite.ip.menu.DynamicMenu;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.Session;
@@ -17,11 +16,11 @@ import org.bukkit.Material;
 /**
  * Class for multiplayer
  */
-public final class PracticeGenerator extends DefaultGenerator {
+public final class PracticeGenerator extends PlusGenerator {
 
     static {
         // practice settings only if player's generator is of this instance
-        MainMenu.registerMainItem(1, 3,
+        DynamicMenu.Reg.MAIN.registerMainItem(1, 3,
                 user -> new Item(Material.COMPARATOR, "<#E74FA1><bold>Practice Settings").click(
                 event -> {
                     ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
@@ -33,10 +32,15 @@ public final class PracticeGenerator extends DefaultGenerator {
                     ParkourPlayer pp = ParkourPlayer.getPlayer(player);
                     return pp != null && pp.getGenerator() instanceof PracticeGenerator;
                 });
+        // todo
     }
 
     public PracticeGenerator(Session session) {
+        // setup generator settings
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_ADAPTIVE);
+
+        // setup menu
+        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
         // generate default chances, copied from the menu
         distanceChances.put(0, 1); // keys 0-1
@@ -254,7 +258,7 @@ public final class PracticeGenerator extends DefaultGenerator {
                         }))
 
                 .item(27, IP.getConfiguration().getFromItemData(player.getLocale(), "general.close")
-                        .click(event -> SettingsMenu.open(player)))
+                        .click(event -> menu()))
 
                 .animation(new WaveEastAnimation())
                 .fillBackground(Material.CYAN_STAINED_GLASS_PANE)
@@ -286,10 +290,5 @@ public final class PracticeGenerator extends DefaultGenerator {
     public void score() {
         this.score++;
         this.totalScore++;
-    }
-
-    @Override
-    public void menu() {
-        SettingsMenu.open(player, ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }

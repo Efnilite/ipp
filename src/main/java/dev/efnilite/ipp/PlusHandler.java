@@ -2,8 +2,8 @@ package dev.efnilite.ipp;
 
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ipp.generator.DuelGenerator;
-import dev.efnilite.ipp.generator.SingleDuelGenerator;
+import dev.efnilite.ipp.generator.multi.DuelGenerator;
+import dev.efnilite.ipp.generator.multi.SingleDuelGenerator;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

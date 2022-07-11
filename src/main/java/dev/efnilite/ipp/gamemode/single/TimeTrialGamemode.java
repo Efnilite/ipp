@@ -1,4 +1,4 @@
-package dev.efnilite.ipp.gamemode;
+package dev.efnilite.ipp.gamemode.single;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
@@ -6,7 +6,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
-import dev.efnilite.ipp.generator.TimeTrialGenerator;
+import dev.efnilite.ipp.generator.single.TimeTrialGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

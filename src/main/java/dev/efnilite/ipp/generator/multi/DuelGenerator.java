@@ -1,4 +1,4 @@
-package dev.efnilite.ipp.generator;
+package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.generator.AreaData;
@@ -16,14 +16,16 @@ import dev.efnilite.ipp.util.config.PlusOption;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Task;
 import dev.efnilite.vilib.vector.Vector2D;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class DuelGenerator extends MultiplayerGenerator {

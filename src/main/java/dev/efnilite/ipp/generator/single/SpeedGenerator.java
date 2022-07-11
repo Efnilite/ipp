@@ -1,7 +1,6 @@
-package dev.efnilite.ipp.generator;
+package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
@@ -11,10 +10,14 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Class for multiplayer
  */
-public final class SpeedGenerator extends DefaultGenerator {
+public final class SpeedGenerator extends PlusGenerator {
 
     public SpeedGenerator(Session session) {
+        // setup generator settings
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
+
+        // setup menu
+        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
         player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 2, false, false));
 
@@ -39,10 +42,5 @@ public final class SpeedGenerator extends DefaultGenerator {
     public void score() {
         this.score++;
         this.totalScore++;
-    }
-
-    @Override
-    public void menu() {
-        SettingsMenu.open(player, ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
     }
 }

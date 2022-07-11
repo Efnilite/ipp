@@ -4,8 +4,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.selection.Dimensions;
 import dev.efnilite.ip.schematic.selection.Selection;
-import dev.efnilite.ip.util.Util;
-import dev.efnilite.ipp.generator.DuelGenerator;
+import dev.efnilite.ipp.generator.multi.DuelGenerator;
 import dev.efnilite.ipp.menu.CreationMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.LobbyMenu;
@@ -14,6 +13,7 @@ import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.command.ViCommand;
 import dev.efnilite.vilib.particle.ParticleData;
 import dev.efnilite.vilib.particle.Particles;
+import dev.efnilite.vilib.util.Locations;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -72,7 +72,7 @@ public class PlusCommand extends ViCommand {
                             selections.put(player, new Selection(pos1, pos2, player.getWorld()));
                             Particles.box(BoundingBox.of(pos1, pos2), player.getWorld(), new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                         }
-                        send(player, "<blue><bold>> <gray>Position 1 was set to " + Util.toString(player.getLocation(), true));
+                        send(player, "<blue><bold>> <gray>Position 1 was set to " + Locations.toString(player.getLocation(), true));
                         return true;
                     }
                     case "pos2" -> {
@@ -84,7 +84,7 @@ public class PlusCommand extends ViCommand {
                             selections.put(player, new Selection(pos1, pos2, player.getWorld()));
                             Particles.box(BoundingBox.of(pos1, pos2), player.getWorld(), new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                         }
-                        send(player, "<blue><bold>> <gray>Position 2 was set to " + Util.toString(player.getLocation(), true));
+                        send(player, "<blue><bold>> <gray>Position 2 was set to " + Locations.toString(player.getLocation(), true));
                         return true;
                     }
                     case "save" -> {

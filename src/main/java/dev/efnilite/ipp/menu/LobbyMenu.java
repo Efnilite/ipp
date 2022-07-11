@@ -1,7 +1,7 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.api.Gamemodes;
-import dev.efnilite.ip.menu.MainMenu;
+import dev.efnilite.ip.menu.DynamicMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
@@ -47,7 +47,7 @@ public class LobbyMenu {
 
                 .item(27, new Item(Material.ARROW, "<#F5A3A3><bold>Go back")
                         .lore("<dark_gray>Zurückgehen • 回去", "<dark_gray>• Retourner • 戻る", "<dark_gray>• Teruggaan").click(
-                        event -> MainMenu.open(player)))
+                        event -> DynamicMenu.Reg.MAIN.open(player)))
 
                 .open(player);
     }

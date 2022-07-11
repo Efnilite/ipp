@@ -1,11 +1,11 @@
-package dev.efnilite.ipp.gamemode;
+package dev.efnilite.ipp.gamemode.multi;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ipp.generator.DuelGenerator;
+import dev.efnilite.ipp.generator.multi.DuelGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;

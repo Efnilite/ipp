@@ -1,4 +1,4 @@
-package dev.efnilite.ipp.generator;
+package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.player.ParkourPlayer;

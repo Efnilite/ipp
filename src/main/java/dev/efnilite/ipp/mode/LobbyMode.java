@@ -7,7 +7,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.selection.Selection;
 import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.ipp.generator.LobbyGenerator;
+import dev.efnilite.ipp.generator.single.LobbyGenerator;
 import dev.efnilite.vilib.util.Numbers;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Bukkit;
@@ -23,7 +23,10 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class for lobby modes

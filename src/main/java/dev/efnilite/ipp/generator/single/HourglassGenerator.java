@@ -1,7 +1,6 @@
-package dev.efnilite.ipp.generator;
+package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
@@ -16,7 +15,7 @@ import java.time.Instant;
 /**
  * Class for only having 1 second to stay on the block
  */
-public final class HourglassGenerator extends DefaultGenerator {
+public final class HourglassGenerator extends PlusGenerator {
 
     // https://colordesigner.io/gradient-generator
     private final static String[] GRADIENT_COLOURS = new String[] {
@@ -35,7 +34,10 @@ public final class HourglassGenerator extends DefaultGenerator {
     private Location countdownLocation;
 
     public HourglassGenerator(Session session) {
+        // setup generator settings
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.INCREASED_TICK_ACCURACY); // to increase smoothness of countdown
+
+        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY);
     }
 
     @Override
@@ -82,10 +84,5 @@ public final class HourglassGenerator extends DefaultGenerator {
         // on score cooldown should start
         countdown = Instant.now();
         countdownLocation = lastStandingPlayerLocation.clone().subtract(0, 1, 0).clone();
-    }
-
-    @Override
-    public void menu() {
-        SettingsMenu.open(player, ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY);
     }
 }
