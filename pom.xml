@@ -104,7 +104,7 @@
             <groupId>com.github.Efnilite</groupId>
             <artifactId>Walk-in-the-Park</artifactId>
             <version>v3.5.2</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Dependencies that will be compiled with the jar -->

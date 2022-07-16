@@ -36,10 +36,8 @@ public class MultiSession extends SingleSession {
         if (isAcceptingPlayers()) {
             MultiGamemode gamemode = (MultiGamemode) getGamemode();
             gamemode.join(player, this);
-            addPlayers(ParkourPlayer.getPlayer(player));
         } else if (isAcceptingSpectators()) {
             Gamemodes.SPECTATOR.create(player, this);
-            addSpectators((ParkourSpectator) ParkourUser.getUser(player));
         }
     }
 

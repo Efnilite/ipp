@@ -127,7 +127,7 @@ public final class SpeedJumpGenerator extends PlusGenerator {
         int currentIndex = positionIndexMap.get(platform); // current index of the player
         int deltaFromLast = currentIndex - lastPositionIndexPlayer;
 
-        if (deltaFromLast <= 0) { // the player is actually making progress and not going backwards (current index is higher than the previous)
+        if (deltaFromLast <= 0 && score > 0) { // the player is actually making progress and not going backwards (current index is higher than the previous)
             return;
         }
 
@@ -191,9 +191,12 @@ public final class SpeedJumpGenerator extends PlusGenerator {
             updateJumpDistance();
         }
 
+        // clear history
         for (List<Block> blocks : positionIndexMap.keySet()) {
             blocks.forEach(block -> block.setType(Material.AIR));
         }
+        positionIndexMap.clear();
+
         super.reset(regenerate);
     }
 

@@ -1,5 +1,6 @@
 package dev.efnilite.ipp;
 
+import dev.efnilite.ip.IP;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.selection.Dimensions;
@@ -35,8 +36,9 @@ public class PlusCommand extends ViCommand {
         if (sender instanceof Player) {
             player = (Player) sender;
         }
+
         if (args.length == 0) {
-            sender.sendMessage("Sup"); // todo
+            help(sender);
             return true;
         } else if (args.length == 1) {
             switch (args[0].toLowerCase()) {
@@ -130,10 +132,22 @@ public class PlusCommand extends ViCommand {
                 }
             }
 
-            send(other, "<dark_red><bold>> <dark_red>&n" + pSender.getName() + "<gray> has invited you to play ");
-            send(other, "<dark_red><bold>> <dark_red>&nClick here<gray> to join. ");
+            Message.send(other, "");
+            Message.send(other, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + pp.getSession().getGamemode().getName() + " game.");
+            Message.send(other, "<dark_gray>Use <#3BC2C2><underline>/parkour join " + pp.getSessionId() + "</underline><dark_gray> to join.");
+            Message.send(other, "");
         }
         return true;
+    }
+
+    private void help(CommandSender sender) {
+        send(sender, "<#841414><red>Infinite Parkour+ Commands");
+        send(sender, "");
+        send(sender, "<#C01E1E>/ipp create <dark_gray>- <gray>Create a multiplayer lobby");
+        send(sender, "<#C01E1E>/ipp lobbies <dark_gray>- <gray>View all multiplayer lobbies");
+        send(sender, "<#C01E1E>/ipp invite [player]<dark_gray>- <gray>Invite another player");
+        send(sender, "<#C01E1E>/ipp lobby <pos1/pos2/save><dark_gray>- <gray>Setup lobby mode selection");
+        send(sender, "");
     }
 
     @Override

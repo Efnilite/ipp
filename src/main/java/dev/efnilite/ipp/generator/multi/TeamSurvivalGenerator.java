@@ -25,7 +25,9 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
     @Override
     public void tick() {
+        ParkourPlayer trailer = null;
         int trailing = Integer.MAX_VALUE;
+
         for (ParkourPlayer pp : session.getPlayers()) {
             Location location = pp.getLocation();
             Block blockBelow = location.clone().subtract(0, 1, 0).getBlock(); // Get the block below
@@ -41,24 +43,27 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
                 return;
             }
 
-            if (blockBelow.getType() == Material.AIR) {
-                continue;
+            int currentIndex;
+
+            // get last index for player
+            if (!positionIndexMap.containsKey(blockBelow) || blockBelow.getType() == Material.AIR) {
+                currentIndex = positionIndexMap.get(lastPlayerBlockMap.get(player));
+            } else {
+                currentIndex = positionIndexMap.get(blockBelow); // current index of the player
+                lastPlayerBlockMap.put(pp, blockBelow);
             }
 
-            if (!positionIndexMap.containsKey(blockBelow)) {
-                continue;
-            }
-
-            int currentIndex = positionIndexMap.get(blockBelow); // current index of the player
-
-            lastPlayerBlockMap.put(pp, blockBelow);
-
-            if (trailing > currentIndex) {
-                player = pp;
-                player.blockLead = 4;
+            if (trailing >= currentIndex) {
+                trailing = currentIndex;
+                trailer = pp;
+                player.blockLead = session.getPlayers().get(0).blockLead;
                 player.showFallMessage = false;
             }
         }
+        // only update if leader is not null
+        player = trailer != null ? trailer : player;
+
+        System.out.println("Trailer: " + player.getName());
 
         super.tick();
     }

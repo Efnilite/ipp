@@ -1,19 +1,14 @@
 package dev.efnilite.ipp;
 
-import dev.efnilite.ip.api.ParkourAPI;
+import dev.efnilite.ip.IP;
 import dev.efnilite.ip.menu.DynamicMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ipp.gamemode.multi.DuelGamemode;
-import dev.efnilite.ipp.gamemode.single.HourglassGamemode;
-import dev.efnilite.ipp.gamemode.single.LobbyGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
-import dev.efnilite.ipp.gamemode.single.PracticeGamemode;
-import dev.efnilite.ipp.gamemode.single.SpeedGamemode;
-import dev.efnilite.ipp.gamemode.single.SpeedJumpGamemode;
-import dev.efnilite.ipp.gamemode.single.TimeTrialGamemode;
+import dev.efnilite.ipp.gamemode.single.*;
 import dev.efnilite.ipp.menu.CreationMenu;
+import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.LobbyMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.ipp.session.MultiSession;
@@ -45,18 +40,18 @@ public final class IPP extends ViPlugin {
         registerCommand("ipp", new PlusCommand());
 
         // Gamemode register
-        ParkourAPI.getRegistry().register(new PracticeGamemode());
-        ParkourAPI.getRegistry().register(new TeamSurvivalGamemode());
-        ParkourAPI.getRegistry().register(new LobbyGamemode());
-        ParkourAPI.getRegistry().register(new SpeedGamemode());
-        ParkourAPI.getRegistry().register(new SpeedJumpGamemode());
-        ParkourAPI.getRegistry().register(new HourglassGamemode());
-        ParkourAPI.getRegistry().register(new TimeTrialGamemode());
-        ParkourAPI.getRegistry().register(new DuelGamemode());
+        IP.getRegistry().register(new PracticeGamemode());
+        IP.getRegistry().register(new TeamSurvivalGamemode());
+        IP.getRegistry().register(new LobbyGamemode());
+        IP.getRegistry().register(new SpeedGamemode());
+        IP.getRegistry().register(new SpeedJumpGamemode());
+        IP.getRegistry().register(new HourglassGamemode());
+        IP.getRegistry().register(new TimeTrialGamemode());
+        IP.getRegistry().register(new DuelGamemode());
 
         // Style register
-        ParkourAPI.getRegistry().registerType(new IncrementalStyle());
-        ParkourAPI.getRegistry().getStyleType("incremental").addConfigStyles("styles.incremental.list", configuration.getFile("config"));
+        IP.getRegistry().registerType(new IncrementalStyle());
+        IP.getRegistry().getStyleType("incremental").addConfigStyles("styles.incremental.list", configuration.getFile("config"));
 
         LobbyMode.read();
 
@@ -65,24 +60,17 @@ public final class IPP extends ViPlugin {
         DynamicMenu.Reg.MAIN.registerMainItem(1, 1,
                 user -> new Item(Material.OAK_BOAT, "<#0088CB><bold>Multiplayer").lore("<dark_gray>多人遊戲 • マルチプレイヤー").click(
                 event -> LobbyMenu.open(event.getPlayer())),
-                player -> {
-                    ParkourUser user = ParkourUser.getUser(player);
-                    // if user is null display item or if the player isn't already playing multi player
-                    return user == null || user instanceof ParkourSpectator || !(user instanceof ParkourPlayer)
-                            && PlusOption.MULTIPLAYER.check(player) && !(user.getSession() instanceof MultiSession);
-                });
+                PlusOption.MULTIPLAYER::check);
 
         DynamicMenu.Reg.MAIN.registerMainItem(1, 8,
-                user -> new Item(Material.CRYING_OBSIDIAN, "<#ECE228><bold>Lobby Settings").click(
-                event -> CreationMenu.open(event.getPlayer())),
+                user -> new Item(Material.ELYTRA, "<#ECE228><bold>Invite").click(
+                event -> InviteMenu.open(event.getPlayer())),
                 player -> {
                     ParkourUser user = ParkourUser.getUser(player);
                     // only show is user is parkourplayer and first player in session (the owner)
                     return user instanceof ParkourPlayer && user.getSession() instanceof MultiSession
                             && user.getSession().getPlayers().get(0) == user;
                 });
-
-
 
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");
     }
