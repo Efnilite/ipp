@@ -2,6 +2,7 @@ package dev.efnilite.ipp.gamemode.single;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
+import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
@@ -14,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 
 public final class SpeedGamemode implements Gamemode {
 
+    private final Leaderboard leaderboard = new Leaderboard(getName());
+
     @Override
     public @NotNull String getName() {
         return "speed";
@@ -22,6 +25,11 @@ public final class SpeedGamemode implements Gamemode {
     @Override
     public @NotNull Item getItem(String s) {
         return new Item(Material.LINGERING_POTION, "<#1882DE><bold>Speed").lore("<gray>Speed is key!");
+    }
+
+    @Override
+    public Leaderboard getLeaderboard() {
+        return leaderboard;
     }
 
     @Override

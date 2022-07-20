@@ -1,7 +1,9 @@
 package dev.efnilite.ipp.generator.multi;
 
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -75,5 +77,10 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
         lastPlayerBlockMap.clear();
 
         session.getPlayers().forEach(player -> player.teleport(playerSpawn));
+    }
+
+    @Override
+    public Gamemode getGamemode() {
+        return PlusGamemodes.TEAM_SURVIVAL;
     }
 }

@@ -1,9 +1,11 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -42,5 +44,10 @@ public final class SpeedGenerator extends PlusGenerator {
     public void score() {
         this.score++;
         this.totalScore++;
+    }
+
+    @Override
+    public Gamemode getGamemode() {
+        return PlusGamemodes.SPEED;
     }
 }

@@ -2,11 +2,13 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.ParkourOption;
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.DynamicMenu;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
@@ -290,5 +292,10 @@ public final class PracticeGenerator extends PlusGenerator {
     public void score() {
         this.score++;
         this.totalScore++;
+    }
+
+    @Override
+    public Gamemode getGamemode() {
+        return PlusGamemodes.PRACTICE;
     }
 }

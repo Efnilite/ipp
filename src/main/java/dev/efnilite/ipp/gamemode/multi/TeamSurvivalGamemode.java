@@ -2,6 +2,7 @@ package dev.efnilite.ipp.gamemode.multi;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.MultiGamemode;
+import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
@@ -14,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 
 public final class TeamSurvivalGamemode implements MultiGamemode {
 
+    private final Leaderboard leaderboard = new Leaderboard(getName());
+
     @Override
     public @NotNull String getName() {
         return "teamsurvival";
@@ -23,6 +26,11 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
     public @NotNull Item getItem(String s) {
         return new Item(Material.POPPY, "<#C91212><bold>Team Survival")
                 .lore("<gray>Live as long as you can with your entire team", "<gray>If someone falls, everyone's back to start");
+    }
+
+    @Override
+    public Leaderboard getLeaderboard() {
+        return leaderboard;
     }
 
     @Override
@@ -47,7 +55,9 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
     public void join(Player player, Session session) {
         if (session.getPlayers().get(0).getGenerator() instanceof TeamSurvivalGenerator) {
             player.closeInventory();
+
             ParkourPlayer pp = ParkourUser.register(player);
+            IP.getDivider().setup(pp, session.getPlayers().get(0).getLocation(), false);
 
             session.addPlayers(pp);
         }

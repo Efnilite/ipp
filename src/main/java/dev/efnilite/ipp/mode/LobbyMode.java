@@ -36,12 +36,12 @@ public class LobbyMode {
     /**
      * The range from the edge of the selection, in order to ensure a safe spawn.
      */
-    public static final int LOBBY_SAFE_RANGE = 15;
+    public static final int LOBBY_SAFE_RANGE = 10;
 
     /**
      * The minimum size of the axes of a selection.
      */
-    public static final int MINIMUM_SIZE = 5 * LOBBY_SAFE_RANGE; // 50x50x50
+    public static final int MINIMUM_SIZE = 3 * LOBBY_SAFE_RANGE; // 50x50x50
     private static final Map<World, LobbySelection> selections = new HashMap<>();
     private static final Path FOLDER = Paths.get(IPP.getPlugin().getDataFolder().toString(), "worlds");
 
@@ -152,7 +152,7 @@ public class LobbyMode {
         spawn.setYaw(-90);
 
         generator.generateFirst(spawn, block);
-        IP.getDivider().setup(spawn, player);
+        IP.getDivider().setup(player, spawn, true);
     }
 
     /**

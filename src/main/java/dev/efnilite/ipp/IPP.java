@@ -1,9 +1,11 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.menu.DynamicMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
+import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.gamemode.multi.DuelGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
 import dev.efnilite.ipp.gamemode.single.*;
@@ -54,6 +56,7 @@ public final class IPP extends ViPlugin {
         IP.getRegistry().getStyleType("incremental").addConfigStyles("styles.incremental.list", configuration.getFile("config"));
 
         LobbyMode.read();
+        PlusGamemodes.init();
 
         // Register stuff for main menu
         // Multiplayer if player is not found

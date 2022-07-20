@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.AreaData;
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
@@ -11,6 +12,7 @@ import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ip.world.WorldDivider;
 import dev.efnilite.ipp.IPP;
+import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.ipp.util.config.PlusOption;
 import dev.efnilite.vilib.inventory.item.Item;
@@ -210,5 +212,10 @@ public final class DuelGenerator extends MultiplayerGenerator {
             }
         }
         return null;
+    }
+
+    @Override
+    public Gamemode getGamemode() {
+        return PlusGamemodes.DUEL;
     }
 }

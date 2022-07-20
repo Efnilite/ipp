@@ -1,9 +1,11 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.vilib.chat.Message;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -65,5 +67,10 @@ public final class TimeTrialGenerator extends PlusGenerator {
             score = goal;
             player.teleport(player.getLocation().subtract(0, 15, 0));
         }
+    }
+
+    @Override
+    public Gamemode getGamemode() {
+        return PlusGamemodes.TIME_TRIAL;
     }
 }

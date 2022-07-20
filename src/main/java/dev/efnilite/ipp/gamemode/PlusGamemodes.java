@@ -1,0 +1,37 @@
+package dev.efnilite.ipp.gamemode;
+
+import dev.efnilite.ip.IP;
+import dev.efnilite.ip.internal.gamemode.DefaultGamemode;
+import dev.efnilite.ip.internal.gamemode.SpectatorGamemode;
+import dev.efnilite.ipp.gamemode.multi.DuelGamemode;
+import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
+import dev.efnilite.ipp.gamemode.single.*;
+
+public class PlusGamemodes {
+
+    // singleplayer
+    public static HourglassGamemode HOURGLASS;
+    public static LobbyGamemode LOBBY;
+    public static PracticeGamemode PRACTICE;
+    public static SpeedGamemode SPEED;
+    public static SpeedJumpGamemode SPEED_JUMP;
+    public static TimeTrialGamemode TIME_TRIAL;
+
+    // multiplayer
+    public static DuelGamemode DUEL;
+    public static TeamSurvivalGamemode TEAM_SURVIVAL;
+
+    public static void init() {
+        // singleplayer
+        HOURGLASS = (HourglassGamemode) IP.getRegistry().getGamemode("hourglass");
+        LOBBY = (LobbyGamemode) IP.getRegistry().getGamemode("lobby");
+        PRACTICE = (PracticeGamemode) IP.getRegistry().getGamemode("practice");
+        SPEED = (SpeedGamemode) IP.getRegistry().getGamemode("speed");
+        SPEED_JUMP = (SpeedJumpGamemode) IP.getRegistry().getGamemode("speedjump");
+        TIME_TRIAL = (TimeTrialGamemode) IP.getRegistry().getGamemode("timetrial");
+
+        // multiplayer
+        DUEL = (DuelGamemode) IP.getRegistry().getGamemode("duel");
+        TEAM_SURVIVAL = (TeamSurvivalGamemode) IP.getRegistry().getGamemode("teamsurvival");
+    }
+}

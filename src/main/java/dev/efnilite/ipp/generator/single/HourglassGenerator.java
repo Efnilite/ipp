@@ -1,9 +1,11 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.vilib.chat.Message;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
@@ -84,5 +86,10 @@ public final class HourglassGenerator extends PlusGenerator {
         // on score cooldown should start
         countdown = Instant.now();
         countdownLocation = lastStandingPlayerLocation.clone().subtract(0, 1, 0).clone();
+    }
+
+    @Override
+    public Gamemode getGamemode() {
+        return PlusGamemodes.HOURGLASS;
     }
 }
