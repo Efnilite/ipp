@@ -1,17 +1,17 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
-import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.menu.DynamicMenu;
+import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.gamemode.multi.DuelGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
 import dev.efnilite.ipp.gamemode.single.*;
-import dev.efnilite.ipp.menu.CreationMenu;
+import dev.efnilite.ipp.generator.single.PracticeGenerator;
 import dev.efnilite.ipp.menu.InviteMenu;
-import dev.efnilite.ipp.menu.LobbyMenu;
+import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.ipp.style.IncrementalStyle;
@@ -60,12 +60,12 @@ public final class IPP extends ViPlugin {
 
         // Register stuff for main menu
         // Multiplayer if player is not found
-        DynamicMenu.Reg.MAIN.registerMainItem(1, 1,
+        MainMenu.INSTANCE.registerMainItem(1, 1,
                 user -> new Item(Material.OAK_BOAT, "<#0088CB><bold>Multiplayer").lore("<dark_gray>多人遊戲 • マルチプレイヤー").click(
-                event -> LobbyMenu.open(event.getPlayer())),
+                event -> MultiplayerMenu.open(event.getPlayer())),
                 PlusOption.MULTIPLAYER::check);
 
-        DynamicMenu.Reg.MAIN.registerMainItem(1, 8,
+        MainMenu.INSTANCE.registerMainItem(1, 8,
                 user -> new Item(Material.ELYTRA, "<#ECE228><bold>Invite").click(
                 event -> InviteMenu.open(event.getPlayer())),
                 player -> {
@@ -75,12 +75,35 @@ public final class IPP extends ViPlugin {
                             && user.getSession().getPlayers().get(0) == user;
                 });
 
+        // practice settings only if player's generator is of this instance
+        MainMenu.INSTANCE.registerMainItem(1, 3,
+                user -> new Item(Material.COMPARATOR, "<#E74FA1><bold>Practice Settings").click(
+                        event -> {
+                            ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
+                            if (pp != null && pp.getGenerator() instanceof PracticeGenerator generator) {
+                                generator.open();
+                            }
+                        }),
+                player -> {
+                    ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+                    return pp != null && pp.getGenerator() instanceof PracticeGenerator;
+                });
+
+
+
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");
     }
 
     @Override
     public void disable() {
+        // save all gamemodes
+        PlusGamemodes.TIME_TRIAL.getLeaderboard().write(false);
+        PlusGamemodes.SPEED_JUMP.getLeaderboard().write(false);
+        PlusGamemodes.HOURGLASS.getLeaderboard().write(false);
+        PlusGamemodes.SPEED.getLeaderboard().write(false);
 
+        PlusGamemodes.DUEL.getLeaderboard().write(false);
+        PlusGamemodes.TEAM_SURVIVAL.getLeaderboard().write(false);
     }
 
     /**

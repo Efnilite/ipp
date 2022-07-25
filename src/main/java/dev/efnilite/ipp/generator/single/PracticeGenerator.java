@@ -5,6 +5,7 @@ import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.DynamicMenu;
+import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.Session;
@@ -19,23 +20,6 @@ import org.bukkit.Material;
  * Class for multiplayer
  */
 public final class PracticeGenerator extends PlusGenerator {
-
-    static {
-        // practice settings only if player's generator is of this instance
-        DynamicMenu.Reg.MAIN.registerMainItem(1, 3,
-                user -> new Item(Material.COMPARATOR, "<#E74FA1><bold>Practice Settings").click(
-                event -> {
-                    ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
-                    if (pp != null && pp.getGenerator() instanceof PracticeGenerator generator) {
-                        generator.open();
-                    }
-                }),
-                player -> {
-                    ParkourPlayer pp = ParkourPlayer.getPlayer(player);
-                    return pp != null && pp.getGenerator() instanceof PracticeGenerator;
-                });
-        // todo
-    }
 
     public PracticeGenerator(Session session) {
         // setup generator settings

@@ -46,7 +46,7 @@ public class CreationMenu {
                         .click(event -> gameMenu.page(-1)))
 
                 .item(31, new Item(Material.ARROW, "<red><bold>Close").click(event ->
-                        LobbyMenu.open(event.getPlayer())))
+                        MultiplayerMenu.open(event.getPlayer())))
 
                 .fillBackground(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                 .animation(new WaveWestAnimation())

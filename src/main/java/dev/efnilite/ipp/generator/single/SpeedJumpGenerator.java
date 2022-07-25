@@ -172,10 +172,6 @@ public final class SpeedJumpGenerator extends PlusGenerator {
     public void generate() {
         List<Block> blocks = selectBlocks();
 
-        if (isNearingEdge(mostRecentBlock.clone()) && score > 0) {
-            heading = Util.opposite(mostRecentBlock, zone);
-        }
-
         positionIndexMap.put(blocks, positionIndexTotal);
         for (Block block : blocks) {
             setBlock(block, selectBlockData());

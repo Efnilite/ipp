@@ -1,8 +1,6 @@
 package dev.efnilite.ipp.gamemode;
 
 import dev.efnilite.ip.IP;
-import dev.efnilite.ip.internal.gamemode.DefaultGamemode;
-import dev.efnilite.ip.internal.gamemode.SpectatorGamemode;
 import dev.efnilite.ipp.gamemode.multi.DuelGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
 import dev.efnilite.ipp.gamemode.single.*;

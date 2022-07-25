@@ -4,8 +4,6 @@ import com.google.common.annotations.Beta;
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.player.ParkourSpectator;
-import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.SingleSession;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

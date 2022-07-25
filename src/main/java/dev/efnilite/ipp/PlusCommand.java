@@ -8,7 +8,7 @@ import dev.efnilite.ip.schematic.selection.Selection;
 import dev.efnilite.ipp.generator.multi.DuelGenerator;
 import dev.efnilite.ipp.menu.CreationMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
-import dev.efnilite.ipp.menu.LobbyMenu;
+import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.command.ViCommand;
@@ -44,7 +44,7 @@ public class PlusCommand extends ViCommand {
             switch (args[0].toLowerCase()) {
                 case "lobbies" -> {
                     if (sender instanceof Player && sender.hasPermission("ip.lobbies.view")) {
-                        LobbyMenu.open(player);
+                        MultiplayerMenu.open(player);
                     }
                     return true;
                 }

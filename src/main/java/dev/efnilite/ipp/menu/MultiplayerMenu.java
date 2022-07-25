@@ -1,7 +1,9 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.api.Gamemodes;
+import dev.efnilite.ip.chat.ChatType;
 import dev.efnilite.ip.menu.DynamicMenu;
+import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
@@ -16,6 +18,7 @@ import dev.efnilite.vilib.inventory.item.MenuItem;
 import dev.efnilite.vilib.util.Unicodes;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +26,27 @@ import java.util.List;
 /**
  * Opens the Session menu
  */
-public class LobbyMenu {
+public class MultiplayerMenu {
 
     public static void open(Player player) {
         Menu menu = new Menu(4, "<white>Lobbies")
                 .animation(new WaveWestAnimation())
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE);
+
+        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+
+        if (pp != null) {
+            // get next sorting type
+            ChatType next = switch (pp.getChatType()) {
+                case PUBLIC -> ChatType.LOBBY_ONLY;
+                case LOBBY_ONLY -> ChatType.PLAYERS_ONLY;
+                default -> ChatType.PUBLIC;
+            };
+
+            menu.item(11, new Item(Material.FEATHER, "<#20C6BC><bold>Change chat to " + next)
+                    .lore("<dark_gray>Select who you can chat with", "Currently: " + pp.getChatType().name()) // todo change to #getName()
+                    .click(event -> open(player)));
+        }
 
         menu
                 .distributeRowEvenly(1, 3)
@@ -47,7 +65,7 @@ public class LobbyMenu {
 
                 .item(27, new Item(Material.ARROW, "<#F5A3A3><bold>Go back")
                         .lore("<dark_gray>Zurückgehen • 回去", "<dark_gray>• Retourner • 戻る", "<dark_gray>• Teruggaan").click(
-                        event -> DynamicMenu.Reg.MAIN.open(player)))
+                        event -> MainMenu.INSTANCE.open(player)))
 
                 .open(player);
     }
@@ -129,7 +147,7 @@ public class LobbyMenu {
                         .lore("<dark_gray>Erneuern • 刷新 • Rafraîchir", "<dark_gray>リフレッシュ • Vernieuwen").click(
                         event -> openSessions(player, sort)))
 
-                .item(31, new Item(Material.BOOKSHELF, "<#2FBC11><bold>Sort")
+                .item(31, new Item(Material.BOOKSHELF, "<#DEA11F><bold>Sort")
                         .lore("<dark_gray>Sortieren • 种类", "<dark_gray>Trier • 選別 • Sorteren").click(
                         event -> {
                     if (sort == MenuSort.LEAST_OPEN_FIRST) {
@@ -140,7 +158,7 @@ public class LobbyMenu {
                 }))
 
                 .item(32, new Item(Material.ARROW, "<red><bold>Go back").click(
-                        event -> LobbyMenu.open(event.getPlayer())))
+                        event -> MultiplayerMenu.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
                 .animation(new RandomAnimation())

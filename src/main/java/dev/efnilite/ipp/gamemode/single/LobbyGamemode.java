@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.gamemode.single;
 
 import dev.efnilite.ip.api.Gamemode;
+import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
@@ -12,8 +13,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public final class LobbyGamemode implements Gamemode {
-
-    private final Leaderboard leaderboard = new Leaderboard(getName());
 
     @Override
     public @NotNull String getName() {
@@ -28,7 +27,7 @@ public final class LobbyGamemode implements Gamemode {
 
     @Override
     public Leaderboard getLeaderboard() {
-        return leaderboard;
+        return Gamemodes.DEFAULT.getLeaderboard();
     }
 
     @Override

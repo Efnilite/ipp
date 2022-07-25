@@ -15,8 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 public final class PracticeGamemode implements Gamemode {
 
-    private final Leaderboard leaderboard = new Leaderboard(getName());
-
     @Override
     public @NotNull String getName() {
         return "practice";
@@ -29,7 +27,7 @@ public final class PracticeGamemode implements Gamemode {
 
     @Override
     public Leaderboard getLeaderboard() {
-        return leaderboard;
+        return null;
     }
 
     @Override
