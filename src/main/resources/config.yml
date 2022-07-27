@@ -20,12 +20,44 @@
 #                                                                               #
 #===============================================================================#
 
-# Send back after multiplayer
+# -= Send back after multiplayer =-
 # Whether players should be sent back to their previous data/location after they finish a multiplayer match.
 # If this is set to false, they will join a regular singleplayer WITP game.
 send-back-after-multiplayer: false
 
-# Options for other extra style types
+# -= Gamemode options =-
+gamemodes:
+
+  hourglass:
+    enabled: true
+
+  lobby:
+    enabled: true
+
+  practice:
+    enabled: true
+
+  speed:
+    enabled: true
+
+  speed-jump:
+    enabled: true
+
+  time-trial:
+    enabled: true
+
+    # -= Time Trial goal =-
+    # The amount of score required to finish time trial
+    goal: 100
+
+  duel:
+    enabled: true
+
+    # -= Duel goal =-
+    # The amount of score required to win
+    goal: 100
+
+# -= Extra style options =-
 styles:
 
   # This style will set the specified blocks one after another.

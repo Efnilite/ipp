@@ -49,7 +49,13 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
             // get last index for player
             if (!positionIndexMap.containsKey(blockBelow) || blockBelow.getType() == Material.AIR) {
-                currentIndex = positionIndexMap.get(lastPlayerBlockMap.get(player));
+                Block block = lastPlayerBlockMap.get(player);
+
+                if (block == null) {
+                    continue;
+                }
+
+                currentIndex = positionIndexMap.get(block);
             } else {
                 currentIndex = positionIndexMap.get(blockBelow); // current index of the player
                 lastPlayerBlockMap.put(pp, blockBelow);
@@ -64,6 +70,8 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
         }
         // only update if leader is not null
         player = trailer != null ? trailer : player;
+
+        super.playerSpawn = playerSpawn; // ????
 
         System.out.println("Trailer: " + player.getName());
 

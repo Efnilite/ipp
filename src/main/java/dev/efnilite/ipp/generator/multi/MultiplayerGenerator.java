@@ -1,10 +1,10 @@
 package dev.efnilite.ipp.generator.multi;
 
-import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ipp.generator.single.PlusGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 
-public abstract class MultiplayerGenerator extends DefaultGenerator {
+public abstract class MultiplayerGenerator extends PlusGenerator {
 
     /**
      * The session that belongs to this Generator

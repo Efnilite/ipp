@@ -19,7 +19,7 @@ public final class SpeedJumpGamemode implements Gamemode {
 
     @Override
     public @NotNull String getName() {
-        return "speedjump";
+        return "speed-jump";
     }
 
     @Override

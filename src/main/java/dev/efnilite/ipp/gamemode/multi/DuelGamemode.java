@@ -9,6 +9,7 @@ import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.generator.multi.DuelGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
+import dev.efnilite.vilib.vector.Vector2D;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +43,10 @@ public final class DuelGamemode implements MultiGamemode {
         session.setMaxPlayers(4);
 
         DuelGenerator generator = new DuelGenerator(session);
+
         IP.getDivider().generate(pp, generator, false);
+        IP.getDivider().setup(pp, null, true, false);
+
         generator.initPoint();
     }
 
@@ -53,19 +57,22 @@ public final class DuelGamemode implements MultiGamemode {
 
     @Override
     public void join(Player player, Session session) {
-        if (session.isAcceptingPlayers() && session.getPlayers().get(0).getGenerator() instanceof DuelGenerator) {
+        if (session.isAcceptingPlayers() && session.getPlayers().get(0).getGenerator() instanceof DuelGenerator generator) {
             player.closeInventory();
 
             ParkourPlayer pp = ParkourUser.register(player);
-            IP.getDivider().setup(pp, session.getPlayers().get(0).getLocation(), true);
+            IP.getDivider().setup(pp, session.getPlayers().get(0).getLocation(), true, false);
 
             session.addPlayers(pp);
+            generator.addPlayer(pp);
         }
     }
 
     @Override
     public void leave(Player player, Session session) {
-
+        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+        session.removePlayers(pp);
+        ParkourUser.unregister(pp, true, true, true);
     }
 
     @Override

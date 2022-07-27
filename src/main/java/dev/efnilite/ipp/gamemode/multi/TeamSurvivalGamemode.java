@@ -57,7 +57,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
             player.closeInventory();
 
             ParkourPlayer pp = ParkourUser.register(player);
-            IP.getDivider().setup(pp, session.getPlayers().get(0).getLocation(), false);
+            IP.getDivider().setup(pp, session.getPlayers().get(0).getLocation(), false, false);
 
             session.addPlayers(pp);
         }

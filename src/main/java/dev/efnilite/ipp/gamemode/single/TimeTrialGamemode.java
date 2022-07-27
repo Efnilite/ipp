@@ -19,7 +19,7 @@ public final class TimeTrialGamemode implements Gamemode {
 
     @Override
     public @NotNull String getName() {
-        return "timetrial";
+        return "time-trial";
     }
 
     @Override

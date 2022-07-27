@@ -35,8 +35,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>fr.mrmicky.fastboard</pattern>
@@ -96,14 +94,14 @@
         <dependency>
             <groupId>com.github.Efnilite</groupId>
             <artifactId>vilib</artifactId>
-            <version>v1.0.9</version>
+            <version>v1.0.11</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.Efnilite</groupId>
             <artifactId>Walk-in-the-Park</artifactId>
-            <version>d60370c343</version>
+            <version>6cad2550f1</version>
             <scope>provided</scope>
         </dependency>
 

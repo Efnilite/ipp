@@ -33,21 +33,6 @@ public class MultiplayerMenu {
                 .animation(new WaveWestAnimation())
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE);
 
-        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
-
-        if (pp != null) {
-            // get next sorting type
-            ChatType next = switch (pp.getChatType()) {
-                case PUBLIC -> ChatType.LOBBY_ONLY;
-                case LOBBY_ONLY -> ChatType.PLAYERS_ONLY;
-                default -> ChatType.PUBLIC;
-            };
-
-            menu.item(11, new Item(Material.FEATHER, "<#20C6BC><bold>Change chat to " + next)
-                    .lore("<dark_gray>Select who you can chat with", "Currently: " + pp.getChatType().name()) // todo change to #getName()
-                    .click(event -> open(player)));
-        }
-
         menu
                 .distributeRowEvenly(1, 3)
 

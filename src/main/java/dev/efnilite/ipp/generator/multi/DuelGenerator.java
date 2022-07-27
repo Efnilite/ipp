@@ -1,10 +1,12 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.AreaData;
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.RotationAngle;
@@ -32,9 +34,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class DuelGenerator extends MultiplayerGenerator {
 
+    private boolean allowJoining = true;
     private static final Schematic schematic = new Schematic()
             .file("duel-island");
     private final Map<ParkourPlayer, SingleDuelGenerator> playerGenerators = new HashMap<>();
+    private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getGamemode().getName().toLowerCase() + ".goal");
 
     public DuelGenerator(@NotNull MultiSession session) {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
@@ -53,12 +57,14 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
         addPlayer(player);
 
-        player.getPlayer().getInventory().addItem(new Item(Material.GREEN_BANNER, 1, "&a<bold>Click to start").build());
-        //                .setPersistentData("IPex", "true").buildPersistent(InfiniteEx.getInstance())); todo
+        Task.create(IPP.getPlugin())
+                .delay(5)
+                .execute(() -> player.getPlayer().getInventory().addItem(new Item(Material.LIME_BANNER, 1, "<#5EC743><bold>Click to start").build()))
+                .run();
     }
 
     public void addPlayer(ParkourPlayer player) {
-        if (playerGenerators.keySet().size() == 4) {
+        if (playerGenerators.keySet().size() >= 4 || !allowJoining) {
             return;
         }
 
@@ -66,7 +72,9 @@ public final class DuelGenerator extends MultiplayerGenerator {
         generator.setPlayerIndex(playerGenerators.keySet().size());
         generator.setOwningGenerator(this);
 
-        Location spawn = playerSpawn.clone().add(session.getPlayers().size() * 10, 0, 0);
+        player.setGenerator(generator);
+
+        Location spawn = playerSpawn.clone().add(schematic.getDimensions().getWidth() * (session.getPlayers().size() - 1), 0, 0);
         List<Block> blocks = schematic.paste(spawn, RotationAngle.ANGLE_0);
         for (Block block : blocks) {
             switch (block.getType()) {
@@ -109,7 +117,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
                         switch (countdown.get()) {
                             case 0:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    player.getPlayer().sendTitle("<#1BE3DD><bold>Go!", "<gray>First to 100 wins!", 0, 21, 5);
+                                    player.getPlayer().sendTitle("<#1BE3DD><bold>Go!", "<gray>First to " + goal + " wins!", 0, 21, 5);
                                     for (Block block : ((DefaultGenerator) player.getGenerator()).getData().blocks()) {
                                         if (block.getType() == Material.GLASS) {
                                             block.setType(Material.AIR);
@@ -138,11 +146,16 @@ public final class DuelGenerator extends MultiplayerGenerator {
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
                                     player.getPlayer().sendTitle("<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0);
                                 }
+                                close();
                                 break;
                         }
                     }
                 })
                 .run();
+    }
+
+    private void close() {
+        allowJoining = false;
     }
 
     @Override
@@ -163,7 +176,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
         for (SingleDuelGenerator generator : playerGenerators.values()) {
             generator.tick();
 
-            if (generator.getScore() > 100) {
+            if (generator.getScore() > goal) {
                 winner = getPlayerFromGenerator(generator);
                 winningTime = generator.getTime();
             }

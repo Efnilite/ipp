@@ -25,8 +25,8 @@ public class PlusGamemodes {
         LOBBY = (LobbyGamemode) IP.getRegistry().getGamemode("lobby");
         PRACTICE = (PracticeGamemode) IP.getRegistry().getGamemode("practice");
         SPEED = (SpeedGamemode) IP.getRegistry().getGamemode("speed");
-        SPEED_JUMP = (SpeedJumpGamemode) IP.getRegistry().getGamemode("speedjump");
-        TIME_TRIAL = (TimeTrialGamemode) IP.getRegistry().getGamemode("timetrial");
+        SPEED_JUMP = (SpeedJumpGamemode) IP.getRegistry().getGamemode("speed-jump");
+        TIME_TRIAL = (TimeTrialGamemode) IP.getRegistry().getGamemode("time-trial");
 
         // multiplayer
         DUEL = (DuelGamemode) IP.getRegistry().getGamemode("duel");

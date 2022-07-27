@@ -5,6 +5,7 @@ import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.vilib.chat.Message;
 import net.md_5.bungee.api.ChatColor;
@@ -26,7 +27,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
     };
 
     // the time trial goal todo customizable
-    private final static int goal = 100;
+    private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getGamemode().getName().toLowerCase() + ".goal");
 
     public TimeTrialGenerator(Session session) {
         // setup settings for generation

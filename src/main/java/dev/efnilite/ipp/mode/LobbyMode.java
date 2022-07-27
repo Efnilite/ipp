@@ -152,7 +152,7 @@ public class LobbyMode {
         spawn.setYaw(-90);
 
         generator.generateFirst(spawn, block);
-        IP.getDivider().setup(player, spawn, true);
+        IP.getDivider().setup(player, spawn, true, false);
     }
 
     /**

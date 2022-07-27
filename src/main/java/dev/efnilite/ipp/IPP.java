@@ -1,6 +1,7 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.menu.DynamicMenu;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
@@ -20,7 +21,9 @@ import dev.efnilite.vilib.ViPlugin;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Logging;
 import dev.efnilite.vilib.util.Time;
+import dev.efnilite.vilib.util.elevator.GitElevator;
 import org.bukkit.Material;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
@@ -42,14 +45,14 @@ public final class IPP extends ViPlugin {
         registerCommand("ipp", new PlusCommand());
 
         // Gamemode register
-        IP.getRegistry().register(new PracticeGamemode());
-        IP.getRegistry().register(new TeamSurvivalGamemode());
-        IP.getRegistry().register(new LobbyGamemode());
-        IP.getRegistry().register(new SpeedGamemode());
-        IP.getRegistry().register(new SpeedJumpGamemode());
-        IP.getRegistry().register(new HourglassGamemode());
-        IP.getRegistry().register(new TimeTrialGamemode());
-        IP.getRegistry().register(new DuelGamemode());
+        registerGamemode(new PracticeGamemode());
+        registerGamemode(new TeamSurvivalGamemode());
+        registerGamemode(new LobbyGamemode());
+        registerGamemode(new SpeedGamemode());
+        registerGamemode(new SpeedJumpGamemode());
+        registerGamemode(new HourglassGamemode());
+        registerGamemode(new TimeTrialGamemode());
+        registerGamemode(new DuelGamemode());
 
         // Style register
         IP.getRegistry().registerType(new IncrementalStyle());
@@ -104,6 +107,17 @@ public final class IPP extends ViPlugin {
 
         PlusGamemodes.DUEL.getLeaderboard().write(false);
         PlusGamemodes.TEAM_SURVIVAL.getLeaderboard().write(false);
+    }
+
+    @Override
+    public @Nullable GitElevator getElevator() {
+        return null;
+    }
+
+    private void registerGamemode(Gamemode gamemode) {
+        if (configuration.getFile("config").getBoolean("gamemodes." + gamemode.getName().toLowerCase() + ".enabled")) {
+            IP.getRegistry().register(gamemode);
+        }
     }
 
     /**
