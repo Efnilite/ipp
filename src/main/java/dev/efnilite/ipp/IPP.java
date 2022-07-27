@@ -2,7 +2,6 @@ package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.menu.DynamicMenu;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;

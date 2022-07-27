@@ -1,8 +1,6 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.api.Gamemodes;
-import dev.efnilite.ip.chat.ChatType;
-import dev.efnilite.ip.menu.DynamicMenu;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
@@ -18,7 +16,6 @@ import dev.efnilite.vilib.inventory.item.MenuItem;
 import dev.efnilite.vilib.util.Unicodes;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;

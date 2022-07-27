@@ -31,7 +31,9 @@ public class MultiSession extends SingleSession {
 
     @Override
     public void join(Player player) {
+        System.out.println("join call");
         if (isAcceptingPlayers()) {
+            System.out.println("is accepting players");
             MultiGamemode gamemode = (MultiGamemode) getGamemode();
             gamemode.join(player, this);
         } else if (isAcceptingSpectators()) {

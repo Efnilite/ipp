@@ -66,10 +66,10 @@ public class InviteMenu {
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
                         .click(event -> playerMenu.page(-1)))
 
-                .item(31, new Item(Material.PAPER, "<#0b55e0><bold>Lobby " + sessionId)
+                .item(30, new Item(Material.PAPER, "<#0b55e0><bold>Lobby " + sessionId)
                         .lore("<gray>Players can also use", "<#346edb><underline>/parkour join " + sessionId, "<gray>to join this lobby."))
 
-                .item(33, new Item(Material.ARROW, "<red><bold>Close").click(event ->
+                .item(32, new Item(Material.ARROW, "<red><bold>Close").click(event ->
                         event.getEvent().getWhoClicked().closeInventory()))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)

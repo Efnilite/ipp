@@ -2,10 +2,8 @@ package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.selection.Dimensions;
 import dev.efnilite.ip.schematic.selection.Selection;
-import dev.efnilite.ipp.generator.multi.DuelGenerator;
 import dev.efnilite.ipp.menu.CreationMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
@@ -123,13 +121,6 @@ public class PlusCommand extends ViCommand {
             ParkourPlayer pp = ParkourPlayer.getPlayer(pSender);
             if (pp == null) {
                 return true;
-            }
-            if (pp.getGenerator() instanceof DuelGenerator gen) {
-                try {
-                    gen.addPlayer(ParkourUser.register(other));
-                } catch (Throwable throwable) {
-                    IPP.logging().stack("Error while registering " + other.getName(), throwable);
-                }
             }
 
             Message.send(other, "");

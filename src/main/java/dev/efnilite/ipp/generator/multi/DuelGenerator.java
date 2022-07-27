@@ -1,18 +1,17 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.IP;
-import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.AreaData;
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.base.GeneratorOption;
-import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.RotationAngle;
 import dev.efnilite.ip.schematic.Schematic;
+import dev.efnilite.ip.schematic.selection.Selection;
+import dev.efnilite.ip.util.Util;
 import dev.efnilite.ip.util.config.Option;
-import dev.efnilite.ip.world.WorldDivider;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
@@ -34,7 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class DuelGenerator extends MultiplayerGenerator {
 
-    private boolean allowJoining = true;
+    private boolean allowJoining;
     private static final Schematic schematic = new Schematic()
             .file("duel-island");
     private final Map<ParkourPlayer, SingleDuelGenerator> playerGenerators = new HashMap<>();
@@ -44,15 +43,15 @@ public final class DuelGenerator extends MultiplayerGenerator {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
     }
 
-    public void initPoint() {
-        WorldDivider divider = IP.getDivider();
-        Vector2D point = divider.getPoint(player);
-
+    public void init(Vector2D point) {
         if (point == null) {
             return;
         }
 
-        playerSpawn = divider.getEstimatedCenter(point, Option.BORDER_SIZE.getAsDouble()).toLocation(player.getPlayer().getWorld()).clone();
+        allowJoining = true;
+        playerSpawn = IP.getDivider().getEstimatedCenter(point, Option.BORDER_SIZE).toLocation(IP.getWorldHandler().getWorld()).clone();
+        zone = IP.getDivider().getZone(playerSpawn);
+
         schematic.read();
 
         addPlayer(player);
@@ -64,6 +63,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
     }
 
     public void addPlayer(ParkourPlayer player) {
+        System.out.println("add players");
         if (playerGenerators.keySet().size() >= 4 || !allowJoining) {
             return;
         }
@@ -74,7 +74,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
         player.setGenerator(generator);
 
-        Location spawn = playerSpawn.clone().add(schematic.getDimensions().getWidth() * (session.getPlayers().size() - 1), 0, 0);
+        Location spawn = playerSpawn.clone().add(3 * schematic.getDimensions().getWidth() * (session.getPlayers().size() - 1), 0, 0);
         List<Block> blocks = schematic.paste(spawn, RotationAngle.ANGLE_0);
         for (Block block : blocks) {
             switch (block.getType()) {
@@ -117,41 +117,51 @@ public final class DuelGenerator extends MultiplayerGenerator {
                         switch (countdown.get()) {
                             case 0:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    player.getPlayer().sendTitle("<#1BE3DD><bold>Go!", "<gray>First to " + goal + " wins!", 0, 21, 5);
+                                    sendTitle(player, "<#1BE3DD><bold>Go!", "<gray>First to " + goal + " wins!", 0, 21, 5);
                                     for (Block block : ((DefaultGenerator) player.getGenerator()).getData().blocks()) {
-                                        if (block.getType() == Material.GLASS) {
+                                        if (block.getType() == Material.BARRIER) {
                                             block.setType(Material.AIR);
                                         }
                                     }
+
+                                    ((DefaultGenerator) player.getGenerator()).generate(player.blockLead);
                                 }
+
+                                stopped = false;
+
                                 startTick();
                                 cancel();
                                 break;
                             case 1:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    player.getPlayer().sendTitle("<#DA2626><bold>1", "", 0, 21, 0);
+                                    sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0);
                                 }
                                 break;
                             case 2:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    player.getPlayer().sendTitle("<#DCD31D><bold>2", "", 0, 21, 0);
+                                    sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0);
                                 }
                                 break;
                             case 3:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    player.getPlayer().sendTitle("<#42D929><bold>3", "", 0, 21, 0);
+                                    sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0);
                                 }
                                 break;
                             default:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    player.getPlayer().sendTitle("<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0);
+                                    sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0);
                                 }
                                 close();
                                 break;
                         }
+                        countdown.getAndDecrement();
                     }
                 })
                 .run();
+    }
+
+    private void sendTitle(ParkourPlayer pp, String title, String subtitle, int fadeIn, int duration, int fadeOut) {
+        pp.getPlayer().sendTitle(Util.color(title), Util.color(subtitle), fadeIn, duration, fadeOut);
     }
 
     private void close() {
@@ -169,32 +179,37 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
     @Override
     public void tick() {
-        super.tick();
-
+        System.out.println("tick call");
         ParkourPlayer winner = null;
         String winningTime = null;
-        for (SingleDuelGenerator generator : playerGenerators.values()) {
+        for (ParkourPlayer player : playerGenerators.keySet()) {
+            SingleDuelGenerator generator = (SingleDuelGenerator) player.getGenerator();
+
             generator.tick();
 
-            if (generator.getScore() > goal) {
-                winner = getPlayerFromGenerator(generator);
-                winningTime = generator.getTime();
+            if (generator.getScore() >= goal) {
+                winner = player;
+                winningTime = player.getGenerator().getTime();
             }
-            generator.stopGenerator();
         }
+
         if (winner == null) {
             return;
         }
 
         for (ParkourPlayer player : playerGenerators.keySet()) {
+            SingleDuelGenerator generator = (SingleDuelGenerator) player.getGenerator();
+
+            generator.stopGenerator();
+
             player.send("");
             player.send("<dark_red><bold>> <gray>Player <dark_red>&u" + winner.getPlayer().getName() + "<gray> has won the game!");
             player.send("<dark_red><bold>> <gray>You will be sent back in 10 seconds.");
 
             if (player == winner) {
-                player.getPlayer().sendTitle("&6<bold>Victory", "<gray>You won in " + winningTime + "!", 1, 2 * 4, 10);
+                sendTitle(player, "<#EEB40D><bold>Victory", "<gray>You won in " + winningTime + "!", 1, 2 * 4, 10);
             } else {
-                player.getPlayer().sendTitle("&c<bold>Defeat", "<gray>You lost to " + winner.getPlayer().getName() + "!", 1, 2 * 4, 10);
+                sendTitle(player, "<#6E1111><bold>Defeat", "<gray>You lost to " + winner.getPlayer().getName() + "!", 1, 2 * 4, 10);
             }
         }
 

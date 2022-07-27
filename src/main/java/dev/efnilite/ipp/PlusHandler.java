@@ -1,9 +1,9 @@
 package dev.efnilite.ipp;
 
-import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ipp.generator.multi.DuelGenerator;
 import dev.efnilite.ipp.generator.multi.SingleDuelGenerator;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +17,9 @@ public class PlusHandler implements Listener {
 
     @EventHandler
     public void click(PlayerInteractEvent event) {
-        ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
+        Player player = event.getPlayer();
+        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+
         if (event.getHand() == EquipmentSlot.HAND && pp != null) {
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 ItemStack item = event.getItem();
@@ -25,15 +27,12 @@ public class PlusHandler implements Listener {
                     return;
                 }
                 String dp = item.getItemMeta().getDisplayName();
-                if (dp.contains("Gamemode Menu")) {
-                    if (pp.getGenerator() instanceof DefaultGenerator generator) {
-                        //                        generator.altMenu();
-                    }
-                } else if (dp.contains("Click to start")) {
+                if (dp.contains("Click to start")) {
                     if (pp.getGenerator() instanceof SingleDuelGenerator singleGen) {
                         DuelGenerator superGen = singleGen.getOwningGenerator();
                         if (superGen.getPlayerGenerators().keySet().size() > 1) {
                             superGen.initCountdown();
+                            pp.getPlayer().getInventory().remove(Material.LIME_BANNER);
                         } else {
                             pp.send("<dark_red><bold>> <gray>You can't duel yourself! :(");
                         }

@@ -19,7 +19,7 @@ public class SingleDuelGenerator extends PlusGenerator {
         super(player.getSession(), generatorOptions);
 
         // setup menu
-        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY);
+        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES);
     }
 
     public void setOwningGenerator(DuelGenerator owningGenerator) {

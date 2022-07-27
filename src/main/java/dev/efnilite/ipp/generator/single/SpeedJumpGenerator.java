@@ -6,7 +6,6 @@ import dev.efnilite.ip.events.PlayerScoreEvent;
 import dev.efnilite.ip.generator.base.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.util.PlusUtil;
 import org.bukkit.Location;

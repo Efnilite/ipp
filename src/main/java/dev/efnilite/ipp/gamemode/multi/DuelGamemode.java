@@ -7,6 +7,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.generator.multi.DuelGenerator;
+import dev.efnilite.ipp.generator.multi.SingleDuelGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.vector.Vector2D;
@@ -44,10 +45,10 @@ public final class DuelGamemode implements MultiGamemode {
 
         DuelGenerator generator = new DuelGenerator(session);
 
-        IP.getDivider().generate(pp, generator, false);
+        Vector2D point = IP.getDivider().generate(pp, null, false);
         IP.getDivider().setup(pp, null, true, false);
 
-        generator.initPoint();
+        generator.init(point);
     }
 
     @Override
@@ -57,11 +58,14 @@ public final class DuelGamemode implements MultiGamemode {
 
     @Override
     public void join(Player player, Session session) {
-        if (session.isAcceptingPlayers() && session.getPlayers().get(0).getGenerator() instanceof DuelGenerator generator) {
+        if (session.isAcceptingPlayers()) {
+            System.out.println("accept && gen pass ");
+            DuelGenerator generator = ((SingleDuelGenerator) session.getPlayers().get(0).getGenerator()).getOwningGenerator();
+
             player.closeInventory();
 
             ParkourPlayer pp = ParkourUser.register(player);
-            IP.getDivider().setup(pp, session.getPlayers().get(0).getLocation(), true, false);
+            IP.getDivider().setup(pp, null, true, false);
 
             session.addPlayers(pp);
             generator.addPlayer(pp);
