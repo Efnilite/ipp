@@ -37,6 +37,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
     private static final Schematic schematic = new Schematic()
             .file("duel-island");
     private final Map<ParkourPlayer, SingleDuelGenerator> playerGenerators = new HashMap<>();
+    private final Map<ParkourPlayer, SpawnData> spawnData = new HashMap<>();
     private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getGamemode().getName().toLowerCase() + ".goal");
 
     public DuelGenerator(@NotNull MultiSession session) {
@@ -50,10 +51,12 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
         allowJoining = true;
         playerSpawn = IP.getDivider().getEstimatedCenter(point, Option.BORDER_SIZE).toLocation(IP.getWorldHandler().getWorld()).clone();
+        playerSpawn.setYaw(-90);
         zone = IP.getDivider().getZone(playerSpawn);
 
         schematic.read();
 
+        System.out.println("Init call for " + player.getName());
         addPlayer(player);
 
         Task.create(IPP.getPlugin())
@@ -63,40 +66,64 @@ public final class DuelGenerator extends MultiplayerGenerator {
     }
 
     public void addPlayer(ParkourPlayer player) {
-        System.out.println("add players");
+        System.out.println("Join call for player " + player.getName());
+
+        // only allow joining if the game hasn't started yet and max players
         if (playerGenerators.keySet().size() >= 4 || !allowJoining) {
             return;
         }
 
+        // setup generator
         SingleDuelGenerator generator = new SingleDuelGenerator(player);
         generator.setPlayerIndex(playerGenerators.keySet().size());
         generator.setOwningGenerator(this);
+        generator.setZone(zone);
 
         player.setGenerator(generator);
 
-        Location spawn = playerSpawn.clone().add(3 * schematic.getDimensions().getWidth() * (session.getPlayers().size() - 1), 0, 0);
+        // setup where:
+        // - schematic gets pasted
+        // - player gets teleported
+        // - block starts generating
+        Location spawn = playerSpawn.clone().add(0, 0, 3 * schematic.getDimensions().getWidth() * (session.getPlayers().size() - 1));
         List<Block> blocks = schematic.paste(spawn, RotationAngle.ANGLE_0);
+
+        Location playerSpawn = null;
+        Location blockSpawn = null;
+
         for (Block block : blocks) {
             switch (block.getType()) {
                 case EMERALD_BLOCK -> {
-                    generator.setBlockSpawn(block.getLocation().add(0.5, 0, 0.5));
+                    blockSpawn = block.getLocation().add(0.5, 0, 0.5);
                     block.setType(Material.AIR);
                 }
                 case DIAMOND_BLOCK -> {
-                    generator.setPlayerSpawn(block.getLocation().add(0.5, 0, 0.5));
+                    playerSpawn = block.getLocation().add(0.5, 0, 0.5);
+                    playerSpawn.setYaw(-90);
                     block.setType(Material.AIR);
+
+                    player.teleport(playerSpawn);
                 }
                 default -> {}
             }
         }
         generator.setData(new AreaData(blocks));
 
-        this.playerGenerators.put(player, generator);
+        spawnData.put(player, new SpawnData(playerSpawn, blockSpawn));
+        playerGenerators.put(player, generator);
+
+        for (ParkourPlayer pp : playerGenerators.keySet()) {
+            pp.sendTranslated("player-join", player.getName());
+        }
     }
 
     public void removePlayer(ParkourPlayer player) {
         SingleDuelGenerator generator = this.playerGenerators.get(player);
         generator.reset(false);
+
+        for (ParkourPlayer pp : playerGenerators.keySet()) {
+            pp.sendTranslated("player-leave", player.getName());
+        }
 
         AreaData data = generator.getData();
 
@@ -124,7 +151,8 @@ public final class DuelGenerator extends MultiplayerGenerator {
                                         }
                                     }
 
-                                    ((DefaultGenerator) player.getGenerator()).generate(player.blockLead);
+                                    SpawnData data = DuelGenerator.this.spawnData.get(player);
+                                    ((DefaultGenerator) player.getGenerator()).generateFirst(data.playerSpawn, data.blockSpawn);
                                 }
 
                                 stopped = false;
@@ -182,6 +210,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
         System.out.println("tick call");
         ParkourPlayer winner = null;
         String winningTime = null;
+
         for (ParkourPlayer player : playerGenerators.keySet()) {
             SingleDuelGenerator generator = (SingleDuelGenerator) player.getGenerator();
 
@@ -189,7 +218,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
             if (generator.getScore() >= goal) {
                 winner = player;
-                winningTime = player.getGenerator().getTime();
+                winningTime = generator.getTime();
             }
         }
 
@@ -203,13 +232,13 @@ public final class DuelGenerator extends MultiplayerGenerator {
             generator.stopGenerator();
 
             player.send("");
-            player.send("<dark_red><bold>> <gray>Player <dark_red>&u" + winner.getPlayer().getName() + "<gray> has won the game!");
+            player.send("<dark_red><bold>> <gray>Player <dark_red><underline>" + winner.getPlayer().getName() + "<gray> has won the game!");
             player.send("<dark_red><bold>> <gray>You will be sent back in 10 seconds.");
 
             if (player == winner) {
-                sendTitle(player, "<#EEB40D><bold>Victory", "<gray>You won in " + winningTime + "!", 1, 2 * 4, 10);
+                sendTitle(player, "<#EEB40D><bold>Victory", "<gray>You won in " + winningTime + "!", 1, 100, 10);
             } else {
-                sendTitle(player, "<#6E1111><bold>Defeat", "<gray>You lost to " + winner.getPlayer().getName() + "!", 1, 2 * 4, 10);
+                sendTitle(player, "<#6E1111><bold>Defeat", "<gray>You lost to " + winner.getPlayer().getName() + "!", 1, 100, 10);
             }
         }
 
@@ -245,5 +274,9 @@ public final class DuelGenerator extends MultiplayerGenerator {
     @Override
     public Gamemode getGamemode() {
         return PlusGamemodes.DUEL;
+    }
+
+    private record SpawnData(Location playerSpawn, Location blockSpawn) {
+
     }
 }

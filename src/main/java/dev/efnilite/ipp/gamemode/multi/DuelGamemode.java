@@ -58,6 +58,7 @@ public final class DuelGamemode implements MultiGamemode {
 
     @Override
     public void join(Player player, Session session) {
+        System.out.println("GM call for player " + player.getName());
         if (session.isAcceptingPlayers()) {
             System.out.println("accept && gen pass ");
             DuelGenerator generator = ((SingleDuelGenerator) session.getPlayers().get(0).getGenerator()).getOwningGenerator();
