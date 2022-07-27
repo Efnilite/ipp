@@ -75,6 +75,8 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
         // setup generator
         SingleDuelGenerator generator = new SingleDuelGenerator(player);
+        generator.player = player;
+
         generator.setPlayerIndex(playerGenerators.keySet().size());
         generator.setOwningGenerator(this);
         generator.setZone(zone);
