@@ -9,7 +9,6 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.RotationAngle;
 import dev.efnilite.ip.schematic.Schematic;
-import dev.efnilite.ip.schematic.selection.Selection;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
@@ -31,6 +30,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// TODO:
+// - fix incomplete joining setup error
+// - fix schematic
 public final class DuelGenerator extends MultiplayerGenerator {
 
     private boolean allowJoining;
@@ -56,7 +58,6 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
         schematic.read();
 
-        System.out.println("Init call for " + player.getName());
         addPlayer(player);
 
         Task.create(IPP.getPlugin())
@@ -66,8 +67,6 @@ public final class DuelGenerator extends MultiplayerGenerator {
     }
 
     public void addPlayer(ParkourPlayer player) {
-        System.out.println("Join call for player " + player.getName());
-
         // only allow joining if the game hasn't started yet and max players
         if (playerGenerators.keySet().size() >= 4 || !allowJoining) {
             return;
