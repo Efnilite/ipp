@@ -6,8 +6,8 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ipp.generator.multi.DuelGenerator;
-import dev.efnilite.ipp.generator.multi.SingleDuelGenerator;
+import dev.efnilite.ipp.generator.multi.DuelsGenerator;
+import dev.efnilite.ipp.generator.multi.SingleDuelsGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.vector.Vector2D;
@@ -15,18 +15,18 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public final class DuelGamemode implements MultiGamemode {
+public final class DuelsGamemode implements MultiGamemode {
 
     private final Leaderboard leaderboard = new Leaderboard(getName());
 
     @Override
     public @NotNull String getName() {
-        return "duel";
+        return "duels";
     }
 
     @Override
     public @NotNull Item getItem(String s) {
-        return new Item(Material.RED_CONCRETE, "<#C91212><bold>Duel")
+        return new Item(Material.RED_CONCRETE, "<#C91212><bold>Duels")
                 .lore("<gray>Race opponents to 100 points!", "<gray>If someone falls, they'll be reset to the start.");
     }
 
@@ -43,7 +43,7 @@ public final class DuelGamemode implements MultiGamemode {
         MultiSession session = MultiSession.create(pp, this);
         session.setMaxPlayers(4);
 
-        DuelGenerator generator = new DuelGenerator(session);
+        DuelsGenerator generator = new DuelsGenerator(session);
 
         Vector2D point = IP.getDivider().generate(pp, null, false);
         IP.getDivider().setup(pp, null, true, false);
@@ -59,7 +59,7 @@ public final class DuelGamemode implements MultiGamemode {
     @Override
     public void join(Player player, Session session) {
         if (session.isAcceptingPlayers()) {
-            DuelGenerator generator = ((SingleDuelGenerator) session.getPlayers().get(0).getGenerator()).getOwningGenerator();
+            DuelsGenerator generator = ((SingleDuelsGenerator) session.getPlayers().get(0).getGenerator()).getOwningGenerator();
 
             player.closeInventory();
 

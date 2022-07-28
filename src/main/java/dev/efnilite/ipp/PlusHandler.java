@@ -1,8 +1,8 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ipp.generator.multi.DuelGenerator;
-import dev.efnilite.ipp.generator.multi.SingleDuelGenerator;
+import dev.efnilite.ipp.generator.multi.DuelsGenerator;
+import dev.efnilite.ipp.generator.multi.SingleDuelsGenerator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,8 +28,8 @@ public class PlusHandler implements Listener {
                 }
                 String dp = item.getItemMeta().getDisplayName();
                 if (dp.contains("Click to start")) {
-                    if (pp.getGenerator() instanceof SingleDuelGenerator singleGen) {
-                        DuelGenerator superGen = singleGen.getOwningGenerator();
+                    if (pp.getGenerator() instanceof SingleDuelsGenerator singleGen) {
+                        DuelsGenerator superGen = singleGen.getOwningGenerator();
                         if (superGen.getPlayerGenerators().keySet().size() > 1) {
                             superGen.initCountdown();
                             pp.getPlayer().getInventory().remove(Material.LIME_BANNER);

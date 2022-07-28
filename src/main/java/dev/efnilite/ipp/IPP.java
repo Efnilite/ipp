@@ -6,7 +6,7 @@ import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
-import dev.efnilite.ipp.gamemode.multi.DuelGamemode;
+import dev.efnilite.ipp.gamemode.multi.DuelsGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
 import dev.efnilite.ipp.gamemode.single.*;
 import dev.efnilite.ipp.generator.single.PracticeGenerator;
@@ -51,7 +51,7 @@ public final class IPP extends ViPlugin {
         registerGamemode(new SpeedJumpGamemode());
         registerGamemode(new HourglassGamemode());
         registerGamemode(new TimeTrialGamemode());
-        registerGamemode(new DuelGamemode());
+        registerGamemode(new DuelsGamemode());
 
         // Style register
         IP.getRegistry().registerType(new IncrementalStyle());
@@ -104,7 +104,7 @@ public final class IPP extends ViPlugin {
         PlusGamemodes.HOURGLASS.getLeaderboard().write(false);
         PlusGamemodes.SPEED.getLeaderboard().write(false);
 
-        PlusGamemodes.DUEL.getLeaderboard().write(false);
+        PlusGamemodes.DUELS.getLeaderboard().write(false);
         PlusGamemodes.TEAM_SURVIVAL.getLeaderboard().write(false);
     }
 

@@ -24,25 +24,20 @@ import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // TODO:
-// - fix incomplete joining setup error
-// - fix schematic
-public final class DuelGenerator extends MultiplayerGenerator {
+public final class DuelsGenerator extends MultiplayerGenerator {
 
-    private boolean allowJoining;
+    public boolean allowJoining;
+    public final Map<ParkourPlayer, SingleDuelsGenerator> playerGenerators = new HashMap<>();
     private static final Schematic schematic = new Schematic()
-            .file("duel-island");
-    private final Map<ParkourPlayer, SingleDuelGenerator> playerGenerators = new HashMap<>();
+            .file("spawn-island-duels");
     private final Map<ParkourPlayer, SpawnData> spawnData = new HashMap<>();
     private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getGamemode().getName().toLowerCase() + ".goal");
 
-    public DuelGenerator(@NotNull MultiSession session) {
+    public DuelsGenerator(@NotNull MultiSession session) {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
     }
 
@@ -73,7 +68,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
         }
 
         // setup generator
-        SingleDuelGenerator generator = new SingleDuelGenerator(player);
+        SingleDuelsGenerator generator = new SingleDuelsGenerator(player);
         generator.player = player;
 
         generator.setPlayerIndex(playerGenerators.keySet().size());
@@ -86,7 +81,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
         // - schematic gets pasted
         // - player gets teleported
         // - block starts generating
-        Location spawn = playerSpawn.clone().add(0, 0, 3 * schematic.getDimensions().getWidth() * (session.getPlayers().size() - 1));
+        Location spawn = playerSpawn.clone().add(0, 0, 5 * schematic.getDimensions().getWidth() * (session.getPlayers().size() - 1));
         List<Block> blocks = schematic.paste(spawn, RotationAngle.ANGLE_0);
 
         Location playerSpawn = null;
@@ -119,7 +114,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
     }
 
     public void removePlayer(ParkourPlayer player) {
-        SingleDuelGenerator generator = this.playerGenerators.get(player);
+        SingleDuelsGenerator generator = this.playerGenerators.get(player);
         generator.reset(false);
 
         for (ParkourPlayer pp : playerGenerators.keySet()) {
@@ -133,6 +128,10 @@ public final class DuelGenerator extends MultiplayerGenerator {
         }
 
         this.playerGenerators.remove(player);
+
+        if (playerGenerators.size() == 1) {
+
+        }
     }
 
     public void initCountdown() {
@@ -152,7 +151,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
                                         }
                                     }
 
-                                    SpawnData data = DuelGenerator.this.spawnData.get(player);
+                                    SpawnData data = DuelsGenerator.this.spawnData.get(player);
                                     ((DefaultGenerator) player.getGenerator()).generateFirst(data.playerSpawn, data.blockSpawn);
                                 }
 
@@ -208,12 +207,11 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
     @Override
     public void tick() {
-        System.out.println("tick call");
         ParkourPlayer winner = null;
         String winningTime = null;
 
         for (ParkourPlayer player : playerGenerators.keySet()) {
-            SingleDuelGenerator generator = (SingleDuelGenerator) player.getGenerator();
+            SingleDuelsGenerator generator = (SingleDuelsGenerator) player.getGenerator();
 
             generator.tick();
 
@@ -227,14 +225,28 @@ public final class DuelGenerator extends MultiplayerGenerator {
             return;
         }
 
+        List<Map.Entry<ParkourPlayer, SingleDuelsGenerator>> leaderboard = getLeaderboard();
+
         for (ParkourPlayer player : playerGenerators.keySet()) {
-            SingleDuelGenerator generator = (SingleDuelGenerator) player.getGenerator();
+            SingleDuelsGenerator generator = (SingleDuelsGenerator) player.getGenerator();
 
             generator.stopGenerator();
 
             player.send("");
-            player.send("<dark_red><bold>> <gray>Player <dark_red><underline>" + winner.getPlayer().getName() + "<gray> has won the game!");
-            player.send("<dark_red><bold>> <gray>You will be sent back in 10 seconds.");
+            player.send("<#34B2F9>" + winner.getPlayer().getName() + "<gray> has won the game in " + winningTime + "!");
+            player.send("<#34B2F9><bold><underline>Leaderboard:");
+
+            for (int i = 0; i < leaderboard.size(); i++) {
+                Map.Entry<ParkourPlayer, SingleDuelsGenerator> entry = leaderboard.get(i);
+
+                player.send(
+                    """
+                    <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
+                    """
+                .formatted(i + 1, entry.getKey().getName(), entry.getValue().getScore()));
+            }
+
+            player.send("");
 
             if (player == winner) {
                 sendTitle(player, "<#EEB40D><bold>Victory", "<gray>You won in " + winningTime + "!", 1, 100, 10);
@@ -248,6 +260,7 @@ public final class DuelGenerator extends MultiplayerGenerator {
                 .execute(() -> {
                     for (ParkourPlayer parkourPlayer : playerGenerators.keySet()) {
                         ParkourUser.unregister(parkourPlayer, true, true, true);
+
                         if (!PlusOption.SEND_BACK_AFTER_MULTIPLAYER.get()) {
                             IP.getDivider().generate(ParkourPlayer.register(parkourPlayer.getPlayer()));
                         }
@@ -258,13 +271,13 @@ public final class DuelGenerator extends MultiplayerGenerator {
         this.stopped = true;
     }
 
-    public Map<ParkourPlayer, SingleDuelGenerator> getPlayerGenerators() {
+    public Map<ParkourPlayer, SingleDuelsGenerator> getPlayerGenerators() {
         return playerGenerators;
     }
 
     // https://stackoverflow.com/questions/1383797/java-hashmap-how-to-get-key-from-value
-    private ParkourPlayer getPlayerFromGenerator(SingleDuelGenerator generator) {
-        for (Map.Entry<ParkourPlayer, SingleDuelGenerator> entry : playerGenerators.entrySet()) {
+    private ParkourPlayer getPlayerFromGenerator(SingleDuelsGenerator generator) {
+        for (Map.Entry<ParkourPlayer, SingleDuelsGenerator> entry : playerGenerators.entrySet()) {
             if (Objects.equals(generator, entry.getValue())) {
                 return entry.getKey();
             }
@@ -274,7 +287,17 @@ public final class DuelGenerator extends MultiplayerGenerator {
 
     @Override
     public Gamemode getGamemode() {
-        return PlusGamemodes.DUEL;
+        return PlusGamemodes.DUELS;
+    }
+
+    // returns the sorted leaderboard
+    public List<Map.Entry<ParkourPlayer, SingleDuelsGenerator>> getLeaderboard() {
+        List<Map.Entry<ParkourPlayer, SingleDuelsGenerator>> sorted = new ArrayList<>(playerGenerators.entrySet());
+
+        // sort in reverse natural order
+        sorted.sort((one, two) -> two.getValue().getScore() - one.getValue().getScore());
+
+        return sorted;
     }
 
     private record SpawnData(Location playerSpawn, Location blockSpawn) {

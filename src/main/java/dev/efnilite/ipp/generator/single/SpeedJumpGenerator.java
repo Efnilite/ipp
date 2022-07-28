@@ -99,8 +99,9 @@ public final class SpeedJumpGenerator extends PlusGenerator {
     @Override
     public void tick() {
         updateTime();
+        updateScoreboard();
+
         player.getSession().updateSpectators();
-        player.updateScoreboard();
         player.getPlayer().setSaturation(20);
 
         Location playerLocation = player.getLocation();

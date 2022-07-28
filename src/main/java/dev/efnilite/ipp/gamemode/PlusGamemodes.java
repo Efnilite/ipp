@@ -1,7 +1,7 @@
 package dev.efnilite.ipp.gamemode;
 
 import dev.efnilite.ip.IP;
-import dev.efnilite.ipp.gamemode.multi.DuelGamemode;
+import dev.efnilite.ipp.gamemode.multi.DuelsGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
 import dev.efnilite.ipp.gamemode.single.*;
 
@@ -16,7 +16,7 @@ public class PlusGamemodes {
     public static TimeTrialGamemode TIME_TRIAL;
 
     // multiplayer
-    public static DuelGamemode DUEL;
+    public static DuelsGamemode DUELS;
     public static TeamSurvivalGamemode TEAM_SURVIVAL;
 
     public static void init() {
@@ -29,7 +29,7 @@ public class PlusGamemodes {
         TIME_TRIAL = (TimeTrialGamemode) IP.getRegistry().getGamemode("time-trial");
 
         // multiplayer
-        DUEL = (DuelGamemode) IP.getRegistry().getGamemode("duel");
+        DUELS = (DuelsGamemode) IP.getRegistry().getGamemode("duels");
         TEAM_SURVIVAL = (TeamSurvivalGamemode) IP.getRegistry().getGamemode("teamsurvival");
     }
 }
