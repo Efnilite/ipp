@@ -129,8 +129,11 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         this.playerGenerators.remove(player);
 
+        // if there are no other players, player automatically wins
         if (playerGenerators.size() == 1) {
+            ParkourPlayer winner = new ArrayList<>(playerGenerators.keySet()).get(0);
 
+            win(winner);
         }
     }
 
@@ -208,7 +211,6 @@ public final class DuelsGenerator extends MultiplayerGenerator {
     @Override
     public void tick() {
         ParkourPlayer winner = null;
-        String winningTime = null;
 
         for (ParkourPlayer player : playerGenerators.keySet()) {
             SingleDuelsGenerator generator = (SingleDuelsGenerator) player.getGenerator();
@@ -217,13 +219,24 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
             if (generator.getScore() >= goal) {
                 winner = player;
-                winningTime = generator.getTime();
             }
         }
 
         if (winner == null) {
             return;
         }
+
+        win(winner);
+    }
+
+    private void win(ParkourPlayer winner) {
+        // prevent winning code from being activated more than once
+        // could be possible in #removePlayer
+        if (stopped) {
+            return;
+        }
+
+        String winningTime = winner.getGenerator().getTime();
 
         List<Map.Entry<ParkourPlayer, SingleDuelsGenerator>> leaderboard = getLeaderboard();
 
@@ -234,16 +247,17 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
             player.send("");
             player.send("<#34B2F9>" + winner.getPlayer().getName() + "<gray> has won the game in " + winningTime + "!");
-            player.send("<#34B2F9><bold><underline>Leaderboard:");
+            player.send("<#34B2F9><bold>Leaderboard:");
+            player.send("");
 
             for (int i = 0; i < leaderboard.size(); i++) {
                 Map.Entry<ParkourPlayer, SingleDuelsGenerator> entry = leaderboard.get(i);
 
                 player.send(
-                    """
-                    <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
-                    """
-                .formatted(i + 1, entry.getKey().getName(), entry.getValue().getScore()));
+                        """
+                        <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
+                        """
+                                .formatted(i + 1, entry.getKey().getName(), entry.getValue().getScore()));
             }
 
             player.send("");

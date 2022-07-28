@@ -91,7 +91,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
             lines.add(Util.color(
                 """
-                <gray>#%d %s - %d
+                <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
                 """
             .formatted(i + 1, entry.getKey().getName(), entry.getValue().getScore())));
         }
@@ -119,6 +119,8 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
     @Override
     public void reset(boolean regenerate) {
+        super.reset(regenerate);
+
         if (!regenerate) {
             owningGenerator.removePlayer(player);
         }
