@@ -27,51 +27,64 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
     @Override
     public void tick() {
-        ParkourPlayer trailer = null;
-        int trailing = Integer.MAX_VALUE;
+
+        // the index of the owner of this generator
+        int ownerIndex = 0;
+
+        // the index of the last person
+        int lastIndex = Integer.MAX_VALUE;
 
         for (ParkourPlayer pp : session.getPlayers()) {
             Location location = pp.getLocation();
-            Block blockBelow = location.clone().subtract(0, 1, 0).getBlock(); // Get the block below
+            // get the block below player
+            Block blockBelow = location.clone().subtract(0, 1, 0).getBlock();
 
-            if (location.getWorld() != playerSpawn.getWorld()) { // sometimes player worlds don't match (somehow)
+            // teleport player if worlds don't match
+            if (location.getWorld() != playerSpawn.getWorld()) {
                 pp.teleport(playerSpawn);
-                return;
+                continue;
             }
 
+            // get the last solid block that the player was standing on
             Block last = lastPlayerBlockMap.get(pp);
-            if (last != null && last.getY() - location.getY() > 10 && playerSpawn.distance(location) > 5) { // Fall check
+
+            // if the difference in height is more than 10, reset
+            if (last != null && last.getY() - location.getY() > 10 && playerSpawn.distance(location) > 5) {
                 fall();
                 return;
             }
 
             int currentIndex;
 
-            // get last index for player
+            // get the index for the current player
+
+            // player is at an unknown block, use the last confirmed solid block
             if (!positionIndexMap.containsKey(blockBelow) || blockBelow.getType() == Material.AIR) {
                 Block block = lastPlayerBlockMap.get(player);
 
+                // if last registered block is null, it means the player isn't on the parkour yet, so just skip this check
                 if (block == null) {
                     continue;
                 }
 
                 currentIndex = positionIndexMap.get(block);
+            // player is at a known block, so just use the index belonging to that block
             } else {
                 currentIndex = positionIndexMap.get(blockBelow); // current index of the player
                 lastPlayerBlockMap.put(pp, blockBelow);
             }
 
-            if (trailing >= currentIndex) {
-                trailing = currentIndex;
-                trailer = pp;
-                player.blockLead = session.getPlayers().get(0).blockLead;
-                player.showFallMessage = false;
+            if (pp == player) {
+                ownerIndex = currentIndex;
+            }
+
+            if (lastIndex >= currentIndex) {
+                lastIndex = currentIndex;
             }
         }
-        // only update if leader is not null
-        player = trailer != null ? trailer : player;
 
-        super.playerSpawn = playerSpawn; // ????
+        // always: ownerIndex >= lastIndex
+        player.blockLead = 4 - (ownerIndex - lastIndex);
 
         System.out.println("Trailer: " + player.getName());
 
