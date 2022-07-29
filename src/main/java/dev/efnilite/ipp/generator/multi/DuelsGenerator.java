@@ -289,16 +289,6 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         return playerGenerators;
     }
 
-    // https://stackoverflow.com/questions/1383797/java-hashmap-how-to-get-key-from-value
-    private ParkourPlayer getPlayerFromGenerator(SingleDuelsGenerator generator) {
-        for (Map.Entry<ParkourPlayer, SingleDuelsGenerator> entry : playerGenerators.entrySet()) {
-            if (Objects.equals(generator, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
     @Override
     public Gamemode getGamemode() {
         return PlusGamemodes.DUELS;

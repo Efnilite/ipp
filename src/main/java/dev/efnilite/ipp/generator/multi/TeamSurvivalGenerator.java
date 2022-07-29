@@ -85,8 +85,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
         // always: ownerIndex >= lastIndex
         player.blockLead = 4 - (ownerIndex - lastIndex);
-
-        System.out.println("Trailer: " + player.getName());
+        System.out.println(player.blockLead);
 
         super.tick();
     }
