@@ -3,7 +3,7 @@ package dev.efnilite.ipp.generator.single;
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.events.PlayerScoreEvent;
-import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
@@ -27,7 +27,6 @@ import java.util.List;
  */
 public final class SpeedJumpGenerator extends PlusGenerator {
 
-    private final int blockLead;
     private double jumpDistance = 3;
     private final LinkedHashMap<List<Block>, Integer> positionIndexMap = new LinkedHashMap<>();
 
@@ -44,7 +43,7 @@ public final class SpeedJumpGenerator extends PlusGenerator {
         heightChances.clear();
         heightChances.put(0, 0);
 
-        blockLead = 1;
+        profile.setSetting("blockLead", "1");
         player.getPlayer().setMaximumAir(100_000_000);
     }
 
@@ -142,6 +141,7 @@ public final class SpeedJumpGenerator extends PlusGenerator {
         new PlayerScoreEvent(player).call();
         score();
 
+        int blockLead = profile.getValue("blockLead").asInt();
         int deltaCurrentTotal = positionIndexTotal - currentIndex; // delta between current index and total
         if (deltaCurrentTotal <= blockLead) {
             generate(blockLead - deltaCurrentTotal); // generate the remaining amount so it will match

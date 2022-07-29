@@ -2,6 +2,7 @@ package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
+import dev.efnilite.ip.menu.LobbyMenu;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
@@ -147,9 +148,5 @@ public final class IPP extends ViPlugin {
 
     public static PlusConfiguration getConfiguration() {
         return configuration;
-    }
-
-    public static File getFolder() {
-        return instance.getDataFolder();
     }
 }

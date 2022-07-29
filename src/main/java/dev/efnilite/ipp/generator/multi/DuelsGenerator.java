@@ -2,9 +2,9 @@ package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.AreaData;
 import dev.efnilite.ip.generator.DefaultGenerator;
-import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.generator.data.AreaData;
+import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.RotationAngle;
@@ -239,7 +239,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
             return;
         }
 
-        String winningTime = winner.getGenerator().getTime();
+        String winningTime = winner.getGenerator().getStopwatch().toString();
 
         List<Map.Entry<ParkourPlayer, SingleDuelsGenerator>> leaderboard = getLeaderboard();
 

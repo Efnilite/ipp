@@ -3,7 +3,7 @@ package dev.efnilite.ipp.generator.single;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;

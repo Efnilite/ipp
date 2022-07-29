@@ -1,6 +1,6 @@
 package dev.efnilite.ipp.generator.multi;
 
-import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 

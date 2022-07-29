@@ -2,8 +2,8 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.Direction;
-import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.generator.base.Direction;
+import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ip.util.config.Option;
@@ -21,7 +21,8 @@ public final class LobbyGenerator extends PlusGenerator {
         // setup menu
         menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
 
-        player.blockLead = 4;
+        profile.setSetting("blockLead", "4");
+        profile.setSetting("useSchematic", "false");
     }
 
     // remove -2 height jumps

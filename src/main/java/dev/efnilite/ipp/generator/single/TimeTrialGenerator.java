@@ -2,7 +2,7 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.IPP;
@@ -56,7 +56,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
             }
         }
         player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText(Message.parseFormatting(bar + " &4<bold>| &8" + time)));
+                TextComponent.fromLegacyText(Message.parseFormatting(bar + " &4<bold>| &8" + stopwatch.toString())));
     }
 
     @Override

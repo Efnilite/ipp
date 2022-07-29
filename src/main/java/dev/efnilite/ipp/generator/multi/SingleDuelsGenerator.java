@@ -1,7 +1,7 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
@@ -102,7 +102,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
             lines.add(line
                     .replace("%score%", Integer.toString(score))
-                    .replace("%time%", time)
+                    .replace("%time%", stopwatch.toString())
                     .replace("%highscore%", Integer.toString(rank.score()))
                     .replace("%topscore%", Integer.toString(top.score()))
                     .replace("%topplayer%", top.name()).replace("%session%", getSession().getSessionId()));
@@ -110,7 +110,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
         player.getBoard().updateTitle(title
                 .replace("%score%", Integer.toString(score))
-                .replace("%time%", time)
+                .replace("%time%", stopwatch.toString())
                 .replace("%highscore%", Integer.toString(rank.score()))
                 .replace("%topscore%", Integer.toString(top.score()))
                 .replace("%topplayer%", top.name()).replace("%session%", getSession().getSessionId()));

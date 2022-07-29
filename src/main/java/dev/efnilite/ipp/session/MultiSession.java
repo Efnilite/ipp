@@ -1,6 +1,5 @@
 package dev.efnilite.ipp.session;
 
-import com.google.common.annotations.Beta;
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.player.ParkourPlayer;
@@ -13,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Efnilite
  */
-@Beta
 public class MultiSession extends SingleSession {
 
     private int maxPlayers;

@@ -2,7 +2,7 @@ package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
@@ -26,6 +26,8 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.IGNORE_CHECK_FOR_PROGRESS);
 
         menu = new SettingsMenu(ParkourOption.SCHEMATICS);
+
+        profile.setSetting("useSchematic", "false");
     }
 
     @Override

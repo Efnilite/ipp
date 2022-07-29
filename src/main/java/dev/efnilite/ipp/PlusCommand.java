@@ -1,10 +1,11 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.menu.LobbyMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.selection.Dimensions;
 import dev.efnilite.ip.schematic.selection.Selection;
-import dev.efnilite.ipp.menu.CreationMenu;
+import dev.efnilite.ipp.menu.ActiveMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
@@ -20,9 +21,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BoundingBox;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class PlusCommand extends ViCommand {
 
@@ -40,15 +39,15 @@ public class PlusCommand extends ViCommand {
             return true;
         } else if (args.length == 1) {
             switch (args[0].toLowerCase()) {
-                case "lobbies" -> {
+                case "lobbies", "lobby" -> {
                     if (sender instanceof Player && sender.hasPermission("ip.lobbies.view")) {
-                        MultiplayerMenu.open(player);
+                        LobbyMenu.INSTANCE.open(player);
                     }
                     return true;
                 }
-                case "create" -> {
+                case "create", "multiplayer" -> {
                     if (sender instanceof Player && sender.hasPermission("ip.sessions.create")) {
-                        CreationMenu.open(player);
+                        MultiplayerMenu.open(player);
                     }
                     return true;
                 }
@@ -60,7 +59,7 @@ public class PlusCommand extends ViCommand {
                 }
             }
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("lobby") && player != null && player.hasPermission("witp.reload")) {
+            if (args[0].equalsIgnoreCase("lobbygm") && player != null && player.hasPermission("witp.schematic")) {
                 Selection selection = selections.get(player);
                 switch (args[1]) {
                     case "pos1" -> {
@@ -137,13 +136,33 @@ public class PlusCommand extends ViCommand {
         send(sender, "<#C01E1E>/ipp create <dark_gray>- <gray>Create a multiplayer lobby");
         send(sender, "<#C01E1E>/ipp lobbies <dark_gray>- <gray>View all multiplayer lobbies");
         send(sender, "<#C01E1E>/ipp invite [player]<dark_gray>- <gray>Invite another player");
-        send(sender, "<#C01E1E>/ipp lobby <pos1/pos2/save><dark_gray>- <gray>Setup lobby mode selection");
+        if (sender.hasPermission("witp.schematic")) {
+            send(sender, "<#C01E1E>/ipp lobbygm <pos1/pos2/save><dark_gray>- <gray>Setup lobby mode selection");
+        }
         send(sender, "");
     }
 
     @Override
     public List<String> tabComplete(CommandSender sender, String[] args) {
-        return Collections.emptyList();
+        List<String> completions = new ArrayList<>();
+        switch (args.length) {
+            case 0 -> {
+                completions.addAll(List.of("create", "lobbies", "invite"));
+                if (sender.hasPermission("witp.schematic")) {
+                    completions.add("lobbygm");
+                }
+            }
+            case 1 -> {
+                if (args[0].equalsIgnoreCase("lobbygm") && sender.hasPermission("witp.schematic")) {
+                    completions.addAll(List.of("pos1", "pos2", "save"));
+                }
+            }
+            default -> {
+                return Collections.emptyList();
+            }
+        }
+
+        return completions;
     }
 
     public static void send(CommandSender sender, String message) {
