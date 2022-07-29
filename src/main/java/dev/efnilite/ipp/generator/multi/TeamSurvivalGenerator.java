@@ -1,7 +1,9 @@
 package dev.efnilite.ipp.generator.multi;
 
+import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.base.GeneratorOption;
+import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
@@ -14,7 +16,6 @@ import java.util.Map;
 
 /**
  * Generator for the Team Survival gamemode.
- *
  */
 public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
@@ -22,17 +23,32 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     private final Map<ParkourPlayer, Block> lastPlayerBlockMap = new HashMap<>();
 
     public TeamSurvivalGenerator(MultiSession session) {
-        super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
+        super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.IGNORE_CHECK_FOR_PROGRESS);
+
+        menu = new SettingsMenu(ParkourOption.SCHEMATICS);
+    }
+
+    @Override
+    public void updateScoreboard() {
+        super.updateScoreboard();
+
+        for (ParkourPlayer pp : session.getPlayers()) {
+            if (pp == player || player.getBoard() == null || pp.getBoard() == null) {
+                continue;
+            }
+
+            pp.getBoard().updateTitle(player.getBoard().getTitle());
+            pp.getBoard().updateLines(player.getBoard().getLines());
+        }
+
     }
 
     @Override
     public void tick() {
-
-        // the index of the owner of this generator
-        int ownerIndex = 0;
-
         // the index of the last person
         int lastIndex = Integer.MAX_VALUE;
+        ParkourPlayer lastPlayer = null;
+        ParkourPlayer owner = session.getPlayers().get(0);
 
         for (ParkourPlayer pp : session.getPlayers()) {
             Location location = pp.getLocation();
@@ -63,7 +79,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
                 Block block = lastPlayerBlockMap.get(player);
 
                 // if last registered block is null, it means the player isn't on the parkour yet, so just skip this check
-                if (block == null) {
+                if (block == null || !positionIndexMap.containsKey(block)) {
                     continue;
                 }
 
@@ -74,20 +90,17 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
                 lastPlayerBlockMap.put(pp, blockBelow);
             }
 
-            if (pp == player) {
-                ownerIndex = currentIndex;
-            }
-
             if (lastIndex >= currentIndex) {
                 lastIndex = currentIndex;
+                lastPlayer = pp;
             }
         }
 
-        // always: ownerIndex >= lastIndex
-        player.blockLead = 4 - (ownerIndex - lastIndex);
-        System.out.println(player.blockLead);
-
+        if (lastPlayer != null) {
+            player = lastPlayer;
+        }
         super.tick();
+        player = owner;
     }
 
     @Override

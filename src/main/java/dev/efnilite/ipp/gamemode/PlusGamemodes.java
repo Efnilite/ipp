@@ -30,6 +30,6 @@ public class PlusGamemodes {
 
         // multiplayer
         DUELS = (DuelsGamemode) IP.getRegistry().getGamemode("duels");
-        TEAM_SURVIVAL = (TeamSurvivalGamemode) IP.getRegistry().getGamemode("teamsurvival");
+        TEAM_SURVIVAL = (TeamSurvivalGamemode) IP.getRegistry().getGamemode("team-survival");
     }
 }

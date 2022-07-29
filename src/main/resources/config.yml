@@ -51,10 +51,14 @@ gamemodes:
     # The amount of score required to win
     goal: 100
 
+  team-survival:
+    enabled: true
+
 # -= Extra style options =-
 styles:
 
   # This style will set the specified blocks one after another.
+  # If per-style permissions are enabled, this will apply to incremental styles too.
   incremental:
 
     # Is this style enabled?

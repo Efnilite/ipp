@@ -10,6 +10,7 @@ import dev.efnilite.ipp.gamemode.multi.DuelsGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
 import dev.efnilite.ipp.gamemode.single.*;
 import dev.efnilite.ipp.generator.single.PracticeGenerator;
+import dev.efnilite.ipp.menu.ActiveMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
@@ -67,16 +68,6 @@ public final class IPP extends ViPlugin {
                 event -> MultiplayerMenu.open(event.getPlayer())),
                 PlusOption.MULTIPLAYER::check);
 
-        MainMenu.INSTANCE.registerMainItem(1, 8,
-                user -> new Item(Material.ELYTRA, "<#ECE228><bold>Invite").click(
-                event -> InviteMenu.open(event.getPlayer())),
-                player -> {
-                    ParkourUser user = ParkourUser.getUser(player);
-                    // only show is user is parkourplayer and first player in session (the owner)
-                    return user instanceof ParkourPlayer && user.getSession() instanceof MultiSession
-                            && user.getSession().getPlayers().get(0) == user;
-                });
-
         // practice settings only if player's generator is of this instance
         MainMenu.INSTANCE.registerMainItem(1, 3,
                 user -> new Item(Material.COMPARATOR, "<#E74FA1><bold>Practice Settings").click(
@@ -91,7 +82,24 @@ public final class IPP extends ViPlugin {
                     return pp != null && pp.getGenerator() instanceof PracticeGenerator;
                 });
 
+        LobbyMenu.INSTANCE.registerMainItem(2, 2,
+                user -> new Item(Material.ELYTRA, "<#2B97E2><bold>Invite").click(
+                        event -> InviteMenu.open(event.getPlayer())),
+                player -> {
+                    ParkourUser user = ParkourUser.getUser(player);
 
+                    // only show is user is parkourplayer and first player in session (the owner)
+                    return user instanceof ParkourPlayer && user.getSession() instanceof MultiSession
+                            && user.getSession().getPlayers().get(0) == user;
+                });
+
+        LobbyMenu.INSTANCE.registerMainItem(2, 1,
+                user -> new Item(Material.CHEST, "<#EA9926><bold>View current lobbies")
+                    .lore("<dark_gray>Aktuelle Lobbys ansehen • 查看当前大厅" ,
+                            "<dark_gray>• 查看當前大廳 • Voir les lobbys actuels",
+                            "<dark_gray>• 現在のロビーを表示 • Actuele lobby's bekijken")
+                    .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
+                player -> true);
 
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");
     }
