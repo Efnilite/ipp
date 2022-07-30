@@ -6,12 +6,12 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.generator.multi.DuelsGenerator;
 import dev.efnilite.ipp.generator.multi.SingleDuelsGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.vector.Vector2D;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,9 +25,8 @@ public final class DuelsGamemode implements MultiGamemode {
     }
 
     @Override
-    public @NotNull Item getItem(String s) {
-        return new Item(Material.RED_CONCRETE, "<#C91212><bold>Duels")
-                .lore("<gray>Race opponents to 100 points!", "<gray>If someone falls, they'll be reset to the start.");
+    public @NotNull Item getItem(String locale) {
+        return Locales.getItem(locale, "items.gamemodes." + getName());
     }
 
     @Override

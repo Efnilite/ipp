@@ -7,6 +7,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.generator.single.PracticeGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
@@ -21,8 +22,8 @@ public final class PracticeGamemode implements Gamemode {
     }
 
     @Override
-    public @NotNull Item getItem(String s) {
-        return new Item(Material.WHITE_WOOL, "<white><bold>Practice").lore("<gray>Practice specific types of jumps");
+    public @NotNull Item getItem(String locale) {
+        return Locales.getItem(locale, "items.gamemodes." + getName());
     }
 
     @Override

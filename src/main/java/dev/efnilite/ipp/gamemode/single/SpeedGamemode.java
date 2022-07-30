@@ -7,6 +7,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.generator.single.SpeedGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
@@ -23,8 +24,8 @@ public final class SpeedGamemode implements Gamemode {
     }
 
     @Override
-    public @NotNull Item getItem(String s) {
-        return new Item(Material.LINGERING_POTION, "<#1882DE><bold>Speed").lore("<gray>Speed is key!");
+    public @NotNull Item getItem(String locale) {
+        return Locales.getItem(locale, "items.gamemodes." + getName());
     }
 
     @Override

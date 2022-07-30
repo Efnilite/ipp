@@ -7,6 +7,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.generator.single.SpeedJumpGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
@@ -23,9 +24,8 @@ public final class SpeedJumpGamemode implements Gamemode {
     }
 
     @Override
-    public @NotNull Item getItem(String s) {
-        return new Item(Material.RABBIT_FOOT, "<#08508E><bold>Speed Jump")
-                .lore("<gray>Jump from platform to platform while you become faster and faster", "&cThis gamemode is very difficult!");
+    public @NotNull Item getItem(String locale) {
+        return Locales.getItem(locale, "items.gamemodes." + getName());
     }
 
     @Override

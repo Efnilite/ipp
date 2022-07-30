@@ -14,7 +14,7 @@ import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
-import dev.efnilite.ipp.util.config.PlusOption;
+import dev.efnilite.ipp.config.PlusOption;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Task;
 import dev.efnilite.vilib.vector.Vector2D;
@@ -278,7 +278,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                     for (ParkourPlayer parkourPlayer : playerGenerators.keySet()) {
                         ParkourUser.unregister(parkourPlayer, true, true, true);
 
-                        if (!PlusOption.SEND_BACK_AFTER_MULTIPLAYER.get()) {
+                        if (!PlusOption.SEND_BACK_AFTER_MULTIPLAYER) {
                             IP.getDivider().generate(ParkourPlayer.register(parkourPlayer.getPlayer()));
                         }
                     }

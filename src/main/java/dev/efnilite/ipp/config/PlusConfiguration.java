@@ -1,4 +1,4 @@
-package dev.efnilite.ipp.util.config;
+package dev.efnilite.ipp.config;
 
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.vilib.chat.Message;

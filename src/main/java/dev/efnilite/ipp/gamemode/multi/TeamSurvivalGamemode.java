@@ -6,6 +6,7 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.generator.multi.TeamSurvivalGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
@@ -23,9 +24,8 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
     }
 
     @Override
-    public @NotNull Item getItem(String s) {
-        return new Item(Material.POPPY, "<#C91212><bold>Team Survival")
-                .lore("<gray>Live as long as you can with your entire team", "<gray>If someone falls, everyone's back to start");
+    public @NotNull Item getItem(String locale) {
+        return Locales.getItem(locale, "items.gamemodes." + getName());
     }
 
     @Override
@@ -35,7 +35,6 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public void create(Player player) {
-        System.out.println("TSG created");
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
 

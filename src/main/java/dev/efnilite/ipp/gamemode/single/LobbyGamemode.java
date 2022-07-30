@@ -19,10 +19,10 @@ public final class LobbyGamemode implements Gamemode {
         return "lobby";
     }
 
+
     @Override
-    public @NotNull Item getItem(String s) {
-        return new Item(Material.BOOK, "<#C91212><bold>Lobby")
-                .lore("<gray>Play in a lobby.");
+    public @NotNull Item getItem(String locale) {
+        return new Item(Material.STONE, "");
     }
 
     @Override

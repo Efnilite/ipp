@@ -64,6 +64,9 @@ public class ActiveMenu {
             }
 
             List<String> lore = new ArrayList<>();
+            lore.add("<gray>Gamemode: <#C8F2C0>" + session.getGamemode().getName());
+            lore.add("");
+
             if (session.getPlayers().size() > 0) {
                 lore.add("<gray>Players"); // #69B759
 

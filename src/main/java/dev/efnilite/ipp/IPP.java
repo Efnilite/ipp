@@ -17,7 +17,7 @@ import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.ipp.style.IncrementalStyle;
-import dev.efnilite.ipp.util.config.PlusConfiguration;
+import dev.efnilite.ipp.config.PlusConfiguration;
 import dev.efnilite.vilib.ViPlugin;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Logging;
@@ -25,8 +25,6 @@ import dev.efnilite.vilib.util.Time;
 import dev.efnilite.vilib.util.elevator.GitElevator;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
-
-import java.io.File;
 
 public final class IPP extends ViPlugin {
 
@@ -39,7 +37,7 @@ public final class IPP extends ViPlugin {
         Time.timerStart("enable");
 
         configuration = new PlusConfiguration(this);
-        dev.efnilite.ipp.util.config.PlusOption.init();
+        dev.efnilite.ipp.config.PlusOption.init();
 
         // Events
         registerListener(new PlusHandler());

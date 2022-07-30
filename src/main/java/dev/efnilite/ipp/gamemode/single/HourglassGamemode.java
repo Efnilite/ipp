@@ -7,10 +7,12 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.generator.single.HourglassGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockCanBuildEvent;
 import org.jetbrains.annotations.NotNull;
 
 public final class HourglassGamemode implements Gamemode {
@@ -23,8 +25,8 @@ public final class HourglassGamemode implements Gamemode {
     }
 
     @Override
-    public @NotNull Item getItem(String s) {
-        return new Item(Material.SAND, "<#CFB410><bold>Hourglass").lore("<gray>You can only stand on blocks for 1 second");
+    public @NotNull Item getItem(String locale) {
+        return Locales.getItem(locale, "items.gamemodes." + getName());
     }
 
     @Override

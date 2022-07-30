@@ -7,6 +7,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.generator.single.TimeTrialGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
@@ -24,8 +25,7 @@ public final class TimeTrialGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return new Item(Material.CLOCK, "<#9A0BC7><bold>Time Trial")
-                .lore("<gray>Reach a score of 100 as fast as you can");
+        return Locales.getItem(locale, "items.gamemodes." + getName());
     }
 
     @Override
