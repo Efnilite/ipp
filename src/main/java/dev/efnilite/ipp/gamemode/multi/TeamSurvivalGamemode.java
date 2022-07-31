@@ -10,7 +10,6 @@ import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.generator.multi.TeamSurvivalGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +24,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return Locales.getItem(locale, "items.gamemodes." + getName());
+        return Locales.getItem(locale, "multiplayer." + getName());
     }
 
     @Override

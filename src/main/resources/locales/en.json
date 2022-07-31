@@ -1,42 +1,98 @@
 {
   "name": "English",
-  "items": {
-	"gamemodes": {
-	  "duels": {
-		"material": "red_concrete",
-		"name": "<#C91212><bold>Duels",
-		"lore": "<gray>Race opponents to 100 points!||<gray>If someone falls, they'll be reset to the start."
-	  },
-	  "team-survival": {
-		"material": "poppy",
-		"name": "<#C91212><bold>Team Survival",
-		"lore": "<gray>Live as long as you can with your entire team||<gray>If someone falls, everyone's back to start"
-	  },
-	  "hourglass": {
-		"material": "sand",
-		"name": "<#CFB410><bold>Hourglass",
-		"lore": "<gray>You can only stand on blocks for 1 second"
-	  },
-	  "practice": {
-		"material": "white_wool",
-		"name": "<white><bold>Practice",
-		"lore": "<gray>Practice specific types of jumps"
-	  },
-	  "speed": {
-		"material": "lingering_potion",
-		"name": "<#1882DE><bold>Speed",
-		"lore": "<gray>Speed is key!"
-	  },
-	  "speed-jump": {
-		"material": "rabbit_foot",
-		"name": "<#08508E><bold>Speed Jump",
-		"lore": "<gray>Jump from platform to platform while you become faster and faster||&cThis gamemode is very difficult!"
-	  },
-	  "time-trial": {
-		"material": "clock",
-		"name": "<#9A0BC7><bold>Time Trial",
-		"lore": "<gray>Reach a score of 100 as fast as you can"
+  "singleplayer": {
+	"hourglass": {
+	  "material": "sand",
+	  "name": "<#CFB410><bold>Hourglass",
+	  "lore": "<gray>You can only stand on blocks for 1 second"
+	},
+	"practice": {
+	  "material": "white_wool",
+	  "name": "<white><bold>Practice",
+	  "lore": "<gray>Practice specific types of jumps",
+	  "items": {
+		"one-block": {
+		  "material": "",
+		  "name": "<bold>One-block jumps",
+		  "lore": "<gray>Click to change this setting."
+		},
+		"two-block": {
+		  "material": "",
+		  "name": "<bold>Two-block jumps",
+		  "lore": "<gray>Click to change this setting."
+		},
+		"three-block": {
+		  "material": "",
+		  "name": "<bold>Three-block jumps",
+		  "lore": "<gray>Click to change this setting."
+		},
+		"four-block": {
+		  "material": "",
+		  "name": "<bold>Four-block jumps",
+		  "lore": "<gray>Click to change this setting."
+		}
 	  }
+	},
+	"speed": {
+	  "material": "lingering_potion",
+	  "name": "<#1882DE><bold>Speed",
+	  "lore": "<gray>Speed is key!"
+	},
+	"speed-jump": {
+	  "material": "rabbit_foot",
+	  "name": "<#08508E><bold>Speed Jump",
+	  "lore": "<gray>Jump from platform to platform while you become faster and faster||&cThis gamemode is very difficult!"
+	},
+	"time-trial": {
+	  "material": "clock",
+	  "name": "<#9A0BC7><bold>Time Trial",
+	  "lore": "<gray>Reach a score of 100 as fast as you can"
+	}
+  },
+  "multiplayer": {
+	"name": "<white>Multiplayer",
+	"duels": {
+	  "material": "red_concrete",
+	  "name": "<#C91212><bold>Duels",
+	  "lore": "<gray>Race opponents to 100 points!||<gray>If someone falls, they'll be reset to the start."
+	},
+	"team-survival": {
+	  "material": "poppy",
+	  "name": "<#C91212><bold>Team Survival",
+	  "lore": "<gray>Live as long as you can with your entire team||<gray>If someone falls, everyone's back to start"
+	}
+  },
+  "styles": {
+	"incremental": {
+	  "material": "scaffolding",
+	  "name": "<#348EDB><bold>Incremental",
+	  "lore": "<dark_gray>Inkrementell • 增加的||<dark_gray>• Incrémentale • 増分 • Incrementeel"
+	}
+  },
+  "active": {
+	"name": "<white>Lobbies",
+	"sort": {
+	  "material": "bookshelf",
+	  "name": "<#DEA11F><bold>Sort",
+	  "lore": "<dark_gray>Sortieren • 种类||<dark_gray>Trier • 選別 • Sorteren"
+	},
+	"refresh": {
+	  "material": "blaze_powder",
+	  "name": "<#2FBC11><bold>Refresh",
+	  "lore": "<dark_gray>Erneuern • 刷新 • Rafraîchir||<dark_gray>リフレッシュ • Vernieuwen"
+	}
+  },
+  "invite": {
+	"name": "<white>Click to invite",
+	"head":{
+	  "material": "",
+	  "name": "<#abcdef><bold>%s",
+	  "lore": ""
+	},
+	"lobby": {
+	  "material": "paper",
+	  "name": "<#0b55e0><bold>Lobby %s",
+	  "lore": "<gray>Players can also use||<#346edb><underline>/parkour join %s<gray>to join this lobby."
 	}
   }
 }

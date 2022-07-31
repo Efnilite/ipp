@@ -1,7 +1,6 @@
 package dev.efnilite.ipp.config;
 
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.vilib.config.ConfigOption;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class PlusOption {

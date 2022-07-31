@@ -1,10 +1,13 @@
 package dev.efnilite.ipp.menu;
 
+import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
+import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.animation.RandomAnimation;
@@ -23,7 +26,7 @@ import java.util.List;
 public class ActiveMenu {
 
     public static void open(Player player, MenuSort sort) {
-        PagedMenu sessionsMenu = new PagedMenu(4, "<white>Lobbies");
+        PagedMenu menu = new PagedMenu(4, Locales.getString(player, "active.name"));
 
         List<MultiSession> sessions = new ArrayList<>(); // get all public sessions
         for (Session session : Session.getSessions()) {
@@ -87,23 +90,21 @@ public class ActiveMenu {
             items.add(item);
         }
 
-        sessionsMenu
+        menu
                 .displayRows(0, 1)
                 .addToDisplay(items)
 
                 .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click( // next page
-                        event -> sessionsMenu.page(1)))
+                        event -> menu.page(1)))
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click( // previous page
-                        event -> sessionsMenu.page(-1)))
+                        event -> menu.page(-1)))
 
                 .distributeRowEvenly(3)
 
-                .item(30, new Item(Material.BLAZE_POWDER, "<#2FBC11><bold>Refresh")
-                        .lore("<dark_gray>Erneuern • 刷新 • Rafraîchir", "<dark_gray>リフレッシュ • Vernieuwen").click(
+                .item(30, Locales.getItem(player, "active.refresh").click(
                         event -> open(player, sort)))
 
-                .item(31, new Item(Material.BOOKSHELF, "<#DEA11F><bold>Sort")
-                        .lore("<dark_gray>Sortieren • 种类", "<dark_gray>Trier • 選別 • Sorteren").click(
+                .item(31, Locales.getItem(player, "active.sort").click(
                         event -> {
                     if (sort == MenuSort.LEAST_OPEN_FIRST) {
                         open(player, MenuSort.LEAST_OPEN_LAST);
@@ -112,7 +113,7 @@ public class ActiveMenu {
                     }
                 }))
 
-                .item(32, new Item(Material.ARROW, "<red><bold>Go back").click(
+                .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close").click(
                         event -> MultiplayerMenu.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)

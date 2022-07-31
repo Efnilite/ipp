@@ -3,6 +3,7 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
@@ -22,15 +23,20 @@ import java.util.List;
 public class InviteMenu {
 
     public static void open(Player player) {
-        PagedMenu playerMenu = new PagedMenu(4, "<white>Click to invite");
         List<MenuItem> items = new ArrayList<>();
         ParkourUser user = ParkourUser.getUser(player);
-        String sessionId = user == null ? "" : user.getSessionId();
+
+        if (user == null) {
+            return;
+        }
+
+        String sessionId = user.getSessionId();
 
         if (sessionId == null || sessionId.isEmpty()) { // no session found
             return;
         }
 
+        PagedMenu playerMenu = new PagedMenu(4, Locales.getString(player, "invite.name"));
         Session session = user.getSession();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -38,7 +44,8 @@ public class InviteMenu {
                 continue;
             }
 
-            Item item = new Item(Material.PLAYER_HEAD, "<#abcdef><bold>" + p.getName());
+            Item item = Locales.getItem(user.getLocale(), "invite.head")
+                    .material(Material.PLAYER_HEAD);
 
             ItemStack stack = item.build();
             stack.setType(Material.PLAYER_HEAD);
@@ -66,10 +73,9 @@ public class InviteMenu {
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
                         .click(event -> playerMenu.page(-1)))
 
-                .item(30, new Item(Material.PAPER, "<#0b55e0><bold>Lobby " + sessionId)
-                        .lore("<gray>Players can also use", "<#346edb><underline>/parkour join " + sessionId, "<gray>to join this lobby."))
+                .item(30, Locales.getItem(player, "invite.lobby", sessionId))
 
-                .item(32, new Item(Material.ARROW, "<red><bold>Close").click(event ->
+                .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close").click(event ->
                         event.getEvent().getWhoClicked().closeInventory()))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
