@@ -7,6 +7,7 @@ import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;
+import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.PagedMenu;
@@ -14,6 +15,7 @@ import dev.efnilite.vilib.inventory.animation.RandomAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
 import dev.efnilite.vilib.util.Unicodes;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -27,6 +29,8 @@ public class ActiveMenu {
 
     public static void open(Player player, MenuSort sort) {
         PagedMenu menu = new PagedMenu(4, Locales.getString(player, "active.name"));
+        ParkourUser user = ParkourUser.getUser(player);
+        String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
 
         List<MultiSession> sessions = new ArrayList<>(); // get all public sessions
         for (Session session : Session.getSessions()) {
@@ -56,7 +60,12 @@ public class ActiveMenu {
 //        }
 
         for (MultiSession session : sessions) { // turn sessions into items
-            Item item = new Item(Material.LIME_STAINED_GLASS_PANE, "<#59DB3E><bold>Lobby " + session.getSessionId());
+
+            Item item = Locales.getItem(locale, "active.item",
+                            session.getSessionId(), // session id
+                            ChatColor.stripColor(session.getGamemode().getItem(locale).getName())) // gamemode
+                    .material(Material.LIME_STAINED_GLASS_PANE);
+
             item.click(event -> session.join(player));
 
             int openSpaces = session.getMaxPlayers() - session.getPlayers().size();
@@ -66,26 +75,31 @@ public class ActiveMenu {
                 item.material(Material.RED_STAINED_GLASS_PANE).click(event -> Gamemodes.SPECTATOR.create(player, session));
             }
 
-            List<String> lore = new ArrayList<>();
-            lore.add("<gray>Gamemode: <#C8F2C0>" + session.getGamemode().getName());
-            lore.add("");
-
-            if (session.getPlayers().size() > 0) {
-                lore.add("<gray>Players"); // #69B759
-
-                for (ParkourPlayer pp : session.getPlayers()) {
-                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getPlayer().getName());
+            List<String> updated = item.getLore();
+            int players = 0;
+            for (int i = 0; i < updated.size(); i++) {
+                if (updated.get(i).contains("%p")) {
+                    players = i;
                 }
             }
 
-            if (session.getSpectators().size() > 0) {
-                lore.add("<gray>Spectators"); // #69B759
+            updated.remove(players);
+            for (ParkourUser pp : session.getPlayers()) {
+                updated.add(players, "<dark_gray>•" + pp.getPlayer().getName());
+            }
 
-                for (ParkourSpectator pp : session.getSpectators()) {
-                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getPlayer().getName());
+            int spectators = 0;
+            for (int i = 0; i < updated.size(); i++) {
+                if (updated.get(i).contains("%s")) {
+                    spectators = i;
                 }
             }
-            item.lore(lore);
+
+            updated.remove(spectators);
+            for (ParkourUser pp : session.getSpectators()) {
+                updated.add(spectators, "<dark_gray>•" + pp.getPlayer().getName());
+            }
+            item.lore(updated);
 
             items.add(item);
         }

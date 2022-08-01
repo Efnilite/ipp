@@ -143,6 +143,7 @@ public class LobbyMode {
             return;
         }
 
+        player.setGenerator(generator);
         generator.setData(new AreaData(Collections.singletonList(location.getBlock())));
 
         // the player spawn
@@ -152,7 +153,7 @@ public class LobbyMode {
         spawn.setYaw(-90);
 
         generator.generateFirst(spawn, block);
-        IP.getDivider().setup(player, spawn, true, false);
+        IP.getDivider().setup(player, spawn, true, true);
     }
 
     /**

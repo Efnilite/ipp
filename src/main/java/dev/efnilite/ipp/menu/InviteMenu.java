@@ -3,6 +3,7 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.inventory.PagedMenu;
@@ -44,17 +45,21 @@ public class InviteMenu {
                 continue;
             }
 
-            Item item = Locales.getItem(user.getLocale(), "invite.head")
+            Item item = Locales.getItem(user.getLocale(), "invite.head", player.getName())
                     .material(Material.PLAYER_HEAD);
 
             ItemStack stack = item.build();
             stack.setType(Material.PLAYER_HEAD);
-            SkullMeta meta = (SkullMeta) stack.getItemMeta();
-            if (meta == null) {
-                continue;
+
+            // bedrock has no player skull support
+            if (!Util.isBedrockPlayer(player)) {
+                SkullMeta meta = (SkullMeta) stack.getItemMeta();
+
+                if (meta != null) {
+                    SkullSetter.setPlayerHead(p, meta);
+                    item.meta(meta);
+                }
             }
-            SkullSetter.setPlayerHead(p, meta);
-            item.meta(meta);
 
             items.add(item.click(event -> {
                 Message.send(p, "");
@@ -73,7 +78,7 @@ public class InviteMenu {
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
                         .click(event -> playerMenu.page(-1)))
 
-                .item(30, Locales.getItem(player, "invite.lobby", sessionId))
+                .item(30, Locales.getItem(player, "invite.lobby", sessionId, sessionId))
 
                 .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close").click(event ->
                         event.getEvent().getWhoClicked().closeInventory()))

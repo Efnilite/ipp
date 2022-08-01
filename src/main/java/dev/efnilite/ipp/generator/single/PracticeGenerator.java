@@ -6,6 +6,7 @@ import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
@@ -50,20 +51,23 @@ public final class PracticeGenerator extends PlusGenerator {
      */
     public void open() {
         Menu menu = new Menu(4, "<white>Practice");
+        String locale = player.getLocale();
 
         menu
                 // each jump type uses their own specific key to prevent collision
                 .item(9, new SliderItem()
                         .initial(distanceChances.containsKey(0) ? 0 : 1)
-                        .add(0, new Item(Material.LIME_STAINED_GLASS_PANE, "<green><bold>One-block jumps")
-                                .lore("<gray>Click to change this setting."), event -> {
+                        .add(0, Locales.getItem(locale, "singleplayer.practice.items.one-block")
+                                .material(Material.LIME_STAINED_GLASS_PANE)
+                                .modifyName(name -> "<green>" + name), event -> {
                             distanceChances.put(0, 1); // keys 0-1
                             distanceChances.put(1, 2);
 
                             return true;
                         })
-                        .add(1, new Item(Material.RED_STAINED_GLASS_PANE, "<red><bold>One-block jumps")
-                                .lore("<gray>Click to change this setting."), event -> {
+                        .add(1, Locales.getItem(locale, "singleplayer.practice.items.one-block")
+                                .material(Material.RED_STAINED_GLASS_PANE)
+                                .modifyName(name -> "<red>" + name), event -> {
                             if (distanceChances.size() > 2) {
                                 distanceChances.remove(0);
                                 distanceChances.remove(1);

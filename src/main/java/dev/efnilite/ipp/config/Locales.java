@@ -1,22 +1,21 @@
 package dev.efnilite.ipp.config;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.config.Option;
+import dev.efnilite.ipp.IPP;
 import dev.efnilite.vilib.chat.tag.TextTag;
 import dev.efnilite.vilib.inventory.item.Item;
+import dev.efnilite.vilib.util.Logging;
+import dev.efnilite.vilib.util.Task;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,31 +31,51 @@ public class Locales {
     // the json trees are stored instead of the files to avoid having to read the files every time
     private static final Map<String, JsonObject> localeTree = new HashMap<>();
 
-    static {
-        // get all files in locales folder
-        try (Stream<Path> stream = Files.list(Paths.get(IP.getPlugin().getDataFolder() + "/locales"))) {
-            stream.forEach(path -> {
-                File file = path.toFile();
+    private static final Gson gson = new GsonBuilder()
+                        .setLenient()
+                        .disableHtmlEscaping()
+                        .create();
 
-                // get locale from file name
-                String locale = file.getName().split("\\.")[0];
 
-                JsonReader reader;
+    public static void init(Plugin plugin) {
+        Task.create(plugin)
+                .async()
+                .execute(() -> {
+                    Path folder = Paths.get(plugin.getDataFolder() + "/locales");
 
-                try {
-                    reader = new JsonReader(new FileReader(file));
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
+                    // download files to locales folder
+                    if (!folder.toFile().exists()) {
+                        folder.toFile().mkdirs();
 
-                // read file and put it in the map
-                JsonElement element = JsonParser.parseReader(reader);
+                        IPP.getPlugin().saveResource("locales/en.json", false);
+                        //            IPP.getPlugin().saveResource("locales/nl.json", false);
+                    }
 
-                localeTree.put(locale, element.getAsJsonObject());
-            });
-        } catch (IOException throwable) {
-            throw new RuntimeException(throwable);
-        }
+                    // get all files in locales folder
+                    try (Stream<Path> stream = Files.list(folder)) {
+                        stream.forEach(path -> {
+                            File file = path.toFile();
+
+                            // get locale from file name
+                            String locale = file.getName().split("\\.")[0];
+
+                            JsonObject object;
+                            try {
+                                // read file and transform it into object
+                                object = gson.fromJson(new FileReader(file), JsonObject.class);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            localeTree.put(locale, object);
+                        });
+                    } catch (IOException throwable) {
+                        IPP.logging().stack("Error while trying to read locale files", "restart/reload your server", throwable);
+                    }
+
+                    Locales.getItem("en", "singleplayer.hourglass");
+                })
+                .run();
     }
 
     /**
@@ -77,8 +96,7 @@ public class Locales {
         ParkourUser user = ParkourUser.getUser(player);
         String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
 
-        return TextTag.parse(localeTree.get(locale)
-                .get(path).getAsString());
+        return getString(locale, path);
     }
 
     /**
@@ -93,8 +111,14 @@ public class Locales {
      * @return a coloured String
      */
     public static String getString(String locale, String path) {
-        return TextTag.parse(localeTree.get(locale)
-                .get(path).getAsString());
+        JsonObject base = localeTree.get(locale);
+
+        String[] split = path.split("\\.");
+        for (int i = 0; i < split.length - 1; i++) {
+            base = base.get(split[i]).getAsJsonObject();
+        }
+
+        return TextTag.parse(base.get(split[split.length - 1]).getAsString());
     }
 
     /**
@@ -135,12 +159,15 @@ public class Locales {
      */
     @NotNull
     public static Item getItem(String locale, String path, String... replace) {
-        JsonObject foot = localeTree.get(locale)
-                .get("items." + path).getAsJsonObject();
+        JsonObject base = localeTree.get(locale);
 
-        String material = foot.get("material").getAsString();
-        String name = foot.get("name").getAsString();
-        String lore = foot.get("lore").getAsString();
+        for (String s : path.split("\\.")) {
+            base = base.get(s).getAsJsonObject();
+        }
+
+        String material = base.get("material").getAsString();
+        String name = base.get("name").getAsString();
+        String lore = base.get("lore").getAsString();
 
         Pattern pattern = Pattern.compile("%[a-z]");
         Matcher matcher = pattern.matcher(name);
@@ -158,7 +185,7 @@ public class Locales {
             index++;
         }
 
-        return new Item(Material.getMaterial(material), name).lore(lore.split("\\|\\|"));
+        return new Item(Material.getMaterial(material.toUpperCase()), name).lore(lore.split("\\|\\|"));
     }
 
 }

@@ -30,6 +30,31 @@
 		  "material": "",
 		  "name": "<bold>Four-block jumps",
 		  "lore": "<gray>Click to change this setting."
+		},
+		"normal": {
+		  "material": "",
+		  "name": "<bold>Normal",
+		  "lore": "<gray>Click to change this setting."
+		},
+		"ice": {
+		  "material": "",
+		  "name": "<bold>Ice",
+		  "lore": "<gray>Click to change this setting."
+		},
+		"slabs": {
+		  "material": "",
+		  "name": "<bold>Ice",
+		  "lore": "<gray>Click to change this setting."
+		},
+		"glass-panes": {
+		  "material": "",
+		  "name": "<bold>Ice",
+		  "lore": "<gray>Click to change this setting."
+		},
+		"fences": {
+		  "material": "",
+		  "name": "<bold>Ice",
+		  "lore": "<gray>Click to change this setting."
 		}
 	  }
 	},
@@ -71,6 +96,11 @@
   },
   "active": {
 	"name": "<white>Lobbies",
+	"item": {
+	  "material": "",
+	  "name": "<#59DB3E><bold>Lobby %s",
+	  "lore": "<gray>Gamemode: <#C8F2C0>%s||||<gray>Players||%p||<gray>Spectators||%s"
+	},
 	"sort": {
 	  "material": "bookshelf",
 	  "name": "<#DEA11F><bold>Sort",
@@ -92,7 +122,7 @@
 	"lobby": {
 	  "material": "paper",
 	  "name": "<#0b55e0><bold>Lobby %s",
-	  "lore": "<gray>Players can also use||<#346edb><underline>/parkour join %s<gray>to join this lobby."
+	  "lore": "<gray>Players can also use||<#346edb><underline>/parkour join %s||<gray>to join this lobby."
 	}
   }
 }

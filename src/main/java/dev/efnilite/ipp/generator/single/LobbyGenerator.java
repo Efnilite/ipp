@@ -21,7 +21,7 @@ public final class LobbyGenerator extends PlusGenerator {
         // setup menu
         menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
 
-        profile.setSetting("blockLead", "4");
+        profile.setSetting("blockLead", "512");
         profile.setSetting("useSchematic", "false");
     }
 
@@ -67,15 +67,6 @@ public final class LobbyGenerator extends PlusGenerator {
             distanceChances.put(percentage, 4);
             percentage++;
         }
-    }
-
-    @Override
-    public void fall() {
-        // random direction
-        Direction[] values = Direction.values();
-        heading = values[random.nextInt(values.length)];
-
-        super.fall();
     }
 
     @Override

@@ -3,6 +3,7 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.MultiGamemode;
+import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.config.Locales;
@@ -52,7 +53,7 @@ public class MultiplayerMenu {
                         .click(event -> gameMenu.page(-1)))
 
                 .item(31, IP.getConfiguration().getFromItemData(user, "general.close").click(event ->
-                        MultiplayerMenu.open(event.getPlayer())))
+                        MainMenu.INSTANCE.open(event.getPlayer())))
 
                 .fillBackground(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                 .animation(new WaveWestAnimation())

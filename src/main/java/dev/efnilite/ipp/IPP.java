@@ -6,6 +6,7 @@ import dev.efnilite.ip.menu.LobbyMenu;
 import dev.efnilite.ip.menu.MainMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
+import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.config.PlusConfiguration;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.gamemode.multi.DuelsGamemode;
@@ -34,7 +35,7 @@ public final class IPP extends ViPlugin {
     @Override
     public void enable() {
         instance = this;
-        Time.timerStart("enable");
+        Time.timerStart("enable ipp");
 
         configuration = new PlusConfiguration(this);
         dev.efnilite.ipp.config.PlusOption.init();
@@ -59,6 +60,7 @@ public final class IPP extends ViPlugin {
 
         LobbyMode.read();
         PlusGamemodes.init();
+        Locales.init(this);
 
         // Register stuff for main menu
         // Multiplayer if player is not found
@@ -81,7 +83,7 @@ public final class IPP extends ViPlugin {
                     return pp != null && pp.getGenerator() instanceof PracticeGenerator;
                 });
 
-        LobbyMenu.INSTANCE.registerMainItem(2, 2,
+        LobbyMenu.INSTANCE.registerMainItem(1, 2,
                 user -> new Item(Material.ELYTRA, "<#2B97E2><bold>Invite").click(
                         event -> InviteMenu.open(event.getPlayer())),
                 player -> {
@@ -92,7 +94,7 @@ public final class IPP extends ViPlugin {
                             && user.getSession().getPlayers().get(0) == user;
                 });
 
-        LobbyMenu.INSTANCE.registerMainItem(2, 1,
+        LobbyMenu.INSTANCE.registerMainItem(1, 1,
                 user -> new Item(Material.CHEST, "<#EA9926><bold>View current lobbies")
                     .lore("<dark_gray>Aktuelle Lobbys ansehen • 查看当前大厅" ,
                             "<dark_gray>• 查看當前大廳 • Voir les lobbys actuels",
@@ -100,7 +102,7 @@ public final class IPP extends ViPlugin {
                     .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
                 player -> true);
 
-        logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable") + "ms!");
+        logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable ipp") + "ms!");
     }
 
     @Override
