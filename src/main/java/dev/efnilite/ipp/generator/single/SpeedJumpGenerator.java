@@ -43,8 +43,12 @@ public final class SpeedJumpGenerator extends PlusGenerator {
         heightChances.clear();
         heightChances.put(0, 0);
 
-        profile.setSetting("blockLead", "1");
         player.getPlayer().setMaximumAir(100_000_000);
+    }
+
+    @Override
+    public void updatePreferences() {
+        profile.setSetting("blockLead", "1");
     }
 
     @Override
@@ -105,7 +109,7 @@ public final class SpeedJumpGenerator extends PlusGenerator {
 
         Location playerLocation = player.getLocation();
 
-        if (playerLocation.getWorld() != playerSpawn.getWorld()) { // sometimes player worlds dont match (somehow)
+        if (playerLocation.getWorld() != playerSpawn.getWorld()) { // sometimes player worlds don't match (somehow)
             player.teleport(playerSpawn);
             return;
         }

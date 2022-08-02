@@ -254,22 +254,22 @@ public final class PracticeGenerator extends PlusGenerator {
     }
 
     @Override
-    protected void calculateAdaptiveDistance() {
+    public void calculateAdaptiveDistance() {
 
     }
 
     @Override
-    protected void calculateDefault() {
+    public void calculateDefault() {
 
     }
 
     @Override
-    protected void calculateDistance() {
+    public void calculateDistance() {
 
     }
 
     @Override
-    protected void calculateSpecial() {
+    public void calculateSpecial() {
 
     }
 

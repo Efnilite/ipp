@@ -20,14 +20,17 @@ public final class LobbyGenerator extends PlusGenerator {
 
         // setup menu
         menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
+    }
 
+    @Override
+    public void updatePreferences() {
         profile.setSetting("blockLead", "512");
         profile.setSetting("useSchematic", "false");
     }
 
     // remove -2 height jumps
     @Override
-    protected void calculateHeight() {
+    public void calculateHeight() {
         heightChances.clear();
 
         int percentage = 0;
@@ -47,7 +50,7 @@ public final class LobbyGenerator extends PlusGenerator {
 
     // remove 1 block jumps
     @Override
-    protected void calculateDistance() {
+    public void calculateDistance() {
         distanceChances.clear();
 
         int two = Option.NORMAL_TWO_BLOCK.get();

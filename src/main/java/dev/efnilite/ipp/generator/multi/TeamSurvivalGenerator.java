@@ -26,7 +26,10 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.IGNORE_CHECK_FOR_PROGRESS);
 
         menu = new SettingsMenu(ParkourOption.SCHEMATICS);
+    }
 
+    @Override
+    public void updatePreferences() {
         profile.setSetting("useSchematic", "false");
     }
 

@@ -31,12 +31,12 @@ public final class SpeedGenerator extends PlusGenerator {
     }
 
     @Override
-    protected void calculateDistance() {
+    public void calculateDistance() {
         // do nothing
     }
 
     @Override
-    protected void calculateHeight() {
+    public void calculateHeight() {
         // do nothing
     }
 
