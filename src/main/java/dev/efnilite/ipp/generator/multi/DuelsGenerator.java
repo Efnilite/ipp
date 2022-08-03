@@ -7,6 +7,7 @@ import dev.efnilite.ip.generator.data.AreaData;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
+import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.schematic.RotationAngle;
 import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.util.Util;
@@ -239,6 +240,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
             return;
         }
 
+        String winningName = winner.getName();
         String winningTime = winner.getGenerator().getStopwatch().toString();
 
         List<Map.Entry<ParkourPlayer, SingleDuelsGenerator>> leaderboard = getLeaderboard();
@@ -249,7 +251,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
             generator.stopGenerator();
 
             player.send("");
-            player.send("<#34B2F9>" + winner.getPlayer().getName() + "<gray> has won the game in " + winningTime + "!");
+            player.send("<#34B2F9>" + winningName + "<gray> has won the game in " + winningTime + "!");
             player.send("<#34B2F9><bold>Leaderboard:");
             player.send("");
 
@@ -257,18 +259,21 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                 Map.Entry<ParkourPlayer, SingleDuelsGenerator> entry = leaderboard.get(i);
 
                 player.send(
-                        """
-                        <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
-                        """
-                                .formatted(i + 1, entry.getKey().getName(), entry.getValue().getScore()));
+                    """
+                    <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
+                    """
+                .formatted(i + 1, entry.getKey().getName(), entry.getValue().getScore()));
             }
 
             player.send("");
 
             if (player == winner) {
                 sendTitle(player, "<#EEB40D><bold>Victory", "<gray>You won in " + winningTime + "!", 1, 100, 10);
+
+                getGamemode().getLeaderboard().put(winner.getUUID(),
+                        new Score(winningName, winningTime, winner.calculateDifficultyScore(), generator.getScore()));
             } else {
-                sendTitle(player, "<#6E1111><bold>Defeat", "<gray>You lost to " + winner.getPlayer().getName() + "!", 1, 100, 10);
+                sendTitle(player, "<#6E1111><bold>Defeat", "<gray>You lost to " + winningName + "!", 1, 100, 10);
             }
         }
 
@@ -286,6 +291,11 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                 .run();
 
         this.stopped = true;
+    }
+
+    @Override
+    protected void registerScore() {
+
     }
 
     public Map<ParkourPlayer, SingleDuelsGenerator> getPlayerGenerators() {

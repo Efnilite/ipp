@@ -2,12 +2,12 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.base.Direction;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
+import org.bukkit.Material;
 
 /**
  * Generator for Lobby mode
@@ -24,8 +24,15 @@ public final class LobbyGenerator extends PlusGenerator {
 
     @Override
     public void updatePreferences() {
-        profile.setSetting("blockLead", "512");
+        profile.setSetting("blockLead", "4");
         profile.setSetting("useSchematic", "false");
+    }
+
+    @Override
+    public void generate() {
+        super.generate();
+
+        data.blocks().get(0).setType(Material.SMOOTH_QUARTZ);
     }
 
     // remove -2 height jumps

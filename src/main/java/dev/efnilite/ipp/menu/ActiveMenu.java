@@ -2,8 +2,6 @@ package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemodes;
-import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;

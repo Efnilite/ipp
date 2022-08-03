@@ -209,8 +209,7 @@ public final class SpeedJumpGenerator extends PlusGenerator {
 
     @Override
     public void score() {
-        this.score++;
-        this.totalScore++;
+        super.score();
 
         updateJumpDistance();
     }

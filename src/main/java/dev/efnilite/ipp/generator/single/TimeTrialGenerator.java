@@ -4,6 +4,7 @@ import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
+import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
@@ -66,8 +67,17 @@ public final class TimeTrialGenerator extends PlusGenerator {
 
         if (score >= goal) {
             score = goal;
+
+            getGamemode().getLeaderboard().put(player.getUUID(),
+                    new Score(player.getName(), stopwatch.toString(), player.calculateDifficultyScore(), score));
+
             player.teleport(player.getLocation().subtract(0, 15, 0));
         }
+    }
+
+    @Override
+    protected void registerScore() {
+
     }
 
     @Override

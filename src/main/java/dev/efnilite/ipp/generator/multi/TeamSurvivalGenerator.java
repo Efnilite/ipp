@@ -5,6 +5,7 @@ import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.SettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
 import org.bukkit.Location;
@@ -46,6 +47,14 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
             pp.getBoard().updateLines(player.getBoard().getLines());
         }
 
+    }
+
+    @Override
+    protected void registerScore() {
+        for (ParkourPlayer pp : session.getPlayers()) {
+            getGamemode().getLeaderboard().put(pp.getUUID(),
+                    new Score(pp.getName(), stopwatch.toString(), player.calculateDifficultyScore(), score));
+        }
     }
 
     @Override

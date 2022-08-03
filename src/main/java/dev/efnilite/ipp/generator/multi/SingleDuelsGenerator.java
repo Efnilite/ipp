@@ -149,13 +149,13 @@ public class SingleDuelsGenerator extends PlusGenerator {
         };
     }
 
-    public void stopGenerator() {
-        this.stopped = true;
-    }
 
     @Override
-    public void score() {
-        this.score++;
-        this.totalScore++;
+    protected void registerScore() {
+
+    }
+
+    public void stopGenerator() {
+        this.stopped = true;
     }
 }
