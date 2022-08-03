@@ -79,12 +79,12 @@
 	"duels": {
 	  "material": "red_concrete",
 	  "name": "<#C91212><bold>Duels",
-	  "lore": "<dark_gray>Race opponents to 100 points!||<gray>If someone falls, they'll be reset to the start."
+	  "lore": "<dark_gray>Race opponents to 100 points!||<dark_gray>If someone falls, they'll be reset to the start."
 	},
 	"team-survival": {
 	  "material": "poppy",
 	  "name": "<#C91212><bold>Team Survival",
-	  "lore": "<dark_gray>Live as long as you can with your entire team||<gray>If someone falls, everyone's back to start"
+	  "lore": "<dark_gray>Live as long as you can with your entire team||<dark_gray>If someone falls, everyone's back to start"
 	}
   },
   "styles": {

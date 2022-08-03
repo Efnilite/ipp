@@ -2,6 +2,7 @@ package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemodes;
+import dev.efnilite.ip.menu.LobbyMenu;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;
@@ -126,7 +127,7 @@ public class ActiveMenu {
                 }))
 
                 .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close").click(
-                        event -> MultiplayerMenu.open(event.getPlayer())))
+                        event -> LobbyMenu.INSTANCE.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
                 .animation(new RandomAnimation())

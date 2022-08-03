@@ -72,7 +72,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         }
 
         // setup generator
-        SingleDuelsGenerator generator = new SingleDuelsGenerator(player);
+        SingleDuelsGenerator generator = new SingleDuelsGenerator(session);
         generator.player = player;
 
         generator.setPlayerIndex(playerGenerators.keySet().size());

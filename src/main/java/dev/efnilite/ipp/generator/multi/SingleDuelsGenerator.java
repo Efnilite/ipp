@@ -10,6 +10,7 @@ import dev.efnilite.ip.util.Util;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
+import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -25,8 +26,8 @@ public class SingleDuelsGenerator extends PlusGenerator {
     private DuelsGenerator owningGenerator;
     private int playerIndex;
 
-    public SingleDuelsGenerator(@NotNull ParkourPlayer player, GeneratorOption... generatorOptions) {
-        super(player.getSession(), generatorOptions);
+    public SingleDuelsGenerator(@NotNull MultiSession session, GeneratorOption... generatorOptions) {
+        super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
         menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES);
@@ -115,15 +116,6 @@ public class SingleDuelsGenerator extends PlusGenerator {
                 .replace("%topscore%", Integer.toString(top.score()))
                 .replace("%topplayer%", top.name()).replace("%session%", getSession().getSessionId()));
         player.getBoard().updateLines(lines);
-    }
-
-    @Override
-    public void reset(boolean regenerate) {
-        super.reset(regenerate);
-
-        if (!regenerate) {
-            owningGenerator.removePlayer(player);
-        }
     }
 
     public void setOwningGenerator(DuelsGenerator owningGenerator) {

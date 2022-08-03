@@ -31,6 +31,11 @@ public final class SpeedGenerator extends PlusGenerator {
     }
 
     @Override
+    public void updatePreferences() {
+        profile.setSetting("blockLead", "10");
+    }
+
+    @Override
     public void calculateDistance() {
         // do nothing
     }

@@ -45,7 +45,7 @@ public class InviteMenu {
                 continue;
             }
 
-            Item item = Locales.getItem(user.getLocale(), "invite.head", player.getName())
+            Item item = Locales.getItem(user.getLocale(), "invite.head", p.getName())
                     .material(Material.PLAYER_HEAD);
 
             ItemStack stack = item.build();

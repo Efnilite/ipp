@@ -176,6 +176,10 @@ public class Locales {
 
         int index = 0;
         while (matcher.find()) {
+            if (index == replace.length) {
+                break;
+            }
+
             name = name.replaceFirst(matcher.group(), replace[index]);
             index++;
         }
@@ -183,6 +187,10 @@ public class Locales {
         matcher = pattern.matcher(lore);
 
         while (matcher.find()) {
+            if (index == replace.length) {
+                break;
+            }
+
             lore = lore.replaceFirst(matcher.group(), replace[index]);
             index++;
         }
