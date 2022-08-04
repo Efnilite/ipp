@@ -26,11 +26,11 @@ public class SingleDuelsGenerator extends PlusGenerator {
     private DuelsGenerator owningGenerator;
     private int playerIndex;
 
-    public SingleDuelsGenerator(@NotNull MultiSession session, GeneratorOption... generatorOptions) {
+    public SingleDuelsGenerator(@NotNull MultiSession session) {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
-        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES);
+        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         // set the task to an empty runnable
         // this avoids the incomplete joining setup error

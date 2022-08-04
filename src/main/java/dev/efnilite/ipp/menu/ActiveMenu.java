@@ -3,6 +3,8 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.menu.LobbyMenu;
+import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;
@@ -31,19 +33,29 @@ public class ActiveMenu {
         ParkourUser user = ParkourUser.getUser(player);
         String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
 
-        List<MultiSession> sessions = new ArrayList<>(); // get all public sessions
+        List<Session> sessions = new ArrayList<>(); // get all public sessions
         for (Session session : Session.getSessions()) {
-            if (!(session instanceof MultiSession) || session.getVisibility() != SessionVisibility.PUBLIC) { // only display public sessions
+            if (session.getVisibility() != SessionVisibility.PUBLIC) { // only display public sessions
                 continue;
             }
-            sessions.add((MultiSession) session);
+            sessions.add(session);
         }
 
         // sort all sessions by available player count
-        List<MultiSession> list = new ArrayList<>(sessions);
+        List<Session> list = new ArrayList<>(sessions);
         list.sort((session1, session2) -> {
-            int open1 = session1.getMaxPlayers() - session1.getPlayers().size();
-            int open2 = session2.getMaxPlayers() - session2.getPlayers().size();
+            int max1 = 1;
+            if (session1 instanceof MultiSession) {
+                max1 = ((MultiSession) session1).getMaxPlayers();
+            }
+
+            int max2 = 1;
+            if (session2 instanceof MultiSession) {
+                max2 = ((MultiSession) session2).getMaxPlayers();
+            }
+
+            int open1 = max1 - session1.getPlayers().size();
+            int open2 = max2 - session2.getPlayers().size();
             if (sort == MenuSort.LEAST_OPEN_FIRST) {
                 return open1 - open2;
             } else {
@@ -58,49 +70,75 @@ public class ActiveMenu {
 //            items.add(new Item(Material.BLUE_STAINED_GLASS_PANE, "<#198EF0><bold>Tournament")); // todo finish
 //        }
 
-        for (MultiSession session : sessions) { // turn sessions into items
+        for (Session session : sessions) { // turn sessions into items
 
-            Item item = Locales.getItem(locale, "active.item",
-                            session.getSessionId(), // session id
-                            ChatColor.stripColor(session.getGamemode().getItem(locale).getName())) // gamemode
-                    .material(Material.LIME_STAINED_GLASS_PANE);
+//            Item item = Locales.getItem(locale, "active.item",
+//                            session.getSessionId(), // session id
+//                            ChatColor.stripColor(session.getGamemode().getItem(locale).getName())) // gamemode
+//                    .material(Material.LIME_STAINED_GLASS_PANE);
+
+            Item item = new Item(Material.LIME_STAINED_GLASS_PANE, "");
 
             item.click(event -> session.join(player));
 
-            int openSpaces = session.getMaxPlayers() - session.getPlayers().size();
+            int max = 1;
+            if (session instanceof MultiSession) {
+                max = ((MultiSession) session).getMaxPlayers();
+            }
+
+            String main = "<#59DB3E>";
+            String accent = "<#C8F2C0>";
+
+            int openSpaces = max - session.getPlayers().size();
             if (openSpaces == 1) {
+                main = "<#DB973E>";
+                accent = "<#F2D9C0>";
+
                 item.material(Material.ORANGE_STAINED_GLASS_PANE);
             } else if (openSpaces == 0) {
-                item.material(Material.RED_STAINED_GLASS_PANE).click(event -> Gamemodes.SPECTATOR.create(player, session));
-            }
+                main = "<#DB3E3E>";
+                accent = "<#F2C0C0>";
 
-            List<String> updated = item.getLore();
-            int players = 0;
-            for (int i = 0; i < updated.size(); i++) {
-                if (updated.get(i).contains("%p")) {
-                    players = i;
+                item.material(Material.RED_STAINED_GLASS_PANE)
+                        .click(event -> {
+                            ParkourUser u = ParkourUser.getUser(event.getPlayer());
+                            if ((u != null && session.getSessionId().equals(u.getSession().getSessionId())) || !session.isAcceptingSpectators()) {
+                                return;
+                            }
+
+                            Gamemodes.SPECTATOR.create(player, session);
+                        });
+            }
+            item.name(main + "<bold>Lobby " + session.getSessionId());
+
+            List<String> lore = new ArrayList<>();
+
+            lore.add("<gray>Players: " + accent + max + "<dark_gray>/" + max);
+            lore.add("<gray>Gamemode: " + accent + session.getGamemode().getName());
+            lore.add("");
+
+            if (session.getPlayers().size() > 0) {
+                lore.add("<gray>Players:"); // #69B759
+
+                for (ParkourPlayer pp : session.getPlayers()) {
+                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getPlayer().getName());
                 }
             }
 
-            updated.remove(players);
-            for (ParkourUser pp : session.getPlayers()) {
-                updated.add(players, "<dark_gray>•" + pp.getPlayer().getName());
-            }
+            if (session.getSpectators().size() > 0) {
+                lore.add("<gray>Spectators:"); // #69B759
 
-            int spectators = 0;
-            for (int i = 0; i < updated.size(); i++) {
-                if (updated.get(i).contains("%s")) {
-                    spectators = i;
+                for (ParkourSpectator pp : session.getSpectators()) {
+                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getPlayer().getName());
                 }
             }
 
-            updated.remove(spectators);
-            for (ParkourUser pp : session.getSpectators()) {
-                updated.add(spectators, "<dark_gray>•" + pp.getPlayer().getName());
+            if (openSpaces == 0 && session.isAcceptingSpectators()) {
+                lore.add("");
+                lore.add(accent + "You can only join as spectator.");
             }
-            item.lore(updated);
 
-            items.add(item);
+            items.add(item.lore(lore));
         }
 
         menu

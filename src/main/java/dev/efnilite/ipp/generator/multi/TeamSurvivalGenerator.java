@@ -113,6 +113,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
         if (lastPlayer != null) {
             player = lastPlayer;
         }
+
         super.tick();
         player = owner;
     }

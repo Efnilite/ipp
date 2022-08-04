@@ -64,7 +64,7 @@ public class InviteMenu {
             items.add(item.click(event -> {
                 Message.send(p, "");
                 Message.send(p, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + session.getGamemode().getName() + " game.");
-                Message.send(p, "<dark_gray>Use <#3BC2C2><underline>/parkour join " + sessionId + "</underline><dark_gray> to join.");
+                Message.send(p, "<dark_gray>Use <#792727>/parkour join " + sessionId + "<dark_gray> to join.");
                 Message.send(p, "");
             }));
         }
