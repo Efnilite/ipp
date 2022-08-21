@@ -16,7 +16,6 @@ import dev.efnilite.vilib.inventory.animation.RandomAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
 import dev.efnilite.vilib.util.Unicodes;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -35,9 +34,14 @@ public class ActiveMenu {
 
         List<Session> sessions = new ArrayList<>(); // get all public sessions
         for (Session session : Session.getSessions()) {
+            if (user != null && user.getSession().getSessionId().equals(session.getSessionId())) {
+                continue;
+            }
+
             if (session.getVisibility() != SessionVisibility.PUBLIC) { // only display public sessions
                 continue;
             }
+
             sessions.add(session);
         }
 
@@ -113,7 +117,7 @@ public class ActiveMenu {
 
             List<String> lore = new ArrayList<>();
 
-            lore.add("<gray>Players: " + accent + max + "<dark_gray>/" + max);
+            lore.add("<gray>Players: " + accent + session.getPlayers().size() + "<dark_gray>/" + max);
             lore.add("<gray>Gamemode: " + accent + session.getGamemode().getName());
             lore.add("");
 

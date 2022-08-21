@@ -85,7 +85,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         // - schematic gets pasted
         // - player gets teleported
         // - block starts generating
-        Location spawn = playerSpawn.clone().add(0, 0, 5 * schematic.getDimensions().getWidth() * (session.getPlayers().size() - 1));
+        Location spawn = playerSpawn.clone().add(0, 0, 5 * schematic.getDimensions().getWidth() * (getPlayers().size() - 1));
         List<Block> blocks = schematic.paste(spawn, RotationAngle.ANGLE_0);
 
         Location playerSpawn = null;

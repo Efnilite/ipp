@@ -2,7 +2,6 @@ package dev.efnilite.ipp.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
@@ -10,13 +9,13 @@ import dev.efnilite.vilib.chat.tag.TextTag;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,7 +30,7 @@ public class Locales {
 
     // a map of all locales with their respective json trees
     // the json trees are stored instead of the files to avoid having to read the files every time
-    private static final Map<String, JsonObject> localeTree = new HashMap<>();
+    private static final Map<String, FileConfiguration> localeTree = new HashMap<>();
 
     private static final Gson gson = new GsonBuilder()
                         .setLenient()
@@ -49,7 +48,7 @@ public class Locales {
                     if (!folder.toFile().exists()) {
                         folder.toFile().mkdirs();
 
-                        IPP.getPlugin().saveResource("locales/en.json", false);
+                        IPP.getPlugin().saveResource("locales/en.yml", false);
                         //            IPP.getPlugin().saveResource("locales/nl.json", false);
                     }
 
@@ -61,21 +60,11 @@ public class Locales {
                             // get locale from file name
                             String locale = file.getName().split("\\.")[0];
 
-                            JsonObject object;
-                            try {
-                                // read file and transform it into object
-                                object = gson.fromJson(new FileReader(file), JsonObject.class);
-                            } catch (FileNotFoundException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            localeTree.put(locale, object);
+                            localeTree.put(locale, YamlConfiguration.loadConfiguration(file));
                         });
                     } catch (IOException throwable) {
                         IPP.logging().stack("Error while trying to read locale files", "restart/reload your server", throwable);
                     }
-
-                    Locales.getItem("en", "singleplayer.hourglass");
                 })
                 .run();
     }
@@ -113,14 +102,13 @@ public class Locales {
      * @return a coloured String
      */
     public static String getString(String locale, String path) {
-        JsonObject base = localeTree.get(locale);
+        FileConfiguration base = localeTree.get(locale);
 
-        String[] split = path.split("\\.");
-        for (int i = 0; i < split.length - 1; i++) {
-            base = base.get(split[i]).getAsJsonObject();
+        if (base == null) {
+            return "";
         }
 
-        return TextTag.parse(base.get(split[split.length - 1]).getAsString());
+        return TextTag.parse(base.getString(path));
     }
 
     /**
@@ -161,15 +149,21 @@ public class Locales {
      */
     @NotNull
     public static Item getItem(String locale, String path, String... replace) {
-        JsonObject base = localeTree.get(locale);
+        final FileConfiguration base = localeTree.get(locale);
 
-        for (String s : path.split("\\.")) {
-            base = base.get(s).getAsJsonObject();
+        String material = base.getString(path + ".material");
+        String name = base.getString(path + ".name");
+        String lore = base.getString(path + ".lore");
+
+        if (material == null) {
+            material = "";
         }
-
-        String material = base.get("material").getAsString();
-        String name = base.get("name").getAsString();
-        String lore = base.get("lore").getAsString();
+        if (name == null) {
+            name = "";
+        }
+        if (lore == null) {
+            lore = "";
+        }
 
         Pattern pattern = Pattern.compile("%[a-z]");
         Matcher matcher = pattern.matcher(name);

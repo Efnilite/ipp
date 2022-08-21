@@ -51,8 +51,16 @@ gamemodes:
     # The amount of score required to win
     goal: 100
 
+    # -= Duel max players =-
+    # The max amount of players a duel lobby can have
+    max: 16
+
   team-survival:
     enabled: true
+
+    # -= Team survival max players =-
+    # The max amount of players a team survival lobby can have
+    max: 4
 
 # -= Extra style options =-
 styles:

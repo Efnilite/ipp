@@ -1,8 +1,11 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.generator.settings.GeneratorOption;
+import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
 import dev.efnilite.ipp.session.MultiSession;
+
+import java.util.List;
 
 public abstract class MultiplayerGenerator extends PlusGenerator {
 
@@ -19,5 +22,9 @@ public abstract class MultiplayerGenerator extends PlusGenerator {
     @Override
     public MultiSession getSession() {
         return session;
+    }
+
+    public List<ParkourPlayer> getPlayers() {
+        return session.getPlayers();
     }
 }

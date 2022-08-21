@@ -9,7 +9,6 @@ import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     public void updateScoreboard() {
         super.updateScoreboard();
 
-        for (ParkourPlayer pp : session.getPlayers()) {
+        for (ParkourPlayer pp : getPlayers()) {
             if (pp == player || player.getBoard() == null || pp.getBoard() == null) {
                 continue;
             }
@@ -51,7 +50,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
     @Override
     protected void registerScore() {
-        for (ParkourPlayer pp : session.getPlayers()) {
+        for (ParkourPlayer pp : getPlayers()) {
             getGamemode().getLeaderboard().put(pp.getUUID(),
                     new Score(pp.getName(), stopwatch.toString(), player.calculateDifficultyScore(), score));
         }
@@ -62,9 +61,9 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
         // the index of the last person
         int lastIndex = Integer.MAX_VALUE;
         ParkourPlayer lastPlayer = null;
-        ParkourPlayer owner = session.getPlayers().get(0);
+        ParkourPlayer owner = getPlayers().get(0);
 
-        for (ParkourPlayer pp : session.getPlayers()) {
+        for (ParkourPlayer pp : getPlayers()) {
             Location location = pp.getLocation();
             // get the block below player
             Block blockBelow = location.clone().subtract(0, 1, 0).getBlock();
@@ -83,39 +82,74 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
                 fall();
                 return;
             }
+//            System.out.println("===");
 
             int currentIndex;
+            if (positionIndexMap.containsKey(blockBelow)) {
+                // player is at a known position
+//                System.out.println(pp.getName() + " at known pos");
 
-            // get the index for the current player
-
-            // player is at an unknown block, use the last confirmed solid block
-            if (!positionIndexMap.containsKey(blockBelow) || blockBelow.getType() == Material.AIR) {
-                Block block = lastPlayerBlockMap.get(player);
-
-                // if last registered block is null, it means the player isn't on the parkour yet, so just skip this check
-                if (block == null || !positionIndexMap.containsKey(block)) {
-                    continue;
-                }
-
-                currentIndex = positionIndexMap.get(block);
-            // player is at a known block, so just use the index belonging to that block
-            } else {
-                currentIndex = positionIndexMap.get(blockBelow); // current index of the player
+                // register as the last player block
                 lastPlayerBlockMap.put(pp, blockBelow);
+                // set the current index
+                currentIndex = positionIndexMap.get(blockBelow);
+            } else {
+//                System.out.println(pp.getName() + " at unknown pos");
+
+                // player is not at a known position
+                if (last != null) {
+//                    System.out.println(pp.getName() + " has last known pos");
+                    currentIndex = positionIndexMap.get(last);
+                } else {
+//                    System.out.println(pp.getName() + " has no last known pos");
+                    currentIndex = -1;
+                }
             }
 
             if (lastIndex >= currentIndex) {
+//                System.out.println(pp.getName() + " is the new last player");
                 lastIndex = currentIndex;
                 lastPlayer = pp;
             }
+//            System.out.println("===");
         }
 
         if (lastPlayer != null) {
             player = lastPlayer;
         }
 
+//        Map<Integer, String> ppm = new HashMap<>();
+//        for (ParkourPlayer parkourPlayer : getPlayers()) {
+//            Block block = lastPlayerBlockMap.get(parkourPlayer);
+//
+//            int index = -1;
+//
+//            // if last registered block is null, it means the player isn't on the parkour yet, so just skip this check
+//            if (block != null && positionIndexMap.containsKey(block)) {
+//                index = positionIndexMap.get(block);
+//            }
+//
+//            ppm.put(index, parkourPlayer.getName());
+//        }
+//
+//        List<Map.Entry<Integer, String>> entries = new ArrayList<>(ppm.entrySet());
+//        entries.sort(Map.Entry.comparingByKey(Comparator.naturalOrder()));
+//
+//        Map<Integer, String> sorted = new LinkedHashMap<>();
+//        for (Map.Entry<Integer, String> entry : entries) {
+//            sorted.put(entry.getKey(), entry.getValue());
+//        }
+//
+//        for (Integer integer : sorted.keySet()) {
+//            System.out.println(integer + " - " + sorted.get(integer));
+//        }
+
         super.tick();
-        player = owner;
+
+        if (lastPlayer != null) {
+//            System.out.println("last player: " + lastPlayer.getName());
+            player = owner;
+        }
     }
 
     @Override
@@ -124,7 +158,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
         lastPlayerBlockMap.clear();
 
-        session.getPlayers().forEach(player -> player.teleport(playerSpawn));
+        getPlayers().forEach(player -> player.teleport(playerSpawn));
     }
 
     @Override
