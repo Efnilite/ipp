@@ -201,6 +201,8 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     private void close() {
         allowJoining = false;
+
+        session.setAcceptingPlayers(false);
     }
 
     @Override

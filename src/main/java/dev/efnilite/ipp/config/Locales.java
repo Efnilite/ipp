@@ -5,9 +5,12 @@ import com.google.gson.GsonBuilder;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.vilib.chat.tag.TextTag;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Task;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.md_5.bungee.chat.TextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -27,6 +30,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Locales {
+
+    private static final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     // a map of all locales with their respective json trees
     // the json trees are stored instead of the files to avoid having to read the files every time
@@ -108,7 +113,9 @@ public class Locales {
             return "";
         }
 
-        return TextTag.parse(base.getString(path));
+        Component component = miniMessage.deserialize(base.getString(path));
+
+        return miniMessage.serialize(component);
     }
 
     /**

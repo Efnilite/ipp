@@ -51,11 +51,11 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public void join(Player player, Session session) {
-        if (session.getPlayers().get(0).getGenerator() instanceof TeamSurvivalGenerator) {
+        if (session.getPlayers().get(0).getGenerator() instanceof TeamSurvivalGenerator generator) {
             player.closeInventory();
 
             ParkourPlayer pp = ParkourUser.register(player);
-            IP.getDivider().setup(pp, session.getPlayers().get(0).getLocation(), false, false);
+            IP.getDivider().setup(pp, generator.playerSpawn, false, false);
 
             session.addPlayers(pp);
         }
@@ -64,7 +64,9 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
     @Override
     public void leave(Player player, Session session) {
         ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+
         session.removePlayers(pp);
+
         ParkourUser.unregister(pp, true, true, true);
     }
 

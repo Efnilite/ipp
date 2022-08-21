@@ -16,6 +16,8 @@ public class MultiSession extends SingleSession {
 
     private int maxPlayers;
 
+    private Boolean isAcceptingPlayers;
+
     public static MultiSession create(@NotNull ParkourPlayer player, @NotNull MultiGamemode gamemode) {
         // create session
         MultiSession session = new MultiSession();
@@ -37,8 +39,16 @@ public class MultiSession extends SingleSession {
         }
     }
 
+    public void setAcceptingPlayers(boolean acceptingPlayers) {
+        isAcceptingPlayers = acceptingPlayers;
+    }
+
     @Override
     public boolean isAcceptingPlayers() {
+        if (!isAcceptingPlayers) {
+            return false;
+        }
+
         return getPlayers().size() < maxPlayers;
     }
 

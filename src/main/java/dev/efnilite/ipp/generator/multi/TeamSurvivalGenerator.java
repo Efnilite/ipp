@@ -154,6 +154,13 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
     @Override
     public void reset(boolean regenerate) {
+        if (!regenerate) {
+            if (player.getSession().getPlayers().size() > 0) {
+                player = player.getSession().getPlayers().get(0);
+                regenerate = true;
+            }
+        }
+
         super.reset(regenerate);
 
         lastPlayerBlockMap.clear();
