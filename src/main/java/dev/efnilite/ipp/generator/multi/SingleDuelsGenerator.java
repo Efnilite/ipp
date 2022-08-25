@@ -30,7 +30,6 @@ public class SingleDuelsGenerator extends PlusGenerator {
             Material.LIGHT_GRAY_CONCRETE, Material.BLACK_CONCRETE, Material.GREEN_CONCRETE, Material.BROWN_CONCRETE,
             Material.CYAN_CONCRETE, Material.PURPLE_CONCRETE, Material.GRAY_CONCRETE, Material.PINK_CONCRETE);
 
-    private int playerIndex;
     private BlockData blockData;
     public DuelsGenerator owningGenerator;
 
@@ -127,8 +126,6 @@ public class SingleDuelsGenerator extends PlusGenerator {
     }
 
     public void setPlayerIndex(int playerIndex) {
-        this.playerIndex = playerIndex;
-
         blockData = switch (playerIndex) {
             // follow set pattern
             case 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 -> MATERIALS.get(playerIndex).createBlockData();

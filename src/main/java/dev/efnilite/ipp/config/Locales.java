@@ -35,12 +35,6 @@ public class Locales {
     // the json trees are stored instead of the files to avoid having to read the files every time
     private static final Map<String, FileConfiguration> localeTree = new HashMap<>();
 
-    private static final Gson gson = new GsonBuilder()
-                        .setLenient()
-                        .disableHtmlEscaping()
-                        .create();
-
-
     public static void init(Plugin plugin) {
         Task.create(plugin)
                 .async()

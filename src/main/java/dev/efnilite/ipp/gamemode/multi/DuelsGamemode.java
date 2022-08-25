@@ -74,6 +74,10 @@ public final class DuelsGamemode implements MultiGamemode {
     public void leave(Player player, Session session) {
         final ParkourPlayer pp = ParkourPlayer.getPlayer(player);
 
+        if (pp == null) {
+            return;
+        }
+
         final DuelsGenerator generator = ((SingleDuelsGenerator) session.getPlayers().get(0).getGenerator()).owningGenerator;
         generator.removePlayer(pp);
         session.removePlayers(pp);

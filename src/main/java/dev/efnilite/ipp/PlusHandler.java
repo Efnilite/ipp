@@ -44,7 +44,6 @@ public class PlusHandler implements Listener {
 
     @EventHandler
     public void command(PlayerCommandPreprocessEvent event) {
-        Player player = event.getPlayer();
         String message = event.getMessage().toLowerCase();
 
         if (message.contains("parkour create")) {
