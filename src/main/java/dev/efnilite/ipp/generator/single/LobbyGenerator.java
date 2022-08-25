@@ -3,7 +3,7 @@ package dev.efnilite.ipp.generator.single;
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
-import dev.efnilite.ip.menu.SettingsMenu;
+import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
@@ -19,7 +19,7 @@ public final class LobbyGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
-        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
     }
 
     @Override
@@ -41,15 +41,15 @@ public final class LobbyGenerator extends PlusGenerator {
         heightChances.clear();
 
         int percentage = 0;
-        for (int i = 0; i < Option.NORMAL_UP.get(); i++) {
+        for (int i = 0; i < Option.NORMAL_UP; i++) {
             heightChances.put(percentage, 1);
             percentage++;
         }
-        for (int i = 0; i < Option.NORMAL_LEVEL.get(); i++) {
+        for (int i = 0; i < Option.NORMAL_LEVEL; i++) {
             heightChances.put(percentage, 0);
             percentage++;
         }
-        for (int i = 0; i < Option.NORMAL_DOWN.get(); i++) {
+        for (int i = 0; i < Option.NORMAL_DOWN; i++) {
             heightChances.put(percentage, -1);
             percentage++;
         }
@@ -60,9 +60,9 @@ public final class LobbyGenerator extends PlusGenerator {
     public void calculateDistance() {
         distanceChances.clear();
 
-        int two = Option.NORMAL_TWO_BLOCK.get();
-        int three = Option.NORMAL_THREE_BLOCK.get();
-        int four = Option.NORMAL_FOUR_BLOCK.get();
+        int two = Option.NORMAL_TWO_BLOCK;
+        int three = Option.NORMAL_THREE_BLOCK;
+        int four = Option.NORMAL_FOUR_BLOCK;
 
         int percentage = 0;
         for (int i = 0; i < two; i++) {

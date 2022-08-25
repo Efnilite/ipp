@@ -8,18 +8,18 @@ import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ipp.config.Locales;
-import dev.efnilite.ipp.generator.single.SpeedJumpGenerator;
+import dev.efnilite.ipp.generator.single.SuperJumpGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public final class SpeedJumpGamemode implements Gamemode {
+public final class SuperJumpGamemode implements Gamemode {
 
     private final Leaderboard leaderboard = new Leaderboard(getName());
 
     @Override
     public @NotNull String getName() {
-        return "speed-jump";
+        return "super-jump";
     }
 
     @Override
@@ -37,7 +37,7 @@ public final class SpeedJumpGamemode implements Gamemode {
         player.closeInventory();
         ParkourPlayer pp = ParkourUser.register(player);
         Session session = SingleSession.create(pp, this);
-        SpeedJumpGenerator generator = new SpeedJumpGenerator(session);
+        SuperJumpGenerator generator = new SuperJumpGenerator(session);
         IP.getDivider().generate(pp, generator, true);
     }
 

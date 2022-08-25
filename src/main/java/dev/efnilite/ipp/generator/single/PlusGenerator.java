@@ -2,7 +2,7 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
-import dev.efnilite.ip.menu.SettingsMenu;
+import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class PlusGenerator extends DefaultGenerator {
 
-    protected SettingsMenu menu;
+    protected ParkourSettingsMenu menu;
 
     public PlusGenerator(@NotNull Session session, GeneratorOption... generatorOptions) {
         super(session, generatorOptions);

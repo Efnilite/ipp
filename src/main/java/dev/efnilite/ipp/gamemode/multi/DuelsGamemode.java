@@ -26,7 +26,7 @@ public final class DuelsGamemode implements MultiGamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return Locales.getItem(locale, "multiplayer." + getName());
+        return Locales.getItem(locale, "multiplayer." + getName() + ".item");
     }
 
     @Override
@@ -58,11 +58,11 @@ public final class DuelsGamemode implements MultiGamemode {
     @Override
     public void join(Player player, Session session) {
         if (session.isAcceptingPlayers()) {
-            DuelsGenerator generator = ((SingleDuelsGenerator) session.getPlayers().get(0).getGenerator()).getOwningGenerator();
+            final DuelsGenerator generator = ((SingleDuelsGenerator) session.getPlayers().get(0).getGenerator()).owningGenerator;
 
             player.closeInventory();
 
-            ParkourPlayer pp = ParkourUser.register(player);
+            final ParkourPlayer pp = ParkourUser.register(player);
             IP.getDivider().setup(pp, null, true, false);
 
             session.addPlayers(pp);
@@ -72,9 +72,9 @@ public final class DuelsGamemode implements MultiGamemode {
 
     @Override
     public void leave(Player player, Session session) {
-        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+        final ParkourPlayer pp = ParkourPlayer.getPlayer(player);
 
-        DuelsGenerator generator = ((SingleDuelsGenerator) session.getPlayers().get(0).getGenerator()).getOwningGenerator();
+        final DuelsGenerator generator = ((SingleDuelsGenerator) session.getPlayers().get(0).getGenerator()).owningGenerator;
         generator.removePlayer(pp);
         session.removePlayers(pp);
         ParkourUser.unregister(pp, true, true, true);

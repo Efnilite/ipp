@@ -2,16 +2,15 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.events.PlayerScoreEvent;
+import dev.efnilite.ip.api.events.PlayerScoreEvent;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
-import dev.efnilite.ip.menu.SettingsMenu;
+import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.util.PlusUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -25,17 +24,17 @@ import java.util.List;
 /**
  * Class for speed jump gamemode
  */
-public final class SpeedJumpGenerator extends PlusGenerator {
+public final class SuperJumpGenerator extends PlusGenerator {
 
     private double jumpDistance = 3;
     private final LinkedHashMap<List<Block>, Integer> positionIndexMap = new LinkedHashMap<>();
 
-    public SpeedJumpGenerator(Session session) {
+    public SuperJumpGenerator(Session session) {
         // setup settings
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
 
         // setup menu
-        menu = new SettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATICS,
+        menu = new ParkourSettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATICS,
                 ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
         updateJumpDistance();
@@ -49,11 +48,6 @@ public final class SpeedJumpGenerator extends PlusGenerator {
     @Override
     public void updatePreferences() {
         profile.setSetting("blockLead", "1");
-    }
-
-    @Override
-    public BlockData selectBlockData() {
-        return player.getRandomMaterial().createBlockData();
     }
 
     // update jump distance
@@ -216,6 +210,6 @@ public final class SpeedJumpGenerator extends PlusGenerator {
 
     @Override
     public Gamemode getGamemode() {
-        return PlusGamemodes.SPEED_JUMP;
+        return PlusGamemodes.SUPER_JUMP;
     }
 }

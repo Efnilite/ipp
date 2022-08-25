@@ -3,7 +3,7 @@ package dev.efnilite.ipp.generator.multi;
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.leaderboard.Leaderboard;
-import dev.efnilite.ip.menu.SettingsMenu;
+import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.util.Util;
@@ -11,6 +11,7 @@ import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
 import dev.efnilite.ipp.session.MultiSession;
+import dev.efnilite.vilib.util.Numbers;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -23,14 +24,21 @@ import java.util.Map;
 
 public class SingleDuelsGenerator extends PlusGenerator {
 
-    private DuelsGenerator owningGenerator;
+    private static final List<Material> MATERIALS = List.of(
+            Material.LIGHT_BLUE_CONCRETE, Material.RED_CONCRETE, Material.LIME_CONCRETE, Material.YELLOW_CONCRETE,
+            Material.ORANGE_CONCRETE, Material.BLUE_CONCRETE, Material.MAGENTA_CONCRETE, Material.WHITE_CONCRETE,
+            Material.LIGHT_GRAY_CONCRETE, Material.BLACK_CONCRETE, Material.GREEN_CONCRETE, Material.BROWN_CONCRETE,
+            Material.CYAN_CONCRETE, Material.PURPLE_CONCRETE, Material.GRAY_CONCRETE, Material.PINK_CONCRETE);
+
     private int playerIndex;
+    private BlockData blockData;
+    public DuelsGenerator owningGenerator;
 
     public SingleDuelsGenerator(@NotNull MultiSession session) {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
-        menu = new SettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         // set the task to an empty runnable
         // this avoids the incomplete joining setup error
@@ -118,36 +126,25 @@ public class SingleDuelsGenerator extends PlusGenerator {
         player.getBoard().updateLines(lines);
     }
 
-    public void setOwningGenerator(DuelsGenerator owningGenerator) {
-        this.owningGenerator = owningGenerator;
-    }
-
-    public DuelsGenerator getOwningGenerator() {
-        return owningGenerator;
-    }
-
     public void setPlayerIndex(int playerIndex) {
         this.playerIndex = playerIndex;
+
+        blockData = switch (playerIndex) {
+            // follow set pattern
+            case 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 -> MATERIALS.get(playerIndex).createBlockData();
+
+            // if there are more players, just get a random one
+            default -> MATERIALS.get(Numbers.random(0, MATERIALS.size())).createBlockData();
+        };
     }
 
     @Override
     public BlockData selectBlockData() {
-        return switch (playerIndex) {
-            case 0 -> Material.BLUE_CONCRETE.createBlockData();
-            case 1 -> Material.RED_CONCRETE.createBlockData();
-            case 2 -> Material.GREEN_CONCRETE.createBlockData();
-            case 3 -> Material.YELLOW_CONCRETE.createBlockData();
-            default -> Material.STONE.createBlockData();
-        };
+        return blockData;
     }
-
 
     @Override
     protected void registerScore() {
 
-    }
-
-    public void stopGenerator() {
-        this.stopped = true;
     }
 }

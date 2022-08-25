@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
@@ -80,8 +81,8 @@ public class InviteMenu {
 
                 .item(30, Locales.getItem(player, "invite.lobby", sessionId, sessionId))
 
-                .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close").click(event ->
-                        event.getEvent().getWhoClicked().closeInventory()))
+                .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close")
+                        .click(event -> Menus.LOBBY.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
                 .animation(new WaveEastAnimation())

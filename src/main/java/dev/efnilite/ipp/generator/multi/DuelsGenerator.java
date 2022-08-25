@@ -61,7 +61,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         Task.create(IPP.getPlugin())
                 .delay(5)
-                .execute(() -> player.getPlayer().getInventory().addItem(new Item(Material.LIME_BANNER, 1, "<#5EC743><bold>Click to start").build()))
+                .execute(() -> player.getPlayer().getInventory().addItem(new Item(Material.LIME_BANNER, 1, "<#5EC743><bold>CLICK TO START!").build()))
                 .run();
     }
 
@@ -74,9 +74,9 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         // setup generator
         SingleDuelsGenerator generator = new SingleDuelsGenerator(session);
         generator.player = player;
+        generator.owningGenerator = this;
 
         generator.setPlayerIndex(playerGenerators.keySet().size());
-        generator.setOwningGenerator(this);
         generator.setZone(zone);
 
         player.setGenerator(generator);
@@ -250,7 +250,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         for (ParkourPlayer player : playerGenerators.keySet()) {
             SingleDuelsGenerator generator = (SingleDuelsGenerator) player.getGenerator();
 
-            generator.stopGenerator();
+            generator.stopped = true;
 
             player.send("");
             player.send("<#34B2F9>" + winningName + "<gray> has won the game in " + winningTime + "!");

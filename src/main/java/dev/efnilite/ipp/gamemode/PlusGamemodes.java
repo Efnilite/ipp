@@ -12,7 +12,7 @@ public class PlusGamemodes {
     public static LobbyGamemode LOBBY;
     public static PracticeGamemode PRACTICE;
     public static SpeedGamemode SPEED;
-    public static SpeedJumpGamemode SPEED_JUMP;
+    public static SuperJumpGamemode SUPER_JUMP;
     public static TimeTrialGamemode TIME_TRIAL;
 
     // multiplayer
@@ -25,7 +25,7 @@ public class PlusGamemodes {
         LOBBY = (LobbyGamemode) IP.getRegistry().getGamemode("lobby");
         PRACTICE = (PracticeGamemode) IP.getRegistry().getGamemode("practice");
         SPEED = (SpeedGamemode) IP.getRegistry().getGamemode("speed");
-        SPEED_JUMP = (SpeedJumpGamemode) IP.getRegistry().getGamemode("speed-jump");
+        SUPER_JUMP = (SuperJumpGamemode) IP.getRegistry().getGamemode("super-jump");
         TIME_TRIAL = (TimeTrialGamemode) IP.getRegistry().getGamemode("time-trial");
 
         // multiplayer

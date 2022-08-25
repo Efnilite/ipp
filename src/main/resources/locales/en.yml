@@ -1,5 +1,6 @@
 # English
 # By Efnilite
+# Materials have to be from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # Learn more about colouring: https://docs.adventure.kyori.net/minimessage/format.html#format
 
 name: "English"
@@ -9,11 +10,17 @@ singleplayer:
     name: "<#CFB410><bold>Hourglass"
     lore: "<dark_gray>You can only stand on blocks for 1 second"
 
-  practice: 
-    material: "white_wool"
-    name: "<white><bold>Practice"
-    lore: "<dark_gray>Practice specific types of jumps"
-    items:
+  practice:
+    item:
+      material: "white_wool"
+      name: "<white><bold>Practice"
+      lore: "<dark_gray>Practice specific types of jumps"
+
+    others:
+      settings:
+        material: "comparator"
+        name: "<#E74FA1><bold>Practice Settings"
+        lore: ""
 
       one-block:
         material: ""
@@ -65,9 +72,9 @@ singleplayer:
     name: "<#1882DE><bold>Speed"
     lore: "<dark_gray>Speed is key!"
   
-  speed-jump:
+  super-jump:
     material: "rabbit_foot"
-    name: "<#08508E><bold>Speed Jump"
+    name: "<#08508E><bold>Super Jump"
     lore: "<dark_gray>Jump from platform to platform||<dark_gray>while you become faster and faster||&cThis gamemode is very difficult!"
   
   time-trial:
@@ -77,10 +84,22 @@ singleplayer:
   
 multiplayer:
   name: "<white>Multiplayer"
+
+  item:
+    material: "oak_boat"
+    name: "<#0088CB><bold>Multiplayer"
+    lore: "<dark_gray>多人遊戲 • マルチプレイヤー"
+
   duels:
-    material: "red_concrete"
-    name: "<#C91212><bold>Duels"
-    lore: "<dark_gray>Race opponents to 100 points!||<dark_gray>If someone falls, they'll be reset to the start."
+    item:
+      material: "red_concrete"
+      name: "<#C91212><bold>Duels"
+      lore: "<dark_gray>Race opponents to 100 points!||<dark_gray>If someone falls, they'll be reset to the start."
+
+    start:
+      material: "lime_banner"
+      name: "<#5EC743><bold>CLICK TO START!"
+      lore: ""
 
   team-survival:
     material: "poppy"
@@ -92,10 +111,16 @@ styles:
     material: "scaffolding"
     name: "<#348EDB><bold>Incremental"
     lore: "<dark_gray>Inkrementell • 增加的||<dark_gray>• Incrémentale • 増分 • Incrementeel"
-  
+
 active:
   name: "<white>Lobbies"
+
   item:
+    material: "chest"
+    name: "<#EA9926><bold>View current lobbies"
+    lore: "<dark_gray>Aktuelle Lobbys ansehen • 查看当前大厅||<dark_gray>• 查看當前大廳 • Voir les lobbys actuels||<dark_gray>• 現在のロビーを表示 • Actuele lobby's bekijken"
+
+  head:
     material: ""
     name: "<#59DB3E><bold>Lobby %s"
     lore: "<gray>Gamemode: <#C8F2C0>%s||||<gray>Players||%p||<gray>Spectators||%s"
@@ -112,6 +137,11 @@ active:
   
 invite:
   name: "<white>Click to invite"
+  item:
+    material: "elytra"
+    name: "<#2B97E2><bold>Invite"
+    lore: ""
+
   head:
     material: ""
     name: "<#abcdef><bold>%s"

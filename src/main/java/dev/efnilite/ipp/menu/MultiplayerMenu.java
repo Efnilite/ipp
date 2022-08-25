@@ -3,7 +3,7 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.MultiGamemode;
-import dev.efnilite.ip.menu.MainMenu;
+import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.config.Locales;
@@ -31,10 +31,14 @@ public class MultiplayerMenu {
         String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
 
         List<Gamemode> gamemodes = new ArrayList<>();
-        for (Gamemode g : IP.getRegistry().getGamemodes()) {
-            if (g instanceof MultiGamemode) {
-                gamemodes.add(g);
+        for (Gamemode gm : IP.getRegistry().getGamemodes()) {
+            boolean permissions = Option.PERMISSIONS && player.hasPermission("witp.gamemode." + gm.getName());
+
+            if (!permissions || !(gm instanceof MultiGamemode) || !gm.isVisible()) {
+                continue;
             }
+
+            gamemodes.add(gm);
         }
         PagedMenu gameMenu = new PagedMenu(4, Locales.getString(locale, "multiplayer.name"));
 
@@ -52,8 +56,8 @@ public class MultiplayerMenu {
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
                         .click(event -> gameMenu.page(-1)))
 
-                .item(31, IP.getConfiguration().getFromItemData(user, "general.close").click(event ->
-                        MainMenu.INSTANCE.open(event.getPlayer())))
+                .item(31, IP.getConfiguration().getFromItemData(user, "general.close")
+                        .click(event -> Menus.PLAY.open(event.getPlayer())))
 
                 .fillBackground(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                 .animation(new WaveWestAnimation())

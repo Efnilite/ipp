@@ -29,7 +29,7 @@ public class PlusHandler implements Listener {
                 String dp = item.getItemMeta().getDisplayName();
                 if (dp.contains("Click to start")) {
                     if (pp.getGenerator() instanceof SingleDuelsGenerator singleGen) {
-                        DuelsGenerator superGen = singleGen.getOwningGenerator();
+                        DuelsGenerator superGen = singleGen.owningGenerator;
                         if (superGen.getPlayerGenerators().keySet().size() > 1) {
                             superGen.initCountdown();
                             pp.getPlayer().getInventory().remove(Material.LIME_BANNER);
