@@ -6,7 +6,7 @@ import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
@@ -56,7 +56,7 @@ public final class PracticeGenerator extends PlusGenerator {
                 // each jump type uses their own specific key to prevent collision
                 .item(9, new SliderItem()
                         .initial(distanceChances.containsKey(0) ? 0 : 1)
-                        .add(0, Locales.getItem(locale, "singleplayer.practice.others.one-block")
+                        .add(0, PlusLocales.getItem(locale, "singleplayer.practice.others.one-block")
                                 .material(Material.LIME_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<green>" + name), event -> {
                             distanceChances.put(0, 1); // keys 0-1
@@ -64,7 +64,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.one-block")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.one-block")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
                             if (distanceChances.size() > 2) {
@@ -79,7 +79,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                 .item(10, new SliderItem()
                         .initial(distanceChances.containsKey(2) ? 0 : 1)
-                        .add(0,  Locales.getItem(locale, "singleplayer.practice.others.two-block")
+                        .add(0,  PlusLocales.getItem(locale, "singleplayer.practice.others.two-block")
                                 .material(Material.LIME_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<green>" + name), event -> {
                             distanceChances.put(2, 2); // keys 2-3
@@ -87,7 +87,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.two-block")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.two-block")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
 
@@ -102,7 +102,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                 .item(11, new SliderItem()
                         .initial(distanceChances.containsKey(4) ? 0 : 1)
-                        .add(0, Locales.getItem(locale, "singleplayer.practice.others.three-block")
+                        .add(0, PlusLocales.getItem(locale, "singleplayer.practice.others.three-block")
                                 .material(Material.LIME_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<green>" + name), event -> {
                             distanceChances.put(4, 3); // keys 4-5
@@ -110,7 +110,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.three-block")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.three-block")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
                             if (distanceChances.size() > 2) {
@@ -125,14 +125,14 @@ public final class PracticeGenerator extends PlusGenerator {
 
                 .item(12, new SliderItem()
                         .initial(distanceChances.containsKey(6) ? 0 : 1)
-                        .add(0, Locales.getItem(locale, "singleplayer.practice.others.four-block")
+                        .add(0, PlusLocales.getItem(locale, "singleplayer.practice.others.four-block")
                                 .material(Material.LIME_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<green>" + name), event -> {
                             distanceChances.put(6, 4); // key 6
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.four-block")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.four-block")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
 
@@ -147,14 +147,14 @@ public final class PracticeGenerator extends PlusGenerator {
 
                 .item(18, new SliderItem()
                         .initial(defaultChances.containsKey(0) ? 0 : 1)
-                        .add(0, Locales.getItem(locale, "singleplayer.practice.others.normal")
+                        .add(0, PlusLocales.getItem(locale, "singleplayer.practice.others.normal")
                                 .material(Material.BARREL)
                                 .modifyName(name -> "<green>" + name), event -> {
                             defaultChances.put(0, 0); // key 0 for type
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.normal")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.normal")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
 
@@ -169,7 +169,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                 .item(19, new SliderItem()
                         .initial(specialChances.containsKey(0) ? 0 : 1)
-                        .add(0, Locales.getItem(locale, "singleplayer.practice.others.ice")
+                        .add(0, PlusLocales.getItem(locale, "singleplayer.practice.others.ice")
                                 .material(Material.ICE)
                                 .modifyName(name -> "<green>" + name), event -> {
                             defaultChances.put(1, 2); // key 1 for type
@@ -177,7 +177,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.ice")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.ice")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
                             if (defaultChances.size() > 1) {
@@ -192,7 +192,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                 .item(20, new SliderItem()
                         .initial(specialChances.containsKey(1) ? 0 : 1)
-                        .add(0, Locales.getItem(locale, "singleplayer.practice.others.slabs")
+                        .add(0, PlusLocales.getItem(locale, "singleplayer.practice.others.slabs")
                                 .material(Material.SMOOTH_QUARTZ_SLAB)
                                 .modifyName(name -> "<green>" + name), event -> {
                             defaultChances.put(2, 2); // key 2 for type
@@ -200,7 +200,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.slabs")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.slabs")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
                             if (defaultChances.size() > 1) {
@@ -215,7 +215,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                 .item(21, new SliderItem()
                         .initial(specialChances.containsKey(2) ? 0 : 1)
-                        .add(0, Locales.getItem(locale, "singleplayer.practice.others.glass-panes")
+                        .add(0, PlusLocales.getItem(locale, "singleplayer.practice.others.glass-panes")
                                 .material(Material.GLASS_PANE)
                                 .modifyName(name -> "<green>" + name), event -> {
                             defaultChances.put(3, 2); // key 3 for type
@@ -223,7 +223,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.glass-panes")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.glass-panes")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
                             if (defaultChances.size() > 1) {
@@ -238,7 +238,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                 .item(22, new SliderItem()
                         .initial(specialChances.containsKey(3) ? 0 : 1)
-                        .add(0, Locales.getItem(locale, "singleplayer.practice.others.three-block")
+                        .add(0, PlusLocales.getItem(locale, "singleplayer.practice.others.three-block")
                                 .material(Material.OAK_FENCE)
                                 .modifyName(name -> "<green>" + name), event -> {
                             defaultChances.put(4, 2); // key 4 for type
@@ -246,7 +246,7 @@ public final class PracticeGenerator extends PlusGenerator {
 
                             return true;
                         })
-                        .add(1, Locales.getItem(locale, "singleplayer.practice.others.glass-panes")
+                        .add(1, PlusLocales.getItem(locale, "singleplayer.practice.others.glass-panes")
                                 .material(Material.RED_STAINED_GLASS_PANE)
                                 .modifyName(name -> "<red>" + name), event -> {
                             if (defaultChances.size() > 1) {

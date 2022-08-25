@@ -6,7 +6,7 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.multi.DuelsGenerator;
 import dev.efnilite.ipp.generator.multi.SingleDuelsGenerator;
 import dev.efnilite.ipp.session.MultiSession;
@@ -26,7 +26,7 @@ public final class DuelsGamemode implements MultiGamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return Locales.getItem(locale, "multiplayer." + getName() + ".item");
+        return PlusLocales.getItem(locale, "multiplayer." + getName() + ".item");
     }
 
     @Override

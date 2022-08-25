@@ -7,7 +7,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.single.SuperJumpGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public final class SuperJumpGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return Locales.getItem(locale, "singleplayer." + getName());
+        return PlusLocales.getItem(locale, "singleplayer." + getName());
     }
 
     @Override

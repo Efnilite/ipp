@@ -6,7 +6,7 @@ import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.config.PlusConfig;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
@@ -59,18 +59,18 @@ public final class IPP extends ViPlugin {
 
         LobbyMode.read();
         PlusGamemodes.init();
-        Locales.init(this);
+        PlusLocales.init(this);
 
         // Register stuff for main menu
         // Multiplayer if player is not found
         Menus.PLAY.registerMainItem(1, 1,
-                user -> Locales.getItem(user == null ? Option.DEFAULT_LOCALE : user.getPlayer().getLocale(), "multiplayer.item")
+                user -> PlusLocales.getItem(user == null ? Option.DEFAULT_LOCALE : user.getPlayer().getLocale(), "multiplayer.item")
                         .click(event -> MultiplayerMenu.open(event.getPlayer())),
                 player -> true);
 
         // practice settings only if player's generator is of this instance
         Menus.SETTINGS.registerMainItem(1, 3,
-                user -> Locales.getItem(user.getPlayer(), "singleplayer.practice.items.settings").click(
+                user -> PlusLocales.getItem(user.getPlayer(), "singleplayer.practice.items.settings").click(
                         event -> {
                             ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
                             if (pp != null && pp.getGenerator() instanceof PracticeGenerator generator) {
@@ -83,7 +83,7 @@ public final class IPP extends ViPlugin {
                 });
 
         Menus.LOBBY.registerMainItem(1, 2,
-                user -> Locales.getItem(user.getPlayer(), "invite.item").click(
+                user -> PlusLocales.getItem(user.getPlayer(), "invite.item").click(
                         event -> InviteMenu.open(event.getPlayer())),
                 player -> {
                     ParkourUser user = ParkourUser.getUser(player);
@@ -93,7 +93,7 @@ public final class IPP extends ViPlugin {
                 });
 
         Menus.COMMUNITY.registerMainItem(1, 1,
-                user -> Locales.getItem(user == null ? Option.DEFAULT_LOCALE : user.getPlayer().getLocale(), "active.item")
+                user -> PlusLocales.getItem(user == null ? Option.DEFAULT_LOCALE : user.getPlayer().getLocale(), "active.item")
                     .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
                 player -> true);
 

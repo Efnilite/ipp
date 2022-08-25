@@ -7,7 +7,7 @@ import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.Cooldowns;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.animation.WaveWestAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
@@ -41,7 +41,7 @@ public class MultiplayerMenu {
 
             gamemodes.add(gm);
         }
-        PagedMenu gameMenu = new PagedMenu(4, Locales.getString(locale, "multiplayer.name"));
+        PagedMenu gameMenu = new PagedMenu(4, PlusLocales.getString(locale, "multiplayer.name"));
 
         List<MenuItem> items = new ArrayList<>();
         for (Gamemode gamemode : gamemodes) {

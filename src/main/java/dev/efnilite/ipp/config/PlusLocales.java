@@ -25,7 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class Locales {
+public class PlusLocales {
 
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
 

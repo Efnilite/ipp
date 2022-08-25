@@ -6,7 +6,7 @@ import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Cooldowns;
 import dev.efnilite.ip.util.Util;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
@@ -38,7 +38,7 @@ public class InviteMenu {
             return;
         }
 
-        PagedMenu playerMenu = new PagedMenu(4, Locales.getString(player, "invite.name"));
+        PagedMenu playerMenu = new PagedMenu(4, PlusLocales.getString(player, "invite.name"));
         Session session = user.getSession();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -46,7 +46,7 @@ public class InviteMenu {
                 continue;
             }
 
-            Item item = Locales.getItem(user.getLocale(), "invite.head", p.getName())
+            Item item = PlusLocales.getItem(user.getLocale(), "invite.head", p.getName())
                     .material(Material.PLAYER_HEAD);
 
             ItemStack stack = item.build();
@@ -64,7 +64,7 @@ public class InviteMenu {
 
             items.add(item.click(event -> {
                 if (Cooldowns.passes(player.getUniqueId(), "multiplayer invite", 2500)) {
-                    p.sendMessage(Locales.getString(p, "invite.message")
+                    p.sendMessage(PlusLocales.getString(p, "invite.message")
                             .formatted(session.getSessionId(), player.getName(), session.getGamemode().getName(), session.getSessionId()));
                 }
             }));
@@ -79,7 +79,7 @@ public class InviteMenu {
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
                         .click(event -> playerMenu.page(-1)))
 
-                .item(30, Locales.getItem(player, "invite.lobby", sessionId, sessionId))
+                .item(30, PlusLocales.getItem(player, "invite.lobby", sessionId, sessionId))
 
                 .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close")
                         .click(event -> Menus.LOBBY.open(event.getPlayer())))

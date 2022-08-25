@@ -9,7 +9,7 @@ import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SessionVisibility;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.animation.RandomAnimation;
@@ -28,7 +28,7 @@ import java.util.List;
 public class ActiveMenu {
 
     public static void open(Player player, MenuSort sort) {
-        PagedMenu menu = new PagedMenu(4, Locales.getString(player, "active.name"));
+        PagedMenu menu = new PagedMenu(4, PlusLocales.getString(player, "active.name"));
         ParkourUser user = ParkourUser.getUser(player);
         String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
 
@@ -156,10 +156,10 @@ public class ActiveMenu {
 
                 .distributeRowEvenly(3)
 
-                .item(30, Locales.getItem(player, "active.refresh").click(
+                .item(30, PlusLocales.getItem(player, "active.refresh").click(
                         event -> open(player, sort)))
 
-                .item(31, Locales.getItem(player, "active.sort").click(
+                .item(31, PlusLocales.getItem(player, "active.sort").click(
                         event -> {
                     if (sort == MenuSort.LEAST_OPEN_FIRST) {
                         open(player, MenuSort.LEAST_OPEN_LAST);

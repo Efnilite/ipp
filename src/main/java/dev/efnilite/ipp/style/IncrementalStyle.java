@@ -1,7 +1,7 @@
 package dev.efnilite.ipp.style;
 
 import dev.efnilite.ip.api.StyleType;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +19,7 @@ public class IncrementalStyle extends StyleType {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return Locales.getItem(locale, "styles.incremental");
+        return PlusLocales.getItem(locale, "styles.incremental");
     }
 
     @Override

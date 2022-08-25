@@ -6,7 +6,7 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ipp.config.Locales;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.multi.TeamSurvivalGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
@@ -24,7 +24,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return Locales.getItem(locale, "multiplayer." + getName());
+        return PlusLocales.getItem(locale, "multiplayer." + getName());
     }
 
     @Override
