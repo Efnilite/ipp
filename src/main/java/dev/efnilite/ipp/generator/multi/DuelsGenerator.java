@@ -2,6 +2,7 @@ package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.generator.DefaultGenerator;
 import dev.efnilite.ip.generator.data.AreaData;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
@@ -11,7 +12,6 @@ import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.schematic.RotationAngle;
 import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.util.Util;
-import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-// TODO:
 public final class DuelsGenerator extends MultiplayerGenerator {
 
     public boolean allowJoining;

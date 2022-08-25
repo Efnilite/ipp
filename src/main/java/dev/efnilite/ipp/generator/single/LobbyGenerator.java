@@ -2,10 +2,10 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.SingleSession;
-import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import org.bukkit.Material;
 

@@ -137,6 +137,8 @@ active:
   
 invite:
   name: "<white>Click to invite"
+  message: "<click:run_command:/parkour join %s><gray>You've been invited by <#F55252><bold>%s<gray> to join their <#F37777><bold>%s<gray> game!||<gray>Click this or use <#FAB4B4><bold>%s<gray> to join!</click>"
+
   item:
     material: "elytra"
     name: "<#2B97E2><bold>Invite"

@@ -1,13 +1,13 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.ParkourOption;
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.util.Util;
-import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
 import dev.efnilite.ipp.session.MultiSession;

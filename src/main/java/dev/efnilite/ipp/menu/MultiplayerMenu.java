@@ -3,9 +3,10 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.MultiGamemode;
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.util.config.Option;
+import dev.efnilite.ip.util.Cooldowns;
 import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.animation.WaveWestAnimation;
@@ -44,7 +45,12 @@ public class MultiplayerMenu {
 
         List<MenuItem> items = new ArrayList<>();
         for (Gamemode gamemode : gamemodes) {
-            items.add(gamemode.getItem(locale).click(event -> gamemode.click(player)));
+            items.add(gamemode.getItem(locale)
+                    .click(event -> {
+                        if (Cooldowns.passes(player.getUniqueId(), "switch gamemode", 5000)) {
+                            gamemode.click(player);
+                        }
+                    }));
         }
 
         gameMenu

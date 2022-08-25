@@ -4,9 +4,9 @@ import dev.efnilite.ip.IP;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.util.Cooldowns;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.config.Locales;
-import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
@@ -63,10 +63,10 @@ public class InviteMenu {
             }
 
             items.add(item.click(event -> {
-                Message.send(p, "");
-                Message.send(p, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + session.getGamemode().getName() + " game.");
-                Message.send(p, "<dark_gray>Use <#792727>/parkour join " + sessionId + "<dark_gray> to join.");
-                Message.send(p, "");
+                if (Cooldowns.passes(player.getUniqueId(), "multiplayer invite", 2500)) {
+                    p.sendMessage(Locales.getString(p, "invite.message")
+                            .formatted(session.getSessionId(), player.getName(), session.getGamemode().getName(), session.getSessionId()));
+                }
             }));
         }
 

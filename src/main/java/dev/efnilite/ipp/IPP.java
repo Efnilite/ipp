@@ -2,13 +2,13 @@ package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.util.config.Option;
-import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.Locales;
 import dev.efnilite.ipp.config.PlusConfig;
+import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.gamemode.multi.DuelsGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;

@@ -1,9 +1,7 @@
 package dev.efnilite.ipp.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.util.config.Option;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Task;
@@ -105,9 +103,13 @@ public class Locales {
             return "";
         }
 
-        Component component = miniMessage.deserialize(base.getString(path));
+        String string = base.getString(path);
 
-        return miniMessage.serialize(component);
+        if (string == null) {
+            return "";
+        }
+
+        return colour(string);
     }
 
     /**
@@ -189,6 +191,20 @@ public class Locales {
         }
 
         return new Item(Material.getMaterial(material.toUpperCase()), name).lore(lore.split("\\|\\|"));
+    }
+
+    /**
+     * Colours a provided string using the MiniMessage API.
+     *
+     * @param   string
+     *          The string
+     *
+     * @return the coloured string
+     */
+    public static String colour(String string) {
+        Component component = miniMessage.deserialize(string);
+
+        return miniMessage.serialize(component);
     }
 
 }

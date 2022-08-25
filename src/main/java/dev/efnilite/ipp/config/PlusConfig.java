@@ -11,7 +11,6 @@ import java.util.HashMap;
 /**
  * An utilities class for the Configuration
  */
-// todo update
 public class PlusConfig {
 
     private final Plugin plugin;
@@ -24,11 +23,10 @@ public class PlusConfig {
         this.plugin = plugin;
         files = new HashMap<>();
 
-        String[] defaultFiles = new String[] {"config.yml", "lang.yml", "items.yml"};
+        String[] defaultFiles = new String[] {"config.yml"};
 
         File folder = plugin.getDataFolder();
-        if (!new File(folder, defaultFiles[0]).exists() || !new File(folder, defaultFiles[1]).exists()
-                || !new File(folder, defaultFiles[2]).exists()) {
+        if (!new File(folder, defaultFiles[0]).exists()) {
             plugin.getDataFolder().mkdirs();
 
             for (String file : defaultFiles) {
@@ -41,9 +39,7 @@ public class PlusConfig {
     }
 
     public void reload() {
-        files.put("lang", YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/lang.yml")));
         files.put("config", YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/config.yml")));
-        files.put("items", YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/items.yml")));
     }
 
     /**

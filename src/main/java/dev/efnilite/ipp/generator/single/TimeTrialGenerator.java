@@ -27,7 +27,6 @@ public final class TimeTrialGenerator extends PlusGenerator {
             "#8b1e00", "#8e1b00", "#921700", "#951400", "#991000", "#9c0d00", "#9f0a00", "#a30600", "#a60300", "#aa0000"
     };
 
-    // the time trial goal todo customizable
     private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getGamemode().getName().toLowerCase() + ".goal");
 
     public TimeTrialGenerator(Session session) {
