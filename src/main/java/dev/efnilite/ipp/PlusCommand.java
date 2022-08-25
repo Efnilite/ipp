@@ -1,7 +1,7 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
-import dev.efnilite.ip.menu.LobbyMenu;
+import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.selection.Dimensions;
 import dev.efnilite.ip.schematic.selection.Selection;
@@ -43,7 +43,7 @@ public class PlusCommand extends ViCommand {
             switch (args[0].toLowerCase()) {
                 case "lobbies", "lobby" -> {
                     if (sender instanceof Player && sender.hasPermission("ip.lobbies.view")) {
-                        LobbyMenu.INSTANCE.open(player);
+                        Menus.LOBBY.open(player);
                     }
                     return true;
                 }

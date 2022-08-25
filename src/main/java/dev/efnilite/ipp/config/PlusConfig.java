@@ -12,7 +12,7 @@ import java.util.HashMap;
  * An utilities class for the Configuration
  */
 // todo update
-public class PlusConfiguration {
+public class PlusConfig {
 
     private final Plugin plugin;
     private final HashMap<String, FileConfiguration> files;
@@ -20,7 +20,7 @@ public class PlusConfiguration {
     /**
      * Create a new instance
      */
-    public PlusConfiguration(Plugin plugin) {
+    public PlusConfig(Plugin plugin) {
         this.plugin = plugin;
         files = new HashMap<>();
 

@@ -6,8 +6,9 @@ import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.config.Option;
+import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.Locales;
-import dev.efnilite.ipp.config.PlusConfiguration;
+import dev.efnilite.ipp.config.PlusConfig;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.gamemode.multi.DuelsGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
@@ -28,15 +29,15 @@ import org.jetbrains.annotations.Nullable;
 public final class IPP extends ViPlugin {
 
     private static IPP instance;
-    private static PlusConfiguration configuration;
+    private static PlusConfig configuration;
 
     @Override
     public void enable() {
         instance = this;
         Time.timerStart("enable ipp");
 
-        configuration = new PlusConfiguration(this);
-        dev.efnilite.ipp.config.PlusOption.init();
+        configuration = new PlusConfig(this);
+        PlusConfigOption.init();
 
         // Events
         registerListener(new PlusHandler());
@@ -140,7 +141,7 @@ public final class IPP extends ViPlugin {
         return instance;
     }
 
-    public static PlusConfiguration getConfiguration() {
+    public static PlusConfig getConfiguration() {
         return configuration;
     }
 }

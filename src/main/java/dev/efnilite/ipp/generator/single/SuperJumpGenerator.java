@@ -6,10 +6,11 @@ import dev.efnilite.ip.api.events.PlayerScoreEvent;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
-import dev.efnilite.ipp.util.PlusUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -84,9 +85,31 @@ public final class SuperJumpGenerator extends PlusGenerator {
             return Collections.emptyList();
         }
 
-        List<Block> blocks = PlusUtil.getBlocksAround(next, 1);
+        List<Block> blocks = getBlocksAround(next, 1);
         mostRecentBlock = next.getLocation();
 
+        return blocks;
+    }
+
+    private List<Block> getBlocksAround(Block base, int radius) {
+        int lastOfRadius = 2 * radius + 1;
+        int baseX = base.getX();
+        int baseY = base.getY();
+        int baseZ = base.getZ();
+
+        List<Block> blocks = new ArrayList<>();
+        World world = base.getWorld();
+        int amount = lastOfRadius * lastOfRadius;
+        for (int i = 0; i < amount; i++) {
+            int[] coords = Util.spiralAt(i);
+            int x = coords[0];
+            int z = coords[1];
+
+            x += baseX;
+            z += baseZ;
+
+            blocks.add(world.getBlockAt(x, baseY, z));
+        }
         return blocks;
     }
 

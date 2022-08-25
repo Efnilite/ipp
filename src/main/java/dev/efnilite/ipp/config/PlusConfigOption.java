@@ -3,7 +3,7 @@ package dev.efnilite.ipp.config;
 import dev.efnilite.ipp.IPP;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class PlusOption {
+public class PlusConfigOption {
 
     public static boolean SEND_BACK_AFTER_MULTIPLAYER;
 

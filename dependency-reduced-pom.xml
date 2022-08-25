@@ -89,7 +89,7 @@
     <dependency>
       <groupId>com.github.Efnilite</groupId>
       <artifactId>Walk-in-the-Park</artifactId>
-      <version>6b949c3f77</version>
+      <version>1d79f60dce</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
