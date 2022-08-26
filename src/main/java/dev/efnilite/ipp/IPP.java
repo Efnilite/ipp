@@ -66,7 +66,7 @@ public final class IPP extends ViPlugin {
         Menus.PLAY.registerMainItem(1, 1,
                 user -> PlusLocales.getItem(user == null ? Option.DEFAULT_LOCALE : user.getPlayer().getLocale(), "multiplayer.item")
                         .click(event -> MultiplayerMenu.open(event.getPlayer())),
-                player -> true);
+                PlusOption.MULTIPLAYER::check);
 
         // practice settings only if player's generator is of this instance
         Menus.SETTINGS.registerMainItem(1, 3,
@@ -79,7 +79,9 @@ public final class IPP extends ViPlugin {
                         }),
                 player -> {
                     ParkourPlayer pp = ParkourPlayer.getPlayer(player);
-                    return pp != null && pp.getGenerator() instanceof PracticeGenerator;
+                    return PlusOption.PRACTICE_SETTINGS.check(player) &&
+                            pp != null &&
+                            pp.getGenerator() instanceof PracticeGenerator;
                 });
 
         Menus.LOBBY.registerMainItem(1, 2,
@@ -89,13 +91,16 @@ public final class IPP extends ViPlugin {
                     ParkourUser user = ParkourUser.getUser(player);
 
                     // only show is user is parkourplayer and first player in session (the owner)
-                    return user instanceof ParkourPlayer && user.getSession() instanceof MultiSession && user.getSession().getPlayers().get(0) == user;
+                    return PlusOption.INVITE.check(player) &&
+                            user instanceof ParkourPlayer &&
+                            user.getSession() instanceof MultiSession &&
+                            user.getSession().getPlayers().get(0) == user;
                 });
 
         Menus.COMMUNITY.registerMainItem(1, 1,
                 user -> PlusLocales.getItem(user == null ? Option.DEFAULT_LOCALE : user.getPlayer().getLocale(), "active.item")
                     .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
-                player -> true);
+                PlusOption.ACTIVE::check);
 
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable ipp") + "ms!");
     }
