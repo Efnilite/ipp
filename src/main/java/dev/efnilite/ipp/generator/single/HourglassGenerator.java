@@ -6,7 +6,7 @@ import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
-import dev.efnilite.vilib.chat.Message;
+import dev.efnilite.vilib.util.Strings;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -67,7 +67,7 @@ public final class HourglassGenerator extends PlusGenerator {
             bar.append("|");
         }
 
-        player.getPlayer().sendTitle(Message.parseFormatting("&r"), Message.parseFormatting(bar.toString()), 0, 10, 0);
+        player.player.sendTitle(Strings.colour("&r"), Strings.colour(bar.toString()), 0, 10, 0);
 
 //        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
 //                new TextComponent(Message.parseFormatting(bar.toString())));

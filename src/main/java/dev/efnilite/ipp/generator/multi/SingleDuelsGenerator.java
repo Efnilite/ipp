@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.ParkourOption;
+import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.leaderboard.Leaderboard;
@@ -12,6 +13,7 @@ import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.util.Numbers;
+import dev.efnilite.vilib.util.Strings;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -57,7 +59,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
     @Override
     public void updateScoreboard() {
-        if (!Option.SCOREBOARD_ENABLED) {
+        if (!(boolean) Option.OPTIONS_DEFAULTS.get(ParkourOption.SCOREBOARD)) {
             return;
         }
 
@@ -66,13 +68,13 @@ public class SingleDuelsGenerator extends PlusGenerator {
         }
 
         // board can be null a few ticks after on player leave
-        if (player.getBoard() == null) {
+        if (player.board == null) {
             return;
         }
 
         Leaderboard leaderboard = getGamemode().getLeaderboard();
 
-        String title = Util.translate(player.getPlayer(), Option.SCOREBOARD_TITLE);
+        String title = Util.translate(player.player, Locales.getString(player.getLocale(), "scoreboard.title"));
         List<String> lines = new ArrayList<>();
 
         Score top = null, rank = null;
@@ -97,7 +99,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
         for (int i = 0; i < sorted.size(); i++) {
             Map.Entry<ParkourPlayer, SingleDuelsGenerator> entry = sorted.get(i);
 
-            lines.add(Util.color(
+            lines.add(Strings.colour(
                 """
                 <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
                 """
@@ -105,8 +107,8 @@ public class SingleDuelsGenerator extends PlusGenerator {
         }
 
         // update lines
-        for (String line : Option.SCOREBOARD_LINES) {
-            line = Util.translate(player.getPlayer(), line); // add support for PAPI placeholders in scoreboard
+        for (String line : Locales.getStringList(player.getLocale(), "scoreboard.lines", true)) {
+            line = Util.translate(player.player, line); // add support for PAPI placeholders in scoreboard
 
             lines.add(line
                     .replace("%score%", Integer.toString(score))
@@ -116,13 +118,13 @@ public class SingleDuelsGenerator extends PlusGenerator {
                     .replace("%topplayer%", top.name()).replace("%session%", getSession().getSessionId()));
         }
 
-        player.getBoard().updateTitle(title
+        player.board.updateTitle(title
                 .replace("%score%", Integer.toString(score))
                 .replace("%time%", stopwatch.toString())
                 .replace("%highscore%", Integer.toString(rank.score()))
                 .replace("%topscore%", Integer.toString(top.score()))
                 .replace("%topplayer%", top.name()).replace("%session%", getSession().getSessionId()));
-        player.getBoard().updateLines(lines);
+        player.board.updateLines(lines);
     }
 
     public void setPlayerIndex(int playerIndex) {

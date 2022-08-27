@@ -32,7 +32,7 @@ public class PlusHandler implements Listener {
                         DuelsGenerator superGen = singleGen.owningGenerator;
                         if (superGen.getPlayerGenerators().keySet().size() > 1) {
                             superGen.initCountdown();
-                            pp.getPlayer().getInventory().remove(Material.LIME_BANNER);
+                            pp.player.getInventory().remove(Material.LIME_BANNER);
                         } else {
                             pp.send("<dark_red><bold>> <gray>You can't duel yourself! :(");
                         }

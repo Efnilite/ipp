@@ -24,45 +24,6 @@
                     <target>16</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <relocations>
-                                <relocation>
-                                    <pattern>fr.mrmicky.fastboard</pattern>
-                                    <shadedPattern>dev.efnilite.ipp.util.fastboard</shadedPattern>
-                                </relocation>
-
-                                <relocation>
-                                    <pattern>org.bstats</pattern>
-                                    <shadedPattern>dev.efnilite.ipp.util.bstats</shadedPattern>
-                                </relocation>
-
-                                <relocation>
-                                    <pattern>net.kyori</pattern>
-                                    <shadedPattern>dev.efnilite.ipp.util.minimessage</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -99,45 +60,15 @@
         <dependency>
             <groupId>com.github.Efnilite</groupId>
             <artifactId>vilib</artifactId>
-            <version>v1.0.11</version>
+            <version>efca5cccde</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.Efnilite</groupId>
             <artifactId>Walk-in-the-Park</artifactId>
-            <version>e2864cd4b7</version>
+            <version>c67b80dd95</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- Dependencies that will be compiled with the jar -->
-
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.11.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.tchristofferson</groupId>
-            <artifactId>ConfigUpdater</artifactId>
-            <version>2.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>fr.mrmicky</groupId>
-            <artifactId>fastboard</artifactId>
-            <version>1.2.1</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

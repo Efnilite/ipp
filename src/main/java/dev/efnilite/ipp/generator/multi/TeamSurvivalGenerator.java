@@ -38,12 +38,12 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
         super.updateScoreboard();
 
         for (ParkourPlayer pp : getPlayers()) {
-            if (pp == player || player.getBoard() == null || pp.getBoard() == null) {
+            if (pp == player || player.board == null || pp.board == null) {
                 continue;
             }
 
-            pp.getBoard().updateTitle(player.getBoard().getTitle());
-            pp.getBoard().updateLines(player.getBoard().getLines());
+            pp.board.updateTitle(player.board.getTitle());
+            pp.board.updateLines(player.board.getLines());
         }
 
     }

@@ -21,7 +21,7 @@ public final class SpeedGenerator extends PlusGenerator {
         // setup menu
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
-        player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 2, false, false));
+        player.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 2, false, false));
 
         distanceChances.clear();
         distanceChances.put(0, 2);

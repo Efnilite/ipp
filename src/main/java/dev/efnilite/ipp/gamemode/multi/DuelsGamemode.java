@@ -45,7 +45,7 @@ public final class DuelsGamemode implements MultiGamemode {
         DuelsGenerator generator = new DuelsGenerator(session);
 
         Vector2D point = IP.getDivider().generate(pp, null, false);
-        IP.getDivider().setup(pp, null, true, false);
+        IP.getDivider().setup(pp, null, false);
 
         generator.init(point);
     }
@@ -63,7 +63,7 @@ public final class DuelsGamemode implements MultiGamemode {
             player.closeInventory();
 
             final ParkourPlayer pp = ParkourUser.register(player);
-            IP.getDivider().setup(pp, null, true, false);
+            IP.getDivider().setup(pp, null, false);
 
             session.addPlayers(pp);
             generator.addPlayer(pp);

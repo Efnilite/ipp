@@ -8,7 +8,7 @@ import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
-import dev.efnilite.vilib.chat.Message;
+import dev.efnilite.vilib.util.Strings;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -36,7 +36,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
         // setup menu
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
-        player.getPlayer().resetTitle();
+        player.player.resetTitle();
     }
 
     @Override
@@ -55,8 +55,8 @@ public final class TimeTrialGenerator extends PlusGenerator {
                 bar.append("|");
             }
         }
-        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText(Message.parseFormatting(bar + " &4<bold>| &8" + stopwatch.toString())));
+        player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                TextComponent.fromLegacyText(Strings.colour(bar + " &4<bold>| &8" + stopwatch.toString())));
     }
 
     @Override

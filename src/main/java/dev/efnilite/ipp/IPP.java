@@ -2,13 +2,12 @@ package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.config.PlusConfig;
 import dev.efnilite.ipp.config.PlusConfigOption;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.gamemode.multi.DuelsGamemode;
 import dev.efnilite.ipp.gamemode.multi.TeamSurvivalGamemode;
@@ -38,6 +37,7 @@ public final class IPP extends ViPlugin {
 
         configuration = new PlusConfig(this);
         PlusConfigOption.init();
+        PlusLocales.init(this);
 
         // Events
         registerListener(new PlusHandler());
@@ -59,18 +59,17 @@ public final class IPP extends ViPlugin {
 
         LobbyMode.read();
         PlusGamemodes.init();
-        PlusLocales.init(this);
 
         // Register stuff for main menu
         // Multiplayer if player is not found
         Menus.PLAY.registerMainItem(1, 1,
-                user -> PlusLocales.getItem(user == null ? Option.DEFAULT_LOCALE : user.getPlayer().getLocale(), "multiplayer.item")
+                (player, user) -> PlusLocales.getItem(player, "multi.item")
                         .click(event -> MultiplayerMenu.open(event.getPlayer())),
                 PlusOption.MULTIPLAYER::check);
 
         // practice settings only if player's generator is of this instance
         Menus.SETTINGS.registerMainItem(1, 3,
-                user -> PlusLocales.getItem(user.getPlayer(), "singleplayer.practice.items.settings").click(
+                (player, user) -> PlusLocales.getItem(player, "single.practice.items.settings").click(
                         event -> {
                             ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
                             if (pp != null && pp.getGenerator() instanceof PracticeGenerator generator) {
@@ -85,7 +84,7 @@ public final class IPP extends ViPlugin {
                 });
 
         Menus.LOBBY.registerMainItem(1, 2,
-                user -> PlusLocales.getItem(user.getPlayer(), "invite.item").click(
+                (player, user) -> PlusLocales.getItem(player, "invite.item").click(
                         event -> InviteMenu.open(event.getPlayer())),
                 player -> {
                     ParkourUser user = ParkourUser.getUser(player);
@@ -98,7 +97,7 @@ public final class IPP extends ViPlugin {
                 });
 
         Menus.COMMUNITY.registerMainItem(1, 1,
-                user -> PlusLocales.getItem(user == null ? Option.DEFAULT_LOCALE : user.getPlayer().getLocale(), "active.item")
+                (player, user) -> PlusLocales.getItem(player, "active.item")
                     .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
                 PlusOption.ACTIVE::check);
 

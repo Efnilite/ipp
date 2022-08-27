@@ -1,7 +1,7 @@
 package dev.efnilite.ipp.menu;
 
-import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemodes;
+import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourPlayer;
@@ -125,7 +125,7 @@ public class ActiveMenu {
                 lore.add("<gray>Players:"); // #69B759
 
                 for (ParkourPlayer pp : session.getPlayers()) {
-                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getPlayer().getName());
+                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getName());
                 }
             }
 
@@ -133,7 +133,7 @@ public class ActiveMenu {
                 lore.add("<gray>Spectators:"); // #69B759
 
                 for (ParkourSpectator pp : session.getSpectators()) {
-                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getPlayer().getName());
+                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getName());
                 }
             }
 
@@ -168,8 +168,8 @@ public class ActiveMenu {
                     }
                 }))
 
-                .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close").click(
-                        event -> Menus.COMMUNITY.open(event.getPlayer())))
+                .item(32, Locales.getItem(player, "other.close")
+                        .click(event -> Menus.COMMUNITY.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
                 .animation(new RandomAnimation())

@@ -1,6 +1,6 @@
 package dev.efnilite.ipp.menu;
 
-import dev.efnilite.ip.IP;
+import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
@@ -32,7 +32,7 @@ public class InviteMenu {
             return;
         }
 
-        String sessionId = user.getSessionId();
+        String sessionId = user.sessionId;
 
         if (sessionId == null || sessionId.isEmpty()) { // no session found
             return;
@@ -81,7 +81,7 @@ public class InviteMenu {
 
                 .item(30, PlusLocales.getItem(player, "invite.lobby", sessionId, sessionId))
 
-                .item(32, IP.getConfiguration().getFromItemData(ParkourUser.getUser(player), "general.close")
+                .item(32, Locales.getItem(player, "other.close")
                         .click(event -> Menus.LOBBY.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)

@@ -134,7 +134,7 @@ public class LobbyMode {
     public static void join(@NotNull SingleSession session) {
         LobbyGenerator generator = new LobbyGenerator(session);
         ParkourPlayer player = session.getPlayers().get(0);
-        World world = player.getPlayer().getWorld();
+        World world = player.player.getWorld();
 
         // set spawn block
         Location location = generateSpawn(world, generator);
@@ -153,7 +153,7 @@ public class LobbyMode {
         spawn.setYaw(-90);
 
         generator.generateFirst(spawn, block);
-        IP.getDivider().setup(player, spawn, true, true);
+        IP.getDivider().setup(player, spawn, true);
     }
 
     /**

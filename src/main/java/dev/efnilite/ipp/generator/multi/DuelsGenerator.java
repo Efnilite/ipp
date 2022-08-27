@@ -11,12 +11,12 @@ import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.schematic.RotationAngle;
 import dev.efnilite.ip.schematic.Schematic;
-import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
+import dev.efnilite.vilib.util.Strings;
 import dev.efnilite.vilib.util.Task;
 import dev.efnilite.vilib.vector.Vector2D;
 import org.bukkit.Location;
@@ -60,7 +60,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         Task.create(IPP.getPlugin())
                 .delay(5)
-                .execute(() -> player.getPlayer().getInventory().addItem(new Item(Material.LIME_BANNER, 1, "<#5EC743><bold>CLICK TO START!").build()))
+                .execute(() -> player.player.getInventory().addItem(new Item(Material.LIME_BANNER, 1, "<#5EC743><bold>CLICK TO START!").build()))
                 .run();
     }
 
@@ -195,7 +195,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
     }
 
     private void sendTitle(ParkourPlayer pp, String title, String subtitle, int fadeIn, int duration, int fadeOut) {
-        pp.getPlayer().sendTitle(Util.color(title), Util.color(subtitle), fadeIn, duration, fadeOut);
+        pp.player.sendTitle(Strings.colour(title), Strings.colour(subtitle), fadeIn, duration, fadeOut);
     }
 
     private void close() {
@@ -285,7 +285,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                         ParkourUser.unregister(parkourPlayer, true, true, true);
 
                         if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
-                            IP.getDivider().generate(ParkourPlayer.register(parkourPlayer.getPlayer()));
+                            IP.getDivider().generate(ParkourPlayer.register(parkourPlayer.player));
                         }
                     }
                 })

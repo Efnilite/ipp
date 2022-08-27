@@ -5,10 +5,10 @@ import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.selection.Dimensions;
 import dev.efnilite.ip.schematic.selection.Selection;
+import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
-import dev.efnilite.vilib.chat.Message;
 import dev.efnilite.vilib.command.ViCommand;
 import dev.efnilite.vilib.particle.ParticleData;
 import dev.efnilite.vilib.particle.Particles;
@@ -73,7 +73,7 @@ public class PlusCommand extends ViCommand {
                             selections.put(player, new Selection(pos1, pos2, player.getWorld()));
                             Particles.box(BoundingBox.of(pos1, pos2), player.getWorld(), new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                         }
-                        send(player, "<blue><bold>> <gray>Position 1 was set to " + Locations.toString(player.getLocation(), true));
+                        Util.send(player, "<blue><bold>> <gray>Position 1 was set to " + Locations.toString(player.getLocation(), true));
                         return true;
                     }
                     case "pos2" -> {
@@ -85,25 +85,25 @@ public class PlusCommand extends ViCommand {
                             selections.put(player, new Selection(pos1, pos2, player.getWorld()));
                             Particles.box(BoundingBox.of(pos1, pos2), player.getWorld(), new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                         }
-                        send(player, "<blue><bold>> <gray>Position 2 was set to " + Locations.toString(player.getLocation(), true));
+                        Util.send(player, "<blue><bold>> <gray>Position 2 was set to " + Locations.toString(player.getLocation(), true));
                         return true;
                     }
                     case "save" -> {
                         if (selection == null || !selection.isComplete()) {
-                            send(player, "<gray>Your lobby area isn't complete yet.");
-                            send(player, "<gray>Be sure to set the first and second position!");
+                            Util.send(player, "<gray>Your lobby area isn't complete yet.");
+                            Util.send(player, "<gray>Be sure to set the first and second position!");
                             return true;
                         } else {
                             Dimensions dimensions = selection.getDimensions();
                             if (dimensions.getWidth() < LobbyMode.MINIMUM_SIZE ||
                                     dimensions.getHeight() < LobbyMode.MINIMUM_SIZE ||
                                     dimensions.getLength() < LobbyMode.MINIMUM_SIZE) {
-                                send(player, "<gray>You haven't made the area big enough!");
-                                send(player, "<gray>It needs to be at least " + LobbyMode.MINIMUM_SIZE + " blocks in all directions.");
+                                Util.send(player, "<gray>You haven't made the area big enough!");
+                                Util.send(player, "<gray>It needs to be at least " + LobbyMode.MINIMUM_SIZE + " blocks in all directions.");
                                 return true;
                             }
                         }
-                        send(player, "<gray>Your lobby area selection is being saved.");
+                        Util.send(player, "<gray>Your lobby area selection is being saved.");
                         LobbyMode.save(player.getWorld(), selection);
                     }
                 }
@@ -112,7 +112,7 @@ public class PlusCommand extends ViCommand {
         } else if (args[0].equalsIgnoreCase("invite")) {
             Player other = Bukkit.getPlayer(args[1]);
             if (other == null) {
-                send(sender, "<dark_red><bold>> <gray>That player isn't online in this server!");
+                Util.send(sender, "<dark_red><bold>> <gray>That player isn't online in this server!");
                 return true;
             } else if (!(sender instanceof Player)) {
                 return true;
@@ -124,24 +124,24 @@ public class PlusCommand extends ViCommand {
                 return true;
             }
 
-            Message.send(other, "");
-            Message.send(other, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + pp.getSession().getGamemode().getName() + " game.");
-            Message.send(other, "<dark_gray>Use <#3BC2C2><underline>/parkour join " + pp.getSessionId() + "</underline><dark_gray> to join.");
-            Message.send(other, "");
+            Util.send(other, "");
+            Util.send(other, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + pp.getSession().getGamemode().getName() + " game.");
+            Util.send(other, "<dark_gray>Use <#3BC2C2><underline>/parkour join " + pp.sessionId + "</underline><dark_gray> to join.");
+            Util.send(other, "");
         }
         return true;
     }
 
     private void help(CommandSender sender) {
-        send(sender, "<#841414><red>Infinite Parkour+ Commands");
-        send(sender, "");
-        send(sender, "<#C01E1E>/ipp create <dark_gray>- <gray>Create a multiplayer lobby");
-        send(sender, "<#C01E1E>/ipp lobbies <dark_gray>- <gray>View all multiplayer lobbies");
-        send(sender, "<#C01E1E>/ipp invite [player]<dark_gray>- <gray>Invite another player");
+        Util.send(sender, "<#841414><red>Infinite Parkour+ Commands");
+        Util.send(sender, "");
+        Util.send(sender, "<#C01E1E>/ipp create <dark_gray>- <gray>Create a multiplayer lobby");
+        Util.send(sender, "<#C01E1E>/ipp lobbies <dark_gray>- <gray>View all multiplayer lobbies");
+        Util.send(sender, "<#C01E1E>/ipp invite [player]<dark_gray>- <gray>Invite another player");
         if (sender.hasPermission("witp.schematic")) {
-            send(sender, "<#C01E1E>/ipp lobbygm <pos1/pos2/save><dark_gray>- <gray>Setup lobby mode selection");
+            Util.send(sender, "<#C01E1E>/ipp lobbygm <pos1/pos2/save><dark_gray>- <gray>Setup lobby mode selection");
         }
-        send(sender, "");
+        Util.send(sender, "");
     }
 
     @Override
@@ -165,9 +165,5 @@ public class PlusCommand extends ViCommand {
         }
 
         return completions;
-    }
-
-    public static void send(CommandSender sender, String message) {
-        sender.sendMessage(Message.parseFormatting(message));
     }
 }

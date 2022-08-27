@@ -1,8 +1,8 @@
 package dev.efnilite.ipp.generator.single;
 
-import dev.efnilite.ip.IP;
 import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
+import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
@@ -259,13 +259,13 @@ public final class PracticeGenerator extends PlusGenerator {
                             }
                         }))
 
-                .item(27, IP.getConfiguration().getFromItemData(player.getLocale(), "general.close")
+                .item(27, Locales.getItem(player.getLocale(), "other.close")
                         .click(event -> menu()))
 
                 .animation(new WaveEastAnimation())
                 .fillBackground(Material.CYAN_STAINED_GLASS_PANE)
                 .distributeRowEvenly(0, 1, 2, 3)
-                .open(player.getPlayer());
+                .open(player.player);
     }
 
     @Override

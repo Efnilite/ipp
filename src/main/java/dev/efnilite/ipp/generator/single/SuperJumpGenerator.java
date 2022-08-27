@@ -43,7 +43,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
         heightChances.clear();
         heightChances.put(0, 0);
 
-        player.getPlayer().setMaximumAir(100_000_000);
+        player.player.setMaximumAir(100_000_000);
     }
 
     @Override
@@ -58,7 +58,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
         distanceChances.clear();
         distanceChances.put(0, (int) jumpDistance);
 
-        Player bPlayer = player.getPlayer();
+        Player bPlayer = player.player;
 
         // According to gathered data, the potion effect line goes roughly like this:
         // y = 3.93x - 34.9, where x is the jump distance
@@ -122,7 +122,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
         updateScoreboard();
 
         player.getSession().updateSpectators();
-        player.getPlayer().setSaturation(20);
+        player.player.setSaturation(20);
 
         Location playerLocation = player.getLocation();
 
@@ -205,7 +205,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
     public void reset(boolean regenerate) {
         jumpDistance = 3;
 
-        player.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+        player.player.removePotionEffect(PotionEffectType.SPEED);
         if (regenerate) {
             updateJumpDistance();
         }

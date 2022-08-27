@@ -2,11 +2,11 @@ package dev.efnilite.ipp.config;
 
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.player.ParkourUser;
+import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.vilib.inventory.item.Item;
+import dev.efnilite.vilib.util.Strings;
 import dev.efnilite.vilib.util.Task;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -16,18 +16,25 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PlusLocales {
 
-    private static final MiniMessage miniMessage = MiniMessage.miniMessage();
+    // a list of all nodes
+    // used to check against missing nodes
+    private static List<String> resourceNodes;
 
     // a map of all locales with their respective json trees
     // the json trees are stored instead of the files to avoid having to read the files every time
@@ -37,14 +44,18 @@ public class PlusLocales {
         Task.create(plugin)
                 .async()
                 .execute(() -> {
+                    FileConfiguration resource = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("locales/en.yml"), StandardCharsets.UTF_8));
+
+                    // get all nodes from the plugin's english resource, aka the most updated version
+                    resourceNodes = Util.getNode(resource, "", true);
+
                     Path folder = Paths.get(plugin.getDataFolder() + "/locales");
 
                     // download files to locales folder
                     if (!folder.toFile().exists()) {
                         folder.toFile().mkdirs();
 
-                        IPP.getPlugin().saveResource("locales/en.yml", false);
-                        //            IPP.getPlugin().saveResource("locales/nl.json", false);
+                        plugin.saveResource("locales/en.yml", false);
                     }
 
                     // get all files in locales folder
@@ -55,6 +66,8 @@ public class PlusLocales {
                             // get locale from file name
                             String locale = file.getName().split("\\.")[0];
 
+                            validate(resource, YamlConfiguration.loadConfiguration(file), file);
+
                             localeTree.put(locale, YamlConfiguration.loadConfiguration(file));
                         });
                     } catch (IOException throwable) {
@@ -62,6 +75,27 @@ public class PlusLocales {
                     }
                 })
                 .run();
+    }
+
+    // validates whether a lang file contains all required keys.
+    // if it doesn't, automatically add them
+    private static void validate(FileConfiguration provided, FileConfiguration user, File localPath) {
+        List<String> userNodes = Util.getNode(user, "", true);
+
+        for (String node : resourceNodes) {
+            if (!userNodes.contains(node)) {
+                IPP.logging().info("Fixing missing config node '" + node + "'");
+
+                Object providedValue = provided.get(node);
+                user.set(node, providedValue);
+            }
+        }
+
+        try {
+            user.save(localPath);
+        } catch (IOException throwable) {
+            IPP.logging().stack("Error while trying to save fixed config file " + localPath, "delete this file and restart your server", throwable);
+        }
     }
 
     /**
@@ -109,7 +143,34 @@ public class PlusLocales {
             return "";
         }
 
-        return colour(string);
+        return Strings.colour(string);
+    }
+
+    /**
+     * Gets a coloured String list from the provided path in the provided locale file
+     *
+     * @param   locale
+     *          The locale
+     *
+     * @param   path
+     *          The path
+     *
+     * @return a coloured String list
+     */
+    public static List<String> getStringList(String locale, String path, boolean colour) {
+        FileConfiguration base = localeTree.get(locale);
+
+        if (base == null) {
+            return Collections.emptyList();
+        }
+
+        List<String> strings = base.getStringList(path);
+
+        if (strings.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return colour ? strings.stream().map(Strings::colour).collect(Collectors.toList()) : strings;
     }
 
     /**
@@ -127,7 +188,7 @@ public class PlusLocales {
      * @return a non-null {@link Item} instance built from the description in the locale file
      */
     @NotNull
-    public static Item getItem(Player player, String path, String... replace) {
+    public static Item getItem(@NotNull Player player, String path, String... replace) {
         ParkourUser user = ParkourUser.getUser(player);
         String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
 
@@ -190,21 +251,12 @@ public class PlusLocales {
             index++;
         }
 
-        return new Item(Material.getMaterial(material.toUpperCase()), name).lore(lore.split("\\|\\|"));
+        Item item = new Item(Material.getMaterial(material.toUpperCase()), name);
+
+        if (!lore.isEmpty()) {
+            item.lore(lore.split("\\|\\|"));
+        }
+
+        return item;
     }
-
-    /**
-     * Colours a provided string using the MiniMessage API.
-     *
-     * @param   string
-     *          The string
-     *
-     * @return the coloured string
-     */
-    public static String colour(String string) {
-        Component component = miniMessage.deserialize(string);
-
-        return miniMessage.serialize(component);
-    }
-
 }

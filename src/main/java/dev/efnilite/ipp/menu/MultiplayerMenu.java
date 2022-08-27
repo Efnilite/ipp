@@ -3,6 +3,7 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.MultiGamemode;
+import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourUser;
@@ -62,7 +63,7 @@ public class MultiplayerMenu {
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
                         .click(event -> gameMenu.page(-1)))
 
-                .item(31, IP.getConfiguration().getFromItemData(user, "general.close")
+                .item(31, Locales.getItem(player, "other.close")
                         .click(event -> Menus.PLAY.open(event.getPlayer())))
 
                 .fillBackground(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
