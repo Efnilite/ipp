@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.IP;
+import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.config.Locales;
@@ -30,11 +31,11 @@ public class MultiplayerMenu {
      */
     public static void open(Player player) {
         ParkourUser user = ParkourUser.getUser(player);
-        String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
+        String locale = user == null ? (String) Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.getLocale();
 
         List<Gamemode> gamemodes = new ArrayList<>();
         for (Gamemode gm : IP.getRegistry().getGamemodes()) {
-            boolean permissions = Option.PERMISSIONS && player.hasPermission("witp.gamemode." + gm.getName());
+            boolean permissions = Option.PERMISSIONS && player.hasPermission("ip.gamemode." + gm.getName());
 
             if (!permissions || !(gm instanceof MultiGamemode) || !gm.isVisible()) {
                 continue;
@@ -42,7 +43,7 @@ public class MultiplayerMenu {
 
             gamemodes.add(gm);
         }
-        PagedMenu gameMenu = new PagedMenu(4, PlusLocales.getString(locale, "multiplayer.name"));
+        PagedMenu gameMenu = new PagedMenu(4, PlusLocales.getString(locale, "play.multi.name", false));
 
         List<MenuItem> items = new ArrayList<>();
         for (Gamemode gamemode : gamemodes) {

@@ -1,4 +1,4 @@
-# English
+# English (en)
 # By Efnilite
 # Materials have to be from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # Learn more about colouring: https://docs.adventure.kyori.net/minimessage/format.html#format
@@ -89,7 +89,7 @@ play:
     item:
       material: "oak_boat"
       name: "<#0088CB><bold>Multiplayer"
-      lore: "<dark_gray>多人遊戲 • マルチプレイヤー"
+      lore: ""
 
     duels:
       item:
@@ -111,7 +111,7 @@ styles:
   incremental:
     material: "scaffolding"
     name: "<#348EDB><bold>Incremental"
-    lore: "<dark_gray>Inkrementell • 增加的||<dark_gray>• Incrémentale • 増分 • Incrementeel"
+    lore: ""
 
 active:
   name: "<white>Lobbies"
@@ -119,7 +119,7 @@ active:
   item:
     material: "chest"
     name: "<#EA9926><bold>View current lobbies"
-    lore: "<dark_gray>Aktuelle Lobbys ansehen • 查看当前大厅||<dark_gray>• 查看當前大廳 • Voir les lobbys actuels||<dark_gray>• 現在のロビーを表示 • Actuele lobby's bekijken"
+    lore: ""
 
   head:
     material: ""
@@ -129,12 +129,12 @@ active:
   sort:
     material: "bookshelf"
     name: "<#DEA11F><bold>Sort"
-    lore: "<dark_gray>Sortieren • 种类||<dark_gray>Trier • 選別 • Sorteren"
+    lore: ""
 
   refresh:
     material: "blaze_powder"
     name: "<#2FBC11><bold>Refresh"
-    lore: "<dark_gray>Erneuern • 刷新 • Rafraîchir||<dark_gray>リフレッシュ • Vernieuwen"
+    lore: ""
 
 invite:
   name: "<white>Click to invite"

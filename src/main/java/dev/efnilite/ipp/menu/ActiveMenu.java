@@ -1,5 +1,6 @@
 package dev.efnilite.ipp.menu;
 
+import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.config.Option;
@@ -28,9 +29,9 @@ import java.util.List;
 public class ActiveMenu {
 
     public static void open(Player player, MenuSort sort) {
-        PagedMenu menu = new PagedMenu(4, PlusLocales.getString(player, "active.name"));
+        PagedMenu menu = new PagedMenu(4, PlusLocales.getString(player, "active.name", false));
         ParkourUser user = ParkourUser.getUser(player);
-        String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
+        String locale = user == null ? (String) Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.getLocale();
 
         List<Session> sessions = new ArrayList<>(); // get all public sessions
         for (Session session : Session.getSessions()) {

@@ -39,7 +39,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         // set the task to an empty runnable
         // this avoids the incomplete joining setup error

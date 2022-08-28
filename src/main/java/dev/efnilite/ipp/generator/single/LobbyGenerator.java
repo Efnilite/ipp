@@ -19,7 +19,7 @@ public final class LobbyGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
     }
 
     @Override

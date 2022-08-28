@@ -22,7 +22,7 @@ public final class PracticeGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return PlusLocales.getItem(locale, "singleplayer." + getName() + ".item");
+        return PlusLocales.getItem(locale, "play.single." + getName() + ".item");
     }
 
     @Override

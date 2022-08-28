@@ -23,7 +23,7 @@ public final class PracticeGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_ADAPTIVE);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
         // generate default chances, copied from the menu
         distanceChances.put(0, 1); // keys 0-1

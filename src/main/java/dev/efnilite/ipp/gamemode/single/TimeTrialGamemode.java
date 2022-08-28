@@ -24,7 +24,7 @@ public final class TimeTrialGamemode implements Gamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return PlusLocales.getItem(locale, "singleplayer." + getName());
+        return PlusLocales.getItem(locale, "play.single." + getName());
     }
 
     @Override

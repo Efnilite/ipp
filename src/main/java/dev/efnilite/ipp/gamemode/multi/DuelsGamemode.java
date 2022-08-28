@@ -26,7 +26,7 @@ public final class DuelsGamemode implements MultiGamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return PlusLocales.getItem(locale, "multiplayer." + getName() + ".item");
+        return PlusLocales.getItem(locale, "play.multi." + getName() + ".item");
     }
 
     @Override

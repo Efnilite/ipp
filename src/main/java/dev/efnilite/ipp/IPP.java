@@ -63,13 +63,13 @@ public final class IPP extends ViPlugin {
         // Register stuff for main menu
         // Multiplayer if player is not found
         Menus.PLAY.registerMainItem(1, 1,
-                (player, user) -> PlusLocales.getItem(player, "multi.item")
+                (player, user) -> PlusLocales.getItem(player, "play.multi.item")
                         .click(event -> MultiplayerMenu.open(event.getPlayer())),
                 PlusOption.MULTIPLAYER::check);
 
         // practice settings only if player's generator is of this instance
         Menus.SETTINGS.registerMainItem(1, 3,
-                (player, user) -> PlusLocales.getItem(player, "single.practice.items.settings").click(
+                (player, user) -> PlusLocales.getItem(player, "play.single.practice.items.settings").click(
                         event -> {
                             ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
                             if (pp != null && pp.getGenerator() instanceof PracticeGenerator generator) {
@@ -84,8 +84,8 @@ public final class IPP extends ViPlugin {
                 });
 
         Menus.LOBBY.registerMainItem(1, 2,
-                (player, user) -> PlusLocales.getItem(player, "invite.item").click(
-                        event -> InviteMenu.open(event.getPlayer())),
+                (player, user) -> PlusLocales.getItem(player, "invite.item")
+                        .click(event -> InviteMenu.open(event.getPlayer())),
                 player -> {
                     ParkourUser user = ParkourUser.getUser(player);
 

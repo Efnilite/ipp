@@ -3,7 +3,7 @@ author: Efnilite
 version: 1.0
 api-version: 1.16
 description: "The premium addon for Infinite Parkour."
-depend: ['vilib', 'WITP']
+depend: ['vilib', 'IP']
 main: dev.efnilite.ipp.IPP
 commands:
     ipp:

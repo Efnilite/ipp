@@ -38,7 +38,7 @@ public class InviteMenu {
             return;
         }
 
-        PagedMenu playerMenu = new PagedMenu(4, PlusLocales.getString(player, "invite.name"));
+        PagedMenu playerMenu = new PagedMenu(4, PlusLocales.getString(player, "invite.name", false));
         Session session = user.getSession();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -64,7 +64,7 @@ public class InviteMenu {
 
             items.add(item.click(event -> {
                 if (Cooldowns.passes(player.getUniqueId(), "multiplayer invite", 2500)) {
-                    p.sendMessage(PlusLocales.getString(p, "invite.message")
+                    Util.send(player, PlusLocales.getString(p, "invite.message", false)
                             .formatted(session.getSessionId(), player.getName(), session.getGamemode().getName(), session.getSessionId()));
                 }
             }));

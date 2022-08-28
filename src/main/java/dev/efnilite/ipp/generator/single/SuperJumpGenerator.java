@@ -35,7 +35,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATICS,
+        menu = new ParkourSettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATIC,
                 ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
 
         updateJumpDistance();

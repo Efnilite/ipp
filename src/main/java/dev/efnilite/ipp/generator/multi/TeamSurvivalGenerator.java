@@ -25,7 +25,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     public TeamSurvivalGenerator(MultiSession session) {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.IGNORE_CHECK_FOR_PROGRESS);
 
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC);
     }
 
     @Override

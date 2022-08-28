@@ -1,5 +1,6 @@
 package dev.efnilite.ipp.config;
 
+import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.Util;
@@ -38,7 +39,7 @@ public class PlusLocales {
 
     // a map of all locales with their respective json trees
     // the json trees are stored instead of the files to avoid having to read the files every time
-    private static final Map<String, FileConfiguration> localeTree = new HashMap<>();
+    private static final Map<String, FileConfiguration> locales = new HashMap<>();
 
     public static void init(Plugin plugin) {
         Task.create(plugin)
@@ -66,9 +67,10 @@ public class PlusLocales {
                             // get locale from file name
                             String locale = file.getName().split("\\.")[0];
 
-                            validate(resource, YamlConfiguration.loadConfiguration(file), file);
+                            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+                            validate(resource, config, file);
 
-                            localeTree.put(locale, YamlConfiguration.loadConfiguration(file));
+                            locales.put(locale, config);
                         });
                     } catch (IOException throwable) {
                         IPP.logging().stack("Error while trying to read locale files", "restart/reload your server", throwable);
@@ -112,11 +114,11 @@ public class PlusLocales {
      *
      * @return a coloured String
      */
-    public static String getString(Player player, String path) {
+    public static String getString(Player player, String path, boolean colour) {
         ParkourUser user = ParkourUser.getUser(player);
-        String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
+        String locale = user == null ? (String) Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.getLocale();
 
-        return getString(locale, path);
+        return getString(locale, path, colour);
     }
 
     /**
@@ -130,8 +132,8 @@ public class PlusLocales {
      *
      * @return a coloured String
      */
-    public static String getString(String locale, String path) {
-        FileConfiguration base = localeTree.get(locale);
+    public static String getString(String locale, String path, boolean colour) {
+        FileConfiguration base = locales.get(locale);
 
         if (base == null) {
             return "";
@@ -143,9 +145,8 @@ public class PlusLocales {
             return "";
         }
 
-        return Strings.colour(string);
+        return colour ? Strings.colour(string) : string;
     }
-
     /**
      * Gets a coloured String list from the provided path in the provided locale file
      *
@@ -158,7 +159,7 @@ public class PlusLocales {
      * @return a coloured String list
      */
     public static List<String> getStringList(String locale, String path, boolean colour) {
-        FileConfiguration base = localeTree.get(locale);
+        FileConfiguration base = locales.get(locale);
 
         if (base == null) {
             return Collections.emptyList();
@@ -190,7 +191,7 @@ public class PlusLocales {
     @NotNull
     public static Item getItem(@NotNull Player player, String path, String... replace) {
         ParkourUser user = ParkourUser.getUser(player);
-        String locale = user == null ? Option.DEFAULT_LOCALE : user.getLocale();
+        String locale = user == null ? (String) Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.getLocale();
 
         return getItem(locale, path, replace);
     }
@@ -211,7 +212,7 @@ public class PlusLocales {
      */
     @NotNull
     public static Item getItem(String locale, String path, String... replace) {
-        final FileConfiguration base = localeTree.get(locale);
+        final FileConfiguration base = locales.get(locale);
 
         String material = base.getString(path + ".material");
         String name = base.getString(path + ".name");

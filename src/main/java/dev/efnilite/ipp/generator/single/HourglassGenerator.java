@@ -39,7 +39,7 @@ public final class HourglassGenerator extends PlusGenerator {
         // setup generator settings
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.INCREASED_TICK_ACCURACY); // to increase smoothness of countdown
 
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SCORE_DIFFICULTY);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY);
     }
 
     @Override

@@ -24,7 +24,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public @NotNull Item getItem(String locale) {
-        return PlusLocales.getItem(locale, "multiplayer." + getName());
+        return PlusLocales.getItem(locale, "play.multi." + getName());
     }
 
     @Override
