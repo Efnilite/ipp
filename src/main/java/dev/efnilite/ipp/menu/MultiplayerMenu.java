@@ -43,7 +43,7 @@ public class MultiplayerMenu {
 
             gamemodes.add(gm);
         }
-        PagedMenu gameMenu = new PagedMenu(4, PlusLocales.getString(locale, "play.multi.name", false));
+        PagedMenu gameMenu = new PagedMenu(3, PlusLocales.getString(locale, "play.multi.name", false));
 
         List<MenuItem> items = new ArrayList<>();
         for (Gamemode gamemode : gamemodes) {
@@ -59,16 +59,15 @@ public class MultiplayerMenu {
                 .displayRows(0, 1)
                 .addToDisplay(items)
 
-                .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT) // next page
+                .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT) // next page
                         .click(event -> gameMenu.page(1)))
-                .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
+                .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
                         .click(event -> gameMenu.page(-1)))
 
-                .item(31, Locales.getItem(player, "other.close")
+                .item(22, Locales.getItem(player, "other.close")
                         .click(event -> Menus.PLAY.open(event.getPlayer())))
 
                 .fillBackground(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
-                .animation(new WaveWestAnimation())
                 .open(player);
     }
 }

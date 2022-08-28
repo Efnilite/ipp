@@ -34,7 +34,7 @@ gamemodes:
   speed:
     enabled: true
 
-  speed-jump:
+  super-jump:
     enabled: true
 
   time-trial:

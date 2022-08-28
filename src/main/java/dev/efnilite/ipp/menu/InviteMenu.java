@@ -85,7 +85,6 @@ public class InviteMenu {
                         .click(event -> Menus.LOBBY.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
-                .animation(new WaveEastAnimation())
                 .open(player);
     }
 

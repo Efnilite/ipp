@@ -71,9 +71,6 @@ public class ActiveMenu {
 
         // put tournaments first
         List<MenuItem> items = new ArrayList<>();
-//        if (Tournament.isActive()) {
-//            items.add(new Item(Material.BLUE_STAINED_GLASS_PANE, "<#198EF0><bold>Tournament")); // todo finish
-//        }
 
         for (Session session : sessions) { // turn sessions into items
 
@@ -82,7 +79,7 @@ public class ActiveMenu {
 //                            ChatColor.stripColor(session.getGamemode().getItem(locale).getName())) // gamemode
 //                    .material(Material.LIME_STAINED_GLASS_PANE);
 
-            Item item = new Item(Material.LIME_STAINED_GLASS_PANE, "");
+            Item item = new Item(Material.LIME_STAINED_GLASS_PANE, ""); // todo finish
 
             item.click(event -> session.join(player));
 
@@ -173,7 +170,6 @@ public class ActiveMenu {
                         .click(event -> Menus.COMMUNITY.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)
-                .animation(new RandomAnimation())
                 .open(player);
     }
 
