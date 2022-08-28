@@ -107,13 +107,25 @@ public final class IPP extends ViPlugin {
     @Override
     public void disable() {
         // save all gamemodes
-        PlusGamemodes.TIME_TRIAL.getLeaderboard().write(false);
-        PlusGamemodes.SUPER_JUMP.getLeaderboard().write(false);
-        PlusGamemodes.HOURGLASS.getLeaderboard().write(false);
-        PlusGamemodes.SPEED.getLeaderboard().write(false);
+        if (PlusGamemodes.TIME_TRIAL != null) {
+            PlusGamemodes.TIME_TRIAL.getLeaderboard().write(false);
+        }
+        if (PlusGamemodes.SUPER_JUMP != null) {
+            PlusGamemodes.SUPER_JUMP.getLeaderboard().write(false);
+        }
+        if (PlusGamemodes.HOURGLASS != null) {
+            PlusGamemodes.HOURGLASS.getLeaderboard().write(false);
+        }
+        if (PlusGamemodes.SPEED != null) {
+            PlusGamemodes.SPEED.getLeaderboard().write(false);
+        }
 
-        PlusGamemodes.DUELS.getLeaderboard().write(false);
-        PlusGamemodes.TEAM_SURVIVAL.getLeaderboard().write(false);
+        if (PlusGamemodes.DUELS != null) {
+            PlusGamemodes.DUELS.getLeaderboard().write(false);
+        }
+        if (PlusGamemodes.TEAM_SURVIVAL != null) {
+            PlusGamemodes.TEAM_SURVIVAL.getLeaderboard().write(false);
+        }
     }
 
     @Override
