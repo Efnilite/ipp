@@ -8,7 +8,6 @@ import dev.efnilite.ip.util.Cooldowns;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.vilib.inventory.PagedMenu;
-import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
 import dev.efnilite.vilib.util.SkullSetter;
@@ -64,8 +63,10 @@ public class InviteMenu {
 
             items.add(item.click(event -> {
                 if (Cooldowns.passes(player.getUniqueId(), "multiplayer invite", 2500)) {
-                    Util.send(player, PlusLocales.getString(p, "invite.message", false)
-                            .formatted(session.getSessionId(), player.getName(), session.getGamemode().getName(), session.getSessionId()));
+                    for (String s : PlusLocales.getString(p, "invite.message", false)
+                            .formatted(session.getSessionId(), player.getName(), session.getGamemode().getName(), session.getSessionId()).split("\\|\\|")) {
+                        Util.send(p, s);
+                    }
                 }
             }));
         }

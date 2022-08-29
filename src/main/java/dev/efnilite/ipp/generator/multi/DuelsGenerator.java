@@ -110,19 +110,11 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         spawnData.put(player, new SpawnData(playerSpawn, blockSpawn));
         playerGenerators.put(player, generator);
-
-        for (ParkourPlayer pp : playerGenerators.keySet()) {
-            pp.sendTranslated("player-join", player.getName());
-        }
     }
 
     public void removePlayer(ParkourPlayer player) {
         SingleDuelsGenerator generator = this.playerGenerators.get(player);
         generator.reset(false);
-
-        for (ParkourPlayer pp : playerGenerators.keySet()) {
-            pp.sendTranslated("player-leave", player.getName());
-        }
 
         AreaData data = generator.getData();
 
@@ -215,6 +207,10 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     @Override
     public void tick() {
+        if (stopped) {
+            return;
+        }
+
         ParkourPlayer winner = null;
 
         for (ParkourPlayer player : playerGenerators.keySet()) {

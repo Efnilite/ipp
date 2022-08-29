@@ -58,6 +58,10 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
     @Override
     public void tick() {
+        if (stopped) {
+            return;
+        }
+
         // the index of the last person
         int lastIndex = Integer.MAX_VALUE;
         ParkourPlayer lastPlayer = null;
@@ -155,7 +159,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     @Override
     public void reset(boolean regenerate) {
         if (!regenerate) {
-            if (player.getSession().getPlayers().size() > 0) {
+            if (player.getSession().getPlayers().size() > 1) {
                 player = player.getSession().getPlayers().get(0);
                 regenerate = true;
             }

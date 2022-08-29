@@ -3,7 +3,6 @@ package dev.efnilite.ipp.session;
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.api.MultiGamemode;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.SingleSession;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +16,7 @@ public class MultiSession extends SingleSession {
 
     private int maxPlayers;
 
-    private Boolean isAcceptingPlayers;
+    private boolean isAcceptingPlayers = true;
 
     public static MultiSession create(@NotNull ParkourPlayer player, @NotNull MultiGamemode gamemode) {
         // create session
@@ -37,28 +36,6 @@ public class MultiSession extends SingleSession {
             gamemode.join(player, this);
         } else if (isAcceptingSpectators()) {
             Gamemodes.SPECTATOR.create(player, this);
-        }
-    }
-
-    @Override
-    public void addPlayers(ParkourPlayer... players) {
-        super.addPlayers(players);
-
-        for (ParkourPlayer joined : players) {
-            for (ParkourPlayer player : getPlayers()) {
-                player.sendTranslated("play.multi.other_join", joined.getName());
-            }
-        }
-    }
-
-    @Override
-    public void removePlayers(ParkourPlayer... players) {
-        super.removePlayers(players);
-
-        for (ParkourPlayer joined : players) {
-            for (ParkourPlayer player : getPlayers()) {
-                player.sendTranslated("play.multi.other_leave", joined.getName());
-            }
         }
     }
 

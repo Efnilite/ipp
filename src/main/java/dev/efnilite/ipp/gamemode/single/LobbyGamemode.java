@@ -6,6 +6,7 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.SingleSession;
+import dev.efnilite.ipp.generator.single.LobbyGenerator;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
@@ -32,8 +33,13 @@ public final class LobbyGamemode implements Gamemode {
 
     @Override
     public void create(Player player) {
+        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+        if (pp != null && pp.getGenerator() instanceof LobbyGenerator) {
+            return;
+        }
         player.closeInventory();
-        ParkourPlayer pp = ParkourUser.register(player);
+
+        pp = ParkourUser.register(player);
         SingleSession session = (SingleSession) SingleSession.create(pp, this);
         LobbyMode.join(session);
     }

@@ -76,7 +76,7 @@ play:
     super-jump:
       material: "rabbit_foot"
       name: "<#08508E><bold>Super Jump"
-      lore: "<dark_gray>Jump from platform to platform||<dark_gray>while you become faster and faster||&cThis gamemode is very difficult!"
+      lore: "<dark_gray>Jump from platform to platform||<dark_gray>while you become faster and faster||<red>This gamemode is very difficult!"
 
     time-trial:
       material: "clock"
@@ -95,6 +95,8 @@ play:
       lore: ""
 
     duels:
+      duel_self: "<gray>You can't duel yourself!"
+
       item:
         material: "red_concrete"
         name: "<#C91212><bold>Duels"
@@ -141,7 +143,7 @@ active:
 
 invite:
   name: "<white>Click to invite"
-  message: "<click:run_command:/parkour join %s><gray>You've been invited by <#F55252><bold>%s<gray> to join their <#F37777><bold>%s<gray> game!||<gray>Click this or use <#FAB4B4><bold>%s<gray> to join!</click>"
+  message: "<click:run_command:/parkour join %s><gray>You've been invited by <#F55252><bold>%s<gray> to join their <#F37777><bold>%s<gray> game!||<reset><gray>Click this or use <#FAB4B4><bold>%s<gray> to join!</click>"
 
   item:
     material: "elytra"
@@ -156,4 +158,4 @@ invite:
   lobby:
     material: "paper"
     name: "<#0b55e0><bold>Lobby %s"
-    lore: "<gray>Players can also use||<#346edb><underline>/parkour join %s||<gray>to join this lobby."
+    lore: "<gray>Players can also use||<#346edb><underlined>/parkour join %s||<reset><gray>to join this lobby."

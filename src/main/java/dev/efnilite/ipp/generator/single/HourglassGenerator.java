@@ -7,7 +7,6 @@ import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.vilib.util.Strings;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -58,7 +57,7 @@ public final class HourglassGenerator extends PlusGenerator {
             time = 20;
         }
 
-        bar.append(ChatColor.of(GRADIENT_COLOURS[time > 0 ? time - 1 : time])).append("<bold>");
+        bar.append("<").append(GRADIENT_COLOURS[time > 0 ? time - 1 : time]).append(">").append("<bold>");
 
         for (int i = 20; i > 0; i--) { // countDOWN
             if (i == time) {
@@ -67,7 +66,7 @@ public final class HourglassGenerator extends PlusGenerator {
             bar.append("|");
         }
 
-        player.player.sendTitle(Strings.colour("&r"), Strings.colour(bar.toString()), 0, 10, 0);
+        player.player.sendTitle(Strings.colour("<reset>"), Strings.colour(bar.toString()), 0, 10, 0);
 
 //        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
 //                new TextComponent(Message.parseFormatting(bar.toString())));

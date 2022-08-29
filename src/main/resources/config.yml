@@ -76,7 +76,6 @@ styles:
     list:
 
       medieval: [spruce_planks, cobblestone, spruce_wood, stone_bricks, mossy_stone_bricks]
-      christmas: [snow_block, sea_lantern, spruce_leaves, red_wool]
       fall: [brown_mushroom_block, red_mushroom_block, mushroom_stem, carved_pumpkin, pumpkin]
       city: [smooth_stone, bricks, stone_brick, cyan_terracotta]
       fairy: [smooth_sandstone, white_terracotta, pink_concrete_powder, pink_stained_glass, pink_stained_terracotta]
@@ -85,7 +84,7 @@ styles:
       bees: [honeycomb_block, beehive, bee_nest, flowering_azalea_leaves]
       lights out: [deepslate_bricks, deepslate_tiles, polished_blackstone_bricks, chiseled_polished_blackstone, netherite_block]
       cave: [moss_block, green_concrete_powder, andesite, polished_andesite, stone, cobblestone, mossy_cobblestone, gravel]
-      greece: [smooth_quartz, chiseled_quartz_block, quartz_bricks, light_blue_terracotta, spruce_leaves]
+      greece: [smooth_quartz, chiseled_quartz_block, quartz_bricks, light_blue_terracotta]
       gameboy: [green_terracotta, lime_terracotta, green_wool, lime_concrete]
       dark: [deepslate_tiles, deepslate_tiles, deepslate_tiles, deepslate_tiles, sea_lantern, deepslate_tiles]
       warmth: [yellow_concrete_powder, yellow_wool, yellow_concrete, yellow_terracotta, orange_concrete_powder, orange_wool, orange_concrete, smooth_red_sandstone, orange_terracotta, red_terracotta, red_concrete_powder, red_concrete, red_concrete_powder, red_terracotta, orange_terracotta, smooth_red_sandstone, orange_concrete, orange_wool, orange_concrete_powder, yellow_terracotta, yellow_concrete, yellow_wool, yellow_concrete_powder]

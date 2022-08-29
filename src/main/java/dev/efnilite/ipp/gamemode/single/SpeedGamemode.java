@@ -34,8 +34,13 @@ public final class SpeedGamemode implements Gamemode {
 
     @Override
     public void create(Player player) {
+        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+        if (pp != null && pp.getGenerator() instanceof SpeedGenerator) {
+            return;
+        }
         player.closeInventory();
-        ParkourPlayer pp = ParkourUser.register(player);
+
+        pp = ParkourUser.register(player);
         Session session = SingleSession.create(pp, this);
         SpeedGenerator generator = new SpeedGenerator(session);
         IP.getDivider().generate(pp, generator, true);

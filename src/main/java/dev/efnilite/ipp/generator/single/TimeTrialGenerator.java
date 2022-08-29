@@ -9,7 +9,6 @@ import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.vilib.util.Strings;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -48,15 +47,15 @@ public final class TimeTrialGenerator extends PlusGenerator {
         for (int i = 0; i < goal; i++) {
             if (i % 2 == 0) { // !! made for 100 score
                 if (i >= score) {
-                    bar.append("&8<bold>");
+                    bar.append("<dark_gray><bold>");
                 } else {
-                    bar.append(ChatColor.of(COLOUR_GRADIENTS[i / 2])).append("<bold>");
+                    bar.append("<").append(COLOUR_GRADIENTS[i / 2]).append(">").append("<bold>");
                 }
                 bar.append("|");
             }
         }
         player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText(Strings.colour(bar + " &4<bold>| &8" + stopwatch.toString())));
+                TextComponent.fromLegacyText(Strings.colour(bar + " <red><bold>| <dark_gray>" + stopwatch.toString())));
     }
 
     @Override

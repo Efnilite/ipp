@@ -11,7 +11,6 @@ import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.Cooldowns;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.vilib.inventory.PagedMenu;
-import dev.efnilite.vilib.inventory.animation.WaveWestAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
 import dev.efnilite.vilib.util.Unicodes;

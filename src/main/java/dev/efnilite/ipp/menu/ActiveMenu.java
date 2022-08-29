@@ -13,7 +13,6 @@ import dev.efnilite.ip.session.SessionVisibility;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.PagedMenu;
-import dev.efnilite.vilib.inventory.animation.RandomAnimation;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
 import dev.efnilite.vilib.util.Unicodes;
@@ -29,7 +28,7 @@ import java.util.List;
 public class ActiveMenu {
 
     public static void open(Player player, MenuSort sort) {
-        PagedMenu menu = new PagedMenu(4, PlusLocales.getString(player, "active.name", false));
+        PagedMenu menu = new PagedMenu(3, PlusLocales.getString(player, "active.name", false));
         ParkourUser user = ParkourUser.getUser(player);
         String locale = user == null ? (String) Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.getLocale();
 
@@ -147,17 +146,17 @@ public class ActiveMenu {
                 .displayRows(0, 1)
                 .addToDisplay(items)
 
-                .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click( // next page
+                .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click( // next page
                         event -> menu.page(1)))
-                .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click( // previous page
+                .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click( // previous page
                         event -> menu.page(-1)))
 
                 .distributeRowEvenly(3)
 
-                .item(30, PlusLocales.getItem(player, "active.refresh").click(
+                .item(21, PlusLocales.getItem(player, "active.refresh").click(
                         event -> open(player, sort)))
 
-                .item(31, PlusLocales.getItem(player, "active.sort").click(
+                .item(22, PlusLocales.getItem(player, "active.sort").click(
                         event -> {
                     if (sort == MenuSort.LEAST_OPEN_FIRST) {
                         open(player, MenuSort.LEAST_OPEN_LAST);
@@ -166,7 +165,7 @@ public class ActiveMenu {
                     }
                 }))
 
-                .item(32, Locales.getItem(player, "other.close")
+                .item(23, Locales.getItem(player, "other.close")
                         .click(event -> Menus.COMMUNITY.open(event.getPlayer())))
 
                 .fillBackground(Material.GRAY_STAINED_GLASS_PANE)

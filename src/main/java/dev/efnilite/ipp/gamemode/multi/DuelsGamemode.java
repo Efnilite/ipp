@@ -36,8 +36,13 @@ public final class DuelsGamemode implements MultiGamemode {
 
     @Override
     public void create(Player player) {
+        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
+        if (pp != null && pp.getGenerator() instanceof SingleDuelsGenerator) {
+            return;
+        }
         player.closeInventory();
-        ParkourPlayer pp = ParkourUser.register(player);
+
+        pp = ParkourUser.register(player);
 
         MultiSession session = MultiSession.create(pp, this);
         session.setMaxPlayers(4);

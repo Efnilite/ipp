@@ -1,8 +1,10 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.multi.DuelsGenerator;
 import dev.efnilite.ipp.generator.multi.SingleDuelsGenerator;
+import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,18 +25,21 @@ public class PlusHandler implements Listener {
         if (event.getHand() == EquipmentSlot.HAND && pp != null) {
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 ItemStack item = event.getItem();
+
                 if (item == null) {
                     return;
                 }
-                String dp = item.getItemMeta().getDisplayName();
-                if (dp.contains("Click to start")) {
-                    if (pp.getGenerator() instanceof SingleDuelsGenerator singleGen) {
-                        DuelsGenerator superGen = singleGen.owningGenerator;
+
+                Item start = PlusLocales.getItem(pp.getLocale(), "play.multi.duels.start");
+
+                if (item.getType() == start.getMaterial()) {
+                    if (pp.getGenerator() instanceof SingleDuelsGenerator generator) {
+                        DuelsGenerator superGen = generator.owningGenerator;
                         if (superGen.getPlayerGenerators().keySet().size() > 1) {
                             superGen.initCountdown();
                             pp.player.getInventory().remove(Material.LIME_BANNER);
                         } else {
-                            pp.send("<dark_red><bold>> <gray>You can't duel yourself! :(");
+                            pp.send(PlusLocales.getString(player, "play.multi.duels.duel_self", false));
                         }
                     }
                 }

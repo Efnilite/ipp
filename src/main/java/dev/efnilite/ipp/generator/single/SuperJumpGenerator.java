@@ -27,7 +27,7 @@ import java.util.List;
  */
 public final class SuperJumpGenerator extends PlusGenerator {
 
-    private double jumpDistance = 3;
+    private double jumpDistance = 4;
     private final LinkedHashMap<List<Block>, Integer> positionIndexMap = new LinkedHashMap<>();
 
     public SuperJumpGenerator(Session session) {
@@ -85,7 +85,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
             return Collections.emptyList();
         }
 
-        List<Block> blocks = getBlocksAround(next, 1);
+        List<Block> blocks = getBlocksAround(next, 2);
         mostRecentBlock = next.getLocation();
 
         return blocks;
