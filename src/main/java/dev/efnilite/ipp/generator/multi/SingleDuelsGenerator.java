@@ -59,6 +59,10 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
     @Override
     public void updateScoreboard() {
+        if (player == null || player.board == null | player.board.isDeleted()) {
+            return;
+        }
+
         if (!(boolean) Option.OPTIONS_DEFAULTS.get(ParkourOption.SCOREBOARD)) {
             return;
         }
@@ -67,14 +71,9 @@ public class SingleDuelsGenerator extends PlusGenerator {
             return;
         }
 
-        // board can be null a few ticks after on player leave
-        if (player.board == null) {
-            return;
-        }
-
         Leaderboard leaderboard = getGamemode().getLeaderboard();
 
-        String title = Util.translate(player.player, Locales.getString(player.getLocale(), "scoreboard.title", false));
+        String title = Util.translate(player.player, Locales.getString(player.getLocale(), "scoreboard.title", true));
         List<String> lines = new ArrayList<>();
 
         Score top = null, rank = null;
@@ -107,7 +106,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
         }
 
         // update lines
-        for (String line : Locales.getStringList(player.getLocale(), "scoreboard.lines", false)) {
+        for (String line : Locales.getStringList(player.getLocale(), "scoreboard.lines", true)) {
             line = Util.translate(player.player, line); // add support for PAPI placeholders in scoreboard
 
             lines.add(line

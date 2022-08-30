@@ -6,6 +6,7 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.multi.DuelsGenerator;
 import dev.efnilite.ipp.generator.multi.SingleDuelsGenerator;
@@ -45,7 +46,7 @@ public final class DuelsGamemode implements MultiGamemode {
         pp = ParkourUser.register(player);
 
         MultiSession session = MultiSession.create(pp, this);
-        session.setMaxPlayers(4);
+        session.setMaxPlayers(IPP.getConfiguration().getFile("config").getInt("gamemodes." + getName() + " .max"));
 
         DuelsGenerator generator = new DuelsGenerator(session);
 
@@ -79,14 +80,12 @@ public final class DuelsGamemode implements MultiGamemode {
     public void leave(Player player, Session session) {
         final ParkourPlayer pp = ParkourPlayer.getPlayer(player);
 
-        if (pp == null) {
+        if (pp == null || session.getPlayers().size() == 0) {
             return;
         }
 
         final DuelsGenerator generator = ((SingleDuelsGenerator) session.getPlayers().get(0).getGenerator()).owningGenerator;
         generator.removePlayer(pp);
-        session.removePlayers(pp);
-        ParkourUser.unregister(pp, true, true, true);
     }
 
     @Override

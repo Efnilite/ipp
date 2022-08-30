@@ -6,6 +6,7 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.multi.TeamSurvivalGenerator;
 import dev.efnilite.ipp.session.MultiSession;
@@ -43,7 +44,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
         pp = ParkourUser.register(player);
 
         MultiSession session = MultiSession.create(pp, this);
-        session.setMaxPlayers(8);
+        session.setMaxPlayers(IPP.getConfiguration().getFile("config").getInt("gamemodes." + getName() + " .max"));
 
         TeamSurvivalGenerator generator = new TeamSurvivalGenerator(session);
         IP.getDivider().generate(pp, generator, true);
@@ -68,11 +69,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public void leave(Player player, Session session) {
-        ParkourPlayer pp = ParkourPlayer.getPlayer(player);
 
-        session.removePlayers(pp);
-
-        ParkourUser.unregister(pp, true, true, true);
     }
 
     @Override

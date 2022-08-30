@@ -64,7 +64,7 @@ public class InviteMenu {
             items.add(item.click(event -> {
                 if (Cooldowns.passes(player.getUniqueId(), "multiplayer invite", 2500)) {
                     for (String s : PlusLocales.getString(p, "invite.message", false)
-                            .formatted(session.getSessionId(), player.getName(), session.getGamemode().getName(), session.getSessionId()).split("\\|\\|")) {
+                            .formatted(player.getName(), session.getGamemode().getName(), session.getSessionId()).split("\\|\\|")) {
                         Util.send(p, s);
                     }
                 }

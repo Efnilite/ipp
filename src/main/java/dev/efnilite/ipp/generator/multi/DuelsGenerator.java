@@ -111,6 +111,8 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         spawnData.put(player, new SpawnData(playerSpawn, blockSpawn));
         playerGenerators.put(player, generator);
+
+        updateScoreboard();
     }
 
     public void removePlayer(ParkourPlayer player) {
@@ -140,6 +142,11 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                 .execute(new BukkitRunnable() {
                     @Override
                     public void run() {
+                        if (stopped) {
+                            this.cancel();
+                            return;
+                        }
+
                         switch (countdown.get()) {
                             case 0:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
