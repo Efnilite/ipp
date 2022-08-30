@@ -100,7 +100,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
             lines.add(Strings.colour(
                 """
-                <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
+                <#FF6464>#%d <gray>%s <dark_gray>- <gray>%d
                 """
             .formatted(i + 1, entry.getKey().getName(), entry.getValue().getScore())));
         }

@@ -302,7 +302,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                 .delay(10 * 20)
                 .execute(() -> {
                     for (ParkourPlayer parkourPlayer : playerGenerators.keySet()) {
-                        ParkourUser.unregister(parkourPlayer, true, true, true);
+                        ParkourUser.unregister(parkourPlayer, true, true, true, true);
 
                         if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
                             IP.getDivider().generate(ParkourPlayer.register(parkourPlayer.player));
