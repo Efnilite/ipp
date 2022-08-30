@@ -19,8 +19,11 @@ import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.ipp.style.IncrementalStyle;
+import dev.efnilite.ipp.util.PlusHandler;
+import dev.efnilite.ipp.util.UpdateChecker;
 import dev.efnilite.vilib.ViPlugin;
 import dev.efnilite.vilib.util.Logging;
+import dev.efnilite.vilib.util.Task;
 import dev.efnilite.vilib.util.Time;
 import dev.efnilite.vilib.util.elevator.GitElevator;
 import org.jetbrains.annotations.Nullable;
@@ -100,6 +103,13 @@ public final class IPP extends ViPlugin {
                 (player, user) -> PlusLocales.getItem(player, "active.item")
                     .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
                 PlusOption.ACTIVE::check);
+
+        Task.create(this)
+                .async()
+                .execute(() -> UpdateChecker.check(this))
+                .delay(5 * 20)
+                .repeat(8 * 60 * 60 * 20)
+                .run();
 
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable ipp") + "ms!");
     }

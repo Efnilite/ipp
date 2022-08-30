@@ -1,4 +1,4 @@
-package dev.efnilite.ipp;
+package dev.efnilite.ipp.util;
 
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ipp.config.PlusLocales;
