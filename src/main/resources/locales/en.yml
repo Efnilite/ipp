@@ -17,28 +17,28 @@ play:
         name: "<white><bold>Practice"
         lore: "<dark_gray>Practice specific types of jumps"
 
-      others:
+      items:
         settings:
           material: "comparator"
           name: "<#E74FA1><bold>Practice Settings"
           lore: ""
 
-        one-block:
+        one_block:
           material: ""
           name: "<bold>One-block jumps"
           lore: "<gray>Click to change this setting."
 
-        two-block:
+        two_block:
           material: ""
           name: "<bold>Two-block jumps"
           lore: "<gray>Click to change this setting."
 
-        three-block:
+        three_block:
           material: ""
           name: "<bold>Three-block jumps"
           lore: "<gray>Click to change this setting."
 
-        four-block:
+        four_block:
           material: ""
           name: "<bold>Four-block jumps"
           lore: "<gray>Click to change this setting."
@@ -55,17 +55,17 @@ play:
 
         slabs:
           material: ""
-          name: "<bold>Ice"
+          name: "<bold>Slabs"
           lore: "<gray>Click to change this setting."
 
-        glass-panes:
+        glass_panes:
           material: ""
-          name: "<bold>Ice"
+          name: "<bold>Glass panes"
           lore: "<gray>Click to change this setting."
 
         fences:
           material: ""
-          name: "<bold>Ice"
+          name: "<bold>Fences"
           lore: "<gray>Click to change this setting."
 
     speed:
@@ -73,12 +73,12 @@ play:
       name: "<#1882DE><bold>Speed"
       lore: "<dark_gray>Speed is key!"
 
-    super-jump:
+    super_jump:
       material: "rabbit_foot"
       name: "<#08508E><bold>Super Jump"
       lore: "<dark_gray>Jump from platform to platform||<dark_gray>while you become faster and faster||<red>This gamemode is very difficult!"
 
-    time-trial:
+    time_trial:
       material: "clock"
       name: "<#9A0BC7><bold>Time Trial"
       lore: "<dark_gray>Reach a score of 100 as fast as you can"
@@ -87,7 +87,7 @@ play:
     name: "<white>Multiplayer"
 
     other_join: '<dark_green><bold>+ <gray>%s joined your lobby'
-    other_leave: '<red><bold>- <gray>%s left your lobby'
+    other_leave: '<red><bold>_ <gray>%s left your lobby'
 
     item:
       material: "oak_boat"
@@ -112,7 +112,7 @@ play:
         name: "<#5EC743><bold>CLICK TO START!"
         lore: ""
 
-    team-survival:
+    team_survival:
       material: "poppy"
       name: "<#C91212><bold>Team Survival"
       lore: "<dark_gray>Live as long as you can with your entire team||<dark_gray>If someone falls, everyone's back to start"
