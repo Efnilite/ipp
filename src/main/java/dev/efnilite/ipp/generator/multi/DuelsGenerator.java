@@ -13,6 +13,7 @@ import dev.efnilite.ip.schematic.RotationAngle;
 import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.config.PlusConfigOption;
+import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
@@ -142,7 +143,11 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                         switch (countdown.get()) {
                             case 0:
                                 for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    sendTitle(player, "<#1BE3DD><bold>Go!", "<gray>First to " + goal + " wins!", 0, 21, 5);
+                                    String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false)
+                                            .formatted(goal)
+                                            .split("\\|\\|");
+
+                                    sendTitle(player, args[0], args[1], 0, 21, 5);
                                     for (Block block : ((DefaultGenerator) player.getGenerator()).getData().blocks()) {
                                         if (block.getType() == Material.BARRIER) {
                                             block.setType(Material.AIR);
@@ -247,9 +252,13 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
             generator.stopped = true;
 
+            String[] args = PlusLocales.getString(player.player, "play.multi.duels.overview", false)
+                    .formatted(winningName, winningTime)
+                    .split("\\|\\|");
+
             player.send("");
-            player.send("<#34B2F9>" + winningName + "<gray> has won the game in " + winningTime + "!");
-            player.send("<#34B2F9><bold>Leaderboard:");
+            player.send(args[0]);
+            player.send(args[1]);
             player.send("");
 
             for (int i = 0; i < leaderboard.size(); i++) {
@@ -265,12 +274,20 @@ public final class DuelsGenerator extends MultiplayerGenerator {
             player.send("");
 
             if (player == winner) {
-                sendTitle(player, "<#EEB40D><bold>Victory", "<gray>You won in " + winningTime + "!", 1, 100, 10);
+                args = PlusLocales.getString(player.player, "play.multi.duels.victory", false)
+                        .formatted(winningTime)
+                        .split("\\|\\|");
+
+                sendTitle(player, args[0], args[1], 1, 100, 10);
 
                 getGamemode().getLeaderboard().put(winner.getUUID(),
                         new Score(winningName, winningTime, winner.calculateDifficultyScore(), generator.getScore()));
             } else {
-                sendTitle(player, "<#6E1111><bold>Defeat", "<gray>You lost to " + winningName + "!", 1, 100, 10);
+                args = PlusLocales.getString(player.player, "play.multi.duels.loss", false)
+                        .formatted(winningName)
+                        .split("\\|\\|");
+
+                sendTitle(player, args[0], args[1], 1, 100, 10);
             }
         }
 

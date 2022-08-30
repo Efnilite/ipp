@@ -74,7 +74,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
         Leaderboard leaderboard = getGamemode().getLeaderboard();
 
-        String title = Util.translate(player.player, Locales.getString(player.getLocale(), "scoreboard.title"));
+        String title = Util.translate(player.player, Locales.getString(player.getLocale(), "scoreboard.title", false));
         List<String> lines = new ArrayList<>();
 
         Score top = null, rank = null;
@@ -107,7 +107,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
         }
 
         // update lines
-        for (String line : Locales.getStringList(player.getLocale(), "scoreboard.lines", true)) {
+        for (String line : Locales.getStringList(player.getLocale(), "scoreboard.lines", false)) {
             line = Util.translate(player.player, line); // add support for PAPI placeholders in scoreboard
 
             lines.add(line

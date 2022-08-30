@@ -95,7 +95,12 @@ play:
       lore: ""
 
     duels:
-      duel_self: "<gray>You can't duel yourself!"
+      go: "<#1BE3DD><bold>Go!||<reset><gray>First to %d wins!"
+      victory: "<#EEB40D><bold>Victory||<reset><gray>You won in %s!"
+      loss: "<#6E1111><bold>Defeat||<reset><gray>You lost to %s!"
+
+      overview: "<#34B2F9>%s<gray> has won the game in %s!||<#34B2F9><bold>Leaderboard:"
+      duel_self: "<gray>You can't duel yourself. Invite someone using the Your Lobby menu!"
 
       item:
         material: "red_concrete"
@@ -143,7 +148,7 @@ active:
 
 invite:
   name: "<white>Click to invite"
-  message: "<click:run_command:/parkour join %s><gray>You've been invited by <#F55252><bold>%s<gray> to join their <#F37777><bold>%s<gray> game!||<reset><gray>Click this or use <#FAB4B4><bold>%s<gray> to join!</click>"
+  message: "<reset><parkour join %s><gray>You've been invited by <#F55252><bold>%s<reset><gray> to join their <#F37777><bold>%s<gray> game!||<reset><gray>Click this or use <#FAB4B4><bold>%s<reset><gray> to join!"
 
   item:
     material: "elytra"

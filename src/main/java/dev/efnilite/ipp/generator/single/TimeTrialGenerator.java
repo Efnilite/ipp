@@ -51,7 +51,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
                 } else {
                     bar.append("<").append(COLOUR_GRADIENTS[i / 2]).append(">").append("<bold>");
                 }
-                bar.append("|");
+                bar.append("|<reset>");
             }
         }
         player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
