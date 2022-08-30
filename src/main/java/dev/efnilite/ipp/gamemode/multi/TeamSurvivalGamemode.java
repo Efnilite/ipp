@@ -19,7 +19,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public @NotNull String getName() {
-        return "team-survival";
+        return "team_survival";
     }
 
     @Override

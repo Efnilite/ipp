@@ -25,11 +25,11 @@ public class PlusGamemodes {
         LOBBY = (LobbyGamemode) IP.getRegistry().getGamemode("lobby");
         PRACTICE = (PracticeGamemode) IP.getRegistry().getGamemode("practice");
         SPEED = (SpeedGamemode) IP.getRegistry().getGamemode("speed");
-        SUPER_JUMP = (SuperJumpGamemode) IP.getRegistry().getGamemode("super-jump");
-        TIME_TRIAL = (TimeTrialGamemode) IP.getRegistry().getGamemode("time-trial");
+        SUPER_JUMP = (SuperJumpGamemode) IP.getRegistry().getGamemode("super_jump");
+        TIME_TRIAL = (TimeTrialGamemode) IP.getRegistry().getGamemode("time_trial");
 
         // multiplayer
         DUELS = (DuelsGamemode) IP.getRegistry().getGamemode("duels");
-        TEAM_SURVIVAL = (TeamSurvivalGamemode) IP.getRegistry().getGamemode("team-survival");
+        TEAM_SURVIVAL = (TeamSurvivalGamemode) IP.getRegistry().getGamemode("team_survival");
     }
 }

@@ -34,10 +34,10 @@ gamemodes:
   speed:
     enabled: true
 
-  super-jump:
+  super_jump:
     enabled: true
 
-  time-trial:
+  time_trial:
     enabled: true
 
     # -= Time Trial goal =-
@@ -55,7 +55,7 @@ gamemodes:
     # The max amount of players a duel lobby can have
     max: 16
 
-  team-survival:
+  team_survival:
     enabled: true
 
     # -= Team survival max players =-

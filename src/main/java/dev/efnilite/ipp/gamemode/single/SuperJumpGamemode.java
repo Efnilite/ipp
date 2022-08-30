@@ -19,7 +19,7 @@ public final class SuperJumpGamemode implements Gamemode {
 
     @Override
     public @NotNull String getName() {
-        return "super-jump";
+        return "super_jump";
     }
 
     @Override
