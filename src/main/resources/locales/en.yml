@@ -3,8 +3,9 @@
 # Materials have to be from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # Learn more about colouring: https://docs.adventure.kyori.net/minimessage/format.html#format
 
+name: "English"
+
 play:
-  name: "English"
   single:
     hourglass:
       material: "sand"
