@@ -43,6 +43,25 @@ public class MultiSession extends SingleSession {
         isAcceptingPlayers = acceptingPlayers;
     }
 
+
+    @Override
+    public void addPlayers(ParkourPlayer... players) {
+        super.addPlayers(players);
+
+        for (ParkourPlayer player : players) {
+            player.sendTranslated("play.multi.other_join", player.getName());
+        }
+    }
+
+    @Override
+    public void removePlayers(ParkourPlayer... players) {
+        super.removePlayers(players);
+
+        for (ParkourPlayer player : players) {
+            player.sendTranslated("play.multi.other_leave", player.getName());
+        }
+    }
+
     @Override
     public boolean isAcceptingPlayers() {
         if (!isAcceptingPlayers) {
