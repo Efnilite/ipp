@@ -1,0 +1,166 @@
+# English (en)
+# By Efnilite
+# Materials have to be from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# Learn more about colouring: https://docs.adventure.kyori.net/minimessage/format.html#format
+
+play:
+  name: "English"
+  single:
+    hourglass:
+      material: "sand"
+      name: "<#CFB410><bold>Zandloper"
+      lore: "<dark_gray>Je kan op maar voor 1 seconde op blokken staan"
+
+    practice:
+      item:
+        material: "white_wool"
+        name: "<white><bold>Oefenen"
+        lore: "<dark_gray>Oefen verschillende combinaties van jumps"
+
+      items:
+        settings:
+          material: "comparator"
+          name: "<#E74FA1><bold>Oefeninstellingen"
+          lore: ""
+
+        one_block:
+          material: ""
+          name: "<bold>Een-blok jumps"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        two_block:
+          material: ""
+          name: "<bold>Twee-blok jumps"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        three_block:
+          material: ""
+          name: "<bold>Drie-blok jumps"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        four_block:
+          material: ""
+          name: "<bold>Vier-blok jumps"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        normal:
+          material: ""
+          name: "<bold>Normaal"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        ice:
+          material: ""
+          name: "<bold>IJs"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        slabs:
+          material: ""
+          name: "<bold>Slabs"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        glass_panes:
+          material: ""
+          name: "<bold>Dunne ramen"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        fences:
+          material: ""
+          name: "<bold>Hekken"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+    speed:
+      material: "lingering_potion"
+      name: "<#1882DE><bold>Speed"
+      lore: "<dark_gray>Snelheid is de sleutel!"
+
+    super_jump:
+      material: "rabbit_foot"
+      name: "<#08508E><bold>Super Jump"
+      lore: "<dark_gray>Spring van platform naar platform||<dark_gray>terwijl je sneller en sneller wordt||<red>Deze mode is erg moeilijk!"
+
+    time_trial:
+      material: "clock"
+      name: "<#9A0BC7><bold>Time Trial"
+      lore: "<dark_gray>Haal zo snel mogelijk een score van 100."
+
+  multi:
+    name: "<white>Multiplayer"
+
+    other_join: '<dark_green><bold>+ <gray>%s is je lobby gejoined'
+    other_leave: '<red><bold>_ <gray>%s heeft je lobby verlaten'
+
+    item:
+      material: "oak_boat"
+      name: "<#0088CB><bold>Multiplayer"
+      lore: ""
+
+    duels:
+      go: "<#1BE3DD><bold>Go!||<reset><gray>De eerste persoon met een score van %d wint!"
+      victory: "<#EEB40D><bold>Victory||<reset><gray>Je hebt in %s gewonnen!"
+      loss: "<#6E1111><bold>Defeat||<reset><gray>%s heeft gewonnen!"
+
+      overview: "<#34B2F9>%s<gray> heeft in %s gewonnen!||<#34B2F9><bold>Klassement:"
+      duel_self: "<gray>Je kan niet jezelf bevechten. Nodig iemand uit in het Lobby-menu!"
+
+      item:
+        material: "red_concrete"
+        name: "<#C91212><bold>Duels"
+        lore: "<dark_gray>Race met je vrienden.||<dark_gray>De eerste bij 100 wint.||<dark_gray>Als iemand valt, moet die persoon terug naar het begin."
+
+      start:
+        material: "lime_banner"
+        name: "<#5EC743><bold>KLIK OM TE STARTEN!"
+        lore: ""
+
+    team_survival:
+      material: "poppy"
+      name: "<#C91212><bold>Team Survival"
+      lore: "<dark_gray>Overleef zo lang mogelijk met je team.||<dark_gray>Iedereen moet terug naar het begin als iemand valt."
+
+styles:
+  incremental:
+    material: "scaffolding"
+    name: "<#348EDB><bold>Toenemend"
+    lore: ""
+
+active:
+  name: "<white>Lobby's"
+
+  item:
+    material: "chest"
+    name: "<#EA9926><bold>Huidige lobby's bekijken"
+    lore: ""
+
+  head:
+    material: ""
+    name: "<#59DB3E><bold>Lobby %s"
+    lore: "<gray>Mode: <#C8F2C0>%s||||<gray>Spelers||%p||<gray>Toekijkers||%s"
+
+  sort:
+    material: "bookshelf"
+    name: "<#DEA11F><bold>Sorteren"
+    lore: ""
+
+  refresh:
+    material: "blaze_powder"
+    name: "<#2FBC11><bold>Verversen"
+    lore: ""
+
+invite:
+  name: "<white>Klik om uit te nodigen"
+  message: "<gray>Je bent door <#F55252><bold>%s<reset><gray> uitgenodigd voor hun <#F37777><bold>%s<reset><gray> game!||<reset><gray>Gebruik <#FAB4B4><bold>/parkour join %s<reset><gray> om te joinen!"
+
+  item:
+    material: "elytra"
+    name: "<#2B97E2><bold>Uitnodigen"
+    lore: ""
+
+  head:
+    material: ""
+    name: "<#abcdef><bold>%s"
+    lore: ""
+
+  lobby:
+    material: "paper"
+    name: "<#0b55e0><bold>Lobby %s"
+    lore: "<gray>Spelers kunnen ook||<#346edb><underlined>/parkour join %s||<reset><gray>gebruiken om deze lobby te joinen."
