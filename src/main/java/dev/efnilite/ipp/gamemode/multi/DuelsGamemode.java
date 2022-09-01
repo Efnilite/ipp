@@ -46,7 +46,14 @@ public final class DuelsGamemode implements MultiGamemode {
         pp = ParkourUser.register(player);
 
         MultiSession session = MultiSession.create(pp, this);
-        session.setMaxPlayers(IPP.getConfiguration().getFile("config").getInt("gamemodes." + getName() + " .max"));
+
+        int max = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getName() + ".max");
+        if (max < 1 || max > 16) {
+            max = 1;
+
+            IPP.logging().stack("Invalid max player range", max + " is not a supported max player count", new IllegalArgumentException());
+        }
+        session.setMaxPlayers(max);
 
         DuelsGenerator generator = new DuelsGenerator(session);
 

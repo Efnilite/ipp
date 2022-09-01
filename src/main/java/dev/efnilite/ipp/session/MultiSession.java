@@ -2,6 +2,7 @@ package dev.efnilite.ipp.session;
 
 import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.api.MultiGamemode;
+import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.SingleSession;
 import org.bukkit.entity.Player;
@@ -49,7 +50,8 @@ public class MultiSession extends SingleSession {
         super.addPlayers(players);
 
         for (ParkourPlayer player : players) {
-            player.sendTranslated("play.multi.other_join", player.getName());
+            player.send(Locales.getString(player.getLocale(), "play.multi.other_join", false)
+                    .formatted(player.getName()));
         }
     }
 
@@ -58,7 +60,8 @@ public class MultiSession extends SingleSession {
         super.removePlayers(players);
 
         for (ParkourPlayer player : players) {
-            player.sendTranslated("play.multi.other_leave", player.getName());
+            player.send(Locales.getString(player.getLocale(), "play.multi.other_leave", false)
+                    .formatted(player.getName()));
         }
     }
 

@@ -128,7 +128,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         this.playerGenerators.remove(player);
 
         // if there are no other players, player automatically wins
-        if (playerGenerators.size() == 1) {
+        if (playerGenerators.size() == 1 && !allowJoining) {
             ParkourPlayer winner = new ArrayList<>(playerGenerators.keySet()).get(0);
 
             win(winner);
@@ -301,8 +301,8 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         Task.create(IPP.getPlugin())
                 .delay(10 * 20)
                 .execute(() -> {
-                    for (ParkourPlayer parkourPlayer : playerGenerators.keySet()) {
-                        ParkourUser.unregister(parkourPlayer, true, true, true, true);
+                    for (ParkourPlayer parkourPlayer : new ArrayList<>(playerGenerators.keySet())) {
+                        ParkourUser.unregister(parkourPlayer, true, true, true);
 
                         if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
                             IP.getDivider().generate(ParkourPlayer.register(parkourPlayer.player));
