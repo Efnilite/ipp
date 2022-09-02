@@ -59,7 +59,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
     @Override
     public void updateScoreboard() {
-        if (player == null || player.board == null | player.board.isDeleted()) {
+        if (player == null || player.board == null || player.board.isDeleted()) {
             return;
         }
 

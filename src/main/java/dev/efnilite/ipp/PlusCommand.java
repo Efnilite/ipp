@@ -1,11 +1,9 @@
 package dev.efnilite.ipp;
 
-import dev.efnilite.ip.IP;
-import dev.efnilite.ip.menu.Menus;
-import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.selection.Dimensions;
 import dev.efnilite.ip.schematic.selection.Selection;
 import dev.efnilite.ip.util.Util;
+import dev.efnilite.ipp.menu.ActiveMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.LobbyMode;
@@ -13,7 +11,6 @@ import dev.efnilite.vilib.command.ViCommand;
 import dev.efnilite.vilib.particle.ParticleData;
 import dev.efnilite.vilib.particle.Particles;
 import dev.efnilite.vilib.util.Locations;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.command.CommandSender;
@@ -43,7 +40,7 @@ public class PlusCommand extends ViCommand {
             switch (args[0].toLowerCase()) {
                 case "lobbies", "lobby" -> {
                     if (sender instanceof Player && sender.hasPermission("ip.lobbies.view")) {
-                        Menus.LOBBY.open(player);
+                        ActiveMenu.open(player, ActiveMenu.MenuSort.LEAST_OPEN_FIRST);
                     }
                     return true;
                 }
@@ -109,25 +106,6 @@ public class PlusCommand extends ViCommand {
                 }
             }
             return true;
-        } else if (args[0].equalsIgnoreCase("invite")) {
-            Player other = Bukkit.getPlayer(args[1]);
-            if (other == null) {
-                Util.send(sender, "<dark_red><bold>> <gray>That player isn't online in this server!");
-                return true;
-            } else if (!(sender instanceof Player)) {
-                return true;
-            }
-            Player pSender = (Player) sender;
-
-            ParkourPlayer pp = ParkourPlayer.getPlayer(pSender);
-            if (pp == null) {
-                return true;
-            }
-
-            Util.send(other, "");
-            Util.send(other, IP.PREFIX + "You have been invited by " + player.getName() + " to join their " + pp.getSession().getGamemode().getName() + " game.");
-            Util.send(other, "<dark_gray>Use <#3BC2C2><underline>/parkour join " + pp.sessionId + "</underline><dark_gray> to join.");
-            Util.send(other, "");
         }
         return true;
     }

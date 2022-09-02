@@ -26,13 +26,15 @@ public class PlusConfig {
         String[] defaultFiles = new String[] {"config.yml"};
 
         File folder = plugin.getDataFolder();
-        if (!new File(folder, defaultFiles[0]).exists()) {
-            plugin.getDataFolder().mkdirs();
+        for (String name : defaultFiles) {
+            File file = new File(folder, name);
 
-            for (String file : defaultFiles) {
-                plugin.saveResource(file, false);
+            if (!file.exists()) {
+                folder.mkdirs();
+
+                plugin.saveResource(name, false);
+                IPP.logging().info("Created config file " + name);
             }
-            IPP.logging().info("Downloaded all config files");
         }
 
         reload();

@@ -80,7 +80,11 @@ public class ActiveMenu {
 
             Item item = new Item(Material.LIME_STAINED_GLASS_PANE, ""); // todo finish
 
-            item.click(event -> session.join(player));
+            item.click(event -> {
+                if (Session.isActive(session.getSessionId())) {
+                    session.join(player);
+                }
+            });
 
             int max = 1;
             if (session instanceof MultiSession) {

@@ -111,8 +111,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         spawnData.put(player, new SpawnData(playerSpawn, blockSpawn));
         playerGenerators.put(player, generator);
-
-        updateScoreboard();
+        generator.updateScoreboard();
     }
 
     public void removePlayer(ParkourPlayer player) {

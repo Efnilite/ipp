@@ -49,7 +49,7 @@ public final class HourglassGenerator extends PlusGenerator {
             return;
         }
 
-        Duration delta = Duration.between(Instant.now(), countdown).abs();
+        Duration delta = Duration.between(countdown, Instant.now()).abs();
         StringBuilder bar = new StringBuilder(); // build bar with time remaining
 
         int time = (int) delta.toMillis() / 50;
@@ -76,6 +76,7 @@ public final class HourglassGenerator extends PlusGenerator {
         }
 
         countdownLocation.getBlock().setType(Material.AIR);
+        countdown = null;
     }
 
     @Override
@@ -84,7 +85,10 @@ public final class HourglassGenerator extends PlusGenerator {
 
         // on score cooldown should start
         countdown = Instant.now();
-        countdownLocation = lastStandingPlayerLocation.clone().subtract(0, 1, 0).clone();
+        countdownLocation = player.getLocation().clone().subtract(0, 1, 0).clone();
+        if (countdownLocation.getBlock().getType() == Material.AIR) {
+            countdownLocation.subtract(0, 0.5, 0);
+        }
     }
 
     @Override

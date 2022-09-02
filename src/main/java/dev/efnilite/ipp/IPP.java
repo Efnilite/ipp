@@ -26,16 +26,71 @@ import dev.efnilite.vilib.util.Logging;
 import dev.efnilite.vilib.util.Task;
 import dev.efnilite.vilib.util.Time;
 import dev.efnilite.vilib.util.elevator.GitElevator;
+import dev.efnilite.vilib.util.elevator.VersionComparator;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 
 public final class IPP extends ViPlugin {
 
     private static IPP instance;
     private static PlusConfig configuration;
+    public static final String REQUIRED_VILIB_VERSION = "1.1.0";
+    public static final String REQUIRED_IP_VERSION = "4.0.0";
 
     @Override
     public void enable() {
         instance = this;
+
+        Plugin vilib = getServer().getPluginManager().getPlugin("vilib");
+        if (vilib == null || !vilib.isEnabled()) {
+            getLogger().severe("##");
+            getLogger().severe("## Infinite Parkour+ requires vilib to work!");
+            getLogger().severe("##");
+            getLogger().severe("## Please download it here:");
+            getLogger().severe("## https://github.com/Efnilite/vilib/releases/latest");
+            getLogger().severe("##");
+
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        if (!VersionComparator.FROM_SEMANTIC.isLatest(REQUIRED_VILIB_VERSION, vilib.getDescription().getVersion())) {
+            getLogger().severe("##");
+            getLogger().severe("## Infinite Parkour+ requires *a newer version* of vilib to work!");
+            getLogger().severe("##");
+            getLogger().severe("## Please download it here: ");
+            getLogger().severe("## https://github.com/Efnilite/vilib/releases/latest");
+            getLogger().severe("##");
+
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        Plugin ip = getServer().getPluginManager().getPlugin("IP");
+        if (ip == null || !ip.isEnabled()) {
+            getLogger().severe("##");
+            getLogger().severe("## Infinite Parkour+ requires Infinite Parkour to work!");
+            getLogger().severe("##");
+            getLogger().severe("## Please download it here:");
+            getLogger().severe("## https://github.com/Efnilite/Walk-in-the-Park/releases/latest");
+            getLogger().severe("##");
+
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        if (!VersionComparator.FROM_SEMANTIC.isLatest(REQUIRED_IP_VERSION, ip.getDescription().getVersion())) {
+            getLogger().severe("##");
+            getLogger().severe("## Infinite Parkour+ requires *a newer version* of Infinite Parkour to work!");
+            getLogger().severe("##");
+            getLogger().severe("## Please download it here: ");
+            getLogger().severe("## https://github.com/Efnilite/Walk-in-the-Park/releases/latest");
+            getLogger().severe("##");
+
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         Time.timerStart("enable ipp");
 
         configuration = new PlusConfig(this);
@@ -106,7 +161,11 @@ public final class IPP extends ViPlugin {
 
         Task.create(this)
                 .async()
-                .execute(() -> UpdateChecker.check(this))
+                .execute(() -> {
+                    if (PlusConfigOption.UPDATE_CHECKER) {
+                        UpdateChecker.check(this);
+                    }
+                })
                 .delay(5 * 20)
                 .repeat(8 * 60 * 60 * 20)
                 .run();

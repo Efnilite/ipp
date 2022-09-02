@@ -49,13 +49,13 @@ public final class TimeTrialGenerator extends PlusGenerator {
                 if (i >= score) {
                     bar.append("<dark_gray><bold>");
                 } else {
-                    bar.append("<").append(COLOUR_GRADIENTS[i / 2]).append(">").append("<bold>");
+                    bar.append("<reset><").append(COLOUR_GRADIENTS[i / 2]).append(">");
                 }
-                bar.append("|<reset>");
+                bar.append("|");
             }
         }
         player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText(Strings.colour(bar + " <red><bold>| <dark_gray>" + stopwatch.toString())));
+                TextComponent.fromLegacyText(Strings.colour(bar + " <red><bold>| <reset><dark_gray>" + stopwatch.toString())));
     }
 
     @Override
