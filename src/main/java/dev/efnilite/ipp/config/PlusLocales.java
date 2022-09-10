@@ -58,6 +58,7 @@ public class PlusLocales {
 
                         plugin.saveResource("locales/en.yml", false);
                         plugin.saveResource("locales/nl.yml", false);
+                        plugin.saveResource("locales/fr.yml", false);
                     }
 
                     // get all files in locales folder
@@ -137,12 +138,20 @@ public class PlusLocales {
         FileConfiguration base = locales.get(locale);
 
         if (base == null) {
-            return "";
+            Object defaultLang = Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG);
+
+            if (defaultLang == null) {
+                IPP.logging().stack("No default language found", "check your config for an incorrect lang default value");
+                return "";
+            }
+
+            base = locales.get((String) defaultLang);
         }
 
         String string = base.getString(path);
 
         if (string == null) {
+            IPP.logging().stack("Invalid config path: " + path, "contact the developer");
             return "";
         }
 
@@ -163,12 +172,20 @@ public class PlusLocales {
         FileConfiguration base = locales.get(locale);
 
         if (base == null) {
-            return Collections.emptyList();
+            Object defaultLang = Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG);
+
+            if (defaultLang == null) {
+                IPP.logging().stack("No default language found", "check your config for an incorrect lang default value");
+                return Collections.emptyList();
+            }
+
+            base = locales.get((String) defaultLang);
         }
 
         List<String> strings = base.getStringList(path);
 
         if (strings.isEmpty()) {
+            IPP.logging().stack("Invalid config path: " + path, "contact the developer");
             return Collections.emptyList();
         }
 
