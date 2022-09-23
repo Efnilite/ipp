@@ -35,7 +35,7 @@ public final class IPP extends ViPlugin {
     private static IPP instance;
     private static PlusConfig configuration;
     public static final String REQUIRED_VILIB_VERSION = "1.1.0";
-    public static final String REQUIRED_IP_VERSION = "4.0.0";
+    public static final String REQUIRED_IP_VERSION = "4.0.2";
 
     @Override
     public void enable() {

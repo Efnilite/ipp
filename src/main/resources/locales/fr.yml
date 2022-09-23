@@ -1,0 +1,168 @@
+# French (Français, fr)
+# By TATHAN
+# Copy this file and change the name to add your own language!
+# Materials have to be from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# Learn more about colouring: https://docs.adventure.kyori.net/minimessage/format.html#format
+
+name: "French"
+
+play:
+  single:
+    hourglass:
+      material: "sand"
+      name: "<#CFB410><bold>Sablier"
+      lore: "<dark_gray>Vous ne pouvez vous tenir sur des blocs que pendant 1 seconde"
+
+    practice:
+      item:
+        material: "white_wool"
+        name: "<white><bold>Entrainement"
+        lore: "<dark_gray>Entrainer vous avec des types de sauts spécifiques"
+
+      items:
+        settings:
+          material: "comparator"
+          name: "<#E74FA1><bold>Paramètres d'Entrainement"
+          lore: ""
+
+        one_block:
+          material: ""
+          name: "<bold>Saut de 1 Blocks"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        two_block:
+          material: ""
+          name: "<bold>Saut de 2 Blocks"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        three_block:
+          material: ""
+          name: "<bold>Saut de 3 Blocks"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        four_block:
+          material: ""
+          name: "<bold>Saut de 4 Blocks"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        normal:
+          material: ""
+          name: "<bold>Normal"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        ice:
+          material: ""
+          name: "<bold>Glaçe"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        slabs:
+          material: ""
+          name: "<bold>Dalles"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        glass_panes:
+          material: ""
+          name: "<bold>Vitre"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        fences:
+          material: ""
+          name: "<bold>Barrières"
+          lore: "<gray>Cliquez pour modifier ce paramètre."
+
+    speed:
+      material: "lingering_potion"
+      name: "<#1882DE><bold>Vitesse"
+      lore: "<dark_gray>La Vitesse est la Clé!"
+
+    super_jump:
+      material: "rabbit_foot"
+      name: "<#08508E><bold>Super Saut"
+      lore: "<dark_gray>Sauter de plate-forme en plate-forme||<dark_gray>pendant que vous devenez de plus en plus rapide||<red>Ce mode de jeu est très difficile!"
+
+    time_trial:
+      material: "clock"
+      name: "<#9A0BC7><bold>Contre la montre"
+      lore: "<dark_gray>Atteignez un score de 100 aussi vite que possible"
+
+  multi:
+    name: "<white>Multijoueur"
+
+    other_join: '<dark_green><bold>+ <reset><gray>%s a rejoins le Lobby'
+    other_leave: '<red><bold>- <reset><gray>%s à quitté le lobby'
+
+    item:
+      material: "oak_boat"
+      name: "<#0088CB><bold>Multijoueur"
+      lore: ""
+
+    duels:
+      go: "<#1BE3DD><bold>Go!||<reset><gray>Premier à %d gagner!"
+      victory: "<#EEB40D><bold>Victoire||<reset><gray>Vous avez gagné en %s!"
+      loss: "<#6E1111><bold>Défaite||<reset><gray>Vous avez perdu contre %s!"
+
+      overview: "<#34B2F9>%s<gray> a gagné le match en %s!||<#34B2F9><bold>ScoreBoard:"
+      duel_self: "<gray>Vous ne pouvez pas vous battre en duel vous-même. Invitez quelqu'un en utilisant le menu Votre Lobby!"
+
+      item:
+        material: "red_concrete"
+        name: "<#C91212><bold>Duels"
+        lore: "<dark_gray>Faites la course contre vos adversaires jusqu'à 100 points!||<dark_gray>Si quelqu'un tombe, il sera recommence à zéro au départ."
+
+      start:
+        material: "lime_banner"
+        name: "<#5EC743><bold>CLIQUEZ POUR COMMENCER!"
+        lore: ""
+
+    team_survival:
+      material: "poppy"
+      name: "<#C91212><bold>Survie en équipe"
+      lore: "<dark_gray>Survivez le plus longtemps possible avec toute votre équipe||<dark_gray> Si quelqu'un tombe, tous le monde recommence!"
+
+styles:
+  incremental:
+    material: "scaffolding"
+    name: "<#348EDB><bold>Incrémentiel"
+    lore: ""
+
+active:
+  name: "<white>Lobbies"
+
+  item:
+    material: "chest"
+    name: "<#EA9926><bold>Voir les lobbies actuels"
+    lore: ""
+
+  head:
+    material: ""
+    name: "<#59DB3E><bold>Lobby %s"
+    lore: "<gray>Mode de jeu: <#C8F2C0>%s||||<gray>Joueurs||%p||<gray>Spectateurs||%s"
+
+  sort:
+    material: "bookshelf"
+    name: "<#DEA11F><bold>Trier"
+    lore: ""
+
+  refresh:
+    material: "blaze_powder"
+    name: "<#2FBC11><bold>Rafraîchir"
+    lore: ""
+
+invite:
+  name: "<white>Cliquez pour Inviter"
+  message: "<gray>Vous avez été invité par <#F55252><bold>%s<reset><gray> pour rejoindre leur <#F37777><bold>%s<reset><gray> jeu!||<reset><gray>Utilise <#FAB4B4><bold>/parkour join %s<reset><gray> pour rejoindre!"
+
+  item:
+    material: "elytra"
+    name: "<#2B97E2><bold>Invite"
+    lore: ""
+
+  head:
+    material: ""
+    name: "<#abcdef><bold>%s"
+    lore: ""
+
+  lobby:
+    material: "paper"
+    name: "<#0b55e0><bold>Lobby %s"
+    lore: "<gray>Les joueurs peuvent également utiliser||<#346edb><underlined>/parkour join %s||<reset><gray>pour rejoindre ce lobby."
