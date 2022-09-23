@@ -85,7 +85,7 @@ public class InviteMenu {
                 .item(32, Locales.getItem(player, "other.close")
                         .click(event -> Menus.LOBBY.open(event.getPlayer())))
 
-                .fillBackground(Util.isBedrockPlayer(player) ? Material.GRAY_STAINED_GLASS_PANE : Material.AIR)
+                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
                 .open(player);
     }
 

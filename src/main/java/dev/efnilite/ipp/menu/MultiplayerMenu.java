@@ -67,7 +67,7 @@ public class MultiplayerMenu {
                 .item(22, Locales.getItem(player, "other.close")
                         .click(event -> Menus.PLAY.open(event.getPlayer())))
 
-                .fillBackground(Util.isBedrockPlayer(player) ? Material.LIGHT_BLUE_STAINED_GLASS_PANE : Material.AIR)
+                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                 .open(player);
     }
 }
