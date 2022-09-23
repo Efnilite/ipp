@@ -1,5 +1,6 @@
 package dev.efnilite.ipp;
 
+import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.schematic.selection.Dimensions;
 import dev.efnilite.ip.schematic.selection.Selection;
 import dev.efnilite.ip.util.Util;
@@ -39,26 +40,26 @@ public class PlusCommand extends ViCommand {
         } else if (args.length == 1) {
             switch (args[0].toLowerCase()) {
                 case "lobbies", "lobby" -> {
-                    if (sender instanceof Player && sender.hasPermission("ip.lobbies.view")) {
+                    if (sender instanceof Player && PlusOption.ACTIVE.check(player)) {
                         ActiveMenu.open(player, ActiveMenu.MenuSort.LEAST_OPEN_FIRST);
                     }
                     return true;
                 }
                 case "create", "multiplayer" -> {
-                    if (sender instanceof Player && sender.hasPermission("ip.sessions.create")) {
+                    if (sender instanceof Player && PlusOption.MULTIPLAYER.check(player)) {
                         MultiplayerMenu.open(player);
                     }
                     return true;
                 }
                 case "invite" -> {
-                    if (sender instanceof Player && sender.hasPermission("ip.sessions.invite")) {
+                    if (sender instanceof Player && PlusOption.INVITE.check(player)) {
                         InviteMenu.open(player);
                     }
                     return true;
                 }
             }
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("lobbygm") && player != null && player.hasPermission("witp.schematic")) {
+            if (args[0].equalsIgnoreCase("lobbygm") && player != null && ParkourOption.ADMIN.check(sender)) {
                 Selection selection = selections.get(player);
                 switch (args[1]) {
                     case "pos1" -> {
@@ -116,7 +117,7 @@ public class PlusCommand extends ViCommand {
         Util.send(sender, "<#C01E1E>/ipp create <dark_gray>- <gray>Create a multiplayer lobby");
         Util.send(sender, "<#C01E1E>/ipp lobbies <dark_gray>- <gray>View all multiplayer lobbies");
         Util.send(sender, "<#C01E1E>/ipp invite [player]<dark_gray>- <gray>Invite another player");
-        if (sender.hasPermission("witp.schematic")) {
+        if (ParkourOption.ADMIN.check(sender)) {
             Util.send(sender, "<#C01E1E>/ipp lobbygm <pos1/pos2/save><dark_gray>- <gray>Setup lobby mode selection");
         }
         Util.send(sender, "");
@@ -128,12 +129,12 @@ public class PlusCommand extends ViCommand {
         switch (args.length) {
             case 0 -> {
                 completions.addAll(List.of("create", "lobbies", "invite"));
-                if (sender.hasPermission("witp.schematic")) {
+                if (ParkourOption.ADMIN.check(sender)) {
                     completions.add("lobbygm");
                 }
             }
             case 1 -> {
-                if (args[0].equalsIgnoreCase("lobbygm") && sender.hasPermission("witp.schematic")) {
+                if (args[0].equalsIgnoreCase("lobbygm") && ParkourOption.ADMIN.check(sender)) {
                     completions.addAll(List.of("pos1", "pos2", "save"));
                 }
             }

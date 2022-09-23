@@ -60,6 +60,13 @@ gamemodes:
     # The max amount of players a duel lobby can have
     max: 16
 
+    # -= Island distance =-
+    # The distance between the spawn islands.
+    # This is the distance between the edges of the islands.
+    # Setting this to 0 will make the islands spawn right next to each other.
+    # This may cause the parkour of two players to mix, which isn't recommended!
+    island_distance: 32
+
   team_survival:
     enabled: true
 

@@ -1,12 +1,15 @@
 package dev.efnilite.ipp.config;
 
 import dev.efnilite.ipp.IPP;
+import dev.efnilite.vilib.lib.configupdater.configupdater.ConfigUpdater;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * An utilities class for the Configuration
@@ -35,6 +38,12 @@ public class PlusConfig {
                 plugin.saveResource(name, false);
                 IPP.logging().info("Created config file " + name);
             }
+        }
+
+        try {
+            ConfigUpdater.update(plugin, "config.yml", new File(plugin.getDataFolder(), "config.yml"), List.of("styles"));
+        } catch (IOException ex) {
+            IPP.logging().stack("Error while updating config.yml", ex);
         }
 
         reload();
