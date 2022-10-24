@@ -110,6 +110,8 @@ public final class IPP extends ViPlugin {
         registerGamemode(new HourglassGamemode());
         registerGamemode(new TimeTrialGamemode());
         registerGamemode(new DuelsGamemode());
+//        registerGamemode(new FallTrialGamemode());
+//        registerGamemode(new RiseTrialGamemode());
 
         // Style register
         IP.getRegistry().registerType(new IncrementalStyle());

@@ -46,7 +46,7 @@ gamemodes:
     enabled: true
 
     # -= Time Trial goal =-
-    # The amount of score required to finish time trial
+    # The amount of score required to finish Rise Trial
     goal: 100
 
   duels:

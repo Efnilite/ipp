@@ -41,14 +41,16 @@ public class PlusLocales {
     // the json trees are stored instead of the files to avoid having to read the files every time
     private static final Map<String, FileConfiguration> locales = new HashMap<>();
 
+    private static FileConfiguration defaultResource;
+
     public static void init(Plugin plugin) {
         Task.create(plugin)
                 .async()
                 .execute(() -> {
-                    FileConfiguration resource = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("locales/en.yml"), StandardCharsets.UTF_8));
+                    defaultResource = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("locales/en.yml"), StandardCharsets.UTF_8));
 
                     // get all nodes from the plugin's english resource, aka the most updated version
-                    resourceNodes = Util.getNode(resource, "", true);
+                    resourceNodes = Util.getNode(defaultResource, "", true);
 
                     Path folder = Paths.get(plugin.getDataFolder() + "/locales");
 
@@ -70,7 +72,7 @@ public class PlusLocales {
                             String locale = file.getName().split("\\.")[0];
 
                             YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                            validate(resource, config, file);
+                            validate(defaultResource, config, file);
 
                             locales.put(locale, config);
                         });
@@ -230,7 +232,14 @@ public class PlusLocales {
      */
     @NotNull
     public static Item getItem(String locale, String path, String... replace) {
-        final FileConfiguration base = locales.get(locale);
+        final FileConfiguration base;
+
+        if (locales.containsKey(locale)) {
+            base = locales.get(locale);
+        } else {
+            IPP.logging().warn("Unknown locale: " + locale + ", switching to default English embedded resource");
+            base = defaultResource;
+        }
 
         String material = base.getString(path + ".material");
         String name = base.getString(path + ".name");
