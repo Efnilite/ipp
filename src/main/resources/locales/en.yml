@@ -70,6 +70,16 @@ play:
           name: "<bold>Fences"
           lore: "<gray>Click to change this setting."
 
+    fall_trial:
+      material: "sand"
+      name: "<#1882DE><bold>Fall Trial"
+      lore: "<dark_gray>Go down the stairs-simulator!"
+
+    rise_trial:
+      material: "shulker_box"
+      name: "<#1882DE><bold>Rise Trial"
+      lore: "<dark_gray>Go up the stairs-simulator!"
+
     speed:
       material: "lingering_potion"
       name: "<#1882DE><bold>Speed"

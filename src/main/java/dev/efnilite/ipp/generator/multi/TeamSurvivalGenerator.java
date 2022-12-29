@@ -45,7 +45,6 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
             pp.board.updateTitle(player.board.getTitle());
             pp.board.updateLines(player.board.getLines());
         }
-
     }
 
     @Override

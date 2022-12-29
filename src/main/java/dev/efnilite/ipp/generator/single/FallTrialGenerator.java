@@ -26,7 +26,7 @@ public final class FallTrialGenerator extends PlusGenerator {
             "#8b1e00", "#8e1b00", "#921700", "#951400", "#991000", "#9c0d00", "#9f0a00", "#a30600", "#a60300", "#aa0000"
     };
 
-    private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getGamemode().getName().toLowerCase() + ".goal");
+    private final int goal = 50;
 
     public FallTrialGenerator(Session session) {
         // setup settings for generation

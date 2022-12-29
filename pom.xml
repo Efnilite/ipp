@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>IPPlus</artifactId>
     <groupId>dev.efnilite</groupId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
@@ -67,7 +67,7 @@
         <dependency>
             <groupId>com.github.Efnilite</groupId>
             <artifactId>Walk-in-the-Park</artifactId>
-            <version>58d645fdfe</version>
+            <version>4.1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

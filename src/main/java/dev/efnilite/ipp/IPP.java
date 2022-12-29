@@ -110,8 +110,8 @@ public final class IPP extends ViPlugin {
         registerGamemode(new HourglassGamemode());
         registerGamemode(new TimeTrialGamemode());
         registerGamemode(new DuelsGamemode());
-//        registerGamemode(new FallTrialGamemode());
-//        registerGamemode(new RiseTrialGamemode());
+        registerGamemode(new FallTrialGamemode());
+        registerGamemode(new RiseTrialGamemode());
 
         // Style register
         IP.getRegistry().registerType(new IncrementalStyle());
@@ -189,6 +189,12 @@ public final class IPP extends ViPlugin {
         }
         if (PlusGamemodes.SPEED != null) {
             PlusGamemodes.SPEED.getLeaderboard().write(false);
+        }
+        if (PlusGamemodes.FALL_TRIAL != null) {
+            PlusGamemodes.FALL_TRIAL.getLeaderboard().write(false);
+        }
+        if (PlusGamemodes.RISE_TRIAL != null) {
+            PlusGamemodes.RISE_TRIAL.getLeaderboard().write(false);
         }
 
         if (PlusGamemodes.DUELS != null) {
