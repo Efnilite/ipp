@@ -10,7 +10,7 @@
 
 #============================================#
 #                                            #
-#          (c) Efnilite MMXX-MMXXII          #
+#         (c) Efnilite MMXX-MMXXIII          #
 #                                            #
 #============================================#
 
@@ -40,6 +40,12 @@ gamemodes:
     enabled: true
 
   super_jump:
+    enabled: true
+
+  rise_trial:
+    enabled: true
+
+  fall_trial:
     enabled: true
 
   time_trial:

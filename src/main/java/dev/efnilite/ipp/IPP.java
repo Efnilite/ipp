@@ -110,6 +110,7 @@ public final class IPP extends ViPlugin {
         registerGamemode(new HourglassGamemode());
         registerGamemode(new TimeTrialGamemode());
         registerGamemode(new DuelsGamemode());
+
         registerGamemode(new FallTrialGamemode());
         registerGamemode(new RiseTrialGamemode());
 
@@ -161,16 +162,14 @@ public final class IPP extends ViPlugin {
                     .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
                 PlusOption.ACTIVE::check);
 
-        Task.create(this)
-                .async()
-                .execute(() -> {
-                    if (PlusConfigOption.UPDATE_CHECKER) {
-                        UpdateChecker.check(this);
-                    }
-                })
-                .delay(5 * 20)
-                .repeat(8 * 60 * 60 * 20)
-                .run();
+        if (PlusConfigOption.UPDATE_CHECKER) {
+            Task.create(this)
+                    .async()
+                    .execute(() -> UpdateChecker.check(this))
+                    .delay(5 * 20)
+                    .repeat(8 * 60 * 60 * 20)
+                    .run();
+        }
 
         logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable ipp") + "ms!");
     }

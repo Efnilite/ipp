@@ -36,7 +36,7 @@ public final class FallTrialGamemode implements Gamemode {
     @Override
     public void create(Player player) {
         ParkourPlayer pp = ParkourPlayer.getPlayer(player);
-        if (pp != null && pp.getGenerator() instanceof RiseTrialGenerator) {
+        if (pp != null && pp.getGenerator() instanceof FallTrialGenerator) {
             return;
         }
         player.closeInventory();

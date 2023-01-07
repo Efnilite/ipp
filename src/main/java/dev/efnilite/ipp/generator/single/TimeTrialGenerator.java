@@ -27,6 +27,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
     };
 
     private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getGamemode().getName().toLowerCase() + ".goal");
+    private final int interval = goal / COLOUR_GRADIENTS.length;
 
     public TimeTrialGenerator(Session session) {
         // setup settings for generation
@@ -45,17 +46,17 @@ public final class TimeTrialGenerator extends PlusGenerator {
         // Display score to player
         StringBuilder bar = new StringBuilder(); // build bar with score remaining
         for (int i = 0; i < goal; i++) {
-            if (i % 2 == 0) { // !! made for 100 score
+            if (i % interval == 0) { // !! made for 100 score
                 if (i >= score) {
-                    bar.append("<dark_gray><bold>");
+                    bar.append("<reset><dark_gray>");
                 } else {
-                    bar.append("<reset><").append(COLOUR_GRADIENTS[i / 2]).append(">");
+                    bar.append("<bold><").append(COLOUR_GRADIENTS[i / interval]).append(">");
                 }
                 bar.append("|");
             }
         }
         player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText(Strings.colour(bar + " <red><bold>| <reset><dark_gray>" + stopwatch.toString())));
+                TextComponent.fromLegacyText(Strings.colour(bar + " <red><bold>| <reset>" + stopwatch.toString())));
     }
 
     @Override
