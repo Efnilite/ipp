@@ -2,6 +2,7 @@ package dev.efnilite.ipp;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.api.Gamemode;
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
@@ -35,7 +36,7 @@ public final class IPP extends ViPlugin {
     private static IPP instance;
     private static PlusConfig configuration;
     public static final String REQUIRED_VILIB_VERSION = "1.1.0";
-    public static final String REQUIRED_IP_VERSION = "4.0.2";
+    public static final String REQUIRED_IP_VERSION = "4.1.1";
 
     @Override
     public void enable() {
@@ -111,8 +112,7 @@ public final class IPP extends ViPlugin {
         registerGamemode(new TimeTrialGamemode());
         registerGamemode(new DuelsGamemode());
 
-        registerGamemode(new FallTrialGamemode());
-        registerGamemode(new RiseTrialGamemode());
+        registerGamemode(new WaveTrialGamemode());
 
         // Style register
         IP.getRegistry().registerType(new IncrementalStyle());
@@ -160,7 +160,7 @@ public final class IPP extends ViPlugin {
         Menus.COMMUNITY.registerMainItem(1, 1,
                 (player, user) -> PlusLocales.getItem(player, "active.item")
                     .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
-                PlusOption.ACTIVE::check);
+                player -> PlusOption.ACTIVE.check(player) && Option.JOINING);
 
         if (PlusConfigOption.UPDATE_CHECKER) {
             Task.create(this)
@@ -189,11 +189,8 @@ public final class IPP extends ViPlugin {
         if (PlusGamemodes.SPEED != null) {
             PlusGamemodes.SPEED.getLeaderboard().write(false);
         }
-        if (PlusGamemodes.FALL_TRIAL != null) {
-            PlusGamemodes.FALL_TRIAL.getLeaderboard().write(false);
-        }
-        if (PlusGamemodes.RISE_TRIAL != null) {
-            PlusGamemodes.RISE_TRIAL.getLeaderboard().write(false);
+        if (PlusGamemodes.WAVE_TRIAL != null) {
+            PlusGamemodes.WAVE_TRIAL.getLeaderboard().write(false);
         }
 
         if (PlusGamemodes.DUELS != null) {

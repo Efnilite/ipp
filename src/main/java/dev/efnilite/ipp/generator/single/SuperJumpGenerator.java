@@ -121,7 +121,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
         updateTime();
         updateScoreboard();
 
-        player.getSession().updateSpectators();
+        session.updateSpectators();
         player.player.setSaturation(20);
 
         Location playerLocation = player.getLocation();

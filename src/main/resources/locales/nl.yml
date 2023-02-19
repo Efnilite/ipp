@@ -70,6 +70,11 @@ play:
           name: "<bold>Hekken"
           lore: "<gray>Klik om deze instelling te veranderen."
 
+    wave_trial:
+      material: "sand"
+      name: "<#1882DE><bold>Golfproef"
+      lore: "<dark_gray>De trap op- en aflopen-simulator!"
+
     speed:
       material: "lingering_potion"
       name: "<#1882DE><bold>Speed"

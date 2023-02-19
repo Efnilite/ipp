@@ -70,6 +70,11 @@ play:
           name: "<bold>Barrières"
           lore: "<gray>Cliquez pour modifier ce paramètre."
 
+    wave_trial:
+      material: "sand"
+      name: "<#1882DE><bold>Wave Trial"
+      lore: "<dark_gray>Go up and down the stairs-simulator!"
+
     speed:
       material: "lingering_potion"
       name: "<#1882DE><bold>Vitesse"
@@ -82,8 +87,8 @@ play:
 
     time_trial:
       material: "clock"
-      name: "<#9A0BC7><bold>Contre la montre"
-      lore: "<dark_gray>Atteignez un score de 100 aussi vite que possible"
+      name: "<#9A0BC7><bold>Vague contre la montre"
+      lore: "<dark_gray>Montez et descendez d'escaliers-simulateur!"
 
   multi:
     name: "<white>Multijoueur"

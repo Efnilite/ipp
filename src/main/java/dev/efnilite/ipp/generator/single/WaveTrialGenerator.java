@@ -12,10 +12,7 @@ import dev.efnilite.vilib.util.Strings;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
-/**
- * Fastest to  100 score
- */
-public final class FallTrialGenerator extends PlusGenerator {
+public class WaveTrialGenerator extends PlusGenerator {
 
     // the colour gradients used
     private final static String[] COLOUR_GRADIENTS = new String[] {
@@ -26,10 +23,10 @@ public final class FallTrialGenerator extends PlusGenerator {
             "#8b1e00", "#8e1b00", "#921700", "#951400", "#991000", "#9c0d00", "#9f0a00", "#a30600", "#a60300", "#aa0000"
     };
 
-    private final int goal = 50;
+    private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getGamemode().getName().toLowerCase() + ".goal");
     private final int interval = goal / COLOUR_GRADIENTS.length;
 
-    public FallTrialGenerator(Session session) {
+    public WaveTrialGenerator(Session session) {
         // setup settings for generation
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE);
 
@@ -39,11 +36,33 @@ public final class FallTrialGenerator extends PlusGenerator {
         player.player.resetTitle();
 
         heightChances.clear();
-        heightChances.put(0, -1);
+        heightChances.put(0, 1);
+    }
+
+    @Override
+    public void updatePreferences() {
+        profile.setSetting("blockLead", "10");
+    }
+
+    @Override
+    public void reset(boolean regenerate) {
+        heightChances.clear();
+        heightChances.put(0, 1);
+
+        super.reset(regenerate);
     }
 
     @Override
     public void tick() {
+        double recommendedDy = updateHeight(calculateParameterization(), 10);
+
+        // if current height is fine there's no need to update the height chances
+        // if current height is not fine, update heightchances to match recommendation
+        if (recommendedDy != 10) {
+            heightChances.clear();
+            heightChances.put(0, (int) recommendedDy);
+        }
+
         super.tick();
 
         // Display score to player
@@ -84,6 +103,7 @@ public final class FallTrialGenerator extends PlusGenerator {
 
     @Override
     public Gamemode getGamemode() {
-        return PlusGamemodes.FALL_TRIAL;
+        return PlusGamemodes.WAVE_TRIAL;
     }
+
 }

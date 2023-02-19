@@ -10,7 +10,7 @@
 
 #============================================#
 #                                            #
-#         (c) Efnilite MMXX-MMXXIII          #
+#           (c) Efnilite 2020-2023           #
 #                                            #
 #============================================#
 
@@ -42,17 +42,16 @@ gamemodes:
   super_jump:
     enabled: true
 
-  rise_trial:
-    enabled: true
-
-  fall_trial:
-    enabled: true
-
   time_trial:
     enabled: true
 
     # -= Time Trial goal =-
-    # The amount of score required to finish Rise Trial
+    # The amount of score required to finish the Time Trial mode
+    goal: 100
+
+  wave_trial:
+    enabled: true
+
     goal: 100
 
   duels:

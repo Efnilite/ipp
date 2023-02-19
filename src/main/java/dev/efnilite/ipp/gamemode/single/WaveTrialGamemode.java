@@ -8,18 +8,18 @@ import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.session.SingleSession;
 import dev.efnilite.ipp.config.PlusLocales;
-import dev.efnilite.ipp.generator.single.RiseTrialGenerator;
+import dev.efnilite.ipp.generator.single.WaveTrialGenerator;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public final class RiseTrialGamemode implements Gamemode {
+public final class WaveTrialGamemode implements Gamemode {
 
     private final Leaderboard leaderboard = new Leaderboard(getName());
 
     @Override
     public @NotNull String getName() {
-        return "rise_trial";
+        return "wave_trial";
     }
 
     @Override
@@ -35,14 +35,14 @@ public final class RiseTrialGamemode implements Gamemode {
     @Override
     public void create(Player player) {
         ParkourPlayer pp = ParkourPlayer.getPlayer(player);
-        if (pp != null && pp.getGenerator() instanceof RiseTrialGenerator) {
+        if (pp != null && pp.getGenerator() instanceof WaveTrialGenerator) {
             return;
         }
         player.closeInventory();
 
         pp = ParkourUser.register(player);
         Session session = SingleSession.create(pp, this);
-        RiseTrialGenerator generator = new RiseTrialGenerator(session);
+        WaveTrialGenerator generator = new WaveTrialGenerator(session);
         IP.getDivider().generate(pp, generator, true);
     }
 
