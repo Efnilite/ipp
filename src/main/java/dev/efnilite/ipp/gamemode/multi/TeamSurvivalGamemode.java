@@ -47,7 +47,7 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
         int max = IPP.getConfiguration().getFile("config").getInt("gamemodes." + getName() + ".max");
         if (max < 1 || max > 16) {
-            max = 1;
+            max = 4;
 
             IPP.logging().stack("Invalid max player range", max + " is not a supported max player count", new IllegalArgumentException());
         }
@@ -64,10 +64,13 @@ public final class TeamSurvivalGamemode implements MultiGamemode {
 
     @Override
     public void join(Player player, Session session) {
-        if (session.getPlayers().get(0).getGenerator() instanceof TeamSurvivalGenerator generator) {
+        if (session.isAcceptingPlayers()) {
             player.closeInventory();
 
+            TeamSurvivalGenerator generator = (TeamSurvivalGenerator) session.getPlayers().get(0).getGenerator();
+
             ParkourPlayer pp = ParkourUser.register(player);
+            pp.setGenerator(generator);
             IP.getDivider().setup(pp, generator.playerSpawn, false);
 
             session.addPlayers(pp);

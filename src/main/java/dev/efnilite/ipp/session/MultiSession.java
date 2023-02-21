@@ -47,18 +47,14 @@ public class MultiSession extends SingleSession {
 
     @Override
     public void addPlayers(ParkourPlayer... players) {
-        super.addPlayers(players);
-
         for (ParkourPlayer player : players) {
             for (ParkourPlayer to : getPlayers()) {
-                if (to == player) {
-                    continue;
-                }
-
                 to.send(PlusLocales.getString(player.getLocale(), "play.multi.other_join", false)
                         .formatted(player.getName()));
             }
         }
+
+        super.addPlayers(players);
     }
 
     @Override
@@ -67,10 +63,6 @@ public class MultiSession extends SingleSession {
 
         for (ParkourPlayer player : players) {
             for (ParkourPlayer to : getPlayers()) {
-                if (to == player) {
-                    continue;
-                }
-
                 to.send(PlusLocales.getString(player.getLocale(), "play.multi.other_leave", false)
                         .formatted(player.getName()));
             }

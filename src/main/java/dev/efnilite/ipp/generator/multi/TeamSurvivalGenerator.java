@@ -64,7 +64,6 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
         // the index of the last person
         int lastIndex = Integer.MAX_VALUE;
         ParkourPlayer lastPlayer = null;
-        ParkourPlayer owner = getPlayers().get(0);
 
         for (ParkourPlayer pp : getPlayers()) {
             Location location = pp.getLocation();
@@ -114,6 +113,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
                 lastIndex = currentIndex;
                 lastPlayer = pp;
             }
+//            System.out.println("last index: " + lastIndex + " | current index: " + currentIndex);
 //            System.out.println("===");
         }
 
@@ -151,8 +151,11 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
         if (lastPlayer != null) {
 //            System.out.println("last player: " + lastPlayer.getName());
-            player = owner;
+            player = lastPlayer;
         }
+
+//        System.out.println("players: " + getPlayers().stream().map(ParkourUser::getName).collect(Collectors.joining()));
+//        System.out.println("specs: " + session.getSpectators());
     }
 
     @Override
@@ -166,9 +169,11 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
         super.reset(regenerate);
 
-        lastPlayerBlockMap.clear();
+        if (regenerate) {
+            lastPlayerBlockMap.clear();
 
-        getPlayers().forEach(player -> player.teleport(playerSpawn));
+            getPlayers().forEach(player -> player.teleport(playerSpawn));
+        }
     }
 
     @Override

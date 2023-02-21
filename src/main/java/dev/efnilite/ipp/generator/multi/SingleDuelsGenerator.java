@@ -39,21 +39,19 @@ public class SingleDuelsGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY,
+                ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         // set the task to an empty runnable
         // this avoids the incomplete joining setup error
-        task = new BukkitRunnable() {
-            @Override
-            public void run() {
+        task = Task.create(IPP.getPlugin())
+                .delay(1)
+                .execute(new BukkitRunnable() {
+                    @Override
+                    public void run() {
 
-            }
-        };
-
-        // avoid not scheduled error by never running this runnable (lol)
-        Task.create(IPP.getPlugin())
-                .delay(Integer.MAX_VALUE)
-                .execute(task)
+                    }
+                })
                 .run();
     }
 
