@@ -35,7 +35,7 @@ public class MultiplayerMenu {
 
         List<Gamemode> gamemodes = new ArrayList<>();
         for (Gamemode gm : IP.getRegistry().getGamemodes()) {
-            boolean permissions = Option.PERMISSIONS && player.hasPermission("ip.gamemode." + gm.getName());
+            boolean permissions = Option.PERMISSIONS && !player.hasPermission("ip.gamemode." + gm.getName());
 
             if (permissions || !(gm instanceof MultiGamemode) || !gm.isVisible()) {
                 continue;
