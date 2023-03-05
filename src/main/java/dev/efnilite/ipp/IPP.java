@@ -38,6 +38,8 @@ public final class IPP extends ViPlugin {
     public static final String REQUIRED_VILIB_VERSION = "1.1.0";
     public static final String REQUIRED_IP_VERSION = "4.1.1";
 
+    public static final String PREFIX = "<gradient:#ff5050:#ff66cc>Infinite Parkour+<reset><gray> ";
+
     @Override
     public void enable() {
         instance = this;
