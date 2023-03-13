@@ -156,6 +156,7 @@ active:
 invite:
   name: "<white>Cliquez pour Inviter"
   message: "<gray>Vous avez été invité par <#F55252><bold>%s<reset><gray> pour rejoindre leur <#F37777><bold>%s<reset><gray> jeu!||<reset><gray>Utilise <#FAB4B4><bold>/parkour join %s<reset><gray> pour rejoindre!"
+  success: "<gray>You've invited %s."
 
   item:
     material: "elytra"

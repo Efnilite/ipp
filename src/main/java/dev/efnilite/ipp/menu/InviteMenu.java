@@ -67,6 +67,8 @@ public class InviteMenu {
                             .formatted(player.getName(), session.getGamemode().getName(), session.getSessionId()).split("\\|\\|")) {
                         Util.send(p, s);
                     }
+
+                    Util.send(player, PlusLocales.getString(player, "invite.success", false).formatted(p.getName()));
                 }
             }));
         }

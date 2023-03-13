@@ -156,6 +156,7 @@ active:
 invite:
   name: "<white>Klik om uit te nodigen"
   message: "<gray>Je bent door <#F55252><bold>%s<reset><gray> uitgenodigd voor hun <#F37777><bold>%s<reset><gray> game!||<reset><gray>Gebruik <#FAB4B4><bold>/parkour join %s<reset><gray> om te joinen!"
+  success: "<gray>Je hebt %s uitgenodigd."
 
   item:
     material: "elytra"

@@ -18,8 +18,6 @@ import org.jetbrains.annotations.NotNull;
 
 public final class DuelsGamemode implements MultiGamemode {
 
-    private final Leaderboard leaderboard = new Leaderboard(getName());
-
     @Override
     public @NotNull String getName() {
         return "duels";
@@ -32,7 +30,7 @@ public final class DuelsGamemode implements MultiGamemode {
 
     @Override
     public Leaderboard getLeaderboard() {
-        return leaderboard;
+        return null;
     }
 
     @Override
