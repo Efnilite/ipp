@@ -2,6 +2,7 @@
 
 - Added invite feedback
 - Fixed duels having a leaderboard
+- Fixed duels having rewards enabled
 - Fixed multiplayer modes not showing up when permissions are enabled
 - Fixed disabling settings with permissions not working
 - Improved /ipp lobbygm logic

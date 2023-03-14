@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.ParkourOption;
+import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
@@ -10,6 +11,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.IPP;
+import dev.efnilite.ipp.gamemode.PlusGamemodes;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.util.Numbers;
@@ -137,6 +139,11 @@ public class SingleDuelsGenerator extends PlusGenerator {
     @Override
     public BlockData selectBlockData() {
         return blockData;
+    }
+
+    @Override
+    public Gamemode getGamemode() {
+        return PlusGamemodes.DUELS;
     }
 
     @Override
