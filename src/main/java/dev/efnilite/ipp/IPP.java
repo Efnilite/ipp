@@ -194,10 +194,6 @@ public final class IPP extends ViPlugin {
         if (PlusGamemodes.WAVE_TRIAL != null) {
             PlusGamemodes.WAVE_TRIAL.getLeaderboard().write(false);
         }
-
-        if (PlusGamemodes.DUELS != null) {
-            PlusGamemodes.DUELS.getLeaderboard().write(false);
-        }
         if (PlusGamemodes.TEAM_SURVIVAL != null) {
             PlusGamemodes.TEAM_SURVIVAL.getLeaderboard().write(false);
         }
