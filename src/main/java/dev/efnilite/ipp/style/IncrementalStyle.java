@@ -1,6 +1,6 @@
 package dev.efnilite.ipp.style;
 
-import dev.efnilite.ip.api.StyleType;
+import dev.efnilite.ip.style.StyleType;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.Material;
@@ -30,6 +30,7 @@ public class IncrementalStyle extends StyleType {
         if (count >= materials.size() - 1) {
             count = 0;
         }
+
         return materials.get(count);
     }
 }

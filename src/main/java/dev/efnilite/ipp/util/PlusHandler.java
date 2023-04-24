@@ -22,28 +22,23 @@ public class PlusHandler implements Listener {
         Player player = event.getPlayer();
         ParkourPlayer pp = ParkourPlayer.getPlayer(player);
 
-        if (event.getHand() == EquipmentSlot.HAND && pp != null) {
-            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                ItemStack item = event.getItem();
+        if (event.getHand() != EquipmentSlot.HAND || pp == null || event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
 
-                if (item == null) {
-                    return;
-                }
+        ItemStack item = event.getItem();
+        Item start = PlusLocales.getItem(pp.locale, "play.multi.duels.start");
 
-                Item start = PlusLocales.getItem(pp.getLocale(), "play.multi.duels.start");
+        if (item == null || item.getType() != start.getMaterial() || !(pp.generator instanceof SingleDuelsGenerator generator)) {
+            return;
+        }
 
-                if (item.getType() == start.getMaterial()) {
-                    if (pp.getGenerator() instanceof SingleDuelsGenerator generator) {
-                        DuelsGenerator superGen = generator.owningGenerator;
-                        if (superGen.getPlayerGenerators().keySet().size() > 1) {
-                            superGen.initCountdown();
-                            pp.player.getInventory().remove(Material.LIME_BANNER);
-                        } else {
-                            pp.send(PlusLocales.getString(player, "play.multi.duels.duel_self", false));
-                        }
-                    }
-                }
-            }
+        DuelsGenerator owner = generator.owningGenerator;
+        if (owner.getPlayers().size() > 1) {
+            owner.initCountdown();
+            pp.player.getInventory().remove(Material.LIME_BANNER);
+        } else {
+            pp.send(PlusLocales.getString(player, "play.multi.duels.duel_self", false));
         }
     }
 

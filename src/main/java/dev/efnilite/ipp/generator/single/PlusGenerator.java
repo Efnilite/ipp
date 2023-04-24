@@ -1,7 +1,7 @@
 package dev.efnilite.ipp.generator.single;
 
-import dev.efnilite.ip.generator.DefaultGenerator;
-import dev.efnilite.ip.generator.settings.GeneratorOption;
+import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.generator.ParkourGenerator;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * - common variables
  * - common methods.
  */
-public abstract class PlusGenerator extends DefaultGenerator {
+public abstract class PlusGenerator extends ParkourGenerator {
 
     protected ParkourSettingsMenu menu;
 

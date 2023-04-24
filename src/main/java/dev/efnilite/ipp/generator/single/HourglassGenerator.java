@@ -1,11 +1,11 @@
 package dev.efnilite.ipp.generator.single;
 
-import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.settings.GeneratorOption;
+import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
+import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ipp.gamemode.PlusGamemodes;
+import dev.efnilite.ipp.mode.PlusMode;
 import dev.efnilite.vilib.util.Strings;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -38,7 +38,7 @@ public final class HourglassGenerator extends PlusGenerator {
         // setup generator settings
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.INCREASED_TICK_ACCURACY); // to increase smoothness of countdown
 
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC);
     }
 
     @Override
@@ -92,7 +92,7 @@ public final class HourglassGenerator extends PlusGenerator {
     }
 
     @Override
-    public Gamemode getGamemode() {
-        return PlusGamemodes.HOURGLASS;
+    public Mode getMode() {
+        return PlusMode.HOURGLASS;
     }
 }

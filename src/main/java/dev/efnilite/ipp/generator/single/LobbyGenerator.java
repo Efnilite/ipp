@@ -1,12 +1,12 @@
 package dev.efnilite.ipp.generator.single;
 
-import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.config.Option;
-import dev.efnilite.ip.generator.settings.GeneratorOption;
+import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
-import dev.efnilite.ip.session.SingleSession;
-import dev.efnilite.ipp.gamemode.PlusGamemodes;
+import dev.efnilite.ip.mode.Mode;
+import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.Material;
 
 /**
@@ -14,29 +14,30 @@ import org.bukkit.Material;
  */
 public final class LobbyGenerator extends PlusGenerator {
 
-    public LobbyGenerator(SingleSession session) {
+    public LobbyGenerator(Session session) {
         // setup generator settings
         super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY, ParkourOption.LEADS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.LEADS);
+
+        profile.set("blockLead", "4");
+        profile.set("useSchematic", "false");
     }
 
-    @Override
     public void updatePreferences() {
-        profile.setSetting("blockLead", "4");
-        profile.setSetting("useSchematic", "false");
+        profile.set("blockLead", "4");
+        profile.set("useSchematic", "false");
     }
 
     @Override
     public void generate() {
         super.generate();
 
-        data.blocks().get(0).setType(Material.SMOOTH_QUARTZ);
+        island.blocks.get(0).setType(Material.SMOOTH_QUARTZ);
     }
 
     // remove -2 height jumps
-    @Override
     public void calculateHeight() {
         heightChances.clear();
 
@@ -56,7 +57,6 @@ public final class LobbyGenerator extends PlusGenerator {
     }
 
     // remove 1 block jumps
-    @Override
     public void calculateDistance() {
         distanceChances.clear();
 
@@ -80,7 +80,7 @@ public final class LobbyGenerator extends PlusGenerator {
     }
 
     @Override
-    public Gamemode getGamemode() {
-        return PlusGamemodes.LOBBY;
+    public Mode getMode() {
+        return PlusMode.LOBBY;
     }
 }

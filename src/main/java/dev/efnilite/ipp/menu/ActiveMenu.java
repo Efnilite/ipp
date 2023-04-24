@@ -1,16 +1,14 @@
 package dev.efnilite.ipp.menu;
 
-import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.config.Locales;
-import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
+import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.session.SessionVisibility;
 import dev.efnilite.ip.util.Util;
+import dev.efnilite.ip.world.WorldDivider;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.PagedMenu;
@@ -31,15 +29,14 @@ public class ActiveMenu {
     public static void open(Player player, MenuSort sort) {
         PagedMenu menu = new PagedMenu(3, PlusLocales.getString(player, "active.name", false));
         ParkourUser user = ParkourUser.getUser(player);
-        String locale = user == null ? (String) Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.getLocale();
 
         List<Session> sessions = new ArrayList<>(); // get all public sessions
-        for (Session session : Session.getSessions()) {
-            if (user != null && user.getSession().getSessionId().equals(session.getSessionId())) {
+        for (Session session : WorldDivider.sessions.values()) {
+            if (user != null && user.session == session) {
                 continue;
             }
 
-            if (session.getVisibility() != SessionVisibility.PUBLIC) { // only display public sessions
+            if (session.visibility != Session.Visibility.PUBLIC) { // only display public sessions
                 continue;
             }
 
@@ -51,12 +48,12 @@ public class ActiveMenu {
         list.sort((session1, session2) -> {
             int max1 = 1;
             if (session1 instanceof MultiSession) {
-                max1 = ((MultiSession) session1).getMaxPlayers();
+                max1 = ((MultiSession) session1).maxPlayers;
             }
 
             int max2 = 1;
             if (session2 instanceof MultiSession) {
-                max2 = ((MultiSession) session2).getMaxPlayers();
+                max2 = ((MultiSession) session2).maxPlayers;
             }
 
             int open1 = max1 - session1.getPlayers().size();
@@ -82,14 +79,14 @@ public class ActiveMenu {
             Item item = new Item(Material.LIME_STAINED_GLASS_PANE, ""); // todo finish
 
             item.click(event -> {
-                if (Session.isActive(session.getSessionId())) {
-                    session.join(player);
+                if (WorldDivider.sessions.containsValue(session)) {
+                    ((MultiSession) session).join(player);
                 }
             });
 
             int max = 1;
-            if (session instanceof MultiSession) {
-                max = ((MultiSession) session).getMaxPlayers();
+            if (session instanceof MultiSession ms) {
+                max = ms.maxPlayers;
             }
 
             String main = "<#59DB3E>";
@@ -108,19 +105,19 @@ public class ActiveMenu {
                 item.material(Material.RED_STAINED_GLASS_PANE)
                         .click(event -> {
                             ParkourUser u = ParkourUser.getUser(event.getPlayer());
-                            if ((u != null && session.getSessionId().equals(u.getSession().getSessionId())) || !session.isAcceptingSpectators()) {
+                            if ((u != null && session == u.session) || session.isAcceptingSpectators.apply(session)) {
                                 return;
                             }
 
-                            Gamemodes.SPECTATOR.create(player, session);
+                            Modes.SPECTATOR.create(player, session);
                         });
             }
-            item.name(main + "<bold>Lobby " + session.getSessionId());
+            item.name(main + "<bold>Lobby " + session.getPlayers().get(0).getName());
 
             List<String> lore = new ArrayList<>();
 
             lore.add("<gray>Players: " + accent + session.getPlayers().size() + "<dark_gray>/" + max);
-            lore.add("<gray>Gamemode: " + accent + session.getGamemode().getName());
+            lore.add("<gray>Mode: " + accent + session.getPlayers().get(0).generator.getMode().getName());
             lore.add("");
 
             if (session.getPlayers().size() > 0) {
@@ -139,7 +136,7 @@ public class ActiveMenu {
                 }
             }
 
-            if (openSpaces == 0 && session.isAcceptingSpectators()) {
+            if (openSpaces == 0 && session.isAcceptingSpectators.apply(session)) {
                 lore.add("");
                 lore.add(accent + "You can only join as spectator.");
             }
@@ -147,32 +144,20 @@ public class ActiveMenu {
             items.add(item.lore(lore));
         }
 
-        menu
-                .displayRows(0, 1)
+        menu.displayRows(0, 1)
                 .addToDisplay(items)
-
-                .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click( // next page
-                        event -> menu.page(1)))
-                .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click( // previous page
-                        event -> menu.page(-1)))
-
+                .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click(event -> menu.page(1)))
+                .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click(event -> menu.page(-1)))
                 .distributeRowEvenly(3)
-
-                .item(21, PlusLocales.getItem(player, "active.refresh").click(
-                        event -> open(player, sort)))
-
-                .item(22, PlusLocales.getItem(player, "active.sort").click(
-                        event -> {
+                .item(21, PlusLocales.getItem(player, "active.refresh").click(event -> open(player, sort)))
+                .item(22, PlusLocales.getItem(player, "active.sort").click(event -> {
                     if (sort == MenuSort.LEAST_OPEN_FIRST) {
                         open(player, MenuSort.LEAST_OPEN_LAST);
                     } else {
                         open(player, MenuSort.LEAST_OPEN_FIRST);
                     }
                 }))
-
-                .item(23, Locales.getItem(player, "other.close")
-                        .click(event -> Menus.COMMUNITY.open(event.getPlayer())))
-
+                .item(23, Locales.getItem(player, "other.close").click(event -> Menus.COMMUNITY.open(event.getPlayer())))
                 .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
                 .open(player);
     }

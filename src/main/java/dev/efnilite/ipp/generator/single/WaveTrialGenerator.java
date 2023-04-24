@@ -7,7 +7,7 @@ import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.player.data.Score;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.ipp.gamemode.PlusGamemodes;
+import dev.efnilite.ipp.mode.PlusMode;
 import dev.efnilite.vilib.util.Strings;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -103,7 +103,7 @@ public class WaveTrialGenerator extends PlusGenerator {
 
     @Override
     public Gamemode getGamemode() {
-        return PlusGamemodes.WAVE_TRIAL;
+        return PlusMode.WAVE_TRIAL;
     }
 
 }

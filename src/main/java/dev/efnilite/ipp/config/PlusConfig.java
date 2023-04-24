@@ -26,7 +26,7 @@ public class PlusConfig {
         this.plugin = plugin;
         files = new HashMap<>();
 
-        String[] defaultFiles = new String[] {"config.yml"};
+        String[] defaultFiles = new String[]{"config.yml"};
 
         File folder = plugin.getDataFolder();
         for (String name : defaultFiles) {

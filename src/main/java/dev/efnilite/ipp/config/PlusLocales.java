@@ -1,7 +1,7 @@
 package dev.efnilite.ipp.config;
 
-import dev.efnilite.ip.ParkourOption;
 import dev.efnilite.ip.config.Option;
+import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.IPP;
@@ -50,7 +50,7 @@ public class PlusLocales {
                     defaultResource = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("locales/en.yml"), StandardCharsets.UTF_8));
 
                     // get all nodes from the plugin's english resource, aka the most updated version
-                    resourceNodes = Util.getNode(defaultResource, "", true);
+                    resourceNodes = Util.getChildren(defaultResource, "", true);
 
                     Path folder = Paths.get(plugin.getDataFolder() + "/locales");
 
@@ -86,7 +86,7 @@ public class PlusLocales {
     // validates whether a lang file contains all required keys.
     // if it doesn't, automatically add them
     private static void validate(FileConfiguration provided, FileConfiguration user, File localPath) {
-        List<String> userNodes = Util.getNode(user, "", true);
+        List<String> userNodes = Util.getChildren(user, "", true);
 
         for (String node : resourceNodes) {
             if (!userNodes.contains(node)) {
@@ -110,17 +110,13 @@ public class PlusLocales {
      * If the player is a {@link ParkourUser}, their locale value will be used.
      * If not, the default locale will be used.
      *
-     * @param   player
-     *          The player
-     *
-     * @param   path
-     *          The path
-     *
+     * @param player The player
+     * @param path   The path
      * @return a coloured String
      */
     public static String getString(Player player, String path, boolean colour) {
         ParkourUser user = ParkourUser.getUser(player);
-        String locale = user == null ? (String) Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.getLocale();
+        String locale = user == null ? Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.locale;
 
         return getString(locale, path, colour);
     }
@@ -128,26 +124,22 @@ public class PlusLocales {
     /**
      * Gets a coloured String from the provided path in the provided locale file
      *
-     * @param   locale
-     *          The locale
-     *
-     * @param   path
-     *          The path
-     *
+     * @param locale The locale
+     * @param path   The path
      * @return a coloured String
      */
     public static String getString(String locale, String path, boolean colour) {
         FileConfiguration base = locales.get(locale);
 
         if (base == null) {
-            Object defaultLang = Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG);
+            String defaultLang = Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG);
 
             if (defaultLang == null) {
                 IPP.logging().stack("No default language found", "check your config for an incorrect lang default value");
                 return "";
             }
 
-            base = locales.get((String) defaultLang);
+            base = locales.get(defaultLang);
         }
 
         String string = base.getString(path);
@@ -159,29 +151,26 @@ public class PlusLocales {
 
         return colour ? Strings.colour(string) : string;
     }
+
     /**
      * Gets a coloured String list from the provided path in the provided locale file
      *
-     * @param   locale
-     *          The locale
-     *
-     * @param   path
-     *          The path
-     *
+     * @param locale The locale
+     * @param path   The path
      * @return a coloured String list
      */
     public static List<String> getStringList(String locale, String path, boolean colour) {
         FileConfiguration base = locales.get(locale);
 
         if (base == null) {
-            Object defaultLang = Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG);
+            String defaultLang = Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG);
 
             if (defaultLang == null) {
                 IPP.logging().stack("No default language found", "check your config for an incorrect lang default value");
                 return Collections.emptyList();
             }
 
-            base = locales.get((String) defaultLang);
+            base = locales.get(defaultLang);
         }
 
         List<String> strings = base.getStringList(path);
@@ -200,18 +189,14 @@ public class PlusLocales {
      * If the player is a {@link ParkourUser}, their locale value will be used.
      * If not, the default locale will be used.
      *
-     * @param   player
-     *          The player
-     *
-     * @param   path
-     *          The full path of the item in the locale file
-     *
+     * @param player The player
+     * @param path   The full path of the item in the locale file
      * @return a non-null {@link Item} instance built from the description in the locale file
      */
     @NotNull
     public static Item getItem(@NotNull Player player, String path, String... replace) {
         ParkourUser user = ParkourUser.getUser(player);
-        String locale = user == null ? (String) Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.getLocale();
+        String locale = user == null ? Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG) : user.locale;
 
         return getItem(locale, path, replace);
     }
@@ -219,15 +204,9 @@ public class PlusLocales {
     /**
      * Returns an item from a provided json locale file with possible replacements.
      *
-     * @param   locale
-     *          The locale
-     *
-     * @param   path
-     *          The path in the json file
-     *
-     * @param   replace
-     *          The Strings that will replace any appearances of a String following the regex "%[a-z]"
-     *
+     * @param locale  The locale
+     * @param path    The path in the json file
+     * @param replace The Strings that will replace any appearances of a String following the regex "%[a-z]"
      * @return a non-null {@link Item} instance built from the description in the locale file
      */
     @NotNull

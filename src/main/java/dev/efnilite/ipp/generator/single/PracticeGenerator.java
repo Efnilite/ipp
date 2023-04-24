@@ -1,13 +1,12 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.config.PlusLocales;
-import dev.efnilite.ipp.gamemode.PlusGamemodes;
+import dev.efnilite.ipp.mode.PlusMode;
 import dev.efnilite.vilib.inventory.Menu;
 import dev.efnilite.vilib.inventory.animation.WaveEastAnimation;
 import dev.efnilite.vilib.inventory.item.SliderItem;
@@ -259,7 +258,7 @@ public final class PracticeGenerator extends PlusGenerator {
                             }
                         }))
 
-                .item(27, Locales.getItem(player.getLocale(), "other.close")
+                .item(27, Locales.getItem(player.locale, "other.close")
                         .click(event -> menu()))
 
                 .animation(new WaveEastAnimation())
@@ -295,7 +294,7 @@ public final class PracticeGenerator extends PlusGenerator {
     }
 
     @Override
-    public Gamemode getGamemode() {
-        return PlusGamemodes.PRACTICE;
+    public Mode getMode() {
+        return PlusMode.PRACTICE;
     }
 }

@@ -10,41 +10,33 @@ import java.net.URL;
 
 public class UpdateChecker {
 
-    public static boolean check(Plugin plugin) {
+    public static void check(Plugin plugin) {
         String latest;
         try {
             latest = getLatestVersion(plugin);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
         if (!plugin.getDescription().getVersion().equals(latest)) {
             plugin.getLogger().info("A new version of IP+ is available to download!");
-            plugin.getLogger().info("Newest version: " + latest);
-            return true;
+            plugin.getLogger().info("Newest version: %s".formatted(latest));
         } else {
             plugin.getLogger().info("IP+ is currently up-to-date!");
-            return false;
         }
     }
 
     public static String getLatestVersion(Plugin plugin) throws IOException {
-        InputStream stream;
-
-        try {
-            stream = new URL("https://raw.githubusercontent.com/Efnilite/IP-Plus/master/version.yml").openStream();
+        try (InputStream stream = new URL("https://raw.githubusercontent.com/Efnilite/IP-Plus/master/version.yml").openStream()) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+                return reader.lines().filter(s -> s.contains("version: "))
+                        .toList()
+                        .get(0)
+                        .replace("version: ", "");
+            }
         } catch (IOException e) {
             plugin.getLogger().info("Unable to check for updates!");
             return "";
         }
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        String version = reader.lines().filter(s -> s.contains("version: "))
-                .toList()
-                .get(0)
-                .replace("version: ", "");
-        stream.close();
-        reader.close();
-        return version;
     }
 }

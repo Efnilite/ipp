@@ -1,13 +1,13 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.api.Gamemode;
 import dev.efnilite.ip.api.events.PlayerScoreEvent;
 import dev.efnilite.ip.generator.settings.GeneratorOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
+import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
-import dev.efnilite.ipp.gamemode.PlusGamemodes;
+import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -232,7 +232,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
     }
 
     @Override
-    public Gamemode getGamemode() {
-        return PlusGamemodes.SUPER_JUMP;
+    public Mode getMode() {
+        return PlusMode.SUPER_JUMP;
     }
 }

@@ -1,12 +1,12 @@
 package dev.efnilite.ipp.generator.multi;
 
-import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.settings.GeneratorOption;
+import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.leaderboard.Score;
+import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
+import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.player.data.Score;
-import dev.efnilite.ipp.gamemode.PlusGamemodes;
+import dev.efnilite.ipp.mode.PlusMode;
 import dev.efnilite.ipp.session.MultiSession;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -23,35 +23,20 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     private final Map<ParkourPlayer, Block> lastPlayerBlockMap = new HashMap<>();
 
     public TeamSurvivalGenerator(MultiSession session) {
-        super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.IGNORE_CHECK_FOR_PROGRESS);
+        super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
 
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC);
     }
 
     @Override
     public void updatePreferences() {
-        profile.setSetting("useSchematic", "false");
-    }
-
-    @Override
-    public void updateScoreboard() {
-        super.updateScoreboard();
-
-        for (ParkourPlayer pp : getPlayers()) {
-            if (pp == player || player.board == null || pp.board == null) {
-                continue;
-            }
-
-            pp.board.updateTitle(player.board.getTitle());
-            pp.board.updateLines(player.board.getLines());
-        }
+        profile.set("useSchematic", "false");
     }
 
     @Override
     protected void registerScore() {
         for (ParkourPlayer pp : getPlayers()) {
-            getGamemode().getLeaderboard().put(pp.getUUID(),
-                    new Score(pp.getName(), stopwatch.toString(), player.calculateDifficultyScore(), score));
+            getMode().getLeaderboard().put(pp.getUUID(), new Score(pp.getName(), getTime(), Double.toString(calculateDifficultyScore()), score));
         }
     }
 
@@ -84,78 +69,39 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
                 fall();
                 return;
             }
-//            System.out.println("===");
 
             int currentIndex;
-            if (positionIndexMap.containsKey(blockBelow)) {
+            if (history.contains(blockBelow)) {
                 // player is at a known position
-//                System.out.println(pp.getName() + " at known pos");
 
                 // register as the last player block
                 lastPlayerBlockMap.put(pp, blockBelow);
                 // set the current index
-                currentIndex = positionIndexMap.get(blockBelow);
+                currentIndex = history.indexOf(blockBelow);
             } else {
-//                System.out.println(pp.getName() + " at unknown pos");
-
                 // player is not at a known position
                 if (last != null) {
-//                    System.out.println(pp.getName() + " has last known pos");
-                    currentIndex = positionIndexMap.get(last);
+                    currentIndex = history.indexOf(last);
                 } else {
-//                    System.out.println(pp.getName() + " has no last known pos");
                     currentIndex = -1;
                 }
             }
 
             if (lastIndex >= currentIndex) {
-//                System.out.println(pp.getName() + " is the new last player");
                 lastIndex = currentIndex;
                 lastPlayer = pp;
             }
-//            System.out.println("last index: " + lastIndex + " | current index: " + currentIndex);
-//            System.out.println("===");
         }
 
         if (lastPlayer != null) {
             player = lastPlayer;
         }
-
-//        Map<Integer, String> ppm = new HashMap<>();
-//        for (ParkourPlayer parkourPlayer : getPlayers()) {
-//            Block block = lastPlayerBlockMap.get(parkourPlayer);
-//
-//            int index = -1;
-//
-//            // if last registered block is null, it means the player isn't on the parkour yet, so just skip this check
-//            if (block != null && positionIndexMap.containsKey(block)) {
-//                index = positionIndexMap.get(block);
-//            }
-//
-//            ppm.put(index, parkourPlayer.getName());
-//        }
-//
-//        List<Map.Entry<Integer, String>> entries = new ArrayList<>(ppm.entrySet());
-//        entries.sort(Map.Entry.comparingByKey(Comparator.naturalOrder()));
-//
-//        Map<Integer, String> sorted = new LinkedHashMap<>();
-//        for (Map.Entry<Integer, String> entry : entries) {
-//            sorted.put(entry.getKey(), entry.getValue());
-//        }
-//
-//        for (Integer integer : sorted.keySet()) {
-//            System.out.println(integer + " - " + sorted.get(integer));
-//        }
 
         super.tick();
 
         if (lastPlayer != null) {
-//            System.out.println("last player: " + lastPlayer.getName());
             player = lastPlayer;
         }
-
-//        System.out.println("players: " + getPlayers().stream().map(ParkourUser::getName).collect(Collectors.joining()));
-//        System.out.println("specs: " + session.getSpectators());
     }
 
     @Override
@@ -177,7 +123,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     }
 
     @Override
-    public Gamemode getGamemode() {
-        return PlusGamemodes.TEAM_SURVIVAL;
+    public Mode getMode() {
+        return PlusMode.TEAM_SURVIVAL;
     }
 }

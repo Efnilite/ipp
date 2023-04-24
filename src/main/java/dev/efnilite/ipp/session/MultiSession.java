@@ -1,9 +1,11 @@
 package dev.efnilite.ipp.session;
 
-import dev.efnilite.ip.api.Gamemodes;
 import dev.efnilite.ip.api.MultiGamemode;
+import dev.efnilite.ip.mode.Mode;
+import dev.efnilite.ip.mode.Modes;
+import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.session.SingleSession;
+import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.config.PlusLocales;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -13,19 +15,16 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Efnilite
  */
-public class MultiSession extends SingleSession {
+public class MultiSession extends Session {
 
-    private int maxPlayers;
+    public int maxPlayers;
 
-    private boolean isAcceptingPlayers = true;
-
-    public static MultiSession create(@NotNull ParkourPlayer player, @NotNull MultiGamemode gamemode) {
+    public static MultiSession create(@NotNull ParkourPlayer player, @NotNull Mode gamemode) {
         // create session
         MultiSession session = new MultiSession();
         session.addPlayers(player);
-        session.register();
-
-        session.setGamemode(gamemode);
+        session.setGamemode(gamemode); // todo
+        session.isAcceptingPlayers = s -> s.getPlayers().size() < ((MultiSession) s).maxPlayers;
 
         return session;
     }
@@ -33,24 +32,18 @@ public class MultiSession extends SingleSession {
     @Override
     public void join(Player player) {
         if (isAcceptingPlayers()) {
-            MultiGamemode gamemode = (MultiGamemode) getGamemode();
-            gamemode.join(player, this);
-        } else if (isAcceptingSpectators()) {
-            Gamemodes.SPECTATOR.create(player, this);
+            MultiMode mode = (MultiMode) getMode();
+            mode.join(player, this);
+        } else if (isAcceptingSpectators) {
+            Modes.SPECTATOR.create(player, this);
         }
     }
-
-    public void setAcceptingPlayers(boolean acceptingPlayers) {
-        isAcceptingPlayers = acceptingPlayers;
-    }
-
 
     @Override
     public void addPlayers(ParkourPlayer... players) {
         for (ParkourPlayer player : players) {
             for (ParkourPlayer to : getPlayers()) {
-                to.send(PlusLocales.getString(player.getLocale(), "play.multi.other_join", false)
-                        .formatted(player.getName()));
+                to.send(PlusLocales.getString(player.locale, "play.multi.other_join", false).formatted(player.getName()));
             }
         }
 
@@ -63,26 +56,8 @@ public class MultiSession extends SingleSession {
 
         for (ParkourPlayer player : players) {
             for (ParkourPlayer to : getPlayers()) {
-                to.send(PlusLocales.getString(player.getLocale(), "play.multi.other_leave", false)
-                        .formatted(player.getName()));
+                to.send(PlusLocales.getString(player.locale, "play.multi.other_leave", false).formatted(player.getName()));
             }
         }
-    }
-
-    @Override
-    public boolean isAcceptingPlayers() {
-        if (!isAcceptingPlayers) {
-            return false;
-        }
-
-        return getPlayers().size() < maxPlayers;
-    }
-
-    public void setMaxPlayers(int maxPlayers) {
-        this.maxPlayers = maxPlayers;
-    }
-
-    public int getMaxPlayers() {
-        return maxPlayers;
     }
 }

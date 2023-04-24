@@ -1,11 +1,11 @@
 package dev.efnilite.ipp.generator.single;
 
-import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.api.Gamemode;
-import dev.efnilite.ip.generator.settings.GeneratorOption;
+import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
+import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ipp.gamemode.PlusGamemodes;
+import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -19,7 +19,7 @@ public final class SpeedGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SPECIAL_BLOCKS);
 
         player.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 2, false, false));
 
@@ -32,7 +32,7 @@ public final class SpeedGenerator extends PlusGenerator {
 
     @Override
     public void updatePreferences() {
-        profile.setSetting("blockLead", "10");
+        profile.set("blockLead", "10");
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class SpeedGenerator extends PlusGenerator {
     }
 
     @Override
-    public Gamemode getGamemode() {
-        return PlusGamemodes.SPEED;
+    public Mode getMode() {
+        return PlusMode.SPEED;
     }
 }

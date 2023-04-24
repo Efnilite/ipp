@@ -1,11 +1,9 @@
-package dev.efnilite.ipp.mode;
+package dev.efnilite.ipp.mode.lobby;
 
 import dev.efnilite.ip.IP;
-import dev.efnilite.ip.generator.base.ParkourGenerator;
-import dev.efnilite.ip.generator.data.AreaData;
+import dev.efnilite.ip.generator.ParkourGenerator;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.schematic.selection.Selection;
-import dev.efnilite.ip.session.SingleSession;
+import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.generator.single.LobbyGenerator;
 import dev.efnilite.vilib.util.Numbers;
@@ -14,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +22,6 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +94,7 @@ public class LobbyMode {
      * @param   selection
      *          The selection
      */
-    public static void save(@NotNull World world, @NotNull Selection selection) {
+    public static void save(@NotNull World world, @NotNull BoundingBox selection) {
         LobbySelection sel = new LobbySelection(selection);
         selections.put(world, sel);
 
@@ -131,7 +129,7 @@ public class LobbyMode {
      * @param   session
      *          The session
      */
-    public static void join(@NotNull SingleSession session) {
+    public static void join(@NotNull Session session) {
         LobbyGenerator generator = new LobbyGenerator(session);
         ParkourPlayer player = session.getPlayers().get(0);
         World world = player.player.getWorld();
@@ -143,8 +141,8 @@ public class LobbyMode {
             return;
         }
 
-        player.setGenerator(generator);
-        generator.setData(new AreaData(Collections.singletonList(location.getBlock())));
+        player.generator = generator;
+        generator.island.blocks = List.of(location.getBlock());
 
         // the player spawn
         Location spawn = location.clone().add(0.5, 1, 0.5);
@@ -153,7 +151,7 @@ public class LobbyMode {
         spawn.setYaw(-90);
 
         generator.generateFirst(spawn, block);
-        IP.getDivider().setup(player, spawn, true);
+        player.setup(spawn, true);
     }
 
     /**
@@ -175,11 +173,11 @@ public class LobbyMode {
             return null;
         }
 
-        Selection selection = sel.getSelection();
-        Location min = selection.getMinimumPoint();
-        Location max = selection.getMaximumPoint();
+        BoundingBox selection = sel.getBb();
+        Location min = selection.getMin().toLocation(world);
+        Location max = selection.getMax().toLocation(world);
 
-        generator.setZone(selection);
+        generator.zone = new Location[] {min, max};
 
         // get random block in selection
         int x = Numbers.random(min.getBlockX() + LOBBY_SAFE_RANGE, max.getBlockX() - LOBBY_SAFE_RANGE);

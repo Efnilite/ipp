@@ -31,21 +31,15 @@ public class InviteMenu {
             return;
         }
 
-        String sessionId = user.sessionId;
-
-        if (sessionId == null || sessionId.isEmpty()) { // no session found
-            return;
-        }
-
         PagedMenu playerMenu = new PagedMenu(4, PlusLocales.getString(player, "invite.name", false));
-        Session session = user.getSession();
+        Session session = user.session;
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.getUniqueId().equals(player.getUniqueId())) {
                 continue;
             }
 
-            Item item = PlusLocales.getItem(user.getLocale(), "invite.head", p.getName())
+            Item item = PlusLocales.getItem(user.locale, "invite.head", p.getName())
                     .material(Material.PLAYER_HEAD);
 
             ItemStack stack = item.build();
@@ -63,8 +57,7 @@ public class InviteMenu {
 
             items.add(item.click(event -> {
                 if (Cooldowns.passes(player.getUniqueId(), "multiplayer invite", 2500)) {
-                    for (String s : PlusLocales.getString(p, "invite.message", false)
-                            .formatted(player.getName(), session.getGamemode().getName(), session.getSessionId()).split("\\|\\|")) {
+                    for (String s : PlusLocales.getString(p, "invite.message", false).formatted(player.getName(), session.getMode().getName(), session.getSessionId()).split("\\|\\|")) {
                         Util.send(p, s);
                     }
 
@@ -76,17 +69,10 @@ public class InviteMenu {
         playerMenu
                 .displayRows(0, 1)
                 .addToDisplay(items)
-
-                .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT) // next page
-                        .click(event -> playerMenu.page(1)))
-                .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT) // previous page
-                        .click(event -> playerMenu.page(-1)))
-
-                .item(30, PlusLocales.getItem(player, "invite.lobby", sessionId, sessionId))
-
-                .item(32, Locales.getItem(player, "other.close")
-                        .click(event -> Menus.LOBBY.open(event.getPlayer())))
-
+                .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click(event -> playerMenu.page(1)))
+                .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click(event -> playerMenu.page(-1)))
+                .item(30, PlusLocales.getItem(player, "invite.lobby"))
+                .item(32, Locales.getItem(player, "other.close").click(event -> Menus.LOBBY.open(event.getPlayer())))
                 .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
                 .open(player);
     }
