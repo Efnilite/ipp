@@ -4,11 +4,11 @@ import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
+import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Colls;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.ipp.mode.PlusMode;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
-import dev.efnilite.ipp.session.MultiSession;
+import dev.efnilite.ipp.mode.PlusMode;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -28,14 +28,12 @@ public class SingleDuelsGenerator extends PlusGenerator {
     private BlockData blockData;
     public DuelsGenerator owningGenerator;
 
-    public SingleDuelsGenerator(@NotNull MultiSession session) {
-        super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
+    public SingleDuelsGenerator(@NotNull Session session) {
+        super(session, GeneratorOption.DISABLE_SCHEMATICS);
 
-        // setup menu
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
-        // set the task to an empty runnable
-        // this avoids the incomplete joining setup error
+        // avoids incomplete joining setup error
         task = Task.create(IPP.getPlugin())
                 .delay(1)
                 .execute(new BukkitRunnable() {
@@ -65,10 +63,5 @@ public class SingleDuelsGenerator extends PlusGenerator {
     @Override
     public Mode getMode() {
         return PlusMode.DUELS;
-    }
-
-    @Override
-    protected void registerScore() {
-
     }
 }

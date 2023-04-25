@@ -1,22 +1,21 @@
 package dev.efnilite.ipp.generator.multi;
 
-import dev.efnilite.ip.IP;
 import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.leaderboard.Score;
 import dev.efnilite.ip.mode.Mode;
+import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.Schematic;
+import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.world.WorldDivider;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.mode.PlusMode;
-import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.util.Strings;
 import dev.efnilite.vilib.util.Task;
-import dev.efnilite.vilib.vector.Vector2D;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class DuelsGenerator extends MultiplayerGenerator {
 
@@ -38,14 +38,8 @@ public final class DuelsGenerator extends MultiplayerGenerator {
     private final Map<ParkourPlayer, SpawnData> spawnData = new HashMap<>();
     private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes.%s.goal".formatted(getMode().getName().toLowerCase()));
 
-    public DuelsGenerator(@NotNull MultiSession session) {
-        super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
-    }
-
-    public void init(Vector2D point) {
-        if (point == null) {
-            return;
-        }
+    public DuelsGenerator(@NotNull Session session) {
+        super(session, schematic, GeneratorOption.DISABLE_SCHEMATICS);
 
         allowJoining = true;
         playerSpawn = WorldDivider.toLocation(session);
@@ -61,7 +55,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     public void addPlayer(ParkourPlayer player) {
         // only allow joining if the game hasn't started yet and max players
-        if (playerGenerators.keySet().size() >= 4 || !allowJoining) {
+        if (!allowJoining) {
             return;
         }
 
@@ -70,15 +64,13 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         generator.player = player;
         generator.owningGenerator = this;
 
-        generator.setPlayerIndex(playerGenerators.keySet().size());
-
-        player.generator = generator;
+        generator.setPlayerIndex(playerGenerators.size());
 
         // setup where:
         // - schematic gets pasted
         // - player gets teleported
         // - block starts generating
-        Location spawn = playerSpawn.clone().add(0, 0, (schematic.getDimensions().getX() + PlusConfigOption.DUELS_ISLAND_DISTANCE) * (getPlayers().size() - 1));
+        Location spawn = playerSpawn.clone().add(0, 0, (schematic.getDimensions().getX() + PlusConfigOption.DUELS_ISLAND_DISTANCE) * (session.getPlayers().size() - 1));
         List<Block> blocks = schematic.paste(spawn);
 
         Location playerSpawn = null;
@@ -97,8 +89,6 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
                     player.teleport(playerSpawn);
                 }
-                default -> {
-                }
             }
         }
         generator.island.blocks = blocks;
@@ -109,19 +99,22 @@ public final class DuelsGenerator extends MultiplayerGenerator {
     }
 
     public void removePlayer(ParkourPlayer player) {
-        SingleDuelsGenerator generator = this.playerGenerators.get(player);
+        SingleDuelsGenerator generator = playerGenerators.get(player);
         generator.reset(false);
 
-        generator.island.destroy();
-
-        this.playerGenerators.remove(player);
+        playerGenerators.remove(player);
 
         // if there are no other players, player automatically wins
-        if (playerGenerators.size() == 1 && !allowJoining) {
-            ParkourPlayer winner = new ArrayList<>(playerGenerators.keySet()).get(0);
-
-            win(winner);
+        if (allowJoining) {
+            return;
         }
+
+        if (playerGenerators.size() > 1) {
+            return;
+        }
+        ParkourPlayer winner = new ArrayList<>(playerGenerators.keySet()).get(0);
+
+        win(winner);
     }
 
     public void initCountdown() {
@@ -138,45 +131,33 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
                         switch (countdown.get()) {
                             case 0 -> {
-                                for (ParkourPlayer player : playerGenerators.keySet()) {
+                                playerGenerators.forEach((player, generator) -> {
                                     String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false)
                                             .formatted(goal)
                                             .split("\\|\\|");
 
                                     sendTitle(player, args[0], args[1], 0, 21, 5);
-                                    for (Block block : player.generator.island.blocks) {
+                                    for (Block block : generator.island.blocks) {
                                         if (block.getType() == Material.BARRIER) {
                                             block.setType(Material.AIR);
                                         }
                                     }
 
                                     SpawnData data = DuelsGenerator.this.spawnData.get(player);
-                                    player.generator.generateFirst(data.playerSpawn, data.blockSpawn);
-                                }
+                                    generator.generateFirst(data.playerSpawn, data.blockSpawn);
+                                });
+
                                 stopped = false;
                                 startTick();
                                 cancel();
                             }
-                            case 1 -> {
-                                for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0);
-                                }
-                            }
-                            case 2 -> {
-                                for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0);
-                                }
-                            }
-                            case 3 -> {
-                                for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0);
-                                }
-                            }
+                            case 1 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
+                            case 2 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
+                            case 3 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
                             default -> {
-                                for (ParkourPlayer player : playerGenerators.keySet()) {
-                                    sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0);
-                                }
-                                close();
+                                playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
+
+                                allowJoining = false;
                             }
                         }
                         countdown.getAndDecrement();
@@ -189,18 +170,13 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         pp.player.sendTitle(Strings.colour(title), Strings.colour(subtitle), fadeIn, duration, fadeOut);
     }
 
-    private void close() {
-        allowJoining = false;
-        session.isAcceptingPlayers = s -> false;
-    }
-
     @Override
     public void reset(boolean regenerate) {
-        if (!regenerate) {
-            for (ParkourPlayer parkourPlayer : playerGenerators.keySet()) {
-                removePlayer(parkourPlayer);
-            }
+        if (regenerate) {
+            return;
         }
+
+        playerGenerators.keySet().forEach(this::removePlayer);
     }
 
     @Override
@@ -209,23 +185,21 @@ public final class DuelsGenerator extends MultiplayerGenerator {
             return;
         }
 
-        ParkourPlayer winner = null;
+        AtomicReference<ParkourPlayer> winner = new AtomicReference<>();
 
-        for (ParkourPlayer player : playerGenerators.keySet()) {
-            SingleDuelsGenerator generator = (SingleDuelsGenerator) player.generator;
-
+        playerGenerators.forEach((player, generator) -> {
             generator.tick();
 
             if (generator.score >= goal) {
-                winner = player;
+                winner.set(player);
             }
-        }
+        });
 
-        if (winner == null) {
-            return;
-        }
+        ParkourPlayer result = winner.get();
 
-        win(winner);
+        if (result != null) {
+            win(result);
+        }
     }
 
     private void win(ParkourPlayer winner) {
@@ -235,14 +209,13 @@ public final class DuelsGenerator extends MultiplayerGenerator {
             return;
         }
 
+        SingleDuelsGenerator winningGenerator = playerGenerators.get(winner);
         String winningName = winner.getName();
-        String winningTime = winner.generator.getTime();
+        String winningTime = winningGenerator.getTime();
 
         List<Map.Entry<ParkourPlayer, SingleDuelsGenerator>> leaderboard = getLeaderboard();
 
-        for (ParkourPlayer player : playerGenerators.keySet()) {
-            SingleDuelsGenerator generator = (SingleDuelsGenerator) player.generator;
-
+        playerGenerators.forEach((player, generator) -> {
             generator.stopped = true;
 
             String[] args = PlusLocales.getString(player.player, "play.multi.duels.overview", false)
@@ -257,11 +230,10 @@ public final class DuelsGenerator extends MultiplayerGenerator {
             for (int i = 0; i < leaderboard.size(); i++) {
                 Map.Entry<ParkourPlayer, SingleDuelsGenerator> entry = leaderboard.get(i);
 
-                player.send(
+                player.send("""
+                        <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
                         """
-                                <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
-                                """
-                                .formatted(i + 1, entry.getKey().getName(), entry.getValue().score));
+                        .formatted(i + 1, entry.getKey().getName(), entry.getValue().score));
             }
 
             player.send("");
@@ -271,41 +243,28 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                         .formatted(winningTime)
                         .split("\\|\\|");
 
-                sendTitle(player, args[0], args[1], 1, 100, 10);
-
-                getMode().getLeaderboard().put(winner.getUUID(), new Score(winningName, winningTime, Double.toString(winner.generator.calculateDifficultyScore()), generator.score));
+                getMode().getLeaderboard().put(winner.getUUID(), new Score(winningName, winningTime, Double.toString(generator.calculateDifficultyScore()), generator.score));
             } else {
                 args = PlusLocales.getString(player.player, "play.multi.duels.loss", false)
                         .formatted(winningName)
                         .split("\\|\\|");
-
-                sendTitle(player, args[0], args[1], 1, 100, 10);
             }
-        }
+            sendTitle(player, args[0], args[1], 1, 100, 10);
+        });
 
-        Task.create(IPP.getPlugin())
-                .delay(10 * 20)
+        Task.create(IPP.getPlugin()).delay(10 * 20)
                 .execute(() -> {
-                    for (ParkourPlayer parkourPlayer : new ArrayList<>(playerGenerators.keySet())) {
-                        ParkourUser.unregister(parkourPlayer, true, true);
+                    for (ParkourPlayer other : playerGenerators.keySet()) {
+                        ParkourUser.unregister(other, true, true);
 
                         if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
-                            IP.getDivider().generate(ParkourPlayer.register(parkourPlayer.player));
+                            Modes.DEFAULT.create(player.player);
                         }
                     }
                 })
                 .run();
 
         this.stopped = true;
-    }
-
-    @Override
-    protected void registerScore() {
-
-    }
-
-    public Map<ParkourPlayer, SingleDuelsGenerator> getPlayerGenerators() {
-        return playerGenerators;
     }
 
     @Override

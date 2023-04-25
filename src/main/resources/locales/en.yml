@@ -93,9 +93,6 @@ play:
   multi:
     name: "<white>Multiplayer"
 
-    other_join: '<dark_green><bold>+ <reset><gray>%s joined your lobby'
-    other_leave: '<red><bold>- <reset><gray>%s left your lobby'
-
     item:
       material: "oak_boat"
       name: "<#0088CB><bold>Multiplayer"

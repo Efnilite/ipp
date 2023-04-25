@@ -8,9 +8,9 @@ import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.util.Cooldowns;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.config.PlusLocales;
+import dev.efnilite.ipp.util.Cooldowns;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
@@ -18,8 +18,6 @@ import dev.efnilite.vilib.util.Unicodes;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class MultiplayerMenu {
 
             items.add(mode.getItem(locale)
                     .click(event -> {
-                        if (Cooldowns.passes(player.getUniqueId(), "switch gamemode", 5000)) {
+                        if (Cooldowns.canPerform(player, "switch gamemode", 5000)) {
                             mode.create(player);
                         }
                     }));

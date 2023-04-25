@@ -19,7 +19,7 @@ import java.time.Instant;
 public final class HourglassGenerator extends PlusGenerator {
 
     // https://colordesigner.io/gradient-generator
-    private final static String[] GRADIENT_COLOURS = new String[] {
+    private final static String[] GRADIENT_COLOURS = new String[]{
             "#00aa00", "#31a400", "#469f00", "#559900", "#619300", "#6c8c00", "#758600", "#7d7f00", "#857800", "#8c7100",
             "#926a00", "#976200", "#9c5a00", "#a05100", "#a34800", "#a63f00", "#a83400", "#a92800", "#aa1a00", "#aa0000"
     };
@@ -35,8 +35,7 @@ public final class HourglassGenerator extends PlusGenerator {
     private Location countdownLocation;
 
     public HourglassGenerator(Session session) {
-        // setup generator settings
-        super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.INCREASED_TICK_ACCURACY); // to increase smoothness of countdown
+        super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.INCREASED_TICK_ACCURACY);
 
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC);
     }
@@ -52,10 +51,7 @@ public final class HourglassGenerator extends PlusGenerator {
         Duration delta = Duration.between(countdown, Instant.now()).abs();
         StringBuilder bar = new StringBuilder(); // build bar with time remaining
 
-        int time = (int) delta.toMillis() / 50;
-        if (time > 20) {
-            time = 20;
-        }
+        int time = Math.min((int) delta.toMillis() / 50, 20);
 
         bar.append("<").append(GRADIENT_COLOURS[time > 0 ? time - 1 : time]).append(">").append("<bold>");
 
@@ -67,9 +63,6 @@ public final class HourglassGenerator extends PlusGenerator {
         }
 
         player.player.sendTitle(Strings.colour("<reset>"), Strings.colour(bar.toString()), 0, 10, 0);
-
-//        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-//                new TextComponent(Message.parseFormatting(bar.toString())));
 
         if (delta.getSeconds() < 1) {
             return;

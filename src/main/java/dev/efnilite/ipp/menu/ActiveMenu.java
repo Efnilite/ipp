@@ -3,6 +3,7 @@ package dev.efnilite.ipp.menu;
 import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.mode.Modes;
+import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
@@ -10,7 +11,6 @@ import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ip.world.WorldDivider;
 import dev.efnilite.ipp.config.PlusLocales;
-import dev.efnilite.ipp.session.MultiSession;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
@@ -47,13 +47,13 @@ public class ActiveMenu {
         List<Session> list = new ArrayList<>(sessions);
         list.sort((session1, session2) -> {
             int max1 = 1;
-            if (session1 instanceof MultiSession) {
-                max1 = ((MultiSession) session1).maxPlayers;
+            if (session1.generator.getMode() instanceof MultiMode multiMode) {
+                max1 = multiMode.getMaxPlayers();
             }
 
             int max2 = 1;
-            if (session2 instanceof MultiSession) {
-                max2 = ((MultiSession) session2).maxPlayers;
+            if (session2.generator.getMode() instanceof MultiMode multiMode) {
+                max2 = multiMode.getMaxPlayers();
             }
 
             int open1 = max1 - session1.getPlayers().size();
@@ -80,13 +80,13 @@ public class ActiveMenu {
 
             item.click(event -> {
                 if (WorldDivider.sessions.containsValue(session)) {
-                    ((MultiSession) session).join(player);
+                    ((MultiMode) session.generator.getMode()).join(player, session);
                 }
             });
 
             int max = 1;
-            if (session instanceof MultiSession ms) {
-                max = ms.maxPlayers;
+            if (session.generator.getMode() instanceof MultiMode multiMode) {
+                max = multiMode.getMaxPlayers();
             }
 
             String main = "<#59DB3E>";
@@ -105,7 +105,7 @@ public class ActiveMenu {
                 item.material(Material.RED_STAINED_GLASS_PANE)
                         .click(event -> {
                             ParkourUser u = ParkourUser.getUser(event.getPlayer());
-                            if ((u != null && session == u.session) || session.isAcceptingSpectators.apply(session)) {
+                            if ((u != null && session == u.session) || session.isAcceptingSpectators()) {
                                 return;
                             }
 
@@ -117,7 +117,7 @@ public class ActiveMenu {
             List<String> lore = new ArrayList<>();
 
             lore.add("<gray>Players: " + accent + session.getPlayers().size() + "<dark_gray>/" + max);
-            lore.add("<gray>Mode: " + accent + session.getPlayers().get(0).generator.getMode().getName());
+            lore.add("<gray>Mode: " + accent + session.generator.getMode().getName());
             lore.add("");
 
             if (session.getPlayers().size() > 0) {
@@ -136,7 +136,7 @@ public class ActiveMenu {
                 }
             }
 
-            if (openSpaces == 0 && session.isAcceptingSpectators.apply(session)) {
+            if (openSpaces == 0 && session.isAcceptingSpectators()) {
                 lore.add("");
                 lore.add(accent + "You can only join as spectator.");
             }

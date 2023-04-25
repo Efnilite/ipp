@@ -1,10 +1,10 @@
 package dev.efnilite.ipp.generator.single;
 
-import dev.efnilite.ip.ParkourOption;
-import dev.efnilite.ip.api.events.PlayerScoreEvent;
-import dev.efnilite.ip.generator.settings.GeneratorOption;
+import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
+import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.mode.PlusMode;
@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -27,28 +28,29 @@ import java.util.List;
  */
 public final class SuperJumpGenerator extends PlusGenerator {
 
+    // the platform radius, excluding the inner block
+    private static final int PLATFORM_RADIUS = 2;
     private double jumpDistance = 4;
     private final LinkedHashMap<List<Block>, Integer> positionIndexMap = new LinkedHashMap<>();
 
     public SuperJumpGenerator(Session session) {
         // setup settings
-        super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
+        super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATIC,
-                ParkourOption.SCORE_DIFFICULTY, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATIC, ParkourOption.SPECIAL_BLOCKS);
 
         updateJumpDistance();
 
         heightChances.clear();
-        heightChances.put(0, 0);
+        heightChances.put(0, 1.0);
 
         player.player.setMaximumAir(100_000_000);
     }
 
     @Override
-    public void updatePreferences() {
-        profile.setSetting("blockLead", "1");
+    public void overrideProfile() {
+        profile.set("blockLead", "1");
     }
 
     // update jump distance
@@ -56,7 +58,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
         jumpDistance += 0.3;
 
         distanceChances.clear();
-        distanceChances.put(0, (int) jumpDistance);
+        distanceChances.put((int) jumpDistance, 1.0);
 
         Player bPlayer = player.player;
 
@@ -79,20 +81,17 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
     @Override
     public List<Block> selectBlocks() {
-        Block next = selectNext(mostRecentBlock, (int) jumpDistance, 0);// no difference in height
+        Block next = selectNext(getLatest(), (int) jumpDistance, 0);// no difference in height
 
         if (next == null) {
             return Collections.emptyList();
         }
 
-        List<Block> blocks = getBlocksAround(next, 2);
-        mostRecentBlock = next.getLocation();
-
-        return blocks;
+        return getBlocksAround(next);
     }
 
-    private List<Block> getBlocksAround(Block base, int radius) {
-        int lastOfRadius = 2 * radius + 1;
+    private List<Block> getBlocksAround(Block base) {
+        int lastOfRadius = 2 * PLATFORM_RADIUS + 1;
         int baseX = base.getX();
         int baseY = base.getY();
         int baseZ = base.getZ();
@@ -101,9 +100,9 @@ public final class SuperJumpGenerator extends PlusGenerator {
         World world = base.getWorld();
         int amount = lastOfRadius * lastOfRadius;
         for (int i = 0; i < amount; i++) {
-            int[] coords = Util.spiralAt(i);
-            int x = coords[0];
-            int z = coords[1];
+            int[] xz = Util.spiralAt(i);
+            int x = xz[0];
+            int z = xz[1];
 
             x += baseX;
             z += baseZ;
@@ -118,11 +117,18 @@ public final class SuperJumpGenerator extends PlusGenerator {
      */
     @Override
     public void tick() {
-        updateTime();
-        updateScoreboard();
+        if (stopped) {
+            task.cancel();
+            return;
+        }
 
-        session.updateSpectators();
-        player.player.setSaturation(20);
+        session.getPlayers().forEach(other -> {
+            updateVisualTime(other, other.selectedTime);
+            other.updateScoreboard(this);
+            other.player.setSaturation(20);
+        });
+
+        session.getSpectators().forEach(ParkourSpectator::update);
 
         Location playerLocation = player.getLocation();
 
@@ -153,17 +159,16 @@ public final class SuperJumpGenerator extends PlusGenerator {
             return;
         }
 
-        if (!stopwatch.hasStarted()) { // start stopwatch when first point is achieved
-            stopwatch.start();
+        if (start == null) { // start stopwatch when first point is achieved
+            start = Instant.now();
         }
 
         lastStandingPlayerLocation = playerLocation.clone();
 
-        new PlayerScoreEvent(player).call();
         score();
 
-        int blockLead = profile.getValue("blockLead").asInt();
-        int deltaCurrentTotal = positionIndexTotal - currentIndex; // delta between current index and total
+        int blockLead = profile.get("blockLead").asInt();
+        int deltaCurrentTotal = history.size() - currentIndex; // delta between current index and total
         if (deltaCurrentTotal <= blockLead) {
             generate(blockLead - deltaCurrentTotal); // generate the remaining amount so it will match
         }
@@ -190,20 +195,8 @@ public final class SuperJumpGenerator extends PlusGenerator {
     }
 
     @Override
-    public void generate() {
-        List<Block> blocks = selectBlocks();
-
-        positionIndexMap.put(blocks, positionIndexTotal);
-        for (Block block : blocks) {
-            setBlock(block, selectBlockData());
-        }
-        particles(blocks);
-        positionIndexTotal++;
-    }
-
-    @Override
     public void reset(boolean regenerate) {
-        jumpDistance = 3;
+        jumpDistance = 4;
 
         player.player.removePotionEffect(PotionEffectType.SPEED);
         if (regenerate) {

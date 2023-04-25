@@ -5,7 +5,7 @@ import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.menu.ActiveMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
-import dev.efnilite.ipp.mode.lobby.LobbyMode;
+import dev.efnilite.ipp.mode.lobby.Lobby;
 import dev.efnilite.vilib.command.ViCommand;
 import dev.efnilite.vilib.particle.ParticleData;
 import dev.efnilite.vilib.particle.Particles;
@@ -99,15 +99,15 @@ public class PlusCommand extends ViCommand {
 
                         BoundingBox bb = BoundingBox.of(existingSelection[0], existingSelection[1]);
 
-                        if (bb.getWidthX() < LobbyMode.MINIMUM_SIZE ||
-                                bb.getHeight() < LobbyMode.MINIMUM_SIZE ||
-                                bb.getWidthZ() < LobbyMode.MINIMUM_SIZE) {
-                            Util.send(player, "%sYou haven't made the area big enough! It needs to be at least <bold>%d</bold> blocks in all directions.".formatted(IPP.PREFIX, LobbyMode.MINIMUM_SIZE));
+                        if (bb.getWidthX() < Lobby.MINIMUM_SIZE ||
+                                bb.getHeight() < Lobby.MINIMUM_SIZE ||
+                                bb.getWidthZ() < Lobby.MINIMUM_SIZE) {
+                            Util.send(player, "%sYou haven't made the area big enough! It needs to be at least <bold>%d</bold> blocks in all directions.".formatted(IPP.PREFIX, Lobby.MINIMUM_SIZE));
                             return true;
                         }
 
                         Util.send(player, IPP.PREFIX + "Your lobby area selection is being saved.");
-                        LobbyMode.save(player.getWorld(), bb);
+                        Lobby.save(player.getWorld(), bb);
                     }
                 }
             }

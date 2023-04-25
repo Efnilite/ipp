@@ -29,7 +29,7 @@ public class PlusHandler implements Listener {
         ItemStack item = event.getItem();
         Item start = PlusLocales.getItem(pp.locale, "play.multi.duels.start");
 
-        if (item == null || item.getType() != start.getMaterial() || !(pp.generator instanceof SingleDuelsGenerator generator)) {
+        if (item == null || item.getType() != start.getMaterial() || !(pp.session.generator instanceof SingleDuelsGenerator generator)) {
             return;
         }
 

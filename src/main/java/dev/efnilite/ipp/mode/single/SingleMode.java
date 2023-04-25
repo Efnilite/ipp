@@ -27,17 +27,14 @@ public abstract class SingleMode implements Mode {
      */
     protected void create(Player player, Function<Session, ParkourGenerator> generator) {
         ParkourPlayer pp = ParkourPlayer.getPlayer(player);
-        if (pp != null && pp.generator.getMode().getName().equals(getName())) {
+        if (pp != null && pp.session.generator.getMode().getName().equals(getName())) {
             return;
         }
-
         player.closeInventory();
-
-        pp = ParkourUser.register(player);
 
         Session.create()
                 .generator(generator)
-                .addPlayers(pp)
+                .addPlayers(ParkourUser.register(player))
                 .complete();
     }
 }

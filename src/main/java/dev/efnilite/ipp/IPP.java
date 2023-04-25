@@ -4,20 +4,21 @@ import dev.efnilite.ip.api.Registry;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.mode.Mode;
+import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ipp.config.PlusConfig;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.PlusLocales;
-import dev.efnilite.ipp.mode.PlusMode;
-import dev.efnilite.ipp.mode.multi.DuelsMode;
-import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
-import dev.efnilite.ipp.mode.single.*;
 import dev.efnilite.ipp.generator.single.PracticeGenerator;
 import dev.efnilite.ipp.menu.ActiveMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
-import dev.efnilite.ipp.session.MultiSession;
+import dev.efnilite.ipp.mode.PlusMode;
+import dev.efnilite.ipp.mode.lobby.Lobby;
+import dev.efnilite.ipp.mode.multi.DuelsMode;
+import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
+import dev.efnilite.ipp.mode.single.*;
 import dev.efnilite.ipp.style.IncrementalStyle;
 import dev.efnilite.ipp.util.PlusHandler;
 import dev.efnilite.ipp.util.UpdateChecker;
@@ -119,7 +120,7 @@ public final class IPP extends ViPlugin {
         Registry.register(new IncrementalStyle());
         Registry.getStyleType("incremental").addConfigStyles("styles.incremental.list", configuration.getFile("config"));
 
-        dev.efnilite.ipp.mode.lobby.LobbyMode.read();
+        Lobby.read();
         PlusMode.init();
 
         // Register stuff for main menu
@@ -134,7 +135,7 @@ public final class IPP extends ViPlugin {
                 (player, user) -> PlusLocales.getItem(player, "play.single.practice.items.settings").click(
                         event -> {
                             ParkourPlayer pp = ParkourPlayer.getPlayer(event.getPlayer());
-                            if (pp != null && pp.generator instanceof PracticeGenerator generator) {
+                            if (pp != null && pp.session.generator instanceof PracticeGenerator generator) {
                                 generator.open();
                             }
                         }),
@@ -142,7 +143,7 @@ public final class IPP extends ViPlugin {
                     ParkourPlayer pp = ParkourPlayer.getPlayer(player);
                     return PlusOption.PRACTICE_SETTINGS.mayPerform(player) &&
                             pp != null &&
-                            pp.generator instanceof PracticeGenerator;
+                            pp.session.generator instanceof PracticeGenerator;
                 });
 
         Menus.LOBBY.registerMainItem(1, 2,
@@ -154,7 +155,7 @@ public final class IPP extends ViPlugin {
                     // only show is user is parkourplayer and first player in session (the owner)
                     return PlusOption.INVITE.mayPerform(player) &&
                             user instanceof ParkourPlayer &&
-                            user.session instanceof MultiSession &&
+                            user.session.generator.getMode() instanceof MultiMode &&
                             user.session.getPlayers().get(0) == user;
                 });
 

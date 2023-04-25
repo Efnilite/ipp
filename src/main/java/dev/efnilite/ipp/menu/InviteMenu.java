@@ -4,9 +4,9 @@ import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.util.Cooldowns;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.config.PlusLocales;
+import dev.efnilite.ipp.util.Cooldowns;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
@@ -56,8 +56,8 @@ public class InviteMenu {
             }
 
             items.add(item.click(event -> {
-                if (Cooldowns.passes(player.getUniqueId(), "multiplayer invite", 2500)) {
-                    for (String s : PlusLocales.getString(p, "invite.message", false).formatted(player.getName(), session.getMode().getName(), session.getSessionId()).split("\\|\\|")) {
+                if (Cooldowns.canPerform(player, "multiplayer invite", 2500)) {
+                    for (String s : PlusLocales.getString(p, "invite.message", false).formatted(player.getName(), session.generator.getMode().getName(), player.getName()).split("\\|\\|")) {
                         Util.send(p, s);
                     }
 

@@ -3,6 +3,7 @@ package dev.efnilite.ipp.generator.single;
 import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.generator.ParkourGenerator;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
+import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.session.Session;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +18,10 @@ public abstract class PlusGenerator extends ParkourGenerator {
 
     public PlusGenerator(@NotNull Session session, GeneratorOption... generatorOptions) {
         super(session, generatorOptions);
+    }
+
+    public PlusGenerator(@NotNull Session session, @NotNull Schematic schematic, GeneratorOption... generatorOptions) {
+        super(session, schematic, generatorOptions);
     }
 
     @Override

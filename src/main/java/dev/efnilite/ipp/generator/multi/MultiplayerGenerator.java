@@ -1,22 +1,29 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ip.schematic.Schematic;
+import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
-import dev.efnilite.ipp.session.MultiSession;
 
 import java.util.List;
 
 public abstract class MultiplayerGenerator extends PlusGenerator {
 
-    /**
-     * The session that belongs to this Generator
-     */
-    protected MultiSession session;
+    protected ParkourSettingsMenu menu;
 
-    public MultiplayerGenerator(MultiSession session, GeneratorOption... options) {
+    public MultiplayerGenerator(Session session, GeneratorOption... options) {
         super(session, options);
-        this.session = session;
+    }
+
+    public MultiplayerGenerator(Session session, Schematic schematic, GeneratorOption... options) {
+        super(session, schematic, options);
+    }
+
+    @Override
+    public void menu() {
+        menu.open(player);
     }
 
     public List<ParkourPlayer> getPlayers() {

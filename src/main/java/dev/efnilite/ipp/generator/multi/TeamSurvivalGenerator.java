@@ -1,13 +1,12 @@
 package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.generator.GeneratorOption;
-import dev.efnilite.ip.leaderboard.Score;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.mode.PlusMode;
-import dev.efnilite.ipp.session.MultiSession;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
@@ -22,22 +21,15 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     // where every player is
     private final Map<ParkourPlayer, Block> lastPlayerBlockMap = new HashMap<>();
 
-    public TeamSurvivalGenerator(MultiSession session) {
-        super(session, GeneratorOption.DISABLE_ADAPTIVE, GeneratorOption.DISABLE_SCHEMATICS);
+    public TeamSurvivalGenerator(Session session) {
+        super(session, GeneratorOption.DISABLE_SCHEMATICS);
 
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC);
     }
 
     @Override
-    public void updatePreferences() {
+    public void overrideProfile() {
         profile.set("useSchematic", "false");
-    }
-
-    @Override
-    protected void registerScore() {
-        for (ParkourPlayer pp : getPlayers()) {
-            getMode().getLeaderboard().put(pp.getUUID(), new Score(pp.getName(), getTime(), Double.toString(calculateDifficultyScore()), score));
-        }
     }
 
     @Override
@@ -107,8 +99,8 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     @Override
     public void reset(boolean regenerate) {
         if (!regenerate) {
-            if (session.getPlayers().size() == 1) {
-                player = session.getPlayers().get(0);
+            if (getPlayers().size() == 1) {
+                player = getPlayers().get(0);
                 regenerate = true;
             }
         }

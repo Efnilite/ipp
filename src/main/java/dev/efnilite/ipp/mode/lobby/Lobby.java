@@ -16,20 +16,19 @@ import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Class for lobby modes
  */
-public class LobbyMode {
+public class Lobby {
 
     /**
      * The range from the edge of the selection, in order to ensure a safe spawn.
@@ -39,7 +38,7 @@ public class LobbyMode {
     /**
      * The minimum size of the axes of a selection.
      */
-    public static final int MINIMUM_SIZE = 3 * LOBBY_SAFE_RANGE; // 50x50x50
+    public static final int MINIMUM_SIZE = 3 * LOBBY_SAFE_RANGE; // 30x30x30
     private static final Map<World, LobbySelection> selections = new HashMap<>();
     private static final Path FOLDER = Paths.get(IPP.getPlugin().getDataFolder().toString(), "worlds");
 
@@ -47,52 +46,43 @@ public class LobbyMode {
      * Read all lobby mode files in the IP/lobbies
      */
     public static void read() {
-        Task.create(IPP.getPlugin())
-                .async()
-                .execute(() -> {
-                    try {
-                        if (!FOLDER.toFile().exists()) {
-                            FOLDER.toFile().mkdirs();
-                        }
+        Task.create(IPP.getPlugin()).async().execute(() -> {
+            if (!FOLDER.toFile().exists()) {
+                FOLDER.toFile().mkdirs();
+                return;
+            }
 
-                        // get all worlds in which lobbies are active
-                        List<Path> files = Files.list(FOLDER) // only json files
-                                .toList();
+            try (Stream<Path> files = Files.list(FOLDER)) {
+                // get all worlds in which lobbies are active
+                files.forEach(path -> {
+                    String fileName = path.getFileName().toString().split("\\.")[0];
+                    World world = Bukkit.getWorld(fileName);
 
-                        for (Path file : files) {
-                            String fileName = file.getFileName().toString().split("\\.")[0];
-                            World world = Bukkit.getWorld(fileName);
-
-                            if (world == null) {
-                                continue;
-                            }
-
-                            FileReader reader = new FileReader(file.toFile());
-
-                            LobbySelection readInstance = IP.getGson().fromJson(reader, LobbySelection.class);
-                            LobbySelection selection = LobbySelection.from(world, readInstance.pos1, readInstance.pos2); // prevent ghost instances
-
-                            selections.put(world, selection);
-
-                            reader.close();
-                        }
-                    } catch (Throwable throwable) {
-                        IPP.logging().stack("Could not read files in lobbies folder",
-                                "delete the lobbies folder and restart", throwable);
+                    if (world == null) {
+                        return;
                     }
-                })
-                .run();
+
+                    try (FileReader reader = new FileReader(path.toFile())) {
+                        LobbySelection readInstance = IP.getGson().fromJson(reader, LobbySelection.class);
+                        LobbySelection selection = LobbySelection.from(world, readInstance.pos1, readInstance.pos2); // prevent ghost instances
+
+                        selections.put(world, selection);
+                    } catch (Exception ex) {
+                        IPP.logging().stack("Could not read files in lobbies folder", "delete the lobbies folder and restart", ex);
+                    }
+                });
+            } catch (Exception ex) {
+                IPP.logging().stack("Could not list files in lobbies folder", "delete the lobbies folder and restart", ex);
+            }
+        }).run();
     }
 
     /**
      * Saves lobby mode settings for a specific world in memory and in a file.
-     * Stored in the WITP/lobbies folder.
+     * Stored in the IPP/lobbies folder.
      *
-     * @param   world
-     *          The world
-     *
-     * @param   selection
-     *          The selection
+     * @param world     The world
+     * @param selection The selection
      */
     public static void save(@NotNull World world, @NotNull BoundingBox selection) {
         LobbySelection sel = new LobbySelection(selection);
@@ -110,14 +100,13 @@ public class LobbyMode {
                         File file = path.toFile();
                         file.createNewFile();
 
-                        FileWriter writer = new FileWriter(file);
+                        try (FileWriter writer = new FileWriter(file)) {
+                            IP.getGson().toJson(sel, writer);
 
-                        IP.getGson().toJson(sel, writer);
-
-                        writer.flush();
-                        writer.close();
-                    } catch (Throwable throwable) {
-                        IPP.logging().stack("Error while trying to save lobby mode settings for world " + world.getName(), throwable);
+                            writer.flush();
+                        }
+                    } catch (Exception ex) {
+                        IPP.logging().stack("Error while trying to save lobby mode settings for world " + world.getName(), ex);
                     }
                 })
                 .run();
@@ -126,8 +115,7 @@ public class LobbyMode {
     /**
      * Joins a player to the lobby mode in the world they are in, if there is one.
      *
-     * @param   session
-     *          The session
+     * @param session The session
      */
     public static void join(@NotNull Session session) {
         LobbyGenerator generator = new LobbyGenerator(session);
@@ -141,7 +129,6 @@ public class LobbyMode {
             return;
         }
 
-        player.generator = generator;
         generator.island.blocks = List.of(location.getBlock());
 
         // the player spawn
@@ -151,33 +138,30 @@ public class LobbyMode {
         spawn.setYaw(-90);
 
         generator.generateFirst(spawn, block);
-        player.setup(spawn, true);
+        player.setup(spawn);
+        session.generator.startTick();
     }
 
     /**
      * Generates a random spawn in the lobby selection in a specific world.
      * Sets the spawn block as well.
      *
-     * @param   world
-     *          The world.
-     *
-     * @param   generator
-     *          The player's generator
-     *
+     * @param world     The world.
+     * @param generator The player's generator
      * @return the Location of the spawn block.
      */
     public static @Nullable Location generateSpawn(@NotNull World world, @NotNull ParkourGenerator generator) {
-        LobbySelection sel = selections.get(world);
+        LobbySelection selection = selections.get(world);
 
-        if (sel == null) {
+        if (selection == null) {
             return null;
         }
 
-        BoundingBox selection = sel.getBb();
-        Location min = selection.getMin().toLocation(world);
-        Location max = selection.getMax().toLocation(world);
+        BoundingBox bb = selection.getBb();
+        Location min = bb.getMin().toLocation(world);
+        Location max = bb.getMax().toLocation(world);
 
-        generator.zone = new Location[] {min, max};
+        generator.zone = new Location[]{min, max};
 
         // get random block in selection
         int x = Numbers.random(min.getBlockX() + LOBBY_SAFE_RANGE, max.getBlockX() - LOBBY_SAFE_RANGE);

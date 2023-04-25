@@ -153,37 +153,6 @@ public class PlusLocales {
     }
 
     /**
-     * Gets a coloured String list from the provided path in the provided locale file
-     *
-     * @param locale The locale
-     * @param path   The path
-     * @return a coloured String list
-     */
-    public static List<String> getStringList(String locale, String path, boolean colour) {
-        FileConfiguration base = locales.get(locale);
-
-        if (base == null) {
-            String defaultLang = Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG);
-
-            if (defaultLang == null) {
-                IPP.logging().stack("No default language found", "check your config for an incorrect lang default value");
-                return Collections.emptyList();
-            }
-
-            base = locales.get(defaultLang);
-        }
-
-        List<String> strings = base.getStringList(path);
-
-        if (strings.isEmpty()) {
-            IPP.logging().stack("Invalid config path: " + path, "contact the developer");
-            return Collections.emptyList();
-        }
-
-        return colour ? strings.stream().map(Strings::colour).collect(Collectors.toList()) : strings;
-    }
-
-    /**
      * Returns an item from a json locale file.
      * The locale is derived from the player.
      * If the player is a {@link ParkourUser}, their locale value will be used.
