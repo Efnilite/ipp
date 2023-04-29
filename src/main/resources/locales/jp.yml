@@ -1,0 +1,171 @@
+# 日本語 (Japanese, jp)
+# By Efnilite
+# Copy this file and change the name to add your own language!
+# Materials have to be from: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# Learn more about colouring: https://docs.adventure.kyori.net/minimessage/format.html#format
+
+name: "日本語"
+
+play:
+  single:
+    hourglass:
+      material: "sand"
+      name: "<#CFB410><bold>砂時計"
+      lore: "<dark_gray>You can only stand on blocks for 1 second"
+
+    practice:
+      item:
+        material: "white_wool"
+        name: "<white><bold>練習"
+        lore: "<dark_gray>Practice specific types of jumps"
+
+      items:
+        settings:
+          material: "comparator"
+          name: "<#E74FA1><bold>練習設定"
+          lore: ""
+
+        one_block:
+          material: ""
+          name: "<bold>１ブロックジャンプ"
+          lore: "<gray>この設定を変える、クリックします。"
+
+        two_block:
+          material: ""
+          name: "<bold>２ブロックジャンプ"
+          lore: "<gray>この設定を変える、クリックします。"
+
+        three_block:
+          material: ""
+          name: "<bold>３ブロックジャンプ"
+          lore: "<gray>この設定を変える、クリックします。"
+
+        four_block:
+          material: ""
+          name: "<bold>４ブロックジャンプ"
+          lore: "<gray>この設定を変える、クリックします。"
+
+        normal:
+          material: ""
+          name: "<bold>ノーマル"
+          lore: "<gray>この設定を変える、クリックします。"
+
+        ice:
+          material: ""
+          name: "<bold>氷"
+          lore: "<gray>この設定を変える、クリックします。"
+
+        slabs:
+          material: ""
+          name: "<bold>スラブ"
+          lore: "<gray>この設定を変える、クリックします。"
+
+        glass_panes:
+          material: ""
+          name: "<bold>ガラス板"
+          lore: "<gray>この設定を変える、クリックします。"
+
+        fences:
+          material: ""
+          name: "<bold>フェンス"
+          lore: "<gray>この設定を変える、クリックします。"
+
+    wave_trial:
+      material: "sand"
+      name: "<#1882DE><bold>波試し"
+      lore: "<dark_gray>Go up and down the stairs-simulator!"
+
+    speed:
+      material: "lingering_potion"
+      name: "<#1882DE><bold>速度"
+      lore: "<dark_gray>速度は大切!"
+
+    super_jump:
+      material: "rabbit_foot"
+      name: "<#08508E><bold>スーパージャンプ"
+      lore: "<dark_gray>Jump from platform to platform||<dark_gray>while you become faster and faster||<red>This gamemode is very difficult!"
+
+    time_trial:
+      material: "clock"
+      name: "<#9A0BC7><bold>時間試し"
+      lore: "<dark_gray>Reach a score of 100 as fast as you can"
+
+  multi:
+    name: "<white>マルチプレイ"
+
+    item:
+      material: "oak_boat"
+      name: "<#0088CB><bold>マルチプレイ"
+      lore: ""
+
+    duels:
+      go: "<#1BE3DD><bold>行く！||<reset><gray>First to %d wins!"
+      victory: "<#EEB40D><bold>勝ち||<reset><gray>You won in %s!"
+      loss: "<#6E1111><bold>負け||<reset><gray>%sは勝者です!"
+
+      overview: "<#34B2F9>%s<gray> has won the game in %s!||<#34B2F9><bold>Leaderboard:"
+      duel_self: "<gray>You can't duel yourself. Invite someone using the Your Lobby menu!"
+
+      item:
+        material: "red_concrete"
+        name: "<#C91212><bold>決闘"
+        lore: "<dark_gray>Race opponents to 100 points!||<dark_gray>If someone falls, they'll be reset to the start."
+
+      start:
+        material: "lime_banner"
+        name: "<#5EC743><bold>始めるをクリックします!"
+        lore: ""
+
+    team_survival:
+      material: "poppy"
+      name: "<#C91212><bold>チームサバイバル"
+      lore: "<dark_gray>Live as long as you can with your entire team||<dark_gray>If someone falls, everyone's back to start"
+
+styles:
+  incremental:
+    material: "scaffolding"
+    name: "<#348EDB><bold>インクリメンタル"
+    lore: ""
+
+active:
+  name: "<white>ロビー"
+
+  item:
+    material: "chest"
+    name: "<#EA9926><bold>View current lobbies"
+    lore: ""
+
+  head:
+    material: ""
+    name: "<#59DB3E><bold>%sのロビー"
+    lore: "<gray>モード: <#C8F2C0>%s||||<gray>プレイヤー||%p||<gray>見物人||%s"
+
+  sort:
+    material: "bookshelf"
+    name: "<#DEA11F><bold>並べ替えします"
+    lore: ""
+
+  refresh:
+    material: "blaze_powder"
+    name: "<#2FBC11><bold>リフレッシュ"
+    lore: ""
+
+invite:
+  name: "<white>Click to invite"
+  message: "<gray>You've been invited by <#F55252><bold>%s<reset><gray> to join their <#F37777><bold>%s<reset><gray> game!||<reset><gray>Use <#FAB4B4><bold>/parkour join %s<reset><gray> to join!"
+  success: "<gray>You've invited %s."
+
+  item:
+    material: "elytra"
+    name: "<#2B97E2><bold>Invite"
+    lore: ""
+
+  head:
+    material: ""
+    name: "<#abcdef><bold>%s"
+    lore: ""
+
+  lobby:
+    material: "paper"
+    name: "<#0b55e0><bold>%sのロビー"
+    lore: "<gray>Players can also use||<#346edb><underlined>/parkour join %s||<reset><gray>to join this lobby."
