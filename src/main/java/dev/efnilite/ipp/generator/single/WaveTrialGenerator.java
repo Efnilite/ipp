@@ -36,7 +36,7 @@ public class WaveTrialGenerator extends PlusGenerator {
         player.player.resetTitle();
 
         heightChances.clear();
-        heightChances.put(0, 1.0);
+        heightChances.put(1, 1.0);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class WaveTrialGenerator extends PlusGenerator {
         if (score >= goal) {
             score = goal;
 
-            getMode().getLeaderboard().put(player.getUUID(), new Score(player.getName(), getTime(), Double.toString(calculateDifficultyScore()), score));
+            getMode().getLeaderboard().put(player.getUUID(), new Score(player.getName(), getTime(), Double.toString(getDifficultyScore()), score));
 
             player.teleport(player.getLocation().subtract(0, 15, 0));
         }
