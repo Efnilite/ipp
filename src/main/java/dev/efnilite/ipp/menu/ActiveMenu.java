@@ -79,9 +79,11 @@ public class ActiveMenu {
             Item item = new Item(Material.LIME_STAINED_GLASS_PANE, ""); // todo finish
 
             item.click(event -> {
-                if (WorldDivider.sessions.containsValue(session)) {
-                    ((MultiMode) session.generator.getMode()).join(player, session);
+                if (!WorldDivider.sessions.containsValue(session) || !(session.generator.getMode() instanceof MultiMode)) {
+                    return;
                 }
+
+                ((MultiMode) session.generator.getMode()).join(player, session);
             });
 
             int max = 1;
@@ -104,27 +106,27 @@ public class ActiveMenu {
 
                 item.material(Material.RED_STAINED_GLASS_PANE)
                         .click(event -> {
-                            ParkourUser u = ParkourUser.getUser(event.getPlayer());
-                            if ((u != null && session == u.session) || session.isAcceptingSpectators()) {
+                            ParkourUser other = ParkourUser.getUser(event.getPlayer());
+                            if ((other != null && session == other.session) || !session.isAcceptingSpectators()) {
                                 return;
                             }
 
                             Modes.SPECTATOR.create(player, session);
                         });
             }
-            item.name(main + "<bold>Lobby " + session.getPlayers().get(0).getName());
+            item.name("%s<bold>Lobby %s".formatted(main, session.getPlayers().get(0).getName()));
 
             List<String> lore = new ArrayList<>();
 
-            lore.add("<gray>Players: " + accent + session.getPlayers().size() + "<dark_gray>/" + max);
-            lore.add("<gray>Mode: " + accent + session.generator.getMode().getName());
+            lore.add("<gray>Players: %s%d<dark_gray>/%d".formatted(accent, session.getPlayers().size(), max));
+            lore.add("<gray>Mode: %s%s".formatted(accent, session.generator.getMode().getName()));
             lore.add("");
 
             if (session.getPlayers().size() > 0) {
                 lore.add("<gray>Players:"); // #69B759
 
                 for (ParkourPlayer pp : session.getPlayers()) {
-                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getName());
+                    lore.add("<dark_gray>%s %s".formatted(Unicodes.BULLET, pp.getName()));
                 }
             }
 
@@ -132,7 +134,7 @@ public class ActiveMenu {
                 lore.add("<gray>Spectators:"); // #69B759
 
                 for (ParkourSpectator pp : session.getSpectators()) {
-                    lore.add("<dark_gray>" + Unicodes.BULLET + " " + pp.getName());
+                    lore.add("<dark_gray>%s %s".formatted(Unicodes.BULLET, pp.getName()));
                 }
             }
 

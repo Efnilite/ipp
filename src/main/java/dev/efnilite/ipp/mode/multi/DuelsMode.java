@@ -58,6 +58,11 @@ public final class DuelsMode implements MultiMode {
     }
 
     @Override
+    public int getMaxPlayers() {
+        return PlusConfigOption.DUELS_MAX_COUNT;
+    }
+
+    @Override
     public @NotNull Item getItem(String locale) {
         return PlusLocales.getItem(locale, "play.multi.%s.item".formatted(getName()));
     }

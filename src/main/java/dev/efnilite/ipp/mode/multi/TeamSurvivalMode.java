@@ -51,6 +51,11 @@ public final class TeamSurvivalMode implements MultiMode {
     }
 
     @Override
+    public int getMaxPlayers() {
+        return PlusConfigOption.TEAM_SURVIVAL_MAX_COUNT;
+    }
+
+    @Override
     public @NotNull Item getItem(String locale) {
         return PlusLocales.getItem(locale, "play.multi.%s".formatted(getName()));
     }
