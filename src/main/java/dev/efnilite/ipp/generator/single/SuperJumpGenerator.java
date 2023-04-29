@@ -1,5 +1,6 @@
 package dev.efnilite.ipp.generator.single;
 
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
@@ -24,14 +25,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * Class for speed jump gamemode
+ * Generator for speed jump mode
  */
 public final class SuperJumpGenerator extends PlusGenerator {
 
     // the platform radius, excluding the inner block
     private static final int PLATFORM_RADIUS = 2;
     private double jumpDistance = 4;
-    private final LinkedHashMap<List<Block>, Integer> positionIndexMap = new LinkedHashMap<>();
+    private final List<List<Block>> history = new ArrayList<>();
 
     public SuperJumpGenerator(Session session) {
         // setup settings
@@ -130,63 +131,52 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
         session.getSpectators().forEach(ParkourSpectator::update);
 
-        Location playerLocation = player.getLocation();
-
-        if (playerLocation.getWorld() != playerSpawn.getWorld()) { // sometimes player worlds don't match (somehow)
-            player.teleport(playerSpawn);
-            return;
-        }
-
-        if (lastStandingPlayerLocation.getY() - playerLocation.getY() > 10 && playerSpawn.distance(playerLocation) > 5) { // Fall check
+        if (player.getLocation().subtract(lastStandingPlayerLocation).getY() < -10) { // fall check
             fall();
             return;
         }
 
-        Block blockBelowPlayer = playerLocation.clone().subtract(0, 1, 0).getBlock(); // Get the block below
+        List<Block> platformBelowPlayer = match(player.getLocation().subtract(0, 1, 0).getBlock());
 
-        if (blockBelowPlayer.getType() == Material.AIR) {
+        if (platformBelowPlayer == null) { // player is presumably midair or in schematic
             return;
         }
 
-        List<Block> platform = match(blockBelowPlayer);
-        if (platform == null) {
-            return;
-        }
-        int currentIndex = positionIndexMap.get(platform); // current index of the player
+        int currentIndex = history.indexOf(platformBelowPlayer); // current index of the player
         int deltaFromLast = currentIndex - lastPositionIndexPlayer;
 
-        if (deltaFromLast <= 0 && score > 0) { // the player is actually making progress and not going backwards (current index is higher than the previous)
+        if (deltaFromLast <= 0) { // the player is actually making progress and not going backwards (current index is higher than the previous)
             return;
+        }
+
+        lastStandingPlayerLocation = player.getLocation();
+
+        int blockLead = profile.get("blockLead").asInt();
+
+        int deltaCurrentTotal = history.size() - currentIndex; // delta between current index and total
+        if (deltaCurrentTotal <= blockLead) {
+            generate(); // generate the remaining amount so it will match
+        }
+        lastPositionIndexPlayer = currentIndex;
+
+        // delete trailing blocks
+        for (int idx = 0; idx < history.size(); idx++) {
+            if (currentIndex - idx > BLOCK_TRAIL) {
+                platformBelowPlayer.forEach(block -> block.setType(Material.AIR));
+            }
+        }
+
+        for (int i = 0; i < (Option.ALL_POINTS ? deltaFromLast : 1); i++) { // score the difference
+            score();
         }
 
         if (start == null) { // start stopwatch when first point is achieved
             start = Instant.now();
         }
-
-        lastStandingPlayerLocation = playerLocation.clone();
-
-        score();
-
-        int blockLead = profile.get("blockLead").asInt();
-        int deltaCurrentTotal = history.size() - currentIndex; // delta between current index and total
-        if (deltaCurrentTotal <= blockLead) {
-            generate(blockLead - deltaCurrentTotal); // generate the remaining amount so it will match
-        }
-        lastPositionIndexPlayer = currentIndex;
-
-        // delete trailing blocks
-        for (List<Block> blocks : new ArrayList<>(positionIndexMap.keySet())) {
-            int index = positionIndexMap.get(blocks);
-            if (currentIndex - index > 2) {
-                blocks.forEach(block -> block.setType(Material.AIR));
-
-                positionIndexMap.remove(blocks);
-            }
-        }
     }
 
     private @Nullable List<Block> match(Block current) {
-        for (List<Block> blocks : positionIndexMap.keySet()) {
+        for (List<Block> blocks : history) {
             if (blocks.contains(current)) {
                 return blocks;
             }
@@ -204,17 +194,12 @@ public final class SuperJumpGenerator extends PlusGenerator {
         }
 
         // clear history
-        for (List<Block> blocks : positionIndexMap.keySet()) {
+        for (List<Block> blocks : history) {
             blocks.forEach(block -> block.setType(Material.AIR));
         }
-        positionIndexMap.clear();
+        history.clear();
 
         super.reset(regenerate);
-    }
-
-    @Override
-    public void generate(int amount) {
-        generate();
     }
 
     @Override
