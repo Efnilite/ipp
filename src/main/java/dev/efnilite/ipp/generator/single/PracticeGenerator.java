@@ -176,7 +176,7 @@ public final class PracticeGenerator extends PlusGenerator {
     }
 
     private boolean handleSpecialOff(BlockData type) {
-        if (defaultChances.size() == 1) {
+        if (defaultChances.size() == 1 && specialChances.size() == 1) {
             return false;
         }
 
