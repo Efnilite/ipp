@@ -51,7 +51,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
         // Display score to player
         StringBuilder bar = new StringBuilder(); // build bar with score remaining
         for (int i = 0; i < goal; i++) {
-            if (i % interval == 0) { // !! made for 100 score
+            if (i % interval == 0) {
                 if (i >= score) {
                     bar.append("<reset><dark_gray>");
                 } else {
@@ -60,8 +60,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
                 bar.append("|");
             }
         }
-        player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText(Strings.colour(bar + " <red><bold>| <reset>" + getTime())));
+        player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Strings.colour("%s <red><bold>| <reset>%s".formatted(bar, getTime()))));
     }
 
     @Override
@@ -74,7 +73,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
 
         score = goal;
 
-        getMode().getLeaderboard().put(player.getUUID(), new Score(player.getName(), getTime(), Double.toString(calculateDifficultyScore()), score));
+        getMode().getLeaderboard().put(player.getUUID(), new Score(player.getName(), getTime(), Double.toString(getDifficultyScore()), score));
 
         player.teleport(player.getLocation().subtract(0, 15, 0));
     }
