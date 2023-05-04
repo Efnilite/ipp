@@ -24,11 +24,15 @@ update_checker: true
 # If this is set to false, they will join a regular singleplayer IP game.
 send_back_after_multiplayer: false
 
-# -= Gamemode options =-
+# -= Mode options =-
 gamemodes:
 
   hourglass:
     enabled: true
+
+    # -= Hourglass time =-
+    # The time in milliseconds that players are allowed to stand on the block.
+    time: 500
 
   lobby:
     enabled: true

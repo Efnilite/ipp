@@ -22,9 +22,8 @@ public final class DuelsMode implements MultiMode {
         }
         player.closeInventory();
 
-        Session.create()
+        Session.create(DuelsGenerator::new)
                 .isAcceptingPlayers(session -> session.getPlayers().size() < PlusConfigOption.DUELS_MAX_COUNT && ((DuelsGenerator) session.generator).allowJoining)
-                .generator(DuelsGenerator::new)
                 .addPlayers(ParkourUser.register(player))
                 .complete();
     }

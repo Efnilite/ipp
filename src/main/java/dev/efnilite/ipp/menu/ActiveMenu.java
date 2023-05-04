@@ -147,21 +147,21 @@ public class ActiveMenu {
         }
 
         menu.displayRows(0, 1)
-                .addToDisplay(items)
-                .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click(event -> menu.page(1)))
-                .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click(event -> menu.page(-1)))
-                .distributeRowEvenly(3)
-                .item(21, PlusLocales.getItem(player, "active.refresh").click(event -> open(player, sort)))
-                .item(22, PlusLocales.getItem(player, "active.sort").click(event -> {
-                    if (sort == MenuSort.LEAST_OPEN_FIRST) {
-                        open(player, MenuSort.LEAST_OPEN_LAST);
-                    } else {
-                        open(player, MenuSort.LEAST_OPEN_FIRST);
-                    }
-                }))
-                .item(23, Locales.getItem(player, "other.close").click(event -> Menus.COMMUNITY.open(event.getPlayer())))
-                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
-                .open(player);
+            .addToDisplay(items)
+            .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click(event -> menu.page(1)))
+            .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click(event -> menu.page(-1)))
+            .distributeRowEvenly(3)
+            .item(21, PlusLocales.getItem(player, "active.refresh").click(event -> open(player, sort)))
+            .item(22, PlusLocales.getItem(player, "active.sort").click(event -> {
+                if (sort == MenuSort.LEAST_OPEN_FIRST) {
+                    open(player, MenuSort.LEAST_OPEN_LAST);
+                } else {
+                    open(player, MenuSort.LEAST_OPEN_FIRST);
+                }
+            }))
+            .item(23, Locales.getItem(player, "other.close").click(event -> Menus.COMMUNITY.open(event.getPlayer())))
+            .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
+            .open(player);
     }
 
     public enum MenuSort {

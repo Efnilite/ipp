@@ -22,7 +22,7 @@ public final class LobbyMode implements Mode {
         }
         player.closeInventory();
 
-        Session session = Session.create()
+        Session session = Session.create(LobbyGenerator::new)
                 .addPlayers(ParkourUser.register(player))
                 .complete();
 

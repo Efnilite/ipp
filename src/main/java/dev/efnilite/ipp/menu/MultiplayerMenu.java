@@ -42,20 +42,19 @@ public class MultiplayerMenu {
                 continue;
             }
 
-            items.add(mode.getItem(locale)
-                    .click(event -> {
-                        if (Cooldowns.canPerform(player, "switch gamemode", 5000)) {
-                            mode.create(player);
-                        }
-                    }));
+            items.add(mode.getItem(locale).click(event -> {
+                if (Cooldowns.canPerform(player, "switch gamemode", 5000)) {
+                    mode.create(player);
+                }
+            }));
         }
 
         menu.displayRows(0, 1)
-                .addToDisplay(items)
-                .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click(event -> menu.page(1)))
-                .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click(event -> menu.page(-1)))
-                .item(22, Locales.getItem(player, "other.close").click(event -> Menus.PLAY.open(event.getPlayer())))
-                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.LIGHT_BLUE_STAINED_GLASS_PANE)
-                .open(player);
+            .addToDisplay(items)
+            .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click(event -> menu.page(1)))
+            .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click(event -> menu.page(-1)))
+            .item(22, Locales.getItem(player, "other.close").click(event -> Menus.PLAY.open(event.getPlayer())))
+            .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.LIGHT_BLUE_STAINED_GLASS_PANE)
+            .open(player);
     }
 }

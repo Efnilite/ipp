@@ -25,9 +25,8 @@ public final class TeamSurvivalMode implements MultiMode {
         }
         player.closeInventory();
 
-        Session.create()
+        Session.create(TeamSurvivalGenerator::new)
                 .isAcceptingPlayers(session -> session.getPlayers().size() < PlusConfigOption.TEAM_SURVIVAL_MAX_COUNT)
-                .generator(TeamSurvivalGenerator::new)
                 .addPlayers(ParkourUser.register(player))
                 .complete();
     }

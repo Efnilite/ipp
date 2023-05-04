@@ -24,7 +24,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
     public TeamSurvivalGenerator(Session session) {
         super(session, GeneratorOption.DISABLE_SCHEMATICS);
 
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS);
     }
 
     @Override

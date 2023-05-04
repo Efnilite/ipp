@@ -1,6 +1,7 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.generator.JumpDirector;
 import dev.efnilite.ip.leaderboard.Score;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
@@ -11,6 +12,7 @@ import dev.efnilite.ipp.mode.PlusMode;
 import dev.efnilite.vilib.util.Strings;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.util.BoundingBox;
 
 public class WaveTrialGenerator extends PlusGenerator {
 
@@ -31,7 +33,7 @@ public class WaveTrialGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SPECIAL_BLOCKS);
 
         player.player.resetTitle();
 
@@ -46,13 +48,14 @@ public class WaveTrialGenerator extends PlusGenerator {
 
     @Override
     public void tick() {
-        double recommendedDy = updateHeight(calculateParameterization(), 10);
+        JumpDirector director = new JumpDirector(BoundingBox.of(zone[0], zone[1]), getLatest().getLocation().toVector());
+        int recommendedHeight = director.getRecommendedHeight();
 
         // if current height is fine there's no need to update the height chances
         // if current height is not fine, update heightchances to match recommendation
-        if (recommendedDy != 10) {
+        if (recommendedHeight != 0) {
             heightChances.clear();
-            heightChances.put((int) recommendedDy, 1.0);
+            heightChances.put(recommendedHeight, 1.0);
         }
 
         super.tick();

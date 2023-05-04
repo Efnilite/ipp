@@ -121,12 +121,6 @@ play:
       name: "<#C91212><bold>チームサバイバル"
       lore: "<dark_gray>Live as long as you can with your entire team||<dark_gray>If someone falls, everyone's back to start"
 
-styles:
-  incremental:
-    material: "scaffolding"
-    name: "<#348EDB><bold>インクリメンタル"
-    lore: ""
-
 active:
   name: "<white>ロビー"
 

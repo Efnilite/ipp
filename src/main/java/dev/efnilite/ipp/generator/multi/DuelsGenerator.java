@@ -119,51 +119,50 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     public void initCountdown() {
         AtomicInteger countdown = new AtomicInteger(10);
-        Task.create(IPP.getPlugin())
-                .repeat(20)
-                .execute(new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (stopped) {
-                            this.cancel();
-                            return;
-                        }
-
-                        switch (countdown.get()) {
-                            case 0 -> {
-                                playerGenerators.forEach((player, generator) -> {
-                                    String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false)
-                                            .formatted(goal)
-                                            .split("\\|\\|");
-
-                                    sendTitle(player, args[0], args[1], 0, 21, 5);
-                                    for (Block block : generator.island.blocks) {
-                                        if (block.getType() == Material.BARRIER) {
-                                            block.setType(Material.AIR);
-                                        }
-                                    }
-
-                                    SpawnData data = DuelsGenerator.this.spawnData.get(player);
-                                    generator.generateFirst(data.playerSpawn, data.blockSpawn);
-                                });
-
-                                stopped = false;
-                                startTick();
-                                cancel();
-                            }
-                            case 1 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
-                            case 2 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
-                            case 3 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
-                            default -> {
-                                playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
-
-                                allowJoining = false;
-                            }
-                        }
-                        countdown.getAndDecrement();
+        Task.create(IPP.getPlugin()).repeat(20)
+            .execute(new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (stopped) {
+                        this.cancel();
+                        return;
                     }
-                })
-                .run();
+
+                    switch (countdown.get()) {
+                        case 0 -> {
+                            playerGenerators.forEach((player, generator) -> {
+                                String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false)
+                                        .formatted(goal)
+                                        .split("\\|\\|");
+
+                                sendTitle(player, args[0], args[1], 0, 21, 5);
+                                for (Block block : generator.island.blocks) {
+                                    if (block.getType() == Material.BARRIER) {
+                                        block.setType(Material.AIR);
+                                    }
+                                }
+
+                                SpawnData data = DuelsGenerator.this.spawnData.get(player);
+                                generator.generateFirst(data.playerSpawn, data.blockSpawn);
+                            });
+
+                            stopped = false;
+                            startTick();
+                            cancel();
+                        }
+                        case 1 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
+                        case 2 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
+                        case 3 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
+                        default -> {
+                            playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
+
+                            allowJoining = false;
+                        }
+                    }
+                    countdown.getAndDecrement();
+                }
+            })
+            .run();
     }
 
     private void sendTitle(ParkourPlayer pp, String title, String subtitle, int fadeIn, int duration, int fadeOut) {
@@ -243,7 +242,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                         .formatted(winningTime)
                         .split("\\|\\|");
 
-                getMode().getLeaderboard().put(winner.getUUID(), new Score(winningName, winningTime, Double.toString(generator.calculateDifficultyScore()), generator.score));
+                getMode().getLeaderboard().put(winner.getUUID(), new Score(winningName, winningTime, Double.toString(generator.getDifficultyScore()), generator.score));
             } else {
                 args = PlusLocales.getString(player.player, "play.multi.duels.loss", false)
                         .formatted(winningName)
@@ -253,16 +252,16 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         });
 
         Task.create(IPP.getPlugin()).delay(10 * 20)
-                .execute(() -> {
-                    for (ParkourPlayer other : playerGenerators.keySet()) {
-                        ParkourUser.unregister(other, true, true);
+            .execute(() -> {
+                for (ParkourPlayer other : playerGenerators.keySet()) {
+                    ParkourUser.unregister(other, true, true);
 
-                        if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
-                            Modes.DEFAULT.create(player.player);
-                        }
+                    if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
+                        Modes.DEFAULT.create(player.player);
                     }
-                })
-                .run();
+                }
+            })
+            .run();
 
         this.stopped = true;
     }

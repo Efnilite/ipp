@@ -31,18 +31,18 @@ public class SingleDuelsGenerator extends PlusGenerator {
     public SingleDuelsGenerator(@NotNull Session session) {
         super(session, GeneratorOption.DISABLE_SCHEMATICS);
 
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         // avoids incomplete joining setup error
         task = Task.create(IPP.getPlugin())
-                .delay(1)
-                .execute(new BukkitRunnable() {
-                    @Override
-                    public void run() {
+            .delay(1)
+            .execute(new BukkitRunnable() {
+                @Override
+                public void run() {
 
-                    }
-                })
-                .run();
+                }
+            })
+            .run();
     }
 
     public void setPlayerIndex(int playerIndex) {

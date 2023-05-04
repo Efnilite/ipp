@@ -5,6 +5,7 @@ import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.mode.PlusMode;
 import dev.efnilite.vilib.util.Strings;
 import org.bukkit.Location;
@@ -37,7 +38,7 @@ public final class HourglassGenerator extends PlusGenerator {
     public HourglassGenerator(Session session) {
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.INCREASED_TICK_ACCURACY);
 
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS);
     }
 
     @Override
@@ -51,7 +52,8 @@ public final class HourglassGenerator extends PlusGenerator {
         Duration delta = Duration.between(countdown, Instant.now()).abs();
         StringBuilder bar = new StringBuilder(); // build bar with time remaining
 
-        int time = Math.min((int) delta.toMillis() / 50, 20);
+        int increments = (PlusConfigOption.HOURGLASS_TIME / 20);
+        int time = Math.min((int) delta.toMillis() / increments, 20);
 
         bar.append("<").append(GRADIENT_COLOURS[time > 0 ? time - 1 : time]).append(">").append("<bold>");
 
@@ -64,7 +66,7 @@ public final class HourglassGenerator extends PlusGenerator {
 
         player.player.sendTitle(Strings.colour("<reset>"), Strings.colour(bar.toString()), 0, 10, 0);
 
-        if (delta.getSeconds() < 1) {
+        if (delta.toMillis() < PlusConfigOption.HOURGLASS_TIME) {
             return;
         }
 

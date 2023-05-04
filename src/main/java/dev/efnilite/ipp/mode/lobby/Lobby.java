@@ -5,7 +5,6 @@ import dev.efnilite.ip.generator.ParkourGenerator;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.ipp.generator.single.LobbyGenerator;
 import dev.efnilite.vilib.util.Numbers;
 import dev.efnilite.vilib.util.Task;
 import org.bukkit.Bukkit;
@@ -16,7 +15,9 @@ import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -118,18 +119,17 @@ public class Lobby {
      * @param session The session
      */
     public static void join(@NotNull Session session) {
-        LobbyGenerator generator = new LobbyGenerator(session);
         ParkourPlayer player = session.getPlayers().get(0);
         World world = player.player.getWorld();
 
         // set spawn block
-        Location location = generateSpawn(world, generator);
+        Location location = generateSpawn(world, session.generator);
 
         if (location == null) {
             return;
         }
 
-        generator.island.blocks = List.of(location.getBlock());
+        session.generator.island.blocks = List.of(location.getBlock());
 
         // the player spawn
         Location spawn = location.clone().add(0.5, 1, 0.5);
@@ -137,7 +137,7 @@ public class Lobby {
 
         spawn.setYaw(-90);
 
-        generator.generateFirst(spawn, block);
+        session.generator.generateFirst(spawn, block);
         player.setup(spawn);
         session.generator.startTick();
     }

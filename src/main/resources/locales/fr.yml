@@ -121,12 +121,6 @@ play:
       name: "<#C91212><bold>Survie en équipe"
       lore: "<dark_gray>Survivez le plus longtemps possible avec toute votre équipe||<dark_gray> Si quelqu'un tombe, tous le monde recommence!"
 
-styles:
-  incremental:
-    material: "scaffolding"
-    name: "<#348EDB><bold>Incrémentiel"
-    lore: ""
-
 active:
   name: "<white>Lobbies"
 

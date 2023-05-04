@@ -28,7 +28,7 @@ public final class PracticeGenerator extends PlusGenerator {
     public PracticeGenerator(Session session) {
         super(session, GeneratorOption.DISABLE_SCHEMATICS);
 
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SPECIAL_BLOCKS);
 
         distanceChances.clear();
         distanceChances.put(1, 1.0);

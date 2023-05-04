@@ -32,8 +32,7 @@ public abstract class SingleMode implements Mode {
         }
         player.closeInventory();
 
-        Session.create()
-                .generator(generator)
+        Session.create(generator)
                 .addPlayers(ParkourUser.register(player))
                 .complete();
     }

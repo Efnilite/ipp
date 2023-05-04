@@ -19,7 +19,7 @@ public final class SpeedGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SPECIAL_BLOCKS);
 
         player.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 2, false, false));
 

@@ -19,19 +19,19 @@ public final class LobbyGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.LEADS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.LEADS);
 
         // remove -2 jumps
         heightChances.clear();
-        heightChances.put(1, Option.NORMAL_UP);
-        heightChances.put(0, Option.NORMAL_LEVEL);
-        heightChances.put(-1, Option.NORMAL_DOWN);
+        heightChances.put(1, Option.NORMAL_HEIGHT_1);
+        heightChances.put(0, Option.NORMAL_HEIGHT_0);
+        heightChances.put(-1, Option.NORMAL_HEIGHT_NEG1);
 
         // remove 1 block jumps
         distanceChances.clear();
-        distanceChances.put(2, Option.NORMAL_TWO_BLOCK);
-        distanceChances.put(3, Option.NORMAL_THREE_BLOCK);
-        distanceChances.put(4, Option.NORMAL_FOUR_BLOCK);
+        distanceChances.put(2, Option.NORMAL_DISTANCE_2);
+        distanceChances.put(3, Option.NORMAL_DISTANCE_3);
+        distanceChances.put(4, Option.NORMAL_DISTANCE_4);
     }
 
     @Override

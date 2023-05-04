@@ -19,7 +19,6 @@ import dev.efnilite.ipp.mode.lobby.Lobby;
 import dev.efnilite.ipp.mode.multi.DuelsMode;
 import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
 import dev.efnilite.ipp.mode.single.*;
-import dev.efnilite.ipp.style.IncrementalStyle;
 import dev.efnilite.ipp.util.PlusHandler;
 import dev.efnilite.ipp.util.UpdateChecker;
 import dev.efnilite.vilib.ViPlugin;
@@ -116,10 +115,6 @@ public final class IPP extends ViPlugin {
 
         registerMode(new WaveTrialMode());
 
-        // Style register
-        Registry.register(new IncrementalStyle());
-        Registry.getStyleType("incremental").addConfigStyles("styles.incremental.list", configuration.getFile("config"));
-
         Lobby.read();
         PlusMode.init();
 
@@ -163,6 +158,8 @@ public final class IPP extends ViPlugin {
                 (player, user) -> PlusLocales.getItem(player, "active.item")
                         .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
                 player -> PlusOption.ACTIVE.mayPerform(player) && Option.JOINING);
+
+        Option.initStyles("styles.incremental.list", "incremental", configuration.getFile("config"));
 
         if (PlusConfigOption.UPDATE_CHECKER) {
             Task.create(this)

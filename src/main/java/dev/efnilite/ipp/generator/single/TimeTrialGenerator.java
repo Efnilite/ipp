@@ -34,7 +34,7 @@ public final class TimeTrialGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATIC, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SPECIAL_BLOCKS);
 
         player.player.resetTitle();
     }

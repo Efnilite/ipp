@@ -9,7 +9,6 @@ import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.mode.PlusMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -21,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -39,7 +37,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
         super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.DISABLE_SPECIAL, GeneratorOption.REDUCE_RANDOM_BLOCK_SELECTION_ANGLE);
 
         // setup menu
-        menu = new ParkourSettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATIC, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.LEADS, ParkourOption.SCHEMATICS, ParkourOption.SPECIAL_BLOCKS);
 
         updateJumpDistance();
 
