@@ -159,7 +159,9 @@ public final class IPP extends ViPlugin {
                         .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
                 player -> PlusOption.ACTIVE.mayPerform(player) && Option.JOINING);
 
-        Option.initStyles("styles.incremental.list", "incremental", configuration.getFile("config"));
+        if (configuration.getFile("config").getBoolean("styles.incremental.enabled")) {
+            Option.initStyles("styles.incremental.list", "incremental", configuration.getFile("config"));
+        }
 
         if (PlusConfigOption.UPDATE_CHECKER) {
             Task.create(this)

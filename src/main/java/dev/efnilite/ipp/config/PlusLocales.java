@@ -57,7 +57,6 @@ public class PlusLocales {
                         plugin.saveResource("locales/en.yml", false);
                         plugin.saveResource("locales/nl.yml", false);
                         plugin.saveResource("locales/fr.yml", false);
-                        plugin.saveResource("locales/jp.yml", false);
                     }
 
                     // get all files in locales folder

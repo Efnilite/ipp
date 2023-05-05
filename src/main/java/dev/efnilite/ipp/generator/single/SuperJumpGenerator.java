@@ -9,6 +9,8 @@ import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.mode.PlusMode;
+import dev.efnilite.vilib.util.Locations;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -21,6 +23,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Generator for speed jump mode
@@ -80,13 +84,19 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
     @Override
     public List<Block> selectBlocks() {
-        Block next = selectNext(getLatest(), (int) jumpDistance, 0);// no difference in height
+        List<Location> locations = getLatestBlocks().stream()
+                .map(Block::getLocation)
+                .toList();
 
-        if (next == null) {
-            return Collections.emptyList();
-        }
+        Location min = locations.stream().reduce(Locations::min).orElseThrow();
+        Location max = locations.stream().reduce(Locations::max).orElseThrow();
 
-        return getBlocksAround(next);
+        Location center = min.add(max).multiply(.5);
+        Location next = center.add(heading.clone().multiply(jumpDistance));
+
+        List<Block> blocks = getBlocksAround(next.getBlock());
+        history.add(blocks);
+        return blocks;
     }
 
     private List<Block> getBlocksAround(Block base) {
@@ -192,12 +202,14 @@ public final class SuperJumpGenerator extends PlusGenerator {
         }
 
         // clear history
-        for (List<Block> blocks : history) {
-            blocks.forEach(block -> block.setType(Material.AIR));
-        }
+        history.forEach(blocks -> blocks.forEach(block -> block.setType(Material.AIR)));
         history.clear();
 
         super.reset(regenerate);
+    }
+
+    private List<Block> getLatestBlocks() {
+        return history.get(history.size() - 1);
     }
 
     @Override
