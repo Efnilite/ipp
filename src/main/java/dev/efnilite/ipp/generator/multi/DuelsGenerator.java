@@ -47,8 +47,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         addPlayer(player);
 
-        Task.create(IPP.getPlugin())
-                .delay(5)
+        Task.create(IPP.getPlugin()).delay(5)
                 .execute(() -> player.player.getInventory().addItem(new Item(Material.LIME_BANNER, 1, "<#5EC743><bold>CLICK TO START!").build()))
                 .run();
     }
@@ -105,13 +104,10 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         playerGenerators.remove(player);
 
         // if there are no other players, player automatically wins
-        if (allowJoining) {
+        if (allowJoining || playerGenerators.size() > 1) {
             return;
         }
 
-        if (playerGenerators.size() > 1) {
-            return;
-        }
         ParkourPlayer winner = new ArrayList<>(playerGenerators.keySet()).get(0);
 
         win(winner);
@@ -119,50 +115,46 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     public void initCountdown() {
         AtomicInteger countdown = new AtomicInteger(10);
-        Task.create(IPP.getPlugin()).repeat(20)
-            .execute(new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (stopped) {
-                        this.cancel();
-                        return;
-                    }
-
-                    switch (countdown.get()) {
-                        case 0 -> {
-                            playerGenerators.forEach((player, generator) -> {
-                                String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false)
-                                        .formatted(goal)
-                                        .split("\\|\\|");
-
-                                sendTitle(player, args[0], args[1], 0, 21, 5);
-                                for (Block block : generator.island.blocks) {
-                                    if (block.getType() == Material.BARRIER) {
-                                        block.setType(Material.AIR);
-                                    }
-                                }
-
-                                SpawnData data = DuelsGenerator.this.spawnData.get(player);
-                                generator.generateFirst(data.playerSpawn, data.blockSpawn);
-                            });
-
-                            stopped = false;
-                            startTick();
-                            cancel();
-                        }
-                        case 1 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
-                        case 2 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
-                        case 3 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
-                        default -> {
-                            playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
-
-                            allowJoining = false;
-                        }
-                    }
-                    countdown.getAndDecrement();
+        Task.create(IPP.getPlugin()).repeat(20).execute(new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (stopped) {
+                    this.cancel();
+                    return;
                 }
-            })
-            .run();
+
+                switch (countdown.get()) {
+                    case 0 -> {
+                        playerGenerators.forEach((player, generator) -> {
+                            String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false).formatted(goal).split("\\|\\|");
+
+                            sendTitle(player, args[0], args[1], 0, 21, 5);
+                            for (Block block : generator.island.blocks) {
+                                if (block.getType() == Material.BARRIER) {
+                                    block.setType(Material.AIR);
+                                }
+                            }
+
+                            SpawnData data = DuelsGenerator.this.spawnData.get(player);
+                            generator.generateFirst(data.playerSpawn, data.blockSpawn);
+                        });
+
+                        stopped = false;
+                        startTick();
+                        cancel();
+                    }
+                    case 1 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
+                    case 2 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
+                    case 3 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
+                    default -> {
+                        playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
+
+                        allowJoining = false;
+                    }
+                }
+                countdown.getAndDecrement();
+            }
+        }).run();
     }
 
     private void sendTitle(ParkourPlayer pp, String title, String subtitle, int fadeIn, int duration, int fadeOut) {
@@ -217,9 +209,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         playerGenerators.forEach((player, generator) -> {
             generator.stopped = true;
 
-            String[] args = PlusLocales.getString(player.player, "play.multi.duels.overview", false)
-                    .formatted(winningName, winningTime)
-                    .split("\\|\\|");
+            String[] args = PlusLocales.getString(player.player, "play.multi.duels.overview", false).formatted(winningName, winningTime).split("\\|\\|");
 
             player.send("");
             player.send(args[0]);
@@ -231,39 +221,39 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
                 player.send("""
                         <#0072B3>#%d <gray>%s <dark_gray>- <gray>%d
-                        """
-                        .formatted(i + 1, entry.getKey().getName(), entry.getValue().score));
+                        """.formatted(i + 1, entry.getKey().getName(), entry.getValue().score));
             }
 
             player.send("");
 
             if (player == winner) {
-                args = PlusLocales.getString(player.player, "play.multi.duels.victory", false)
-                        .formatted(winningTime)
-                        .split("\\|\\|");
+                args = PlusLocales.getString(player.player, "play.multi.duels.victory", false).formatted(winningTime).split("\\|\\|");
 
-                getMode().getLeaderboard().put(winner.getUUID(), new Score(winningName, winningTime, Double.toString(generator.getDifficultyScore()), generator.score));
+                if (generator.score >= goal) {
+                    getMode().getLeaderboard().put(winner.getUUID(), new Score(winningName, winningTime, Double.toString(generator.getDifficultyScore()), generator.score));
+                }
             } else {
-                args = PlusLocales.getString(player.player, "play.multi.duels.loss", false)
-                        .formatted(winningName)
-                        .split("\\|\\|");
+                args = PlusLocales.getString(player.player, "play.multi.duels.loss", false).formatted(winningName).split("\\|\\|");
             }
             sendTitle(player, args[0], args[1], 1, 100, 10);
         });
 
-        Task.create(IPP.getPlugin()).delay(10 * 20)
-            .execute(() -> {
-                for (ParkourPlayer other : playerGenerators.keySet()) {
-                    ParkourUser.unregister(other, true, true);
+        Task.create(IPP.getPlugin()).delay(10 * 20).execute(() -> {
+            for (ParkourPlayer other : playerGenerators.keySet()) {
+                ParkourUser.unregister(other, true, true);
 
-                    if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
-                        Modes.DEFAULT.create(player.player);
-                    }
+                if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
+                    Modes.DEFAULT.create(player.player);
                 }
-            })
-            .run();
+            }
+        }).run();
 
         this.stopped = true;
+    }
+
+    @Override
+    protected void registerScore(String time, String difficulty, int score) {
+
     }
 
     @Override

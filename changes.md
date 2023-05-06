@@ -2,6 +2,7 @@
 
 - Added invite feedback
 - Added Hourglass time option to config
+- Fixed trial times being able to be registered when score was below goal
 - Fixed Duels player cap, you can now have infinite players
 - Fixed Duels not supporting > 4 players
 - Fixed Duels having a leaderboard

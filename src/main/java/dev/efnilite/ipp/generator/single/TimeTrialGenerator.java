@@ -64,16 +64,14 @@ public final class TimeTrialGenerator extends PlusGenerator {
     }
 
     @Override
-    public void score() {
-        super.score();
-
+    protected void registerScore(String time, String difficulty, int score) {
         if (score < goal) {
             return;
         }
 
         score = goal;
 
-        getMode().getLeaderboard().put(player.getUUID(), new Score(player.getName(), getTime(), Double.toString(getDifficultyScore()), score));
+        getMode().getLeaderboard().put(player.getUUID(), new Score(player.getName(), time, difficulty, score));
 
         player.teleport(player.getLocation().subtract(0, 15, 0));
     }

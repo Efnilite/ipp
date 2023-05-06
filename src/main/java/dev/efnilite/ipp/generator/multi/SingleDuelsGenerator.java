@@ -56,6 +56,11 @@ public class SingleDuelsGenerator extends PlusGenerator {
     }
 
     @Override
+    protected void registerScore(String time, String difficulty, int score) {
+
+    }
+
+    @Override
     public BlockData selectBlockData() {
         return blockData;
     }
