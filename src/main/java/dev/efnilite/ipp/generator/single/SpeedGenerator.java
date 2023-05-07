@@ -24,7 +24,7 @@ public final class SpeedGenerator extends PlusGenerator {
         player.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 2, false, false));
 
         distanceChances.clear();
-        distanceChances.put(2, 1.0);
+        distanceChances.put(1, 1.0);
 
         heightChances.clear();
         heightChances.put(0, 1.0);

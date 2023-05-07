@@ -77,6 +77,13 @@ public final class TimeTrialGenerator extends PlusGenerator {
     }
 
     @Override
+    protected void score() {
+        super.score();
+
+        registerScore(getTime(), Double.toString(getDifficultyScore()), score);
+    }
+
+    @Override
     public Mode getMode() {
         return PlusMode.TIME_TRIAL;
     }

@@ -1,6 +1,5 @@
 package dev.efnilite.ipp.generator.single;
 
-import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
@@ -21,10 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Supplier;
 
 /**
  * Generator for speed jump mode
@@ -33,7 +30,8 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
     // the platform radius, excluding the inner block
     private static final int PLATFORM_RADIUS = 2;
-    private double jumpDistance = 4;
+    private static Supplier<Double> DEFAULT_JUMP_DISTANCE = () -> 3.0 + PLATFORM_RADIUS;
+    private double jumpDistance;
     private final List<List<Block>> history = new ArrayList<>();
 
     public SuperJumpGenerator(Session session) {
@@ -63,8 +61,6 @@ public final class SuperJumpGenerator extends PlusGenerator {
         distanceChances.clear();
         distanceChances.put((int) jumpDistance, 1.0);
 
-        Player bPlayer = player.player;
-
         // According to gathered data, the potion effect line goes roughly like this:
         // y = 3.93x - 34.9, where x is the jump distance
         // however players should start with speed 2
@@ -77,9 +73,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
             level = 255;
         }
 
-        if (level < 255) { // player has potion and new level will be under 255
-            bPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, (int) level, false, false));
-        }
+        player.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, (int) level, false, false));
     }
 
     @Override
@@ -96,28 +90,6 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
         List<Block> blocks = getBlocksAround(next.getBlock());
         history.add(blocks);
-        return blocks;
-    }
-
-    private List<Block> getBlocksAround(Block base) {
-        int lastOfRadius = 2 * PLATFORM_RADIUS + 1;
-        int baseX = base.getX();
-        int baseY = base.getY();
-        int baseZ = base.getZ();
-
-        List<Block> blocks = new ArrayList<>();
-        World world = base.getWorld();
-        int amount = lastOfRadius * lastOfRadius;
-        for (int i = 0; i < amount; i++) {
-            int[] xz = Util.spiralAt(i);
-            int x = xz[0];
-            int z = xz[1];
-
-            x += baseX;
-            z += baseZ;
-
-            blocks.add(world.getBlockAt(x, baseY, z));
-        }
         return blocks;
     }
 
@@ -146,8 +118,8 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
         List<Block> platformBelowPlayer = match(player.getLocation().subtract(0, 1, 0).getBlock());
 
-        if (platformBelowPlayer == null) { // player is presumably midair or in schematic
-            return;
+        if (!history.contains(platformBelowPlayer)) {
+            return; // player is on an unknown block
         }
 
         int currentIndex = history.indexOf(platformBelowPlayer); // current index of the player
@@ -163,20 +135,20 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
         int deltaCurrentTotal = history.size() - currentIndex; // delta between current index and total
         if (deltaCurrentTotal <= blockLead) {
-            generate(); // generate the remaining amount so it will match
+            generate(blockLead - deltaCurrentTotal); // generate the remaining amount so it will match
         }
         lastPositionIndexPlayer = currentIndex;
 
-        // delete trailing blocks
-        for (int idx = 0; idx < history.size(); idx++) {
-            if (currentIndex - idx > BLOCK_TRAIL) {
-                platformBelowPlayer.forEach(block -> block.setType(Material.AIR));
+        for (int i = currentIndex - BLOCK_TRAIL; i >= currentIndex - 2 * BLOCK_TRAIL; i--) {
+            // avoid setting beginning block to air
+            if (i <= 0) {
+                continue;
             }
+
+            history.get(i).forEach(block -> block.setType(Material.AIR));
         }
 
-        for (int i = 0; i < (Option.ALL_POINTS ? deltaFromLast : 1); i++) { // score the difference
-            score();
-        }
+        score();
 
         if (start == null) { // start stopwatch when first point is achieved
             start = Instant.now();
@@ -184,17 +156,12 @@ public final class SuperJumpGenerator extends PlusGenerator {
     }
 
     private @Nullable List<Block> match(Block current) {
-        for (List<Block> blocks : history) {
-            if (blocks.contains(current)) {
-                return blocks;
-            }
-        }
-        return null;
+        return history.stream().filter(blocks -> blocks.contains(current)).findFirst().orElse(null);
     }
 
     @Override
     public void reset(boolean regenerate) {
-        jumpDistance = 4;
+        jumpDistance = DEFAULT_JUMP_DISTANCE.get();
 
         player.player.removePotionEffect(PotionEffectType.SPEED);
         if (regenerate) {
@@ -202,10 +169,28 @@ public final class SuperJumpGenerator extends PlusGenerator {
         }
 
         // clear history
+        history.remove(0);
         history.forEach(blocks -> blocks.forEach(block -> block.setType(Material.AIR)));
         history.clear();
 
         super.reset(regenerate);
+    }
+
+    private List<Block> getBlocksAround(Block base) {
+        int lastOfRadius = 2 * PLATFORM_RADIUS + 1;
+        int baseX = base.getX();
+        int baseY = base.getY();
+        int baseZ = base.getZ();
+
+        List<Block> blocks = new ArrayList<>();
+        World world = base.getWorld();
+        int amount = lastOfRadius * lastOfRadius;
+        for (int i = 0; i < amount; i++) {
+            int[] xz = Util.spiralAt(i);
+
+            blocks.add(world.getBlockAt(xz[0] + baseX, baseY, xz[1] + baseZ));
+        }
+        return blocks;
     }
 
     private List<Block> getLatestBlocks() {
