@@ -1,5 +1,6 @@
 package dev.efnilite.ipp.generator.single;
 
+import dev.efnilite.ip.IP;
 import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
@@ -13,7 +14,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
@@ -30,8 +30,8 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
     // the platform radius, excluding the inner block
     private static final int PLATFORM_RADIUS = 2;
-    private static Supplier<Double> DEFAULT_JUMP_DISTANCE = () -> 3.0 + PLATFORM_RADIUS;
-    private double jumpDistance;
+    private static final Supplier<Double> DEFAULT_JUMP_DISTANCE = () -> 3.0 + PLATFORM_RADIUS;
+    private double jumpDistance = DEFAULT_JUMP_DISTANCE.get();
     private final List<List<Block>> history = new ArrayList<>();
 
     public SuperJumpGenerator(Session session) {
@@ -161,10 +161,9 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
     @Override
     public void reset(boolean regenerate) {
-        jumpDistance = DEFAULT_JUMP_DISTANCE.get();
-
         player.player.removePotionEffect(PotionEffectType.SPEED);
         if (regenerate) {
+            jumpDistance = DEFAULT_JUMP_DISTANCE.get();
             updateJumpDistance();
         }
 
@@ -195,6 +194,13 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
     private List<Block> getLatestBlocks() {
         return history.get(history.size() - 1);
+    }
+
+    @Override
+    public void generateFirst(Location spawn, Location block) {
+        history.add(List.of(block.getBlock()));
+        super.generateFirst(spawn, block);
+        history.remove(0);
     }
 
     @Override
