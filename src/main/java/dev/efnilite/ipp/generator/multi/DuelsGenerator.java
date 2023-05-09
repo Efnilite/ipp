@@ -228,11 +228,6 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
             if (player == winner) {
                 args = PlusLocales.getString(player.player, "play.multi.duels.victory", false).formatted(winningTime).split("\\|\\|");
-
-                if (generator.score < goal) {
-                    return;
-                }
-                getMode().getLeaderboard().put(winner.getUUID(), new Score(winningName, winningTime, Double.toString(generator.getDifficultyScore()), generator.score));
             } else {
                 args = PlusLocales.getString(player.player, "play.multi.duels.loss", false).formatted(winningName).split("\\|\\|");
             }
