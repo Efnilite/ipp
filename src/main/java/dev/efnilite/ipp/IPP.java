@@ -19,7 +19,6 @@ import dev.efnilite.ipp.mode.lobby.Lobby;
 import dev.efnilite.ipp.mode.multi.DuelsMode;
 import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
 import dev.efnilite.ipp.mode.single.*;
-import dev.efnilite.ipp.util.PlusHandler;
 import dev.efnilite.ipp.util.UpdateChecker;
 import dev.efnilite.vilib.ViPlugin;
 import dev.efnilite.vilib.util.Logging;
@@ -96,8 +95,6 @@ public final class IPP extends ViPlugin {
         Time.timerStart("enable ipp");
 
         configuration = new PlusConfig(this);
-        PlusConfigOption.init();
-        PlusLocales.init(this);
 
         // Events
         registerListener(new PlusHandler());

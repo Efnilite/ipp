@@ -1,5 +1,6 @@
 package dev.efnilite.ipp.config;
 
+import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.vilib.lib.configupdater.configupdater.ConfigUpdater;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -51,6 +52,9 @@ public class PlusConfig {
 
     public void reload() {
         files.put("config", YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/config.yml")));
+
+        PlusConfigOption.init();
+        PlusLocales.init();
     }
 
     /**

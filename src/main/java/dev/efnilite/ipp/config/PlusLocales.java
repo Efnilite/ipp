@@ -39,24 +39,24 @@ public class PlusLocales {
 
     private static FileConfiguration defaultResource;
 
-    public static void init(Plugin plugin) {
-        Task.create(plugin)
+    public static void init() {
+        Task.create(IPP.getPlugin())
                 .async()
                 .execute(() -> {
-                    defaultResource = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("locales/en.yml"), StandardCharsets.UTF_8));
+                    defaultResource = YamlConfiguration.loadConfiguration(new InputStreamReader(IPP.getPlugin().getResource("locales/en.yml"), StandardCharsets.UTF_8));
 
                     // get all nodes from the plugin's english resource, aka the most updated version
                     resourceNodes = getChildren(defaultResource);
 
-                    Path folder = Paths.get(plugin.getDataFolder() + "/locales");
+                    Path folder = Paths.get(IPP.getPlugin().getDataFolder() + "/locales");
 
                     // download files to locales folder
                     if (!folder.toFile().exists()) {
                         folder.toFile().mkdirs();
 
-                        plugin.saveResource("locales/en.yml", false);
-                        plugin.saveResource("locales/nl.yml", false);
-                        plugin.saveResource("locales/fr.yml", false);
+                        IPP.getPlugin().saveResource("locales/en.yml", false);
+                        IPP.getPlugin().saveResource("locales/nl.yml", false);
+                        IPP.getPlugin().saveResource("locales/fr.yml", false);
                     }
 
                     // get all files in locales folder

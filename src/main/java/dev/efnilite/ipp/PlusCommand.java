@@ -21,6 +21,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import static dev.efnilite.ip.util.Util.send;
+
 public class PlusCommand extends ViCommand {
 
     public static final HashMap<Player, Location[]> selections = new HashMap<>();
@@ -41,19 +43,22 @@ public class PlusCommand extends ViCommand {
                     if (sender instanceof Player && PlusOption.ACTIVE.mayPerform(player)) {
                         ActiveMenu.open(player, ActiveMenu.MenuSort.LEAST_OPEN_FIRST);
                     }
-                    return true;
                 }
                 case "create", "multiplayer" -> {
                     if (sender instanceof Player && PlusOption.MULTIPLAYER.mayPerform(player)) {
                         MultiplayerMenu.open(player);
                     }
-                    return true;
                 }
                 case "invite" -> {
                     if (sender instanceof Player && PlusOption.INVITE.mayPerform(player)) {
                         InviteMenu.open(player);
                     }
-                    return true;
+                }
+                case "reload" -> {
+                    if (sender.hasPermission(ParkourOption.ADMIN.permission)) {
+                        IPP.getConfiguration().reload();
+                        send(sender, IPP.PREFIX + "Reloaded all config files.");
+                    }
                 }
             }
         } else if (args.length == 2) {
@@ -64,7 +69,7 @@ public class PlusCommand extends ViCommand {
 
                 switch (args[1]) {
                     case "pos1" -> {
-                        Util.send(player, IPP.PREFIX + "Position 1 was set to " + Locations.toString(playerLocation, true));
+                        send(player, IPP.PREFIX + "Position 1 was set to " + Locations.toString(playerLocation, true));
 
                         if (existingSelection == null) {
                             selections.put(player, new Location[]{playerLocation, null});
@@ -75,10 +80,9 @@ public class PlusCommand extends ViCommand {
 
                         Particles.box(BoundingBox.of(playerLocation, existingSelection[1]), player.getWorld(),
                                 new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
-                        return true;
                     }
                     case "pos2" -> {
-                        Util.send(player, IPP.PREFIX + "Position 2 was set to " + Locations.toString(playerLocation, true));
+                        send(player, IPP.PREFIX + "Position 2 was set to " + Locations.toString(playerLocation, true));
 
                         if (existingSelection == null) {
                             selections.put(player, new Location[]{null, playerLocation});
@@ -89,11 +93,10 @@ public class PlusCommand extends ViCommand {
 
                         Particles.box(BoundingBox.of(existingSelection[0], playerLocation), player.getWorld(),
                                 new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
-                        return true;
                     }
                     case "save" -> {
                         if (existingSelection == null || existingSelection[0] == null || existingSelection[1] == null) {
-                            Util.send(player, IPP.PREFIX + "Your lobby area isn't complete yet. Be sure to set the first and second position!");
+                            send(player, IPP.PREFIX + "Your lobby area isn't complete yet. Be sure to set the first and second position!");
                             return true;
                         }
 
@@ -102,30 +105,30 @@ public class PlusCommand extends ViCommand {
                         if (bb.getWidthX() < Lobby.MINIMUM_SIZE ||
                                 bb.getHeight() < Lobby.MINIMUM_SIZE ||
                                 bb.getWidthZ() < Lobby.MINIMUM_SIZE) {
-                            Util.send(player, "%sYou haven't made the area big enough! It needs to be at least <bold>%d</bold> blocks in all directions.".formatted(IPP.PREFIX, Lobby.MINIMUM_SIZE));
+                            send(player, "%sYou haven't made the area big enough! It needs to be at least <bold>%d</bold> blocks in all directions.".formatted(IPP.PREFIX, Lobby.MINIMUM_SIZE));
                             return true;
                         }
 
-                        Util.send(player, IPP.PREFIX + "Your lobby area selection is being saved.");
+                        send(player, IPP.PREFIX + "Your lobby area selection is being saved.");
                         Lobby.save(player.getWorld(), bb);
                     }
                 }
             }
-            return true;
         }
         return true;
     }
 
     private void help(CommandSender sender) {
-        Util.send(sender, IPP.PREFIX + "Commands");
-        Util.send(sender, "");
-        Util.send(sender, "<#ff5050>/ipp create <dark_gray>- <gray>Create a multiplayer lobby");
-        Util.send(sender, "<#ff5050>/ipp lobbies <dark_gray>- <gray>View all multiplayer lobbies");
-        Util.send(sender, "<#ff5050>/ipp invite [player]<dark_gray>- <gray>Invite another player");
+        send(sender, IPP.PREFIX + "Commands");
+        send(sender, "");
+        send(sender, "<#ff5050>/ipp create <dark_gray>- <gray>Create a multiplayer lobby");
+        send(sender, "<#ff5050>/ipp lobbies <dark_gray>- <gray>View all multiplayer lobbies");
+        send(sender, "<#ff5050>/ipp invite [player]<dark_gray>- <gray>Invite another player");
         if (ParkourOption.ADMIN.mayPerform(sender)) {
-            Util.send(sender, "<#ff5050>/ipp lobbygm <pos1/pos2/save><dark_gray>- <gray>Setup lobby mode selection");
+            send(sender, "<#ff5050>/ipp reload - <gray>Reload the plugin");
+            send(sender, "<#ff5050>/ipp lobbygm <pos1/pos2/save><dark_gray>- <gray>Setup lobby mode selection");
         }
-        Util.send(sender, "");
+        send(sender, "");
     }
 
     @Override
@@ -135,6 +138,7 @@ public class PlusCommand extends ViCommand {
             case 0 -> {
                 completions.addAll(List.of("create", "lobbies", "invite"));
                 if (ParkourOption.ADMIN.mayPerform(sender)) {
+                    completions.add("reload");
                     completions.add("lobbygm");
                 }
             }
