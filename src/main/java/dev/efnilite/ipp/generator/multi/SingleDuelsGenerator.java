@@ -4,6 +4,7 @@ import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
+import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Colls;
 import dev.efnilite.ipp.IPP;
@@ -30,6 +31,8 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
     public SingleDuelsGenerator(@NotNull Session session) {
         super(session, GeneratorOption.DISABLE_SCHEMATICS);
+
+        player.updateGeneratorSettings(this);
 
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
@@ -81,5 +84,10 @@ public class SingleDuelsGenerator extends PlusGenerator {
     @Override
     public Mode getMode() {
         return PlusMode.DUELS;
+    }
+
+    @Override
+    public @NotNull List<ParkourPlayer> getPlayers() {
+        return List.of(player);
     }
 }

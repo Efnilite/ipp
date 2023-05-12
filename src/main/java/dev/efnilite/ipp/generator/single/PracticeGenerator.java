@@ -147,7 +147,7 @@ public final class PracticeGenerator extends PlusGenerator {
                     .modifyName("<red>%s"::formatted), event -> handleSpecialOff(OAK_FENCE)))
 
             .item(27, Locales.getItem(player.locale, "other.close")
-                .click(event -> menu()))
+                .click(event -> menu(player)))
 
             .animation(new WaveEastAnimation())
             .fillBackground(Material.CYAN_STAINED_GLASS_PANE)

@@ -22,11 +22,7 @@ public abstract class MultiplayerGenerator extends PlusGenerator {
     }
 
     @Override
-    public void menu() {
+    public void menu(ParkourPlayer player) {
         menu.open(player);
-    }
-
-    public List<ParkourPlayer> getPlayers() {
-        return session.getPlayers();
     }
 }

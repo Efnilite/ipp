@@ -103,13 +103,13 @@ public final class SuperJumpGenerator extends PlusGenerator {
             return;
         }
 
-        session.getPlayers().forEach(other -> {
+        getPlayers().forEach(other -> {
             updateVisualTime(other, other.selectedTime);
             other.updateScoreboard(this);
             other.player.setSaturation(20);
         });
 
-        session.getSpectators().forEach(ParkourSpectator::update);
+        getSpectators().forEach(ParkourSpectator::update);
 
         if (player.getLocation().subtract(lastStandingPlayerLocation).getY() < -10) { // fall check
             fall();

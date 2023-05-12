@@ -24,10 +24,7 @@ import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class DuelsGenerator extends MultiplayerGenerator {
@@ -73,7 +70,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         // - schematic gets pasted
         // - player gets teleported
         // - block starts generating
-        Location spawn = playerSpawn.clone().add(0, 0, (SCHEMATIC.getDimensions().getX() + PlusConfigOption.DUELS_ISLAND_DISTANCE) * (session.getPlayers().size() - 1));
+        Location spawn = playerSpawn.clone().add(0, 0, (SCHEMATIC.getDimensions().getX() + PlusConfigOption.DUELS_ISLAND_DISTANCE) * (getPlayers().size() - 1));
         List<Block> blocks = SCHEMATIC.paste(spawn);
 
         Location playerSpawn = null;
@@ -103,14 +100,12 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     public void removePlayer(ParkourPlayer player) {
         SingleDuelsGenerator generator = playerGenerators.get(player);
-        if (!allowJoining) {
-            generator.reset(false);
-        }
+        generator.reset(false);
 
         playerGenerators.remove(player);
 
         // if there are no other players, player automatically wins
-        if (allowJoining || playerGenerators.size() > 1) {
+        if (allowJoining || playerGenerators.size() != 1) {
             return;
         }
 
@@ -161,6 +156,11 @@ public final class DuelsGenerator extends MultiplayerGenerator {
             countdown.getAndDecrement();
             }
         }).run();
+    }
+
+    @Override
+    public void menu(ParkourPlayer player) {
+        playerGenerators.get(player).menu(player);
     }
 
     private void sendTitle(ParkourPlayer pp, String title, String subtitle, int fadeIn, int duration, int fadeOut) {
@@ -228,7 +228,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         });
 
         Task.create(IPP.getPlugin()).delay(10 * 20).execute(() -> {
-            for (ParkourPlayer other : playerGenerators.keySet()) {
+            for (ParkourPlayer other : new HashSet<>(playerGenerators.keySet())) {
                 ParkourUser.unregister(other, true, true);
 
                 if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
