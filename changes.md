@@ -4,6 +4,7 @@
 - Added Hourglass time option to config
 - Added reload command (/ipp reload)
 - Added schematics to Practice
+- Fixed Duels spectators being kicked on player leave
 - Fixed Super Jump having offset platforms
 - Fixed Super Jump having a bunch of merged platforms at lower scores
 - Fixed Trial times being able to be registered when score was below goal

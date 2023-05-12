@@ -18,7 +18,11 @@ public class IncrementalStyleManager {
                 (blocks, session) -> {
                     int increment = increments.getOrDefault(session, 0);
 
-                    increments.put(session, increment + 1);
+                    if (blocks.size() > increment + 1) {
+                        increments.put(session, increment + 1);
+                    } else {
+                        increments.put(session, 0);
+                    }
 
                     return blocks.get(increment);
                 });

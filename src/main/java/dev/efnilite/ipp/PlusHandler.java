@@ -29,13 +29,12 @@ public class PlusHandler implements Listener {
         ItemStack item = event.getItem();
         Item start = PlusLocales.getItem(pp.locale, "play.multi.duels.start");
 
-        if (item == null || item.getType() != start.getMaterial() || !(pp.session.generator instanceof SingleDuelsGenerator generator)) {
+        if (item == null || item.getType() != start.getMaterial() || !(pp.session.generator instanceof DuelsGenerator generator)) {
             return;
         }
 
-        DuelsGenerator owner = generator.owningGenerator;
-        if (owner.getPlayers().size() > 1) {
-            owner.initCountdown();
+        if (generator.getPlayers().size() > 1) {
+            generator.initCountdown();
             pp.player.getInventory().remove(Material.LIME_BANNER);
         } else {
             pp.send(PlusLocales.getString(player, "play.multi.duels.duel_self", false));

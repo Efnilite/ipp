@@ -1,7 +1,9 @@
 package dev.efnilite.ipp.generator.multi;
 
+import dev.efnilite.ip.IP;
 import dev.efnilite.ip.generator.GeneratorOption;
-import dev.efnilite.ip.leaderboard.Score;
+import dev.efnilite.ip.menu.ParkourOption;
+import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.player.ParkourPlayer;
@@ -27,25 +29,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 public final class DuelsGenerator extends MultiplayerGenerator {
 
-    private static final Schematic schematic = Schematic.create().load("spawn-island-duels");
+    private static final Schematic SCHEMATIC = Schematic.create().load(IP.getInFolder("schematics/spawn-island-duels"));
 
     public boolean allowJoining;
     public final Map<ParkourPlayer, SingleDuelsGenerator> playerGenerators = new HashMap<>();
     private final Map<ParkourPlayer, SpawnData> spawnData = new HashMap<>();
-    private final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes.%s.goal".formatted(getMode().getName().toLowerCase()));
+    public final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes.%s.goal".formatted(getMode().getName().toLowerCase()));
 
     public DuelsGenerator(@NotNull Session session) {
-        super(session, schematic, GeneratorOption.DISABLE_SCHEMATICS);
+        super(session, (Schematic) null, GeneratorOption.DISABLE_SCHEMATICS);
+
+        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         allowJoining = true;
         playerSpawn = WorldDivider.toLocation(session);
         playerSpawn.setYaw(-90);
 
         addPlayer(player);
+        player.setup(null);
 
         Task.create(IPP.getPlugin()).delay(5)
                 .execute(() -> player.player.getInventory().addItem(new Item(Material.LIME_BANNER, 1, "<#5EC743><bold>CLICK TO START!").build()))
@@ -69,8 +73,8 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         // - schematic gets pasted
         // - player gets teleported
         // - block starts generating
-        Location spawn = playerSpawn.clone().add(0, 0, (schematic.getDimensions().getX() + PlusConfigOption.DUELS_ISLAND_DISTANCE) * (session.getPlayers().size() - 1));
-        List<Block> blocks = schematic.paste(spawn);
+        Location spawn = playerSpawn.clone().add(0, 0, (SCHEMATIC.getDimensions().getX() + PlusConfigOption.DUELS_ISLAND_DISTANCE) * (session.getPlayers().size() - 1));
+        List<Block> blocks = SCHEMATIC.paste(spawn);
 
         Location playerSpawn = null;
         Location blockSpawn = null;
@@ -99,7 +103,9 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     public void removePlayer(ParkourPlayer player) {
         SingleDuelsGenerator generator = playerGenerators.get(player);
-        generator.reset(false);
+        if (!allowJoining) {
+            generator.reset(false);
+        }
 
         playerGenerators.remove(player);
 
@@ -118,41 +124,41 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         Task.create(IPP.getPlugin()).repeat(20).execute(new BukkitRunnable() {
             @Override
             public void run() {
-                if (stopped) {
-                    this.cancel();
-                    return;
-                }
+            if (stopped) {
+                this.cancel();
+                return;
+            }
 
-                switch (countdown.get()) {
-                    case 0 -> {
-                        playerGenerators.forEach((player, generator) -> {
-                            String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false).formatted(goal).split("\\|\\|");
+            switch (countdown.get()) {
+                case 0 -> {
+                    playerGenerators.forEach((player, generator) -> {
+                        String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false).formatted(goal).split("\\|\\|");
 
-                            sendTitle(player, args[0], args[1], 0, 21, 5);
-                            for (Block block : generator.island.blocks) {
-                                if (block.getType() == Material.BARRIER) {
-                                    block.setType(Material.AIR);
-                                }
+                        sendTitle(player, args[0], args[1], 0, 21, 5);
+                        for (Block block : generator.island.blocks) {
+                            if (block.getType() == Material.BARRIER) {
+                                block.setType(Material.AIR);
                             }
+                        }
 
-                            SpawnData data = DuelsGenerator.this.spawnData.get(player);
-                            generator.generateFirst(data.playerSpawn, data.blockSpawn);
-                        });
+                        SpawnData data = DuelsGenerator.this.spawnData.get(player);
+                        generator.generateFirst(data.playerSpawn, data.blockSpawn);
+                    });
 
-                        stopped = false;
-                        startTick();
-                        cancel();
-                    }
-                    case 1 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
-                    case 2 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
-                    case 3 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
-                    default -> {
-                        playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
-
-                        allowJoining = false;
-                    }
+                    stopped = false;
+                    startTick();
+                    cancel();
                 }
-                countdown.getAndDecrement();
+                case 1 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
+                case 2 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
+                case 3 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
+                default -> {
+                    playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
+
+                    allowJoining = false;
+                }
+            }
+            countdown.getAndDecrement();
             }
         }).run();
     }
@@ -173,27 +179,14 @@ public final class DuelsGenerator extends MultiplayerGenerator {
     @Override
     public void tick() {
         if (stopped) {
+            task.cancel();
             return;
         }
 
-        AtomicReference<ParkourPlayer> winner = new AtomicReference<>();
-
-        playerGenerators.forEach((player, generator) -> {
-            generator.tick();
-
-            if (generator.score >= goal) {
-                winner.set(player);
-            }
-        });
-
-        ParkourPlayer result = winner.get();
-
-        if (result != null) {
-            win(result);
-        }
+        playerGenerators.forEach((player, generator) -> generator.tick());
     }
 
-    private void win(ParkourPlayer winner) {
+    public void win(ParkourPlayer winner) {
         // prevent winning code from being activated more than once
         // could be possible in #removePlayer
         if (stopped) {

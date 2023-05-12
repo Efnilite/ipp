@@ -57,7 +57,20 @@ public class SingleDuelsGenerator extends PlusGenerator {
 
     @Override
     protected void registerScore(String time, String difficulty, int score) {
+        if (score < owningGenerator.goal) {
+            return;
+        }
 
+        this.score = owningGenerator.goal;
+
+        owningGenerator.win(player);
+    }
+
+    @Override
+    protected void score() {
+        super.score();
+
+        registerScore(getTime(), Double.toString(getDifficultyScore()), score);
     }
 
     @Override

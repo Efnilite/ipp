@@ -66,7 +66,7 @@ gamemodes:
     goal: 100
 
     # -= Duel max players =-
-    # The max amount of players a duel lobby can have
+    # The max amount of players a duel lobby can have. May be infinite.
     max: 16
 
     # -= Island distance =-
@@ -80,7 +80,7 @@ gamemodes:
     enabled: true
 
     # -= Team survival max players =-
-    # The max amount of players a team survival lobby can have
+    # The max amount of players a team survival lobby can have. May be infinite.
     max: 4
 
 # -= Extra style options =-

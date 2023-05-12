@@ -159,8 +159,8 @@ public final class PracticeGenerator extends PlusGenerator {
     public void generate() {
         super.generate();
 
-        if (schematicCooldown > 5) {
-            schematicCooldown = 5;
+        if (schematicCooldown > 1) {
+            schematicCooldown = 1;
         }
     }
 

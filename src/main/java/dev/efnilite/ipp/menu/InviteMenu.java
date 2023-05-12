@@ -71,7 +71,7 @@ public class InviteMenu {
             .addToDisplay(items)
             .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click(event -> playerMenu.page(1)))
             .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click(event -> playerMenu.page(-1)))
-            .item(30, PlusLocales.getItem(player, "invite.lobby"))
+            .item(30, PlusLocales.getItem(player, "invite.lobby", player.getName(), player.getName()))
             .item(32, Locales.getItem(player, "other.close").click(event -> Menus.LOBBY.open(event.getPlayer())))
             .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
             .open(player);
