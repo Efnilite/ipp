@@ -26,9 +26,9 @@ public final class PracticeGenerator extends PlusGenerator {
     private static final BlockData OAK_FENCE = Material.OAK_FENCE.createBlockData();
 
     public PracticeGenerator(Session session) {
-        super(session, GeneratorOption.DISABLE_SCHEMATICS);
+        super(session);
 
-        menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SPECIAL_BLOCKS);
+        menu = new ParkourSettingsMenu(ParkourOption.SPECIAL_BLOCKS);
 
         distanceChances.clear();
         distanceChances.put(1, 1.0);
@@ -45,6 +45,7 @@ public final class PracticeGenerator extends PlusGenerator {
         defaultChances.clear();
         defaultChances.put(JumpType.DEFAULT, 1.0);
         defaultChances.put(JumpType.SPECIAL, 1.0);
+        defaultChances.put(JumpType.SCHEMATIC, 1.0);
     }
 
     /**
@@ -55,104 +56,126 @@ public final class PracticeGenerator extends PlusGenerator {
         String locale = player.locale;
 
         menu
-                .item(9, new SliderItem()
-                        .initial(distanceChances.containsKey(1) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.one_block")
-                                .material(Material.LIME_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<green>" + name), event -> handleDistanceOn(1))
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.one_block")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> handleDistanceOff(1)))
+            .item(9, new SliderItem()
+                .initial(distanceChances.containsKey(1) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.one_block")
+                    .material(Material.LIME_STAINED_GLASS_PANE)
+                    .modifyName("<green>%s"::formatted), event -> handleDistanceOn(1))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.one_block")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleDistanceOff(1)))
 
-                .item(10, new SliderItem()
-                        .initial(distanceChances.containsKey(2) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.two_block")
-                                .material(Material.LIME_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<green>" + name), event -> handleDistanceOn(2))
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.two_block")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> handleDistanceOff(2)))
+            .item(10, new SliderItem()
+                .initial(distanceChances.containsKey(2) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.two_block")
+                    .material(Material.LIME_STAINED_GLASS_PANE)
+                    .modifyName("<green>%s"::formatted), event -> handleDistanceOn(2))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.two_block")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleDistanceOff(2)))
 
-                .item(11, new SliderItem()
-                        .initial(distanceChances.containsKey(3) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.three_block")
-                                .material(Material.LIME_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<green>" + name), event -> handleDistanceOn(3))
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.three_block")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> handleDistanceOff(3)))
+            .item(11, new SliderItem()
+                .initial(distanceChances.containsKey(3) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.three_block")
+                    .material(Material.LIME_STAINED_GLASS_PANE)
+                    .modifyName("<green>%s"::formatted), event -> handleDistanceOn(3))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.three_block")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleDistanceOff(3)))
 
-                .item(12, new SliderItem()
-                        .initial(distanceChances.containsKey(4) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.four_block")
-                                .material(Material.LIME_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<green>" + name), event -> handleDistanceOn(4))
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.four_block")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> handleDistanceOff(4)))
+            .item(12, new SliderItem()
+                .initial(distanceChances.containsKey(4) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.four_block")
+                    .material(Material.LIME_STAINED_GLASS_PANE)
+                    .modifyName("<green>%s"::formatted), event -> handleDistanceOn(4))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.four_block")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleDistanceOff(4)))
 
-                .item(18, new SliderItem()
-                        .initial(defaultChances.containsKey(JumpType.DEFAULT) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.normal")
-                                .material(Material.BARREL)
-                                .modifyName(name -> "<green>" + name), event -> {
-                            defaultChances.put(JumpType.DEFAULT, 1.0);
-                            return true;
-                        })
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.normal")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> {
-                            if (defaultChances.size() == 1) {
-                                return false;
-                            }
+            .item(18, new SliderItem()
+                .initial(defaultChances.containsKey(JumpType.DEFAULT) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.normal")
+                    .material(Material.BARREL)
+                    .modifyName("<green>%s"::formatted), event -> handleJumpTypeOn(JumpType.DEFAULT))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.normal")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleJumpTypeOff(JumpType.DEFAULT)))
 
-                            defaultChances.remove(JumpType.DEFAULT);
-                            return true;
-                        }))
+            .item(19, new SliderItem()
+                .initial(defaultChances.containsKey(JumpType.SCHEMATIC) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.schematics")
+                    .material(Material.SCAFFOLDING)
+                    .modifyName("<green>%s"::formatted), event -> handleJumpTypeOn(JumpType.SCHEMATIC))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.schematics")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleJumpTypeOff(JumpType.SCHEMATIC)))
 
-                .item(19, new SliderItem()
-                        .initial(specialChances.containsKey(PACKED_ICE) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.ice")
-                                .material(Material.ICE)
-                                .modifyName(name -> "<green>" + name), event -> handleSpecialOn(PACKED_ICE))
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.ice")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> handleSpecialOff(PACKED_ICE)))
+            .item(20, new SliderItem()
+                .initial(specialChances.containsKey(PACKED_ICE) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.ice")
+                    .material(Material.ICE)
+                    .modifyName("<green>%s"::formatted), event -> handleSpecialOn(PACKED_ICE))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.ice")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleSpecialOff(PACKED_ICE)))
 
-                .item(20, new SliderItem()
-                        .initial(specialChances.containsKey(SMOOTH_QUARTZ_SLAB) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.slabs")
-                                .material(Material.SMOOTH_QUARTZ_SLAB)
-                                .modifyName(name -> "<green>" + name), event -> handleSpecialOn(SMOOTH_QUARTZ_SLAB))
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.slabs")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> handleSpecialOff(SMOOTH_QUARTZ_SLAB)))
+            .item(21, new SliderItem()
+                .initial(specialChances.containsKey(SMOOTH_QUARTZ_SLAB) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.slabs")
+                    .material(Material.SMOOTH_QUARTZ_SLAB)
+                    .modifyName("<green>%s"::formatted), event -> handleSpecialOn(SMOOTH_QUARTZ_SLAB))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.slabs")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleSpecialOff(SMOOTH_QUARTZ_SLAB)))
 
-                .item(21, new SliderItem()
-                        .initial(specialChances.containsKey(GLASS_PANE) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.glass_panes")
-                                .material(Material.GLASS_PANE)
-                                .modifyName(name -> "<green>" + name), event -> handleSpecialOn(GLASS_PANE))
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.glass_panes")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> handleSpecialOff(GLASS_PANE)))
+            .item(22, new SliderItem()
+                .initial(specialChances.containsKey(GLASS_PANE) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.glass_panes")
+                    .material(Material.GLASS_PANE)
+                    .modifyName("<green>%s"::formatted), event -> handleSpecialOn(GLASS_PANE))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.glass_panes")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleSpecialOff(GLASS_PANE)))
 
-                .item(22, new SliderItem()
-                        .initial(specialChances.containsKey(OAK_FENCE) ? 0 : 1)
-                        .add(0, PlusLocales.getItem(locale, "play.single.practice.items.fences")
-                                .material(Material.OAK_FENCE)
-                                .modifyName(name -> "<green>" + name), event -> handleSpecialOn(OAK_FENCE))
-                        .add(1, PlusLocales.getItem(locale, "play.single.practice.items.fences")
-                                .material(Material.RED_STAINED_GLASS_PANE)
-                                .modifyName(name -> "<red>" + name), event -> handleSpecialOff(OAK_FENCE)))
+            .item(23, new SliderItem()
+                .initial(specialChances.containsKey(OAK_FENCE) ? 0 : 1)
+                .add(0, PlusLocales.getItem(locale, "play.single.practice.items.fences")
+                    .material(Material.OAK_FENCE)
+                    .modifyName("<green>%s"::formatted), event -> handleSpecialOn(OAK_FENCE))
+                .add(1, PlusLocales.getItem(locale, "play.single.practice.items.fences")
+                    .material(Material.RED_STAINED_GLASS_PANE)
+                    .modifyName("<red>%s"::formatted), event -> handleSpecialOff(OAK_FENCE)))
 
-                .item(27, Locales.getItem(player.locale, "other.close")
-                        .click(event -> menu()))
+            .item(27, Locales.getItem(player.locale, "other.close")
+                .click(event -> menu()))
 
-                .animation(new WaveEastAnimation())
-                .fillBackground(Material.CYAN_STAINED_GLASS_PANE)
-                .distributeRowEvenly(0, 1, 2, 3)
-                .open(player.player);
+            .animation(new WaveEastAnimation())
+            .fillBackground(Material.CYAN_STAINED_GLASS_PANE)
+            .distributeRowEvenly(0, 1, 2, 3)
+            .open(player.player);
+    }
+
+    @Override
+    public void generate() {
+        super.generate();
+
+        if (schematicCooldown > 5) {
+            schematicCooldown = 5;
+        }
+    }
+
+    private boolean handleJumpTypeOn(JumpType type) {
+        defaultChances.put(type, 1.0);
+        return true;
+    }
+
+    private boolean handleJumpTypeOff(JumpType type) {
+        if (defaultChances.size() == 1) {
+            return false;
+        }
+
+        defaultChances.remove(type);
+        return true;
     }
 
     private boolean handleDistanceOn(int distance) {

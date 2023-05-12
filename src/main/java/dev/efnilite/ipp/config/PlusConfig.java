@@ -46,8 +46,6 @@ public class PlusConfig {
         } catch (IOException ex) {
             IPP.logging().stack("Error while updating config.yml", ex);
         }
-
-        reload();
     }
 
     public void reload() {

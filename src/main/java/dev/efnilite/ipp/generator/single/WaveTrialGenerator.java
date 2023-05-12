@@ -48,6 +48,11 @@ public class WaveTrialGenerator extends PlusGenerator {
 
     @Override
     public void tick() {
+        if (stopped) {
+            task.cancel();
+            return;
+        }
+
         JumpDirector director = new JumpDirector(BoundingBox.of(zone[0], zone[1]), getLatest().getLocation().toVector());
         int recommendedHeight = director.getRecommendedHeight();
 
@@ -86,6 +91,14 @@ public class WaveTrialGenerator extends PlusGenerator {
         getMode().getLeaderboard().put(player.getUUID(), new Score(player.getName(), time, difficulty, score));
 
         player.teleport(player.getLocation().subtract(0, 15, 0));
+    }
+
+    @Override
+    public void reset(boolean regenerate) {
+        super.reset(regenerate);
+
+        heightChances.clear();
+        heightChances.put(1, 1.0);
     }
 
     @Override

@@ -50,6 +50,11 @@ play:
           name: "<bold>ノーマル"
           lore: "<gray>この設定を変える、クリックします。"
 
+        schematics:
+          material: ""
+          name: "<bold>Schematics"
+          lore: "<gray>Click to change this setting."
+
         ice:
           material: ""
           name: "<bold>氷"

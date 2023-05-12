@@ -11,7 +11,7 @@ play:
     hourglass:
       material: "sand"
       name: "<#CFB410><bold>Sablier"
-      lore: "<dark_gray>Vous ne pouvez vous tenir sur des blocs que pendant 1 seconde"
+      lore: "<dark_gray>Vous ne pouvez vous tenir sur des blocs que pendant 0.5 seconde"
 
     practice:
       item:
@@ -49,6 +49,11 @@ play:
           material: ""
           name: "<bold>Normal"
           lore: "<gray>Cliquez pour modifier ce paramètre."
+
+        schematics:
+          material: ""
+          name: "<bold>Schematics"
+          lore: "<gray>Click to change this setting."
 
         ice:
           material: ""

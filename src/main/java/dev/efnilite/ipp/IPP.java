@@ -19,6 +19,7 @@ import dev.efnilite.ipp.mode.lobby.Lobby;
 import dev.efnilite.ipp.mode.multi.DuelsMode;
 import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
 import dev.efnilite.ipp.mode.single.*;
+import dev.efnilite.ipp.style.IncrementalStyleManager;
 import dev.efnilite.ipp.util.UpdateChecker;
 import dev.efnilite.vilib.ViPlugin;
 import dev.efnilite.vilib.util.Logging;
@@ -95,6 +96,7 @@ public final class IPP extends ViPlugin {
         Time.timerStart("enable ipp");
 
         configuration = new PlusConfig(this);
+        configuration.reload();
 
         // Events
         registerListener(new PlusHandler());
@@ -157,13 +159,16 @@ public final class IPP extends ViPlugin {
                 player -> PlusOption.ACTIVE.mayPerform(player) && Option.JOINING);
 
         if (configuration.getFile("config").getBoolean("styles.incremental.enabled")) {
-            Option.initStyles("styles.incremental.list", "incremental", configuration.getFile("config"));
+            IncrementalStyleManager.register();
         }
 
         if (PlusConfigOption.UPDATE_CHECKER) {
             Task.create(this)
                     .async()
-                    .execute(() -> UpdateChecker.check(this))
+                    .execute(() -> {
+                        UpdateChecker.check(this);
+                        IncrementalStyleManager.clear();
+                    })
                     .delay(5 * 20)
                     .repeat(8 * 60 * 60 * 20)
                     .run();

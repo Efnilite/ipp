@@ -11,7 +11,7 @@ play:
     hourglass:
       material: "sand"
       name: "<#CFB410><bold>Hourglass"
-      lore: "<dark_gray>You can only stand on blocks for 1 second"
+      lore: "<dark_gray>You can only stand on blocks for half a second"
 
     practice:
       item:
@@ -48,6 +48,11 @@ play:
         normal:
           material: ""
           name: "<bold>Normal"
+          lore: "<gray>Click to change this setting."
+
+        schematics:
+          material: ""
+          name: "<bold>Schematics"
           lore: "<gray>Click to change this setting."
 
         ice:

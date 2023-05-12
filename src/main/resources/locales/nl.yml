@@ -11,7 +11,7 @@ play:
     hourglass:
       material: "sand"
       name: "<#CFB410><bold>Zandloper"
-      lore: "<dark_gray>Je kan op maar voor 1 seconde op blokken staan"
+      lore: "<dark_gray>Je kan op maar voor een halve seconde op blokken staan"
 
     practice:
       item:
@@ -48,6 +48,11 @@ play:
         normal:
           material: ""
           name: "<bold>Normaal"
+          lore: "<gray>Klik om deze instelling te veranderen."
+
+        schematics:
+          material: ""
+          name: "<bold>Schematics"
           lore: "<gray>Klik om deze instelling te veranderen."
 
         ice:
