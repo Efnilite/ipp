@@ -39,9 +39,8 @@ public final class TeamSurvivalMode implements MultiMode {
         player.closeInventory();
 
         ParkourPlayer pp = ParkourUser.register(player);
-        pp.setup(session.generator.playerSpawn);
-
         session.addPlayers(pp);
+        pp.setup(session.generator.playerSpawn);
     }
 
     @Override

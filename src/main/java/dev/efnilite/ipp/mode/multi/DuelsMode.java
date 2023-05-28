@@ -39,10 +39,9 @@ public final class DuelsMode implements MultiMode {
         DuelsGenerator generator = (DuelsGenerator) session.generator;
 
         ParkourPlayer pp = ParkourUser.register(player);
-        pp.setup(null);
-
         session.addPlayers(pp);
         generator.addPlayer(pp);
+        pp.setup(null);
     }
 
     @Override
