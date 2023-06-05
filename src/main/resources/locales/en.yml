@@ -151,7 +151,7 @@ active:
 
 invite:
   name: "<white>Click to invite"
-  message: "<gray>You've been invited by <#F55252><bold>%s<reset><gray> to join their <#F37777><bold>%s<reset><gray> game!||<reset><gray>Use <#FAB4B4><bold>/parkour join %s<reset><gray> to join!"
+  message: "<gray>You've been invited by <#F55252>%s<reset><gray> to join their <#F37777><bold>%s<reset><gray> game!<reset><gray>Click or use <#FAB4B4>/parkour join %s<reset><gray> to join!"
   success: "<gray>You've invited %s."
 
   item:

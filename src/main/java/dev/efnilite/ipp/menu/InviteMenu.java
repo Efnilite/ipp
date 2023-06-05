@@ -1,7 +1,9 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.config.Locales;
+import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.Menus;
+import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
@@ -13,6 +15,7 @@ import dev.efnilite.vilib.inventory.item.MenuItem;
 import dev.efnilite.vilib.util.SkullSetter;
 import dev.efnilite.vilib.util.Unicodes;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InviteMenu {
+
+    private static boolean HAS_ADVENTURE = true;
+
+    static {
+        try {
+            Class.forName("net.kyori.adventure.text.minimessage.MiniMessage");
+        } catch (ClassNotFoundException ex) {
+            HAS_ADVENTURE = false;
+        }
+    }
 
     public static void open(Player player) {
         List<MenuItem> items = new ArrayList<>();
@@ -34,12 +47,12 @@ public class InviteMenu {
         PagedMenu playerMenu = new PagedMenu(4, PlusLocales.getString(player, "invite.name", false));
         Session session = user.session;
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (p.getUniqueId().equals(player.getUniqueId())) {
+        for (Player other : Bukkit.getOnlinePlayers()) {
+            if (other.getUniqueId().equals(player.getUniqueId())) {
                 continue;
             }
 
-            Item item = PlusLocales.getItem(user.locale, "invite.head", p.getName())
+            Item item = PlusLocales.getItem(user.locale, "invite.head", other.getName())
                     .material(Material.PLAYER_HEAD);
 
             ItemStack stack = item.build();
@@ -50,18 +63,24 @@ public class InviteMenu {
                 SkullMeta meta = (SkullMeta) stack.getItemMeta();
 
                 if (meta != null) {
-                    SkullSetter.setPlayerHead(p, meta);
+                    SkullSetter.setPlayerHead(other, meta);
                     item.meta(meta);
                 }
             }
 
             items.add(item.click(event -> {
                 if (Cooldowns.canPerform(player, "multiplayer invite", 2500)) {
-                    for (String s : PlusLocales.getString(p, "invite.message", false).formatted(player.getName(), session.generator.getMode().getName(), player.getName()).split("\\|\\|")) {
-                        Util.send(p, s);
+                    for (String s : PlusLocales.getString(other, "invite.message", false).formatted(player.getName(),
+                            ChatColor.stripColor(session.generator.getMode().getItem(Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG)).getName()),
+                            player.getName()).split("\\|\\|")) {
+                        if (HAS_ADVENTURE) {
+                            new AdventureInviteSender(other, player, s);
+                        } else {
+                            Util.send(other, s);
+                        }
                     }
 
-                    Util.send(player, PlusLocales.getString(player, "invite.success", false).formatted(p.getName()));
+                    Util.send(player, PlusLocales.getString(player, "invite.success", false).formatted(other.getName()));
                 }
             }));
         }
