@@ -98,8 +98,8 @@ styles:
 
       medieval: [spruce_planks, cobblestone, spruce_wood, stone_bricks, mossy_stone_bricks]
       fall: [brown_mushroom_block, red_mushroom_block, mushroom_stem, carved_pumpkin, pumpkin]
-      city: [smooth_stone, bricks, stone_brick, cyan_terracotta]
-      fairy: [smooth_sandstone, white_terracotta, pink_concrete_powder, pink_stained_glass, pink_stained_terracotta]
+      city: [smooth_stone, bricks, stone_bricks, cyan_terracotta]
+      fairy: [smooth_sandstone, white_terracotta, pink_concrete_powder, pink_stained_glass, pink_terracotta]
       rainbow: [red_concrete, orange_concrete, yellow_concrete, lime_concrete, light_blue_concrete, blue_concrete, purple_concrete, magenta_concrete]
       steampunk: [waxed_copper_block, waxed_cut_copper, spruce_log, stripped_dark_oak_log, stone_bricks]
       bees: [honeycomb_block, beehive, bee_nest, flowering_azalea_leaves]
