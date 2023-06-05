@@ -5,6 +5,7 @@ import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
+import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.Material;
@@ -16,7 +17,7 @@ public final class LobbyGenerator extends PlusGenerator {
 
     public LobbyGenerator(Session session) {
         // setup generator settings
-        super(session, GeneratorOption.DISABLE_SCHEMATICS);
+        super(session, (Schematic) null, GeneratorOption.DISABLE_SCHEMATICS);
 
         // setup menu
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.LEADS);

@@ -7,8 +7,6 @@ import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
 
-import java.util.List;
-
 public abstract class MultiplayerGenerator extends PlusGenerator {
 
     protected ParkourSettingsMenu menu;

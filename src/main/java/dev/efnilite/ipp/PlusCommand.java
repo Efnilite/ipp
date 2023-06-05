@@ -1,7 +1,6 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.menu.ParkourOption;
-import dev.efnilite.ip.util.Util;
 import dev.efnilite.ipp.menu.ActiveMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;

@@ -7,11 +7,10 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.session.Session;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * DefaultGenerator wrap for IP+, with
- * - common variables
- * - common methods.
+ * DefaultGenerator wrap for IP+.
  */
 public abstract class PlusGenerator extends ParkourGenerator {
 
@@ -21,7 +20,7 @@ public abstract class PlusGenerator extends ParkourGenerator {
         super(session, generatorOptions);
     }
 
-    public PlusGenerator(@NotNull Session session, @NotNull Schematic schematic, GeneratorOption... generatorOptions) {
+    public PlusGenerator(@NotNull Session session, @Nullable Schematic schematic, GeneratorOption... generatorOptions) {
         super(session, schematic, generatorOptions);
     }
 

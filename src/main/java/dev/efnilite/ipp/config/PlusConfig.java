@@ -1,6 +1,5 @@
 package dev.efnilite.ipp.config;
 
-import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.vilib.lib.configupdater.configupdater.ConfigUpdater;
 import org.bukkit.configuration.file.FileConfiguration;

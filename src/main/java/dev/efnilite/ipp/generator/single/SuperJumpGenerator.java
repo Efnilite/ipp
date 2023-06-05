@@ -1,6 +1,5 @@
 package dev.efnilite.ipp.generator.single;
 
-import dev.efnilite.ip.IP;
 import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
