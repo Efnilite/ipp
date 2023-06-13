@@ -14,7 +14,6 @@ import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.vilib.inventory.PagedMenu;
 import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
-import dev.efnilite.vilib.util.Unicodes;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -126,7 +125,7 @@ public class ActiveMenu {
                 lore.add("<gray>Players:"); // #69B759
 
                 for (ParkourPlayer pp : session.getPlayers()) {
-                    lore.add("<dark_gray>%s %s".formatted(Unicodes.BULLET, pp.getName()));
+                    lore.add("<dark_gray>• %s".formatted(pp.getName()));
                 }
             }
 
@@ -134,7 +133,7 @@ public class ActiveMenu {
                 lore.add("<gray>Spectators:"); // #69B759
 
                 for (ParkourSpectator pp : session.getSpectators()) {
-                    lore.add("<dark_gray>%s %s".formatted(Unicodes.BULLET, pp.getName()));
+                    lore.add("<dark_gray>• %s".formatted(pp.getName()));
                 }
             }
 
@@ -148,8 +147,8 @@ public class ActiveMenu {
 
         menu.displayRows(0, 1)
             .addToDisplay(items)
-            .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>" + Unicodes.DOUBLE_ARROW_RIGHT).click(event -> menu.page(1)))
-            .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>" + Unicodes.DOUBLE_ARROW_LEFT).click(event -> menu.page(-1)))
+            .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>»").click(event -> menu.page(1)))
+            .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>«").click(event -> menu.page(-1)))
             .distributeRowEvenly(3)
             .item(21, PlusLocales.getItem(player, "active.refresh").click(event -> open(player, sort)))
             .item(22, PlusLocales.getItem(player, "active.sort").click(event -> {

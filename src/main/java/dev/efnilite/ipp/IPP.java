@@ -33,15 +33,18 @@ import org.jetbrains.annotations.Nullable;
 public final class IPP extends ViPlugin {
 
     private static IPP instance;
+    private static Logging logging;
+
     private static PlusConfig configuration;
-    public static final String REQUIRED_VILIB_VERSION = "1.1.0";
-    public static final String REQUIRED_IP_VERSION = "4.1.1";
+    public static final String REQUIRED_VILIB_VERSION = "1.2.0";
+    public static final String REQUIRED_IP_VERSION = "5.1.0";
 
     public static final String PREFIX = "<gradient:#ff5050:#ff66cc>Infinite Parkour+<reset><gray> ";
 
     @Override
     public void enable() {
         instance = this;
+        logging = new Logging(this);
 
         Plugin vilib = getServer().getPluginManager().getPlugin("vilib");
         if (vilib == null || !vilib.isEnabled()) {
@@ -217,7 +220,7 @@ public final class IPP extends ViPlugin {
      * @return this plugin's {@link Logging} instance.
      */
     public static Logging logging() {
-        return getPlugin().logging;
+        return logging;
     }
 
     /**
