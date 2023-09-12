@@ -1,5 +1,6 @@
 package dev.efnilite.ipp.util;
 
+import dev.efnilite.ipp.IPP;
 import org.bukkit.plugin.Plugin;
 
 import java.io.BufferedReader;
@@ -14,8 +15,8 @@ public class UpdateChecker {
         String latest;
         try {
             latest = getLatestVersion(plugin);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            IPP.logging().stack("Error while trying to get the latest version", ex);
             return;
         }
         if (!plugin.getDescription().getVersion().equals(latest)) {

@@ -16,6 +16,7 @@ import dev.efnilite.vilib.inventory.item.Item;
 import dev.efnilite.vilib.inventory.item.MenuItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,27 +44,7 @@ public class ActiveMenu {
         }
 
         // sort all sessions by available player count
-        List<Session> list = new ArrayList<>(sessions);
-        list.sort((session1, session2) -> {
-            int max1 = 1;
-            if (session1.generator.getMode() instanceof MultiMode multiMode) {
-                max1 = multiMode.getMaxPlayers();
-            }
-
-            int max2 = 1;
-            if (session2.generator.getMode() instanceof MultiMode multiMode) {
-                max2 = multiMode.getMaxPlayers();
-            }
-
-            int open1 = max1 - session1.getPlayers().size();
-            int open2 = max2 - session2.getPlayers().size();
-            if (sort == MenuSort.LEAST_OPEN_FIRST) {
-                return open1 - open2;
-            } else {
-                return open2 - open1;
-            }
-        });
-        sessions = list; // sort sessions
+        sessions = getSessions(sort, sessions); // sort sessions
 
         // put tournaments first
         List<MenuItem> items = new ArrayList<>();
@@ -75,15 +56,7 @@ public class ActiveMenu {
 //                            ChatColor.stripColor(session.getGamemode().getItem(locale).getName())) // gamemode
 //                    .material(Material.LIME_STAINED_GLASS_PANE);
 
-            Item item = new Item(Material.LIME_STAINED_GLASS_PANE, ""); // todo finish
-
-            item.click(event -> {
-                if (!WorldDivider.sessions.containsValue(session) || !(session.generator.getMode() instanceof MultiMode)) {
-                    return;
-                }
-
-                ((MultiMode) session.generator.getMode()).join(player, session);
-            });
+            Item item = getItem(player, session);
 
             int max = 1;
             if (session.generator.getMode() instanceof MultiMode multiMode) {
@@ -121,7 +94,7 @@ public class ActiveMenu {
             lore.add("<gray>Mode: %s%s".formatted(accent, session.generator.getMode().getName()));
             lore.add("");
 
-            if (session.getPlayers().size() > 0) {
+            if (!session.getPlayers().isEmpty()) {
                 lore.add("<gray>Players:"); // #69B759
 
                 for (ParkourPlayer pp : session.getPlayers()) {
@@ -129,7 +102,7 @@ public class ActiveMenu {
                 }
             }
 
-            if (session.getSpectators().size() > 0) {
+            if (!session.getSpectators().isEmpty()) {
                 lore.add("<gray>Spectators:"); // #69B759
 
                 for (ParkourSpectator pp : session.getSpectators()) {
@@ -161,6 +134,45 @@ public class ActiveMenu {
             .item(23, Locales.getItem(player, "other.close").click(event -> Menus.COMMUNITY.open(event.getPlayer())))
             .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
             .open(player);
+    }
+
+    @NotNull
+    private static Item getItem(Player player, Session session) {
+        Item item = new Item(Material.LIME_STAINED_GLASS_PANE, ""); // todo finish
+
+        item.click(event -> {
+            if (!WorldDivider.sessions.containsValue(session) || !(session.generator.getMode() instanceof MultiMode)) {
+                return;
+            }
+
+            ((MultiMode) session.generator.getMode()).join(player, session);
+        });
+        return item;
+    }
+
+    @NotNull
+    private static List<Session> getSessions(MenuSort sort, List<Session> sessions) {
+        List<Session> list = new ArrayList<>(sessions);
+        list.sort((session1, session2) -> {
+            int max1 = 1;
+            if (session1.generator.getMode() instanceof MultiMode multiMode) {
+                max1 = multiMode.getMaxPlayers();
+            }
+
+            int max2 = 1;
+            if (session2.generator.getMode() instanceof MultiMode multiMode) {
+                max2 = multiMode.getMaxPlayers();
+            }
+
+            int open1 = max1 - session1.getPlayers().size();
+            int open2 = max2 - session2.getPlayers().size();
+            if (sort == MenuSort.LEAST_OPEN_FIRST) {
+                return open1 - open2;
+            } else {
+                return open2 - open1;
+            }
+        });
+        return list;
     }
 
     public enum MenuSort {

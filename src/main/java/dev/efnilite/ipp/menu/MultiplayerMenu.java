@@ -35,7 +35,7 @@ public class MultiplayerMenu {
         PagedMenu menu = new PagedMenu(3, PlusLocales.getString(locale, "play.multi.name", false));
 
         for (Mode mode : Registry.getModes()) {
-            boolean permissions = Option.PERMISSIONS && !player.hasPermission("ip.gamemode." + mode.getName());
+            boolean permissions = Option.PERMISSIONS && !player.hasPermission("ip.gamemode.%s".formatted(mode.getName()));
 
             if (permissions || !(mode instanceof MultiMode) || mode.getItem(locale) == null) {
                 continue;

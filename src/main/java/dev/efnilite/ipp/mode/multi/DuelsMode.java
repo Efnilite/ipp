@@ -48,7 +48,7 @@ public final class DuelsMode implements MultiMode {
     public void leave(Player player, Session session) {
         ParkourPlayer pp = ParkourPlayer.getPlayer(player);
 
-        if (pp == null || session.getPlayers().size() == 0) {
+        if (pp == null || session.getPlayers().isEmpty()) {
             return;
         }
 

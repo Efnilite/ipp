@@ -34,7 +34,7 @@ public final class TeamSurvivalGenerator extends MultiplayerGenerator {
 
     @Override
     public void tick() {
-        if (stopped || session == null || getPlayers().size() == 0) {
+        if (stopped || session == null || getPlayers().isEmpty()) {
             return;
         }
 

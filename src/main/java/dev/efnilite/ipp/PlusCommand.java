@@ -56,7 +56,7 @@ public class PlusCommand extends ViCommand {
                 case "reload" -> {
                     if (sender.hasPermission(ParkourOption.ADMIN.permission)) {
                         IPP.getConfiguration().reload();
-                        send(sender, IPP.PREFIX + "Reloaded all config files.");
+                        send(sender, "%sReloaded all config files.".formatted(IPP.PREFIX));
                     }
                 }
             }
@@ -68,7 +68,7 @@ public class PlusCommand extends ViCommand {
 
                 switch (args[1]) {
                     case "pos1" -> {
-                        send(player, IPP.PREFIX + "Position 1 was set to " + Locations.toString(playerLocation, true));
+                        send(player, "%sPosition 1 was set to %s".formatted(IPP.PREFIX, Locations.toString(playerLocation, true)));
 
                         if (existingSelection == null) {
                             selections.put(player, new Location[]{playerLocation, null});
@@ -81,7 +81,7 @@ public class PlusCommand extends ViCommand {
                                 new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                     }
                     case "pos2" -> {
-                        send(player, IPP.PREFIX + "Position 2 was set to " + Locations.toString(playerLocation, true));
+                        send(player, "%sPosition 2 was set to %s".formatted(IPP.PREFIX, Locations.toString(playerLocation, true)));
 
                         if (existingSelection == null) {
                             selections.put(player, new Location[]{null, playerLocation});
@@ -95,7 +95,7 @@ public class PlusCommand extends ViCommand {
                     }
                     case "save" -> {
                         if (existingSelection == null || existingSelection[0] == null || existingSelection[1] == null) {
-                            send(player, IPP.PREFIX + "Your lobby area isn't complete yet. Be sure to set the first and second position!");
+                            send(player, "%sYour lobby area isn't complete yet. Be sure to set the first and second position!".formatted(IPP.PREFIX));
                             return true;
                         }
 
@@ -108,7 +108,7 @@ public class PlusCommand extends ViCommand {
                             return true;
                         }
 
-                        send(player, IPP.PREFIX + "Your lobby area selection is being saved.");
+                        send(player, "%sYour lobby area selection is being saved.".formatted(IPP.PREFIX));
                         Lobby.save(player.getWorld(), bb);
                     }
                 }
