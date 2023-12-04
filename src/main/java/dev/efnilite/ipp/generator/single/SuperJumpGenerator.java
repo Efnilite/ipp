@@ -7,8 +7,8 @@ import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
+import dev.efnilite.ip.vilib.util.Locations;
 import dev.efnilite.ipp.mode.PlusMode;
-import dev.efnilite.vilib.util.Locations;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -30,8 +30,8 @@ public final class SuperJumpGenerator extends PlusGenerator {
     // the platform radius, excluding the inner block
     private static final int PLATFORM_RADIUS = 2;
     private static final Supplier<Double> DEFAULT_JUMP_DISTANCE = () -> 3.0 + PLATFORM_RADIUS;
-    private double jumpDistance = DEFAULT_JUMP_DISTANCE.get();
     private final List<List<Block>> history = new ArrayList<>();
+    private double jumpDistance = DEFAULT_JUMP_DISTANCE.get();
 
     public SuperJumpGenerator(Session session) {
         // setup settings

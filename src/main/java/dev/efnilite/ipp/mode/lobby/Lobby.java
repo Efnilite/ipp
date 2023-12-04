@@ -4,9 +4,9 @@ import dev.efnilite.ip.IP;
 import dev.efnilite.ip.generator.ParkourGenerator;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.vilib.util.Numbers;
+import dev.efnilite.ip.vilib.util.Task;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.vilib.util.Numbers;
-import dev.efnilite.vilib.util.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -86,13 +86,13 @@ public class Lobby {
      * @param selection The selection
      */
     public static void save(@NotNull World world, @NotNull BoundingBox selection) {
-        LobbySelection sel = new LobbySelection(selection);
-        selections.put(world, sel);
-
         Task.create(IPP.getPlugin())
                 .async()
                 .execute(() -> {
                     try {
+                        LobbySelection sel = new LobbySelection(selection);
+                        selections.put(world, sel);
+
                         if (!FOLDER.toFile().exists()) {
                             FOLDER.toFile().mkdirs();
                         }

@@ -7,6 +7,12 @@ import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
+import dev.efnilite.ip.vilib.ViPlugin;
+import dev.efnilite.ip.vilib.util.Logging;
+import dev.efnilite.ip.vilib.util.Task;
+import dev.efnilite.ip.vilib.util.Time;
+import dev.efnilite.ip.vilib.util.elevator.GitElevator;
+import dev.efnilite.ip.vilib.util.elevator.VersionComparator;
 import dev.efnilite.ipp.config.PlusConfig;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.PlusLocales;
@@ -21,25 +27,39 @@ import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
 import dev.efnilite.ipp.mode.single.*;
 import dev.efnilite.ipp.style.IncrementalStyleManager;
 import dev.efnilite.ipp.util.UpdateChecker;
-import dev.efnilite.vilib.ViPlugin;
-import dev.efnilite.vilib.util.Logging;
-import dev.efnilite.vilib.util.Task;
-import dev.efnilite.vilib.util.Time;
-import dev.efnilite.vilib.util.elevator.GitElevator;
-import dev.efnilite.vilib.util.elevator.VersionComparator;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 
 public final class IPP extends ViPlugin {
 
-    private static IPP instance;
-    private static Logging logging;
-
-    private static PlusConfig configuration;
     public static final String REQUIRED_VILIB_VERSION = "1.2.0";
     public static final String REQUIRED_IP_VERSION = "5.1.0";
-
     public static final String PREFIX = "<gradient:#ff5050:#ff66cc>Infinite Parkour+<reset><gray> ";
+    private static IPP instance;
+    private static Logging logging;
+    private static PlusConfig configuration;
+
+    /**
+     * Returns the {@link Logging} belonging to this plugin.
+     *
+     * @return this plugin's {@link Logging} instance.
+     */
+    public static Logging logging() {
+        return logging;
+    }
+
+    /**
+     * Returns this plugin instance.
+     *
+     * @return the plugin instance.
+     */
+    public static IPP getPlugin() {
+        return instance;
+    }
+
+    public static PlusConfig getConfiguration() {
+        return configuration;
+    }
 
     @Override
     public void enable() {
@@ -212,27 +232,5 @@ public final class IPP extends ViPlugin {
         if (configuration.getFile("config").getBoolean("gamemodes.%s.enabled".formatted(gamemode.getName().toLowerCase()))) {
             Registry.register(gamemode);
         }
-    }
-
-    /**
-     * Returns the {@link Logging} belonging to this plugin.
-     *
-     * @return this plugin's {@link Logging} instance.
-     */
-    public static Logging logging() {
-        return logging;
-    }
-
-    /**
-     * Returns this plugin instance.
-     *
-     * @return the plugin instance.
-     */
-    public static IPP getPlugin() {
-        return instance;
-    }
-
-    public static PlusConfig getConfiguration() {
-        return configuration;
     }
 }

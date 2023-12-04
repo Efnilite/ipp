@@ -1,14 +1,14 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.menu.ParkourOption;
+import dev.efnilite.ip.vilib.command.ViCommand;
+import dev.efnilite.ip.vilib.particle.ParticleData;
+import dev.efnilite.ip.vilib.particle.Particles;
+import dev.efnilite.ip.vilib.util.Locations;
 import dev.efnilite.ipp.menu.ActiveMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.lobby.Lobby;
-import dev.efnilite.vilib.command.ViCommand;
-import dev.efnilite.vilib.particle.ParticleData;
-import dev.efnilite.vilib.particle.Particles;
-import dev.efnilite.vilib.util.Locations;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.command.CommandSender;

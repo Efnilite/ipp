@@ -8,23 +8,17 @@ import org.bukkit.permissions.Permissible;
  */
 public enum PlusOption {
 
-    MULTIPLAYER("multiplayer", "ip.multiplayer"),
-    ACTIVE("active", "ip.active"),
-    PRACTICE_SETTINGS("practice_settings", "ip.settings.practice_settings"),
-    INVITE("invite", "ip.invite");
-
-    /**
-     * The name of the option
-     */
-    private final String name;
+    MULTIPLAYER("ip.multiplayer"),
+    ACTIVE("ip.active"),
+    PRACTICE_SETTINGS("ip.settings.practice_settings"),
+    INVITE("ip.invite");
 
     /**
      * The permission required to change this option
      */
     private final String permission;
 
-    PlusOption(String name, String permission) {
-        this.name = name;
+    PlusOption(String permission) {
         this.permission = permission;
     }
 

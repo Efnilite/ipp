@@ -6,9 +6,9 @@ import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.vilib.util.Strings;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.mode.PlusMode;
-import dev.efnilite.vilib.util.Strings;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 

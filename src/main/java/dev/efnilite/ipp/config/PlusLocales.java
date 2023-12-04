@@ -3,10 +3,10 @@ package dev.efnilite.ipp.config;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.player.ParkourUser;
+import dev.efnilite.ip.vilib.inventory.item.Item;
+import dev.efnilite.ip.vilib.util.Strings;
+import dev.efnilite.ip.vilib.util.Task;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.vilib.inventory.item.Item;
-import dev.efnilite.vilib.util.Strings;
-import dev.efnilite.vilib.util.Task;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,14 +28,12 @@ import java.util.stream.Stream;
 
 public class PlusLocales {
 
-    // a list of all nodes
-    // used to check against missing nodes
-    private static List<String> resourceNodes;
-
     // a map of all locales with their respective json trees
     // the json trees are stored instead of the files to avoid having to read the files every time
     private static final Map<String, FileConfiguration> locales = new HashMap<>();
-
+    // a list of all nodes
+    // used to check against missing nodes
+    private static List<String> resourceNodes;
     private static FileConfiguration defaultResource;
 
     public static void init() {

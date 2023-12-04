@@ -10,14 +10,13 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.vilib.util.Strings;
+import dev.efnilite.ip.vilib.util.Task;
 import dev.efnilite.ip.world.WorldDivider;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.mode.PlusMode;
-import dev.efnilite.vilib.inventory.item.Item;
-import dev.efnilite.vilib.util.Strings;
-import dev.efnilite.vilib.util.Task;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -49,7 +48,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         player.setup(null);
 
         Task.create(IPP.getPlugin()).delay(5)
-                .execute(() -> player.player.getInventory().addItem(new Item(Material.LIME_BANNER, 1, "<#5EC743><bold>CLICK TO START!").build()))
+                .execute(() -> player.player.getInventory().addItem(PlusLocales.getItem(player.locale, "play.multi.duels.start").build()))
                 .run();
     }
 
