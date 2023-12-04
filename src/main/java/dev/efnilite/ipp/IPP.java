@@ -32,7 +32,6 @@ import org.jetbrains.annotations.Nullable;
 
 public final class IPP extends ViPlugin {
 
-    public static final String REQUIRED_VILIB_VERSION = "1.2.0";
     public static final String REQUIRED_IP_VERSION = "5.1.0";
     public static final String PREFIX = "<gradient:#ff5050:#ff66cc>Infinite Parkour+<reset><gray> ";
     private static IPP instance;
@@ -65,31 +64,6 @@ public final class IPP extends ViPlugin {
     public void enable() {
         instance = this;
         logging = new Logging(this);
-
-        Plugin vilib = getServer().getPluginManager().getPlugin("vilib");
-        if (vilib == null || !vilib.isEnabled()) {
-            getLogger().severe("##");
-            getLogger().severe("## Infinite Parkour+ requires vilib to work!");
-            getLogger().severe("##");
-            getLogger().severe("## Please download it here:");
-            getLogger().severe("## https://github.com/Efnilite/vilib/releases/latest");
-            getLogger().severe("##");
-
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        if (!VersionComparator.FROM_SEMANTIC.isLatest(REQUIRED_VILIB_VERSION, vilib.getDescription().getVersion())) {
-            getLogger().severe("##");
-            getLogger().severe("## Infinite Parkour+ requires *a newer version* of vilib to work!");
-            getLogger().severe("##");
-            getLogger().severe("## Please download it here: ");
-            getLogger().severe("## https://github.com/Efnilite/vilib/releases/latest");
-            getLogger().severe("##");
-
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
 
         Plugin ip = getServer().getPluginManager().getPlugin("IP");
         if (ip == null || !ip.isEnabled()) {
