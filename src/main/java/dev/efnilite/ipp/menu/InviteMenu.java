@@ -7,12 +7,12 @@ import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.util.Util;
+import dev.efnilite.ip.vilib.inventory.PagedMenu;
+import dev.efnilite.ip.vilib.inventory.item.Item;
+import dev.efnilite.ip.vilib.inventory.item.MenuItem;
+import dev.efnilite.ip.vilib.util.SkullSetter;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.util.Cooldowns;
-import dev.efnilite.vilib.inventory.PagedMenu;
-import dev.efnilite.vilib.inventory.item.Item;
-import dev.efnilite.vilib.inventory.item.MenuItem;
-import dev.efnilite.vilib.util.SkullSetter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -85,14 +85,14 @@ public class InviteMenu {
         }
 
         playerMenu
-            .displayRows(0, 1)
-            .addToDisplay(items)
-            .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>»").click(event -> playerMenu.page(1)))
-            .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>«").click(event -> playerMenu.page(-1)))
-            .item(30, PlusLocales.getItem(player, "invite.lobby", player.getName(), player.getName()))
-            .item(32, Locales.getItem(player, "other.close").click(event -> Menus.LOBBY.open(event.getPlayer())))
-            .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
-            .open(player);
+                .displayRows(0, 1)
+                .addToDisplay(items)
+                .nextPage(35, new Item(Material.LIME_DYE, "<#0DCB07><bold>»").click(event -> playerMenu.page(1)))
+                .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>«").click(event -> playerMenu.page(-1)))
+                .item(30, PlusLocales.getItem(player, "invite.lobby", player.getName(), player.getName()))
+                .item(32, Locales.getItem(player, "other.close").click(event -> Menus.LOBBY.open(event.getPlayer())))
+                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
+                .open(player);
     }
 
 }

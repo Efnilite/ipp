@@ -6,9 +6,9 @@ import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.vilib.inventory.item.Item;
 import dev.efnilite.ipp.generator.single.LobbyGenerator;
 import dev.efnilite.ipp.mode.lobby.Lobby;
-import dev.efnilite.vilib.inventory.item.Item;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

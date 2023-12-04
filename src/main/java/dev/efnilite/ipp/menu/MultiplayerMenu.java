@@ -9,11 +9,11 @@ import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.util.Util;
+import dev.efnilite.ip.vilib.inventory.PagedMenu;
+import dev.efnilite.ip.vilib.inventory.item.Item;
+import dev.efnilite.ip.vilib.inventory.item.MenuItem;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.util.Cooldowns;
-import dev.efnilite.vilib.inventory.PagedMenu;
-import dev.efnilite.vilib.inventory.item.Item;
-import dev.efnilite.vilib.inventory.item.MenuItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -49,11 +49,11 @@ public class MultiplayerMenu {
         }
 
         menu.displayRows(0, 1)
-            .addToDisplay(items)
-            .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>»").click(event -> menu.page(1)))
-            .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>«").click(event -> menu.page(-1)))
-            .item(22, Locales.getItem(player, "other.close").click(event -> Menus.PLAY.open(event.getPlayer())))
-            .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.LIGHT_BLUE_STAINED_GLASS_PANE)
-            .open(player);
+                .addToDisplay(items)
+                .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>»").click(event -> menu.page(1)))
+                .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>«").click(event -> menu.page(-1)))
+                .item(22, Locales.getItem(player, "other.close").click(event -> Menus.PLAY.open(event.getPlayer())))
+                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.LIGHT_BLUE_STAINED_GLASS_PANE)
+                .open(player);
     }
 }

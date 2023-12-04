@@ -1,11 +1,10 @@
 package dev.efnilite.ipp.config;
 
+import dev.efnilite.ip.vilib.configupdater.ConfigUpdater;
 import dev.efnilite.ipp.IPP;
-import dev.efnilite.vilib.lib.configupdater.configupdater.ConfigUpdater;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,8 +25,6 @@ public class PlusConfig {
     public PlusConfig(Plugin plugin) {
         this.plugin = plugin;
         files = new HashMap<>();
-
-        Vector
 
         String[] defaultFiles = new String[]{"config.yml"};
 
