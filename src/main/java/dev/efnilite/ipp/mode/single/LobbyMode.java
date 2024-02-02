@@ -4,7 +4,6 @@ import dev.efnilite.ip.leaderboard.Leaderboard;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.vilib.inventory.item.Item;
 import dev.efnilite.ipp.generator.single.LobbyGenerator;
@@ -22,9 +21,7 @@ public final class LobbyMode implements Mode {
         }
         player.closeInventory();
 
-        Session session = Session.create(LobbyGenerator::new)
-                .addPlayers(ParkourUser.register(player))
-                .complete();
+        Session session = Session.create(LobbyGenerator::new, null, null, player);
 
         Lobby.join(session);
     }

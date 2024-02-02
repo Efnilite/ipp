@@ -3,7 +3,6 @@ package dev.efnilite.ipp.mode.single;
 import dev.efnilite.ip.generator.ParkourGenerator;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.vilib.inventory.item.Item;
 import dev.efnilite.ipp.config.PlusLocales;
@@ -32,8 +31,6 @@ public abstract class SingleMode implements Mode {
         }
         player.closeInventory();
 
-        Session.create(generator)
-                .addPlayers(ParkourUser.register(player))
-                .complete();
+        Session.create(generator, null, null, player);
     }
 }

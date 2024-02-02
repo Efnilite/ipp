@@ -8,8 +8,8 @@ import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.vilib.schematic.Schematic;
 import dev.efnilite.ip.vilib.util.Strings;
 import dev.efnilite.ip.vilib.util.Task;
 import dev.efnilite.ip.world.WorldDivider;
@@ -24,11 +24,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class DuelsGenerator extends MultiplayerGenerator {
 
-    private static final Schematic SCHEMATIC = Schematic.create().load(IP.getInFolder("schematics/spawn-island-duels"));
+    private static Schematic SCHEMATIC;
+
+    static {
+        try {
+            SCHEMATIC = Schematic.create().load(IP.getInFolder("schematics/spawn-island-duels"));
+        } catch (ExecutionException | InterruptedException ex) {
+            IP.logging().stack("Failed to load spawn island for duels", ex);
+        }
+    }
 
     public boolean allowJoining;
     public final Map<ParkourPlayer, SingleDuelsGenerator> playerGenerators = new HashMap<>();
@@ -194,7 +203,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         SingleDuelsGenerator winningGenerator = playerGenerators.get(winner);
         String winningName = winner.getName();
-        String winningTime = winningGenerator.getTime();
+        String winningTime = winningGenerator.getFormattedTime();
 
         List<Map.Entry<ParkourPlayer, SingleDuelsGenerator>> leaderboard = getLeaderboard();
 

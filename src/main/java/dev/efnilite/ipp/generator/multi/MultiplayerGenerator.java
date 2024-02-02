@@ -3,8 +3,8 @@ package dev.efnilite.ipp.generator.multi;
 import dev.efnilite.ip.generator.GeneratorOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.schematic.Schematic;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ip.vilib.schematic.Schematic;
 import dev.efnilite.ipp.generator.single.PlusGenerator;
 
 public abstract class MultiplayerGenerator extends PlusGenerator {

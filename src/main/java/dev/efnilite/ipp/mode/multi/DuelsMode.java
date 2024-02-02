@@ -22,10 +22,10 @@ public final class DuelsMode implements MultiMode {
         }
         player.closeInventory();
 
-        Session.create(DuelsGenerator::new)
-                .isAcceptingPlayers(session -> session.getPlayers().size() < PlusConfigOption.DUELS_MAX_COUNT && ((DuelsGenerator) session.generator).allowJoining)
-                .addPlayers(ParkourUser.register(player))
-                .complete();
+        Session.create(DuelsGenerator::new,
+                        session -> session.getPlayers().size() < PlusConfigOption.DUELS_MAX_COUNT && ((DuelsGenerator) session.generator).allowJoining,
+                        null,
+                        player);
     }
 
     @Override
@@ -38,7 +38,7 @@ public final class DuelsMode implements MultiMode {
 
         DuelsGenerator generator = (DuelsGenerator) session.generator;
 
-        ParkourPlayer pp = ParkourUser.register(player);
+        ParkourPlayer pp = ParkourUser.register(player, session);
         session.addPlayers(pp);
         generator.addPlayer(pp);
         pp.setup(null);

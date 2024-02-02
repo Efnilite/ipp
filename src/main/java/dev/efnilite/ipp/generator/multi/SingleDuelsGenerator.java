@@ -72,7 +72,7 @@ public class SingleDuelsGenerator extends PlusGenerator {
     protected void score() {
         super.score();
 
-        registerScore(getTime(), Double.toString(getDifficultyScore()), score);
+        registerScore(getDetailedTime(), Double.toString(getDifficultyScore()), score);
     }
 
     @Override
