@@ -77,7 +77,7 @@ public class WaveTrialGenerator extends PlusGenerator {
                 bar.append("|");
             }
         }
-        player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Strings.colour("%s <red><bold>| <reset>%s".formatted(bar, getTime()))));
+        player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Strings.colour("%s <red><bold>| <reset>%s".formatted(bar, getFormattedTime()))));
     }
 
     @Override
@@ -105,7 +105,7 @@ public class WaveTrialGenerator extends PlusGenerator {
     protected void score() {
         super.score();
 
-        registerScore(getTime(), Double.toString(getDifficultyScore()), score);
+        registerScore(getDetailedTime(), Double.toString(getDifficultyScore()), score);
     }
 
     @Override
