@@ -10,7 +10,6 @@ import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.vilib.util.Strings;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.mode.PlusMode;
-import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.util.BoundingBox;
 
@@ -77,7 +76,7 @@ public class WaveTrialGenerator extends PlusGenerator {
                 bar.append("|");
             }
         }
-        player.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Strings.colour("%s <red><bold>| <reset>%s".formatted(bar, getFormattedTime()))));
+        player.player.sendActionBar(TextComponent.fromLegacyText(Strings.colour("%s <red><bold>| <reset>%s".formatted(bar, getFormattedTime()))));
     }
 
     @Override
