@@ -2,6 +2,9 @@ package dev.efnilite.ipp.generator.multi;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.lib.vilib.schematic.Schematic;
+import dev.efnilite.ip.lib.vilib.util.Strings;
+import dev.efnilite.ip.lib.vilib.util.Task;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
@@ -9,10 +12,7 @@ import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.vilib.schematic.Schematic;
-import dev.efnilite.ip.vilib.util.Strings;
-import dev.efnilite.ip.vilib.util.Task;
-import dev.efnilite.ip.world.WorldDivider;
+import dev.efnilite.ip.world.Divider;
 import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.PlusLocales;
@@ -23,8 +23,8 @@ import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class DuelsGenerator extends MultiplayerGenerator {
@@ -33,8 +33,8 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     static {
         try {
-            SCHEMATIC = Schematic.create().load(IP.getInFolder("schematics/spawn-island-duels"));
-        } catch (ExecutionException | InterruptedException ex) {
+            SCHEMATIC = Schematic.load(IP.getInFolder("schematics/spawn-island-duels"), IP.getPlugin());
+        } catch (IOException | ClassNotFoundException ex) {
             IP.logging().stack("Failed to load spawn island for duels", ex);
         }
     }
@@ -50,7 +50,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         allowJoining = true;
-        playerSpawn = WorldDivider.toLocation(session);
+        playerSpawn = Divider.toLocation(session);
         playerSpawn.setYaw(-90);
 
         addPlayer(player);

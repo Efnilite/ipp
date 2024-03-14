@@ -6,7 +6,7 @@ import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.vilib.schematic.Schematic;
+import dev.efnilite.ip.lib.vilib.schematic.Schematic;
 import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.Material;
 

@@ -1,19 +1,19 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.api.Registry;
+import dev.efnilite.ip.config.Config;
 import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.config.Option;
+import dev.efnilite.ip.lib.vilib.inventory.PagedMenu;
+import dev.efnilite.ip.lib.vilib.inventory.item.Item;
+import dev.efnilite.ip.lib.vilib.inventory.item.MenuItem;
+import dev.efnilite.ip.lib.vilib.util.Cooldowns;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.util.Util;
-import dev.efnilite.ip.vilib.inventory.PagedMenu;
-import dev.efnilite.ip.vilib.inventory.item.Item;
-import dev.efnilite.ip.vilib.inventory.item.MenuItem;
 import dev.efnilite.ipp.config.PlusLocales;
-import dev.efnilite.ipp.util.Cooldowns;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -35,7 +35,7 @@ public class MultiplayerMenu {
         PagedMenu menu = new PagedMenu(3, PlusLocales.getString(locale, "play.multi.name", false));
 
         for (Mode mode : Registry.getModes()) {
-            boolean permissions = Option.PERMISSIONS && !player.hasPermission("ip.gamemode.%s".formatted(mode.getName()));
+            boolean permissions = Config.CONFIG.getBoolean("permissions.enabled") && !player.hasPermission("ip.gamemode.%s".formatted(mode.getName()));
 
             if (permissions || !(mode instanceof MultiMode) || mode.getItem(locale) == null) {
                 continue;
@@ -53,7 +53,7 @@ public class MultiplayerMenu {
                 .nextPage(26, new Item(Material.LIME_DYE, "<#0DCB07><bold>»").click(event -> menu.page(1)))
                 .prevPage(18, new Item(Material.RED_DYE, "<#DE1F1F><bold>«").click(event -> menu.page(-1)))
                 .item(22, Locales.getItem(player, "other.close").click(event -> Menus.PLAY.open(event.getPlayer())))
-                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.LIGHT_BLUE_STAINED_GLASS_PANE)
+                .fillBackground(ParkourUser.isBedrockPlayer(player) ? Material.AIR : Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                 .open(player);
     }
 }

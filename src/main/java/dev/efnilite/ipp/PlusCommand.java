@@ -1,14 +1,15 @@
 package dev.efnilite.ipp;
 
+import dev.efnilite.ip.lib.vilib.command.ViCommand;
+import dev.efnilite.ip.lib.vilib.particle.ParticleData;
+import dev.efnilite.ip.lib.vilib.particle.Particles;
+import dev.efnilite.ip.lib.vilib.util.Locations;
 import dev.efnilite.ip.menu.ParkourOption;
-import dev.efnilite.ip.vilib.command.ViCommand;
-import dev.efnilite.ip.vilib.particle.ParticleData;
-import dev.efnilite.ip.vilib.particle.Particles;
-import dev.efnilite.ip.vilib.util.Locations;
 import dev.efnilite.ipp.menu.ActiveMenu;
 import dev.efnilite.ipp.menu.InviteMenu;
 import dev.efnilite.ipp.menu.MultiplayerMenu;
 import dev.efnilite.ipp.mode.lobby.Lobby;
+import dev.efnilite.vilib.util.Strings;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.command.CommandSender;
@@ -19,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import static dev.efnilite.ip.util.Util.send;
 
 public class PlusCommand extends ViCommand {
 
@@ -152,5 +151,9 @@ public class PlusCommand extends ViCommand {
         }
 
         return completions;
+    }
+
+    private void send(CommandSender sender, String message) {
+        sender.sendMessage(Strings.colour(message));
     }
 }

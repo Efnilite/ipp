@@ -1,5 +1,6 @@
 package dev.efnilite.ipp;
 
+import dev.efnilite.ip.config.Config;
 import dev.efnilite.ip.config.Option;
 import org.bukkit.permissions.Permissible;
 
@@ -30,7 +31,7 @@ public enum PlusOption {
      * @return true if the player is allowed to perform this action, false if not
      */
     public boolean mayPerform(Permissible permissible) {
-        if (Option.PERMISSIONS) {
+        if (Config.CONFIG.getBoolean("permissions.enabled")) {
             return permissible.hasPermission(permission);
         }
         return true;

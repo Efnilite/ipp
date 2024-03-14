@@ -1,6 +1,6 @@
 package dev.efnilite.ipp.config;
 
-import dev.efnilite.ip.vilib.configupdater.ConfigUpdater;
+import dev.efnilite.ip.lib.vilib.configupdater.ConfigUpdater;
 import dev.efnilite.ipp.IPP;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -1,13 +1,12 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.lib.vilib.util.Locations;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.util.Util;
-import dev.efnilite.ip.vilib.util.Locations;
 import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -184,7 +183,7 @@ public final class SuperJumpGenerator extends PlusGenerator {
         World world = base.getWorld();
         int amount = lastOfRadius * lastOfRadius;
         for (int i = 0; i < amount; i++) {
-            int[] xz = Util.spiralAt(i);
+            int[] xz = spiralAt(i);
 
             blocks.add(world.getBlockAt(xz[0] + baseX, baseY, xz[1] + baseZ));
         }
@@ -212,5 +211,42 @@ public final class SuperJumpGenerator extends PlusGenerator {
     @Override
     public Mode getMode() {
         return PlusMode.SUPER_JUMP;
+    }
+
+    /**
+     * Gets a spiral
+     *
+     * @param n The number of  value
+     * @return the coords of this value
+     */
+    // https://math.stackexchange.com/a/163101
+    private int[] spiralAt(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("Invalid n bound: %d".formatted(n));
+        }
+
+        n++; // one-index
+        int k = (int) Math.ceil((Math.sqrt(n) - 1) / 2);
+        int t = 2 * k + 1;
+        int m = t * t;
+        t--;
+
+        if (n > m - t) {
+            return new int[]{k - (m - n), -k};
+        } else {
+            m -= t;
+        }
+
+        if (n > m - t) {
+            return new int[]{-k, -k + (m - n)};
+        } else {
+            m -= t;
+        }
+
+        if (n > m - t) {
+            return new int[]{-k + (m - n), k};
+        } else {
+            return new int[]{k, k - (m - n - t)};
+        }
     }
 }

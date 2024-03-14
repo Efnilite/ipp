@@ -1,6 +1,9 @@
 package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.config.Locales;
+import dev.efnilite.ip.lib.vilib.inventory.PagedMenu;
+import dev.efnilite.ip.lib.vilib.inventory.item.Item;
+import dev.efnilite.ip.lib.vilib.inventory.item.MenuItem;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.mode.MultiMode;
@@ -8,11 +11,7 @@ import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourSpectator;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.util.Util;
-import dev.efnilite.ip.vilib.inventory.PagedMenu;
-import dev.efnilite.ip.vilib.inventory.item.Item;
-import dev.efnilite.ip.vilib.inventory.item.MenuItem;
-import dev.efnilite.ip.world.WorldDivider;
+import dev.efnilite.ip.world.Divider;
 import dev.efnilite.ipp.config.PlusLocales;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,7 +30,7 @@ public class ActiveMenu {
         ParkourUser user = ParkourUser.getUser(player);
 
         List<Session> sessions = new ArrayList<>(); // get all public sessions
-        for (Session session : WorldDivider.sessions.values()) {
+        for (Session session : Divider.sections.keySet()) {
             if (user != null && user.session == session) {
                 continue;
             }
@@ -132,7 +131,7 @@ public class ActiveMenu {
                     }
                 }))
                 .item(23, Locales.getItem(player, "other.close").click(event -> Menus.COMMUNITY.open(event.getPlayer())))
-                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
+                .fillBackground(ParkourUser.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
                 .open(player);
     }
 
@@ -141,7 +140,7 @@ public class ActiveMenu {
         Item item = new Item(Material.LIME_STAINED_GLASS_PANE, ""); // todo finish
 
         item.click(event -> {
-            if (!WorldDivider.sessions.containsValue(session) || !(session.generator.getMode() instanceof MultiMode)) {
+            if (!Divider.sections.containsKey(session) || !(session.generator.getMode() instanceof MultiMode)) {
                 return;
             }
 

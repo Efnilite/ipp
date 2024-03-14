@@ -6,7 +6,7 @@
 
     <artifactId>IPPlus</artifactId>
     <groupId>dev.efnilite</groupId>
-    <version>2.1.4</version>
+    <version>2.2.0</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -33,21 +33,21 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.20.1-R0.1-SNAPSHOT</version>
+            <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.0.1</version>
+            <version>24.1.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.efnilite</groupId>
             <artifactId>walk-in-the-park</artifactId>
-            <version>01cb371b4a</version>
+            <version>94a00c211f</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

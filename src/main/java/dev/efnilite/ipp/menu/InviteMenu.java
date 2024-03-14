@@ -2,20 +2,21 @@ package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.config.Option;
+import dev.efnilite.ip.lib.vilib.inventory.PagedMenu;
+import dev.efnilite.ip.lib.vilib.inventory.item.Item;
+import dev.efnilite.ip.lib.vilib.inventory.item.MenuItem;
+import dev.efnilite.ip.lib.vilib.util.Cooldowns;
+import dev.efnilite.ip.lib.vilib.util.SkullSetter;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.util.Util;
-import dev.efnilite.ip.vilib.inventory.PagedMenu;
-import dev.efnilite.ip.vilib.inventory.item.Item;
-import dev.efnilite.ip.vilib.inventory.item.MenuItem;
-import dev.efnilite.ip.vilib.util.SkullSetter;
 import dev.efnilite.ipp.config.PlusLocales;
-import dev.efnilite.ipp.util.Cooldowns;
+import dev.efnilite.vilib.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -58,7 +59,7 @@ public class InviteMenu {
             stack.setType(Material.PLAYER_HEAD);
 
             // bedrock has no player skull support
-            if (!Util.isBedrockPlayer(player)) {
+            if (!ParkourUser.isBedrockPlayer(player)) {
                 SkullMeta meta = (SkullMeta) stack.getItemMeta();
 
                 if (meta != null) {
@@ -75,11 +76,11 @@ public class InviteMenu {
                         if (HAS_ADVENTURE) {
                             new AdventureInviteSender(other, player, s);
                         } else {
-                            Util.send(other, s);
+                            send(other, s);
                         }
                     }
 
-                    Util.send(player, PlusLocales.getString(player, "invite.success", false).formatted(other.getName()));
+                    send(player, PlusLocales.getString(player, "invite.success", false).formatted(other.getName()));
                 }
             }));
         }
@@ -91,8 +92,11 @@ public class InviteMenu {
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>«").click(event -> playerMenu.page(-1)))
                 .item(30, PlusLocales.getItem(player, "invite.lobby", player.getName(), player.getName()))
                 .item(32, Locales.getItem(player, "other.close").click(event -> Menus.LOBBY.open(event.getPlayer())))
-                .fillBackground(Util.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
+                .fillBackground(ParkourUser.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
                 .open(player);
     }
 
+    private static void send(CommandSender sender, String message) {
+        sender.sendMessage(Strings.colour(message));
+    }
 }

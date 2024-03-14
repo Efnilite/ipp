@@ -1,7 +1,7 @@
 package dev.efnilite.ipp.mode.single;
 
 import dev.efnilite.ip.leaderboard.Leaderboard;
-import dev.efnilite.ip.vilib.inventory.item.Item;
+import dev.efnilite.ip.lib.vilib.inventory.item.Item;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.single.PracticeGenerator;
 import org.bukkit.entity.Player;

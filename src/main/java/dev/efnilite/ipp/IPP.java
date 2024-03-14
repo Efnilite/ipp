@@ -1,18 +1,18 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.api.Registry;
+import dev.efnilite.ip.config.Config;
 import dev.efnilite.ip.config.Option;
+import dev.efnilite.ip.lib.vilib.ViPlugin;
+import dev.efnilite.ip.lib.vilib.util.Logging;
+import dev.efnilite.ip.lib.vilib.util.Task;
+import dev.efnilite.ip.lib.vilib.util.elevator.GitElevator;
+import dev.efnilite.ip.lib.vilib.util.elevator.VersionComparator;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
-import dev.efnilite.ip.vilib.ViPlugin;
-import dev.efnilite.ip.vilib.util.Logging;
-import dev.efnilite.ip.vilib.util.Task;
-import dev.efnilite.ip.vilib.util.Time;
-import dev.efnilite.ip.vilib.util.elevator.GitElevator;
-import dev.efnilite.ip.vilib.util.elevator.VersionComparator;
 import dev.efnilite.ipp.config.PlusConfig;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.PlusLocales;
@@ -25,7 +25,7 @@ import dev.efnilite.ipp.mode.lobby.Lobby;
 import dev.efnilite.ipp.mode.multi.DuelsMode;
 import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
 import dev.efnilite.ipp.mode.single.*;
-import dev.efnilite.ipp.style.IncrementalStyleManager;
+import dev.efnilite.ipp.style.IncrementalStyle;
 import dev.efnilite.ipp.util.UpdateChecker;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
@@ -90,8 +90,6 @@ public final class IPP extends ViPlugin {
             return;
         }
 
-        Time.timerStart("enable ipp");
-
         configuration = new PlusConfig(this);
         configuration.reload();
 
@@ -153,25 +151,23 @@ public final class IPP extends ViPlugin {
         Menus.COMMUNITY.registerMainItem(1, 1,
                 (player, user) -> PlusLocales.getItem(player, "active.item")
                         .click(event -> ActiveMenu.open(event.getPlayer(), ActiveMenu.MenuSort.LEAST_OPEN_FIRST)),
-                player -> PlusOption.ACTIVE.mayPerform(player) && Option.JOINING);
+                player -> PlusOption.ACTIVE.mayPerform(player) && Config.CONFIG.getBoolean("joining"));
 
         if (configuration.getFile("config").getBoolean("styles.incremental.enabled")) {
-            IncrementalStyleManager.register();
+            Option.initStyles("styles.incremental.list", configuration.getFile("config"), IncrementalStyle::new)
+                    .forEach(Registry::register);
         }
 
         if (PlusConfigOption.UPDATE_CHECKER) {
             Task.create(this)
                     .async()
-                    .execute(() -> {
-                        UpdateChecker.check(this);
-                        IncrementalStyleManager.clear();
-                    })
+                    .execute(() -> UpdateChecker.check(this))
                     .delay(5 * 20)
                     .repeat(8 * 60 * 60 * 20)
                     .run();
         }
 
-        logging().info("Loaded Infinite Parkour Plus in " + Time.timerEnd("enable ipp") + "ms!");
+        logging().info("Loaded IP+!");
     }
 
     @Override

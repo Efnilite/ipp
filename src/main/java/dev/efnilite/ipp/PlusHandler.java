@@ -1,7 +1,7 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.vilib.inventory.item.Item;
+import dev.efnilite.ip.lib.vilib.inventory.item.Item;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.multi.DuelsGenerator;
 import org.bukkit.Material;

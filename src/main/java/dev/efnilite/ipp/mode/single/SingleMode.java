@@ -4,7 +4,7 @@ import dev.efnilite.ip.generator.ParkourGenerator;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.vilib.inventory.item.Item;
+import dev.efnilite.ip.lib.vilib.inventory.item.Item;
 import dev.efnilite.ipp.config.PlusLocales;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
