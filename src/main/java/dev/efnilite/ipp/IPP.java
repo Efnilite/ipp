@@ -114,7 +114,7 @@ public final class IPP extends ViPlugin {
 
         // Register stuff for main menu
         // Multiplayer if player is not found
-        Menus.PLAY.registerMainItem(1, 1,
+        Menus.PLAY.registerMainItem(1, 5,
                 (player, user) -> PlusLocales.getItem(player, "play.multi.item")
                         .click(event -> MultiplayerMenu.open(event.getPlayer())),
                 PlusOption.MULTIPLAYER::mayPerform);
