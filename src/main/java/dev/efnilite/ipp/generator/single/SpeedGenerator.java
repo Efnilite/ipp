@@ -1,10 +1,12 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.lib.vilib.util.Task;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
+import dev.efnilite.ipp.IPP;
 import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -21,13 +23,17 @@ public final class SpeedGenerator extends PlusGenerator {
         // setup menu
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.SPECIAL_BLOCKS);
 
-        player.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 2, false, false));
-
         distanceChances.clear();
         distanceChances.put(1, 1.0);
 
         heightChances.clear();
         heightChances.put(0, 1.0);
+
+        Task.create(IPP.getPlugin())
+                .delay(10)
+                .execute(() ->
+                        player.player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100000, 2, false, false)))
+                .run();
     }
 
     @Override
