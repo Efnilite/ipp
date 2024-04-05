@@ -9,7 +9,7 @@ public class AdventureInviteSender {
     public AdventureInviteSender(Player player, Player toJoin, String message) {
         player.sendMessage(MiniMessage.miniMessage()
             .deserialize(message)
-            .clickEvent(ClickEvent.runCommand("/parkour join %s".formatted(toJoin.getName()))));
+            .clickEvent(ClickEvent.runCommand("/ip:ip join %s".formatted(toJoin.getName()))));
     }
 
 }
