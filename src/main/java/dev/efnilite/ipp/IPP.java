@@ -193,11 +193,6 @@ public final class IPP extends ViPlugin {
         }
     }
 
-    @Override
-    public @Nullable GitElevator getElevator() {
-        return null;
-    }
-
     private void registerMode(Mode gamemode) {
         if (configuration.getFile("config").getBoolean("gamemodes.%s.enabled".formatted(gamemode.getName().toLowerCase()))) {
             Registry.register(gamemode);

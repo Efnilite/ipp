@@ -53,7 +53,7 @@ public class WaveTrialGenerator extends PlusGenerator {
         }
 
         JumpDirector director = new JumpDirector(BoundingBox.of(zone[0], zone[1]), getLatest().getLocation().toVector());
-        int recommendedHeight = director.getRecommendedHeight();
+        int recommendedHeight = director.getRecommendedHeight(heightChances.keySet().stream().findFirst().orElseThrow());
 
         // if current height is fine there's no need to update the height chances
         // if current height is not fine, update heightchances to match recommendation
