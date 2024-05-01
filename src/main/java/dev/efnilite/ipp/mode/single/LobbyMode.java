@@ -19,6 +19,11 @@ public final class LobbyMode implements Mode {
         if (pp != null && pp.session.generator instanceof LobbyGenerator) {
             return;
         }
+
+        if (Lobby.getSelections().isEmpty() || !Lobby.getSelections().containsKey(player.getWorld())) {
+            return;
+        }
+
         player.closeInventory();
 
         Session session = Session.create(LobbyGenerator::new, null, null, player);

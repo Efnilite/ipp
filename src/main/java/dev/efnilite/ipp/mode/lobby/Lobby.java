@@ -173,4 +173,8 @@ public class Lobby {
 
         return location;
     }
+
+    public static Map<World, LobbySelection> getSelections() {
+        return selections;
+    }
 }

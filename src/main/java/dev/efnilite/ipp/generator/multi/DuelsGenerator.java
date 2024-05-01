@@ -40,6 +40,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
     }
 
     public boolean allowJoining;
+    private ParkourPlayer owner;
     public final Map<ParkourPlayer, SingleDuelsGenerator> playerGenerators = new HashMap<>();
     private final Map<ParkourPlayer, SpawnData> spawnData = new HashMap<>();
     public final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes.%s.goal".formatted(getMode().getName().toLowerCase()));
@@ -54,6 +55,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         playerSpawn.setYaw(-90);
 
         addPlayer(player);
+        owner = player;
         player.setup(null);
 
         Task.create(IPP.getPlugin()).delay(5)
@@ -112,6 +114,17 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         playerGenerators.remove(player);
 
+        if (allowJoining && player == owner) {
+            for (ParkourPlayer other : new HashSet<>(playerGenerators.keySet())) {
+                ParkourUser.unregister(other, true, true, false);
+
+                if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
+                    Modes.DEFAULT.create(player.player);
+                }
+            }
+            return;
+        }
+
         // if there are no other players, player automatically wins
         if (allowJoining || playerGenerators.size() != 1) {
             return;
@@ -123,7 +136,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
     }
 
     public void initCountdown() {
-        AtomicInteger countdown = new AtomicInteger(10);
+        var countdown = new AtomicInteger(10);
         Task.create(IPP.getPlugin()).repeat(20).execute(new BukkitRunnable() {
             @Override
             public void run() {
