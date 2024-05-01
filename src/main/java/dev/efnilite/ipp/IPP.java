@@ -6,7 +6,6 @@ import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.lib.vilib.ViPlugin;
 import dev.efnilite.ip.lib.vilib.util.Logging;
 import dev.efnilite.ip.lib.vilib.util.Task;
-import dev.efnilite.ip.lib.vilib.util.elevator.GitElevator;
 import dev.efnilite.ip.lib.vilib.util.elevator.VersionComparator;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.mode.Mode;
@@ -28,11 +27,10 @@ import dev.efnilite.ipp.mode.single.*;
 import dev.efnilite.ipp.style.IncrementalStyle;
 import dev.efnilite.ipp.util.UpdateChecker;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.Nullable;
 
 public final class IPP extends ViPlugin {
 
-    public static final String REQUIRED_IP_VERSION = "5.1.0";
+    public static final String REQUIRED_IP_VERSION = "5.2.2";
     public static final String PREFIX = "<gradient:#ff5050:#ff66cc>Infinite Parkour+<reset><gray> ";
     private static IPP instance;
     private static Logging logging;

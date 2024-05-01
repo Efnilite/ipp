@@ -28,7 +28,7 @@ public class UpdateChecker {
     }
 
     public static String getLatestVersion(Plugin plugin) throws IOException {
-        try (InputStream stream = new URL("https://raw.githubusercontent.com/Efnilite/IP-Plus/master/version.yml").openStream()) {
+        try (InputStream stream = new URL("https://raw.githubusercontent.com/Efnilite/ipp/main/VERSION").openStream()) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
                 return reader.lines().filter(s -> s.contains("version: "))
                         .toList()
