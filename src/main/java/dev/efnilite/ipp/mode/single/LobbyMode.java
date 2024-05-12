@@ -1,11 +1,11 @@
 package dev.efnilite.ipp.mode.single;
 
 import dev.efnilite.ip.leaderboard.Leaderboard;
+import dev.efnilite.ip.lib.vilib.inventory.item.Item;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.Modes;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.lib.vilib.inventory.item.Item;
 import dev.efnilite.ipp.generator.single.LobbyGenerator;
 import dev.efnilite.ipp.mode.lobby.Lobby;
 import org.bukkit.entity.Player;

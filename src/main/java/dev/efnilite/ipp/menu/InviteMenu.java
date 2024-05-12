@@ -92,7 +92,6 @@ public class InviteMenu {
                 .prevPage(27, new Item(Material.RED_DYE, "<#DE1F1F><bold>«").click(event -> playerMenu.page(-1)))
                 .item(30, PlusLocales.getItem(player, "invite.lobby", player.getName(), player.getName()))
                 .item(32, Locales.getItem(player, "other.close").click(event -> Menus.LOBBY.open(event.getPlayer())))
-                .fillBackground(ParkourUser.isBedrockPlayer(player) ? Material.AIR : Material.GRAY_STAINED_GLASS_PANE)
                 .open(player);
     }
 

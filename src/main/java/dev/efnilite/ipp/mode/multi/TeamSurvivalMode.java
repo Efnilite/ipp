@@ -1,12 +1,12 @@
 package dev.efnilite.ipp.mode.multi;
 
 import dev.efnilite.ip.leaderboard.Leaderboard;
+import dev.efnilite.ip.lib.vilib.inventory.item.Item;
 import dev.efnilite.ip.menu.community.SingleLeaderboardMenu;
 import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.lib.vilib.inventory.item.Item;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.multi.TeamSurvivalGenerator;

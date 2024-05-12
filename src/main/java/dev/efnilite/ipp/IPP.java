@@ -6,7 +6,6 @@ import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.lib.vilib.ViPlugin;
 import dev.efnilite.ip.lib.vilib.util.Logging;
 import dev.efnilite.ip.lib.vilib.util.Task;
-import dev.efnilite.ip.lib.vilib.util.elevator.VersionComparator;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.MultiMode;
@@ -30,7 +29,8 @@ import org.bukkit.plugin.Plugin;
 
 public final class IPP extends ViPlugin {
 
-    public static final String REQUIRED_IP_VERSION = "5.2.2";
+    // TODO UPDATE THIS!
+    public static final String REQUIRED_IP_VERSION = "5.2.4";
     public static final String PREFIX = "<gradient:#ff5050:#ff66cc>Infinite Parkour+<reset><gray> ";
     private static IPP instance;
     private static Logging logging;
@@ -76,7 +76,7 @@ public final class IPP extends ViPlugin {
             return;
         }
 
-        if (!VersionComparator.FROM_SEMANTIC.isLatest(REQUIRED_IP_VERSION, ip.getDescription().getVersion())) {
+        if (isLower(ip.getDescription().getVersion(), REQUIRED_IP_VERSION)) {
             getLogger().severe("##");
             getLogger().severe("## Infinite Parkour+ requires *a newer version* of Infinite Parkour to work!");
             getLogger().severe("##");
@@ -195,5 +195,33 @@ public final class IPP extends ViPlugin {
         if (configuration.getFile("config").getBoolean("gamemodes.%s.enabled".formatted(gamemode.getName().toLowerCase()))) {
             Registry.register(gamemode);
         }
+    }
+
+    // returns true if current mc version is lower than compare
+    private boolean isLower(String current, String compare) {
+        var cur = getNumbers(current); // 1.19.4
+        var com = getNumbers(compare); // 2.1.5
+
+        if (com[0] > cur[0]) {
+            return false;
+        } else if (com[0] == cur[0]) {
+            if (com[1] > cur[1]) {
+                return false;
+            } else if (com[1] == cur[1]) {
+                return com[2] > cur[2];
+            }
+        }
+
+        return true;
+    }
+
+    private int[] getNumbers(String string) {
+        var parts = string.split("\\.");
+
+        return new int[] {
+                Integer.parseInt(parts[0]),
+                Integer.parseInt(parts[1]),
+                Integer.parseInt(parts[2])
+        };
     }
 }

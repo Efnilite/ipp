@@ -1,11 +1,11 @@
 package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.lib.vilib.util.Strings;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.lib.vilib.util.Strings;
 import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.Location;

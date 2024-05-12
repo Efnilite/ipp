@@ -2,10 +2,10 @@ package dev.efnilite.ipp.mode.lobby;
 
 import dev.efnilite.ip.IP;
 import dev.efnilite.ip.generator.ParkourGenerator;
-import dev.efnilite.ip.player.ParkourPlayer;
-import dev.efnilite.ip.session.Session;
 import dev.efnilite.ip.lib.vilib.util.Numbers;
 import dev.efnilite.ip.lib.vilib.util.Task;
+import dev.efnilite.ip.player.ParkourPlayer;
+import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.IPP;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

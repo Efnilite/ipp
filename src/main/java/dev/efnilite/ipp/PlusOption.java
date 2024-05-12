@@ -1,7 +1,6 @@
 package dev.efnilite.ipp;
 
 import dev.efnilite.ip.config.Config;
-import dev.efnilite.ip.config.Option;
 import org.bukkit.permissions.Permissible;
 
 /**

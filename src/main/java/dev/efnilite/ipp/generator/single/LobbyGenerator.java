@@ -2,11 +2,11 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.generator.GeneratorOption;
+import dev.efnilite.ip.lib.vilib.schematic.Schematic;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.session.Session;
-import dev.efnilite.ip.lib.vilib.schematic.Schematic;
 import dev.efnilite.ipp.mode.PlusMode;
 import org.bukkit.Material;
 
