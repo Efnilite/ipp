@@ -1,8 +1,8 @@
 package dev.efnilite.ipp.mode.lobby;
 
 import com.google.gson.annotations.Expose;
-import dev.efnilite.ip.lib.vilib.serialization.ObjectSerializer;
 import dev.efnilite.ipp.IPP;
+import dev.efnilite.ipp.util.ObjectSerializer;
 import org.bukkit.World;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;

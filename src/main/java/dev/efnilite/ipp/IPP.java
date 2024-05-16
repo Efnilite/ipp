@@ -5,14 +5,13 @@ import dev.efnilite.ip.config.Config;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.lib.vilib.ViPlugin;
 import dev.efnilite.ip.lib.vilib.util.Logging;
-import dev.efnilite.ip.lib.vilib.util.Task;
+import dev.efnilite.ip.lib.vilib.util.UpdateChecker;
 import dev.efnilite.ip.menu.Menus;
 import dev.efnilite.ip.mode.Mode;
 import dev.efnilite.ip.mode.MultiMode;
 import dev.efnilite.ip.player.ParkourPlayer;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ipp.config.PlusConfig;
-import dev.efnilite.ipp.config.PlusConfigOption;
 import dev.efnilite.ipp.config.PlusLocales;
 import dev.efnilite.ipp.generator.single.PracticeGenerator;
 import dev.efnilite.ipp.menu.ActiveMenu;
@@ -24,7 +23,6 @@ import dev.efnilite.ipp.mode.multi.DuelsMode;
 import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
 import dev.efnilite.ipp.mode.single.*;
 import dev.efnilite.ipp.style.IncrementalStyle;
-import dev.efnilite.ipp.util.UpdateChecker;
 import org.bukkit.plugin.Plugin;
 
 public final class IPP extends ViPlugin {
@@ -156,16 +154,7 @@ public final class IPP extends ViPlugin {
                     .forEach(Registry::register);
         }
 
-        if (PlusConfigOption.UPDATE_CHECKER) {
-            Task.create(this)
-                    .async()
-                    .execute(() -> UpdateChecker.check(this))
-                    .delay(5 * 20)
-                    .repeat(8 * 60 * 60 * 20)
-                    .run();
-        }
-
-        logging().info("Loaded IP+!");
+        UpdateChecker.check(this, 105019);
     }
 
     @Override

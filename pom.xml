@@ -6,7 +6,7 @@
 
     <artifactId>IPPlus</artifactId>
     <groupId>dev.efnilite</groupId>
-    <version>2.2.3</version>
+    <version>2.2.4</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>com.github.efnilite</groupId>
             <artifactId>walk-in-the-park</artifactId>
-            <version>60497907d0</version>
+            <version>57cb387716</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

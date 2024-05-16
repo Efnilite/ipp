@@ -14,11 +14,6 @@
 #                                            #
 #============================================#
 
-# -= Update checker =-
-# If enabled, will check for updates.
-# It's highly recommended to keep this enabled!
-update_checker: true
-
 # -= Send back after multiplayer =-
 # Whether players should be sent back to their previous data/location after they finish a multiplayer match.
 # If this is set to false, they will join a regular singleplayer IP game.
