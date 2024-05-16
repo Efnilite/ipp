@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class HourglassMode extends SingleMode {
 
-    private final Leaderboard leaderboard = new Leaderboard(getName(), SingleLeaderboardMenu.Sort.SCORE);
+    private final Leaderboard leaderboard = new Leaderboard(getName(), Leaderboard.Sort.SCORE);
 
     @Override
     public void create(Player player) {

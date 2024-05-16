@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class WaveTrialMode extends SingleMode {
 
-    private final Leaderboard leaderboard = new Leaderboard(getName(), SingleLeaderboardMenu.Sort.TIME);
+    private final Leaderboard leaderboard = new Leaderboard(getName(), Leaderboard.Sort.TIME);
 
     @Override
     public void create(Player player) {

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class TeamSurvivalMode implements MultiMode {
 
-    private final Leaderboard leaderboard = new Leaderboard(getName(), SingleLeaderboardMenu.Sort.SCORE);
+    private final Leaderboard leaderboard = new Leaderboard(getName(), Leaderboard.Sort.SCORE);
 
     @Override
     public void create(Player player) {
