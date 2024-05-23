@@ -253,7 +253,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
                 if (PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
                     ParkourUser.unregister(other, true, true, false);
                 } else {
-                    Modes.DEFAULT.create(player.player);
+                    Modes.DEFAULT.create(other.player);
                 }
             }
         }).run();
