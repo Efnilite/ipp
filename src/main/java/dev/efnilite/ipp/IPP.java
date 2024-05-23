@@ -28,7 +28,7 @@ import org.bukkit.plugin.Plugin;
 public final class IPP extends ViPlugin {
 
     // TODO UPDATE THIS!
-    public static final String REQUIRED_IP_VERSION = "5.2.4";
+    public static final String REQUIRED_IP_VERSION = "5.2.5";
     public static final String PREFIX = "<gradient:#ff5050:#ff66cc>Infinite Parkour+<reset><gray> ";
     private static IPP instance;
     private static Logging logging;
