@@ -36,7 +36,7 @@ public final class HourglassGenerator extends PlusGenerator {
     private Location countdownLocation;
 
     public HourglassGenerator(Session session) {
-        super(session, GeneratorOption.DISABLE_SCHEMATICS, GeneratorOption.INCREASED_TICK_ACCURACY);
+        super(session, GeneratorOption.DISABLE_SCHEMATICS);
 
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS);
     }

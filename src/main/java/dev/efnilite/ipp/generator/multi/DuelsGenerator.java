@@ -250,9 +250,9 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
         Task.create(IPP.getPlugin()).delay(10 * 20).execute(() -> {
             for (ParkourPlayer other : new HashSet<>(playerGenerators.keySet())) {
-                ParkourUser.unregister(other, true, true, false);
-
-                if (!PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
+                if (PlusConfigOption.SEND_BACK_AFTER_MULTIPLAYER) {
+                    ParkourUser.unregister(other, true, true, false);
+                } else {
                     Modes.DEFAULT.create(player.player);
                 }
             }
