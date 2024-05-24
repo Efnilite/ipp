@@ -13,6 +13,7 @@ import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.config.PlusLocales;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,16 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InviteMenu {
-
-    private static boolean HAS_ADVENTURE = true;
-
-    static {
-        try {
-            Class.forName("net.kyori.adventure.text.minimessage.MiniMessage");
-        } catch (ClassNotFoundException ex) {
-            HAS_ADVENTURE = false;
-        }
-    }
 
     public static void open(Player player) {
         List<MenuItem> items = new ArrayList<>();
@@ -73,7 +64,7 @@ public class InviteMenu {
                     for (String s : PlusLocales.getString(other, "invite.message", false).formatted(player.getName(),
                             ChatColor.stripColor(session.generator.getMode().getItem(Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG)).getName()),
                             player.getName()).split("\\|\\|")) {
-                        if (HAS_ADVENTURE) {
+                        if (PaperLib.isPaper()) {
                             new AdventureInviteSender(other, player, s);
                         } else {
                             send(other, s);
