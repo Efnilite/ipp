@@ -2,6 +2,7 @@ package dev.efnilite.ipp.menu;
 
 import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.config.Option;
+import dev.efnilite.ip.lib.paperlib.PaperLib;
 import dev.efnilite.ip.lib.vilib.inventory.PagedMenu;
 import dev.efnilite.ip.lib.vilib.inventory.item.Item;
 import dev.efnilite.ip.lib.vilib.inventory.item.MenuItem;
@@ -13,7 +14,6 @@ import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.player.ParkourUser;
 import dev.efnilite.ip.session.Session;
 import dev.efnilite.ipp.config.PlusLocales;
-import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
