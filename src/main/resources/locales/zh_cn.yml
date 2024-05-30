@@ -1,0 +1,169 @@
+# 简体中文 (zh_cn)
+# 作者: jhqwqmc
+# 复制此文件并重命名以添加您自己的语言!
+# 材质(material)必须来自: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# 了解有关消息颜色的更多信息: https://docs.adventure.kyori.net/minimessage/format.html#format
+
+name: "简体中文"
+
+play:
+  single:
+    hourglass:
+      material: "sand"
+      name: "<#CFB410><bold>沙漏"
+      lore: "<dark_gray>你只能在方块上停留半秒"
+
+    practice:
+      item:
+        material: "white_wool"
+        name: "<white><bold>练习"
+        lore: "<dark_gray>练习特定类型的跳跃距离"
+
+      items:
+        settings:
+          material: "comparator"
+          name: "<#E74FA1><bold>练习设置"
+          lore: ""
+
+        one_block:
+          material: ""
+          name: "<bold>单格跳"
+          lore: "<gray>点击更改此设置"
+
+        two_block:
+          material: ""
+          name: "<bold>两格跳"
+          lore: "<gray>点击更改此设置"
+
+        three_block:
+          material: ""
+          name: "<bold>三格跳"
+          lore: "<gray>点击更改此设置"
+
+        four_block:
+          material: ""
+          name: "<bold>四格跳"
+          lore: "<gray>点击更改此设置"
+
+        normal:
+          material: ""
+          name: "<bold>经典"
+          lore: "<gray>点击更改此设置"
+
+        schematics:
+          material: ""
+          name: "<bold>示意图"
+          lore: "<gray>点击更改此设置"
+
+        ice:
+          material: ""
+          name: "<bold>冰块"
+          lore: "<gray>点击更改此设置"
+
+        slabs:
+          material: ""
+          name: "<bold>台阶"
+          lore: "<gray>点击更改此设置"
+
+        glass_panes:
+          material: ""
+          name: "<bold>玻璃板"
+          lore: "<gray>点击更改此设置"
+
+        fences:
+          material: ""
+          name: "<bold>栅栏"
+          lore: "<gray>点击更改此设置"
+
+    wave_trial:
+      material: "sand"
+      name: "<#1882DE><bold>波浪试炼"
+      lore: "<dark_gray>模拟上上下下的楼梯!"
+
+    speed:
+      material: "lingering_potion"
+      name: "<#1882DE><bold>速度"
+      lore: "<dark_gray>速度是关键!"
+
+    super_jump:
+      material: "rabbit_foot"
+      name: "<#08508E><bold>超级跳跃"
+      lore: "<dark_gray>从一个平台跳到另一个平台||<dark_gray>的同时你变得越来越快||<red>这个游戏模式非常困难!"
+
+    time_trial:
+      material: "clock"
+      name: "<#9A0BC7><bold>计时赛"
+      lore: "<dark_gray>以最快的速度达到 100 分"
+
+  multi:
+    name: "<white>多人模式"
+
+    item:
+      material: "oak_boat"
+      name: "<#0088CB><bold>多人模式"
+      lore: ""
+
+    duels:
+      go: "<#1BE3DD><bold>开始!||<reset><gray>率先取得 %d 的胜利!"
+      victory: "<#EEB40D><bold>胜利||<reset><gray>你在 %s 中获胜!"
+      loss: "<#6E1111><bold>失败||<reset><gray>你输给了 %s!"
+
+      overview: "<#34B2F9>%s<gray> 在 %s 赢得了比赛!||<#34B2F9><bold>排行榜："
+      duel_self: "<gray>你不能和自己决斗。请使用你的大厅菜单邀请别人!"
+
+      item:
+        material: "red_concrete"
+        name: "<#C91212><bold>决斗"
+        lore: "<dark_gray>和对手竞速到100分!||<dark_gray>如果有人摔落虚空,他将会回到起点"
+
+      start:
+        material: "lime_banner"
+        name: "<#5EC743><bold>点击开始!"
+        lore: ""
+
+    team_survival:
+      material: "poppy"
+      name: "<#C91212><bold>团队生存"
+      lore: "<dark_gray>与你的整个团队一起尽可能地活下去||<dark_gray>如果有人摔落虚空,所有人都会回到起点"
+active:
+  name: "<white>大厅"
+
+  item:
+    material: "chest"
+    name: "<#EA9926><bold>查看当前大厅"
+    lore: ""
+
+  head:
+    material: ""
+    name: "<#59DB3E><bold>大厅 %s"
+    lore: "<gray>游戏模式: <#C8F2C0>%s||||<gray>玩家||%p||<gray>观众||%s"
+
+  sort:
+    material: "bookshelf"
+    name: "<#DEA11F><bold>排序"
+    lore: ""
+
+  refresh:
+    material: "blaze_powder"
+    name: "<#2FBC11><bold>刷新"
+    lore: ""
+
+invite:
+  name: "<white>点击邀请"
+  message: "<gray>你被 <#F55252>%s<reset><gray> 邀请加入他们的 <#F37777><bold>%s<reset><gray> 游戏!<reset><gray>点击或使用 <#FAB4B4>/parkour join %s<reset><gray> 命令加入!"
+  success: "<gray>你已邀请 %s"
+
+  item:
+    material: "elytra"
+    name: "<#2B97E2><bold>邀请"
+    lore: ""
+
+  head:
+    material: ""
+    name: "<#abcdef><bold>%s"
+    lore: ""
+
+  lobby:
+    material: "paper"
+    name: "<#0b55e0><bold>大厅 %s"
+    lore: "<gray>玩家也可以使用||<#346edb><underlined>/parkour join %s||<reset><gray>加入此大厅"
