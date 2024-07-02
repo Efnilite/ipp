@@ -64,7 +64,7 @@ public class InviteMenu {
                     for (String s : PlusLocales.getString(other, "invite.message", false).formatted(player.getName(),
                             ChatColor.stripColor(session.generator.getMode().getItem(Option.OPTIONS_DEFAULTS.get(ParkourOption.LANG)).getName()),
                             player.getName()).split("\\|\\|")) {
-                        if (PaperLib.isPaper()) {
+                        if (PaperLib.isPaper() && classExists()) {
                             new AdventureInviteSender(other, player, s);
                         } else {
                             send(other, s);
@@ -84,6 +84,15 @@ public class InviteMenu {
                 .item(30, PlusLocales.getItem(player, "invite.lobby", player.getName(), player.getName()))
                 .item(32, Locales.getItem(player, "other.close").click(event -> Menus.LOBBY.open(event.getPlayer())))
                 .open(player);
+    }
+
+    private static boolean classExists() {
+        try {
+            Class.forName("net.kyori.adventure.text.minimessage.MiniMessage");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
     private static void send(CommandSender sender, String message) {
