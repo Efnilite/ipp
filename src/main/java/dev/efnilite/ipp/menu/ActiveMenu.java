@@ -35,7 +35,7 @@ public class ActiveMenu {
                 continue;
             }
 
-            if (session.visibility != Session.Visibility.PUBLIC) { // only display public sessions
+            if (session.getVisibility() != Session.Visibility.PUBLIC) { // only display public sessions
                 continue;
             }
 

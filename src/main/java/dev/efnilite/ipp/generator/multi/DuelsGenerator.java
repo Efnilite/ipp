@@ -51,7 +51,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         allowJoining = true;
-        playerSpawn = Divider.toLocation(session);
+        playerSpawn = session.getSpawnLocation();
         playerSpawn.setYaw(-90);
 
         addPlayer(player);
