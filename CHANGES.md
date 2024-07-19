@@ -1,5 +1,4 @@
 This build requires **[IP v5.2.5](https://github.com/Efnilite/Walk-in-the-Park/releases/tag/v5.2.5)** ✨
 
-- Fixed speed effect not being reset when switching mode
-- Fixed players dying when game of Duels ends 
-- Fixed invite message not working on Spigot
+- Fixed memory leak with /ip lobbygm
+- Fixed using /ip lobbygm pos1 or pos2 twice causing an error

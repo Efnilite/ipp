@@ -3,6 +3,7 @@ package dev.efnilite.ipp;
 import dev.efnilite.ip.api.Registry;
 import dev.efnilite.ip.config.Config;
 import dev.efnilite.ip.config.Option;
+import dev.efnilite.ip.lib.paperlib.PaperLib;
 import dev.efnilite.ip.lib.vilib.ViPlugin;
 import dev.efnilite.ip.lib.vilib.util.Logging;
 import dev.efnilite.ip.lib.vilib.util.UpdateChecker;
@@ -23,7 +24,10 @@ import dev.efnilite.ipp.mode.multi.DuelsMode;
 import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
 import dev.efnilite.ipp.mode.single.*;
 import dev.efnilite.ipp.style.IncrementalStyle;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.Plugin;
+
+import java.util.logging.Level;
 
 public final class IPP extends ViPlugin {
 
@@ -153,6 +157,10 @@ public final class IPP extends ViPlugin {
             Option.initStyles("styles.incremental.list", configuration.getFile("config"), IncrementalStyle::new)
                     .forEach(Registry::register);
         }
+
+        PaperLib.suggestPaper(this, Level.WARNING);
+
+        new Metrics(this, 22709);
 
         UpdateChecker.check(this, 105019);
     }

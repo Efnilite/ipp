@@ -15,15 +15,14 @@ import org.bukkit.Particle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BoundingBox;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class PlusCommand extends ViCommand {
 
-    public static final HashMap<Player, Location[]> selections = new HashMap<>();
+    public static final Map<Player, Location> pos1s = new WeakHashMap<>();
+    public static final Map<Player, Location> pos2s = new WeakHashMap<>();
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
@@ -62,43 +61,38 @@ public class PlusCommand extends ViCommand {
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("lobbygm") && player != null && ParkourOption.ADMIN.mayPerform(sender)) {
 
-                Location playerLocation = player.getLocation();
-                Location[] existingSelection = selections.get(player);
+                Location location = player.getLocation();
+                @Nullable var pos1 = pos1s.get(player);
+                @Nullable var pos2 = pos2s.get(player);
 
                 switch (args[1]) {
                     case "pos1" -> {
-                        send(player, "%sPosition 1 was set to %s".formatted(IPP.PREFIX, Locations.toString(playerLocation, true)));
+                        send(player, "%sPosition 1 was set to %s".formatted(IPP.PREFIX, Locations.toString(location, true)));
 
-                        if (existingSelection == null) {
-                            selections.put(player, new Location[]{playerLocation, null});
-                            return true;
-                        }
+                        pos1s.put(player, location);
 
-                        selections.put(player, new Location[]{playerLocation, existingSelection[1]});
+                        if (pos1 == null || pos2 == null) return true;
 
-                        Particles.box(BoundingBox.of(playerLocation, existingSelection[1]), player.getWorld(),
+                        Particles.box(BoundingBox.of(location, pos2), player.getWorld(),
                                 new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                     }
                     case "pos2" -> {
-                        send(player, "%sPosition 2 was set to %s".formatted(IPP.PREFIX, Locations.toString(playerLocation, true)));
+                        send(player, "%sPosition 2 was set to %s".formatted(IPP.PREFIX, Locations.toString(location, true)));
 
-                        if (existingSelection == null) {
-                            selections.put(player, new Location[]{null, playerLocation});
-                            return true;
-                        }
+                        pos2s.put(player, location);
 
-                        selections.put(player, new Location[]{existingSelection[0], playerLocation});
+                        if (pos1 == null || pos2 == null) return true;
 
-                        Particles.box(BoundingBox.of(existingSelection[0], playerLocation), player.getWorld(),
+                        Particles.box(BoundingBox.of(pos1, location), player.getWorld(),
                                 new ParticleData<>(Particle.END_ROD, null, 2), player, 0.2);
                     }
                     case "save" -> {
-                        if (existingSelection == null || existingSelection[0] == null || existingSelection[1] == null) {
+                        if (pos1 == null || pos2 == null) {
                             send(player, "%sYour lobby area isn't complete yet. Be sure to set the first and second position!".formatted(IPP.PREFIX));
                             return true;
                         }
 
-                        BoundingBox bb = BoundingBox.of(existingSelection[0], existingSelection[1]);
+                        BoundingBox bb = BoundingBox.of(pos1, pos2);
 
                         if (bb.getWidthX() < Lobby.MINIMUM_SIZE ||
                                 bb.getHeight() < Lobby.MINIMUM_SIZE ||
