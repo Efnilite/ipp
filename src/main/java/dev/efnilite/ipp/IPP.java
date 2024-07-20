@@ -5,6 +5,7 @@ import dev.efnilite.ip.config.Config;
 import dev.efnilite.ip.config.Option;
 import dev.efnilite.ip.lib.paperlib.PaperLib;
 import dev.efnilite.ip.lib.vilib.ViPlugin;
+import dev.efnilite.ip.lib.vilib.bstats.bukkit.Metrics;
 import dev.efnilite.ip.lib.vilib.util.Logging;
 import dev.efnilite.ip.lib.vilib.util.UpdateChecker;
 import dev.efnilite.ip.menu.Menus;
@@ -24,7 +25,6 @@ import dev.efnilite.ipp.mode.multi.DuelsMode;
 import dev.efnilite.ipp.mode.multi.TeamSurvivalMode;
 import dev.efnilite.ipp.mode.single.*;
 import dev.efnilite.ipp.style.IncrementalStyle;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.Plugin;
 
 import java.util.logging.Level;
