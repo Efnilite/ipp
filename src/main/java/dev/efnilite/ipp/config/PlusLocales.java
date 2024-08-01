@@ -190,6 +190,7 @@ public class PlusLocales {
         String material = base.getString(path + ".material");
         String name = base.getString(path + ".name");
         String lore = base.getString(path + ".lore");
+        int modelId = base.getInt("%s.model_id".formatted(path), -1);
 
         if (material == null) {
             material = "";
@@ -229,6 +230,10 @@ public class PlusLocales {
 
         if (!lore.isEmpty()) {
             item.lore(lore.split("\\|\\|"));
+        }
+
+        if (modelId != -1) {
+            item.modelId(modelId);
         }
 
         return item;
