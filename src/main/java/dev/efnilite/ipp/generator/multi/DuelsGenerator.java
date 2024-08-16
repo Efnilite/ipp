@@ -40,7 +40,7 @@ public final class DuelsGenerator extends MultiplayerGenerator {
     }
 
     public boolean allowJoining;
-    private ParkourPlayer owner;
+    private final ParkourPlayer owner;
     public final Map<ParkourPlayer, SingleDuelsGenerator> playerGenerators = new HashMap<>();
     private final Map<ParkourPlayer, SpawnData> spawnData = new HashMap<>();
     public final int goal = IPP.getConfiguration().getFile("config").getInt("gamemodes.%s.goal".formatted(getMode().getName().toLowerCase()));
@@ -51,11 +51,12 @@ public final class DuelsGenerator extends MultiplayerGenerator {
         menu = new ParkourSettingsMenu(ParkourOption.SCHEMATICS, ParkourOption.STYLES, ParkourOption.SPECIAL_BLOCKS);
 
         allowJoining = true;
+        owner = player;
+
         playerSpawn = session.getSpawnLocation();
         playerSpawn.setYaw(-90);
 
         addPlayer(player);
-        owner = player;
         player.setup(null);
 
         Task.create(IPP.getPlugin()).delay(5)
@@ -137,44 +138,48 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     public void initCountdown() {
         var countdown = new AtomicInteger(10);
+
         Task.create(IPP.getPlugin()).repeat(20).execute(new BukkitRunnable() {
             @Override
             public void run() {
-            if (stopped) {
-                this.cancel();
-                return;
-            }
+                if (stopped) {
+                    this.cancel();
+                    return;
+                }
 
-            switch (countdown.get()) {
-                case 0 -> {
-                    playerGenerators.forEach((player, generator) -> {
-                        String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false).formatted(goal).split("\\|\\|");
+                switch (countdown.get()) {
+                    case 0 -> {
+                        playerGenerators.forEach((player, generator) -> {
+                            String[] args = PlusLocales.getString(player.player, "play.multi.duels.go", false).formatted(goal).split("\\|\\|");
 
-                        sendTitle(player, args[0], args[1], 0, 21, 5);
-                        for (Block block : generator.island.blocks) {
-                            if (block.getType() == Material.BARRIER) {
-                                block.setType(Material.AIR);
+                            sendTitle(player, args[0], args[1], 0, 21, 5);
+                            for (Block block : generator.island.blocks) {
+                                if (block.getType() == Material.BARRIER) {
+                                    block.setType(Material.AIR);
+                                }
                             }
-                        }
 
-                        SpawnData data = DuelsGenerator.this.spawnData.get(player);
-                        generator.generateFirst(data.playerSpawn, data.blockSpawn);
-                    });
+                            SpawnData data = DuelsGenerator.this.spawnData.get(player);
+                            generator.generateFirst(data.playerSpawn, data.blockSpawn);
+                        });
 
-                    stopped = false;
-                    startTick();
-                    cancel();
+                        stopped = false;
+                        startTick();
+                        cancel();
+                    }
+                    case 1 ->
+                            playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
+                    case 2 ->
+                            playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
+                    case 3 ->
+                            playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
+                    default -> {
+                        playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
+
+                        allowJoining = false;
+                    }
                 }
-                case 1 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DA2626><bold>1", "", 0, 21, 0));
-                case 2 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#DCD31D><bold>2", "", 0, 21, 0));
-                case 3 -> playerGenerators.keySet().forEach(player -> sendTitle(player, "<#42D929><bold>3", "", 0, 21, 0));
-                default -> {
-                    playerGenerators.keySet().forEach(player -> sendTitle(player, "<#23E120><bold>" + countdown.intValue(), "", 0, 21, 0));
-
-                    allowJoining = false;
-                }
-            }
-            countdown.getAndDecrement();
+                countdown.getAndDecrement();
             }
         }).run();
     }
