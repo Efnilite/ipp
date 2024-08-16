@@ -2,7 +2,6 @@ package dev.efnilite.ipp.generator.single;
 
 import dev.efnilite.ip.config.Locales;
 import dev.efnilite.ip.lib.vilib.inventory.Menu;
-import dev.efnilite.ip.lib.vilib.inventory.animation.WaveEastAnimation;
 import dev.efnilite.ip.lib.vilib.inventory.item.SliderItem;
 import dev.efnilite.ip.menu.ParkourOption;
 import dev.efnilite.ip.menu.settings.ParkourSettingsMenu;
@@ -148,7 +147,6 @@ public final class PracticeGenerator extends PlusGenerator {
                 .item(27, Locales.getItem(player.locale, "other.close")
                         .click(event -> menu(player)))
 
-                .animation(new WaveEastAnimation())
                 .fillBackground(Material.CYAN_STAINED_GLASS_PANE)
                 .distributeRowEvenly(0, 1, 2, 3)
                 .open(player.player);

@@ -1,4 +1,4 @@
-This build requires **[IP v5.2.5](https://github.com/Efnilite/Walk-in-the-Park/releases/tag/v5.2.5)** ✨
+This build requires **[IP v5.2.6](https://github.com/Efnilite/Walk-in-the-Park/releases/tag/v5.2.6)** ✨
 
-- Fixed memory leak with /ip lobbygm
-- Fixed using /ip lobbygm pos1 or pos2 twice causing an error
+- Added model id support (thanks **[@wilddip](https://github.com/wilddip)**)
+- Fixed Duels mode causing an error on join

@@ -32,7 +32,7 @@ import java.util.logging.Level;
 public final class IPP extends ViPlugin {
 
     // TODO UPDATE THIS!
-    public static final String REQUIRED_IP_VERSION = "5.2.5";
+    public static final String REQUIRED_IP_VERSION = "5.3.0";
     public static final String PREFIX = "<gradient:#ff5050:#ff66cc>Infinite Parkour+<reset><gray> ";
     private static IPP instance;
     private static Logging logging;
@@ -78,7 +78,7 @@ public final class IPP extends ViPlugin {
             return;
         }
 
-        if (isLower(ip.getDescription().getVersion(), REQUIRED_IP_VERSION)) {
+        if (isLower(ip.getDescription().getVersion())) {
             getLogger().severe("##");
             getLogger().severe("## Infinite Parkour+ requires *a newer version* of Infinite Parkour to work!");
             getLogger().severe("##");
@@ -195,9 +195,9 @@ public final class IPP extends ViPlugin {
     }
 
     // returns true if current mc version is lower than compare
-    private boolean isLower(String current, String compare) {
+    private boolean isLower(String current) {
         var cur = getNumbers(current); // 1.19.4
-        var com = getNumbers(compare); // 2.1.5
+        var com = getNumbers(REQUIRED_IP_VERSION); // 2.1.5
 
         if (com[0] > cur[0]) {
             return false;

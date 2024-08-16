@@ -109,6 +109,10 @@ public final class SuperJumpGenerator extends PlusGenerator {
 
         getSpectators().forEach(ParkourSpectator::update);
 
+        if (player.getLocation().getWorld() != session.generator.zone[0].getWorld()) {
+            return;
+        }
+
         if (player.getLocation().subtract(lastStandingPlayerLocation).getY() < -10) { // fall check
             fall();
             return;
