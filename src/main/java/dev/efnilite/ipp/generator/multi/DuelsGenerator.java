@@ -111,6 +111,12 @@ public final class DuelsGenerator extends MultiplayerGenerator {
 
     public void removePlayer(ParkourPlayer player) {
         SingleDuelsGenerator generator = playerGenerators.get(player);
+
+        if (generator == null) {
+            IP.logging().error("Failed to remove player from duels generator");
+            return; // wtf?
+        }
+
         generator.reset(false);
 
         playerGenerators.remove(player);

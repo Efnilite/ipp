@@ -133,11 +133,10 @@ public class Lobby {
 
         // the player spawn
         Location spawn = location.clone().add(0.5, 1, 0.5);
-        Location block = location.clone().add(1, 0, 0);
 
         spawn.setYaw(-90);
 
-        session.generator.generateFirst(spawn, block);
+        session.generator.generateFirst(spawn, location);
         player.setup(spawn);
         session.generator.startTick();
     }
